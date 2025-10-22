@@ -11,7 +11,7 @@ import java.time.LocalDate;
  * @author LaMaquina
  */
 public class Pelicula {
-    pruvate int codPelicula;
+    private int codPelicula;
     private String titulo;
     private String director;
     private String actores;
