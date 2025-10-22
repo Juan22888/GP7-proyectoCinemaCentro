@@ -11,6 +11,7 @@ import java.time.LocalDate;
  * @author LaMaquina
  */
 public class Pelicula {
+    pruvate int codPelicula;
     private String titulo;
     private String director;
     private String actores;
@@ -24,7 +25,8 @@ public class Pelicula {
     
     
 
-    public Pelicula(String titulo, String director, String actores, String origen, String genero, LocalDate estreno, boolean enCartelera) {
+    public Pelicula(int codPelicula,String titulo, String director, String actores, String origen, String genero, LocalDate estreno, boolean enCartelera) {
+        this.codPelicula=codPelicula;
         this.titulo = titulo;
         this.director = director;
         this.actores = actores;
@@ -34,6 +36,15 @@ public class Pelicula {
         this.enCartelera = enCartelera;
     }
 
+    public int getCodPelicula() {
+        return codPelicula;
+    }
+
+    public void setCodPelicula(int codPelicula) {
+        this.codPelicula = codPelicula;
+    }
+
+    
     public String getTitulo() {
         return titulo;
     }
