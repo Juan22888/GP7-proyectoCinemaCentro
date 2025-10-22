@@ -26,7 +26,7 @@ public class PeliculaData {
      
      
      
-     public void guardarPelicula(Pelicula p) {
+     public void insertarPelicula(Pelicula p) {
       
         String sql = "INSERT INTO pelicula (titulo, director, actores, origen, genero, estreno, enCartelera) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
