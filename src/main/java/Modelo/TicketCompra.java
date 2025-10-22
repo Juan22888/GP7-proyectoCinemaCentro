@@ -17,6 +17,11 @@ public class TicketCompra {
     private double monto;
     private Comprador comprador;
 
+    public TicketCompra() {
+    }
+
+    
+    
     public TicketCompra(int codTicket, LocalDate FechaCompra, LocalDate FechaFucion, double monto, Comprador comprador) {
         this.codTicket = codTicket;
         this.FechaCompra = FechaCompra;

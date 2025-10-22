@@ -18,6 +18,11 @@ public class Comprador {
     private String possword;
     private boolean metodoPago;
 
+    public Comprador() {
+    }
+
+    
+    
     public Comprador(int codComprador, int dni, String nombre, LocalDate fechaNacimiento, String possword, boolean metodoPago) {
         this.codComprador = codComprador;
         this.dni = dni;
