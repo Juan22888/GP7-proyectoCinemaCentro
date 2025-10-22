@@ -24,6 +24,41 @@ public class PeliculaData {
          this.con = Conexion.buscarConexion();
      }
      
+     
+     
+     public void guardarPelicula(Pelicula p) {
+      
+        String sql = "INSERT INTO pelicula (titulo, director, actores, origen, genero, estreno, enCartelera) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        
+      
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            ps.setString(1, p.getTitulo());
+            ps.setString(2, p.getDirector());
+            ps.setString(3, p.getActores());
+            ps.setString(4, p.getOrigen());
+            ps.setString(5, p.getGenero());
+            
+         
+            ps.setDate(6, Date.valueOf(p.getEstreno())); 
+            
+            ps.setBoolean(7, p.isEnCartelera()); 
+            
+            int filasAfectadas = ps.executeUpdate();
+          
+            if (filasAfectadas > 0) {
+                 JOptionPane.showMessageDialog(null, "Se agregó la película '" + p.getTitulo() + "' exitosamente!", 
+                         "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+        } catch (SQLException ex) {
+        
+            JOptionPane.showMessageDialog(null, "Error al guardar la película: " + ex.getMessage(), 
+                    "Error de SQL", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+     
      public Pelicula buscarPelicula(int id){
          String sql = "SELECT * FROM pelicula WHERE idPelicula = ?";
          Pelicula pelicula = null;
@@ -50,7 +85,7 @@ public class PeliculaData {
          if (!columna.equals("titulo") && !columna.equals("director") && 
             !columna.equals("actores") && !columna.equals("origen") && 
             !columna.equals("genero") && !columna.equals("estreno") && 
-            !columna.equals("enCartelera")) {
+            !columna.equals("enCartelera")) { 
             
             throw new IllegalArgumentException("Columna de actualización no permitida: " + columna);
         }
@@ -105,6 +140,23 @@ public class PeliculaData {
             JOptionPane.showMessageDialog(null, "Error al actualizar la película: " + ex.getMessage());
         }
      }
+     public void AltaLogicaPelicula (int id) {
+         String sql = "UPDATE pelicula SET enCartelera = 1 WHERE idPelicula = ?";
+         try (PreparedStatement ps = con.prepareStatement(sql)){
+             ps.setInt(1, id);
+             int filasAfectadas = ps.executeUpdate();
+             
+             if (filasAfectadas > 0) {
+                JOptionPane.showMessageDialog(null, "La película ya NO está en cartelera", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                 JOptionPane.showMessageDialog(null, "No se encontró la película con ID: " + id, "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+             
+         }catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar la película: " + ex.getMessage());
+        }
+     }
+     
      
      public void eliminarPelicula (int id) {
          String sql = "DELETE FROM pelicula WHERE idPelicula = ?";
