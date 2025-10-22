@@ -9,7 +9,8 @@ package Modelo;
  * @author Fede-
  */
 public class Sala {
-    private int sala;
+    private int nroSala;
+    private int coSala;
     private boolean apta3d;
     private int capacidad;
     private boolean estado;
@@ -17,19 +18,28 @@ public class Sala {
     public Sala() {
     }
 
-    public Sala(int sala, boolean apta3d, int capacidad, boolean estado) {
-        this.sala = sala;
+    public Sala(int nroSala, int coSala, boolean apta3d, int capacidad, boolean estado) {
+        this.nroSala = nroSala;
+        this.coSala = coSala;
         this.apta3d = apta3d;
         this.capacidad = capacidad;
         this.estado = estado;
     }
 
-    public int getSala() {
-        return sala;
+    public int getNroSala() {
+        return nroSala;
     }
 
-    public void setSala(int sala) {
-        this.sala = sala;
+    public void setNroSala(int nroSala) {
+        this.nroSala = nroSala;
+    }
+
+    public int getCoSala() {
+        return coSala;
+    }
+
+    public void setCoSala(int coSala) {
+        this.coSala = coSala;
     }
 
     public boolean isApta3d() {
@@ -55,6 +65,8 @@ public class Sala {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
+
+  
     
     
     

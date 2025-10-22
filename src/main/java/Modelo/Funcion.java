@@ -20,19 +20,22 @@ public class Funcion {
     private LocalTime horaFin;
     private List<Lugar> lugaresDisponibles;
     private Sala salaFuncion;
+    private Sala coFuncion;
     private double precioLugar;
 
     public Funcion() {
     }
 
-    public Funcion(Pelicula pelicula, String idioma, boolean es3d, String subtitulada, LocalTime horaInicio, LocalTime horaFin, Sala salaFuncion, double precioLugar) {
+    public Funcion(Pelicula pelicula, String idioma, boolean es3d, String subtitulada, LocalTime horaInicio, LocalTime horaFin, List<Lugar> lugaresDisponibles, Sala salaFuncion, Sala coFuncion, double precioLugar) {
         this.pelicula = pelicula;
         this.idioma = idioma;
         this.es3d = es3d;
         this.subtitulada = subtitulada;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
+        this.lugaresDisponibles = lugaresDisponibles;
         this.salaFuncion = salaFuncion;
+        this.coFuncion = coFuncion;
         this.precioLugar = precioLugar;
     }
 
@@ -84,12 +87,28 @@ public class Funcion {
         this.horaFin = horaFin;
     }
 
+    public List<Lugar> getLugaresDisponibles() {
+        return lugaresDisponibles;
+    }
+
+    public void setLugaresDisponibles(List<Lugar> lugaresDisponibles) {
+        this.lugaresDisponibles = lugaresDisponibles;
+    }
+
     public Sala getSalaFuncion() {
         return salaFuncion;
     }
 
     public void setSalaFuncion(Sala salaFuncion) {
         this.salaFuncion = salaFuncion;
+    }
+
+    public Sala getCoFuncion() {
+        return coFuncion;
+    }
+
+    public void setCoFuncion(Sala coFuncion) {
+        this.coFuncion = coFuncion;
     }
 
     public double getPrecioLugar() {
@@ -99,7 +118,7 @@ public class Funcion {
     public void setPrecioLugar(double precioLugar) {
         this.precioLugar = precioLugar;
     }
-    
+
     
     
     
