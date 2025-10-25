@@ -12,10 +12,11 @@ import java.util.List;
  * @author Fede-
  */
 public class Funcion {
+    private int codFuncion;
     private Pelicula pelicula;
     private String idioma;
     private boolean es3d;
-    private String subtitulada;
+    private boolean subtitulada;
     private LocalTime horaInicio;
     private LocalTime horaFin;
     private List<Lugar> lugaresDisponibles;
@@ -26,7 +27,8 @@ public class Funcion {
     public Funcion() {
     }
 
-    public Funcion(Pelicula pelicula, String idioma, boolean es3d, String subtitulada, LocalTime horaInicio, LocalTime horaFin, List<Lugar> lugaresDisponibles, Sala salaFuncion, Sala coFuncion, double precioLugar) {
+    public Funcion(int codFuncion,Pelicula pelicula, String idioma, boolean es3d, boolean subtitulada, LocalTime horaInicio, LocalTime horaFin, List<Lugar> lugaresDisponibles, Sala salaFuncion, Sala coFuncion, double precioLugar) {
+        this.codFuncion=codFuncion;
         this.pelicula = pelicula;
         this.idioma = idioma;
         this.es3d = es3d;
@@ -38,6 +40,15 @@ public class Funcion {
         this.coFuncion = coFuncion;
         this.precioLugar = precioLugar;
     }
+
+    public int getCodFuncion() {
+        return codFuncion;
+    }
+
+    public void setCodFuncion(int codFuncion) {
+        this.codFuncion = codFuncion;
+    }
+    
 
     public Pelicula getPelicula() {
         return pelicula;
@@ -63,13 +74,14 @@ public class Funcion {
         this.es3d = es3d;
     }
 
-    public String getSubtitulada() {
+    public boolean isSubtitulada() {
         return subtitulada;
     }
 
-    public void setSubtitulada(String subtitulada) {
+    public void setSubtitulada(boolean subtitulada) {
         this.subtitulada = subtitulada;
     }
+    
 
     public LocalTime getHoraInicio() {
         return horaInicio;
