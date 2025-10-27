@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-10-2025 a las 22:18:03
+-- Tiempo de generación: 27-10-2025 a las 23:24:39
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -58,6 +58,7 @@ CREATE TABLE `detalleticket` (
   `codDetalle` int(11) NOT NULL,
   `codLugar` int(11) NOT NULL,
   `codTicket` int(11) NOT NULL,
+  `codFuncion` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL,
   `estado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -66,8 +67,8 @@ CREATE TABLE `detalleticket` (
 -- Volcado de datos para la tabla `detalleticket`
 --
 
-INSERT INTO `detalleticket` (`codDetalle`, `codLugar`, `codTicket`, `cantidad`, `estado`) VALUES
-(1, 10, 1, 1, 1);
+INSERT INTO `detalleticket` (`codDetalle`, `codLugar`, `codTicket`, `codFuncion`, `cantidad`, `estado`) VALUES
+(2, 10, 2, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -78,7 +79,6 @@ INSERT INTO `detalleticket` (`codDetalle`, `codLugar`, `codTicket`, `cantidad`, 
 CREATE TABLE `funcion` (
   `codFuncion` int(11) NOT NULL,
   `codPelicula` int(11) NOT NULL,
-  `codLugar` int(11) NOT NULL,
   `idioma` varchar(20) NOT NULL,
   `es3d` tinyint(1) NOT NULL,
   `subtitulada` tinyint(1) NOT NULL,
@@ -92,8 +92,8 @@ CREATE TABLE `funcion` (
 -- Volcado de datos para la tabla `funcion`
 --
 
-INSERT INTO `funcion` (`codFuncion`, `codPelicula`, `codLugar`, `idioma`, `es3d`, `subtitulada`, `horaInicio`, `horaFin`, `codSala`, `precioLugar`) VALUES
-(1, 1, 5, 'Ingles', 1, 1, '2025-10-21 01:00:25', '2025-10-21 01:00:25', 1, 3000);
+INSERT INTO `funcion` (`codFuncion`, `codPelicula`, `idioma`, `es3d`, `subtitulada`, `horaInicio`, `horaFin`, `codSala`, `precioLugar`) VALUES
+(1, 1, 'Ingles', 1, 1, '2025-10-21 01:00:25', '2025-10-21 01:00:25', 1, 3000);
 
 -- --------------------------------------------------------
 
@@ -202,14 +202,14 @@ ALTER TABLE `comprador`
 ALTER TABLE `detalleticket`
   ADD PRIMARY KEY (`codDetalle`),
   ADD KEY `codTicket` (`codTicket`),
-  ADD KEY `codLugar` (`codLugar`);
+  ADD KEY `codLugar` (`codLugar`),
+  ADD KEY `codFuncion` (`codFuncion`);
 
 --
 -- Indices de la tabla `funcion`
 --
 ALTER TABLE `funcion`
   ADD PRIMARY KEY (`codFuncion`),
-  ADD KEY `codLugar` (`codLugar`),
   ADD KEY `codSala` (`codSala`),
   ADD KEY `codPelicula` (`codPelicula`);
 
@@ -255,7 +255,7 @@ ALTER TABLE `comprador`
 -- AUTO_INCREMENT de la tabla `detalleticket`
 --
 ALTER TABLE `detalleticket`
-  MODIFY `codDetalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `codDetalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `funcion`
@@ -296,15 +296,15 @@ ALTER TABLE `ticketcompra`
 --
 ALTER TABLE `detalleticket`
   ADD CONSTRAINT `detalleticket_ibfk_1` FOREIGN KEY (`codTicket`) REFERENCES `ticketcompra` (`codTicket`),
-  ADD CONSTRAINT `detalleticket_ibfk_2` FOREIGN KEY (`codLugar`) REFERENCES `lugar` (`codLugar`);
+  ADD CONSTRAINT `detalleticket_ibfk_2` FOREIGN KEY (`codLugar`) REFERENCES `lugar` (`codLugar`),
+  ADD CONSTRAINT `detalleticket_ibfk_3` FOREIGN KEY (`codFuncion`) REFERENCES `funcion` (`codFuncion`);
 
 --
 -- Filtros para la tabla `funcion`
 --
 ALTER TABLE `funcion`
   ADD CONSTRAINT `funcion_ibfk_2` FOREIGN KEY (`codSala`) REFERENCES `sala` (`codSala`),
-  ADD CONSTRAINT `funcion_ibfk_3` FOREIGN KEY (`codPelicula`) REFERENCES `pelicula` (`codPelicula`),
-  ADD CONSTRAINT `funcion_ibfk_4` FOREIGN KEY (`codLugar`) REFERENCES `lugar` (`codLugar`);
+  ADD CONSTRAINT `funcion_ibfk_3` FOREIGN KEY (`codPelicula`) REFERENCES `pelicula` (`codPelicula`);
 
 --
 -- Filtros para la tabla `lugar`
