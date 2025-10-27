@@ -139,6 +139,6 @@ public class FuncionData {
         }
     }
     
-    
+//    LugaresDisponibles - devuelve una lista de lugares disponibles
     
 }
