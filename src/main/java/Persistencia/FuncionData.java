@@ -26,8 +26,9 @@ public class FuncionData {
     
       public boolean insertarFuncion(Funcion f) throws SQLException {
 
-        String sql = "INSERT INTO funcion (codPelicula, idioma, es3d, subtitulada, horaInicio, horaFin, lugaresDisponibles,codSala,precioLugar) "
+        String sql = "INSERT INTO funcion (codPelicula, idioma, es3d, subtitulada, horaInicio, horaFin,codSala,precioLugar) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -37,9 +38,7 @@ public class FuncionData {
             ps.setBoolean(4, f.isSubtitulada());
             ps.setTime(5,java.sql.Time.valueOf(f.getHoraInicio()));
             ps.setTime(6, java.sql.Time.valueOf(f.getHoraFin()));
-            ps.
-
-            ps.setBoolean(7, p.isEnCartelera());
+            ps.setDouble(7, f.getPrecioLugar());
 
             int filasAfectadas = ps.executeUpdate();
 
@@ -53,23 +52,24 @@ public class FuncionData {
         return false;
     }
 
-    public Pelicula buscarPelicula(int id) throws SQLException {
-        String sql = "SELECT * FROM pelicula WHERE codPelicula=?";
-        Pelicula pelicula = null;
+    public Funcion buscarFuncion(int id) throws SQLException {
+        String sql = "SELECT * FROM funcion WHERE codFuncion=?";
+        Funcion funcion = null;
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                pelicula = new Pelicula();
-                pelicula.setCodPelicula(rs.getInt("codPelicula"));
-                pelicula.setTitulo(rs.getString("titulo"));
-                pelicula.setDirector(rs.getString("director"));
-                pelicula.setActores(rs.getString("actores"));
-                pelicula.setOrigen(rs.getString("origen"));
-                pelicula.setGenero(rs.getString("genero"));
-                pelicula.setEstreno(rs.getDate("estreno").toLocalDate());
-                pelicula.setEnCartelera(rs.getBoolean("enCartelera"));
+                funcion = new Funcion();
+                funcion.setCodFuncion(rs.getInt("codFuncion"));
+                funcion.setIdioma(rs.getString("idioma"));
+                funcion.setEs3d(rs.getBoolean("es3d"));   
+                funcion.setSubtitulada(rs.getBoolean("subtitulada"));
+                funcion.setHoraInicio(rs.getTime("horaInicio").toLocalTime());
+                funcion.setHoraFin(rs.getTime("horaFin").toLocalTime());
+                //buscar Sala
+                //funcion.setSalaFuncion(rs.getString("genero"));
+                funcion.setPrecioLugar(rs.getDouble("precioLugar"));
             }
             rs.close();
             ps.close();
@@ -77,19 +77,19 @@ public class FuncionData {
         } catch (SQLException ex) {
             throw new SQLException("No se encontro la pelicula! + " + ex);
         }
-        return pelicula;
+        return funcion;
     }
 
-    public boolean actualizarPelicula(int id, String columna, Object dato) throws Exception {
-        if (!columna.equals("titulo") && !columna.equals("director")
-                && !columna.equals("actores") && !columna.equals("origen")
-                && !columna.equals("genero") && !columna.equals("estreno")
-                && !columna.equals("enCartelera")) {
+    public boolean actualizarFuncion(int id, String columna, Object dato) throws Exception {
+        if (!columna.equals("idioma") && !columna.equals("es3d")
+                && !columna.equals("subtitulada") && !columna.equals("horaInicio")
+                && !columna.equals("horaFin") && !columna.equals("codSala")
+                && !columna.equals("precioLugar")) {
 
             throw new IllegalArgumentException("Columna de actualización no permitida: " + columna);
         }
 
-        String sql = "UPDATE pelicula SET " + columna + "=? WHERE codPelicula = ?";
+        String sql = "UPDATE funcion SET " + columna + "=? WHERE codFuncion = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -98,9 +98,9 @@ public class FuncionData {
                 ps.setString(1, (String) dato);
             } else if (dato instanceof Boolean) {
                 ps.setBoolean(1, (boolean) dato);
-            } else if (dato instanceof java.sql.Date) {
+            } else if (dato instanceof java.sql.Time) {
                 // Conversión de LocalDate a java.sql.Date
-                ps.setDate(1, (java.sql.Date) dato);
+                ps.setTime(1, (java.sql.Time) dato);
             } else {
                 // Asume que otros tipos, como int o float, se pueden manejar aquí si son necesarios
                 throw new IllegalArgumentException("Tipo de dato no soportado para actualizar.");
@@ -116,47 +116,14 @@ public class FuncionData {
             }
 
         } catch (SQLException ex) {
-            throw new SQLException("No se pudo modificar la pelicula! " + ex);
+            throw new SQLException("No se pudo modificar la funcion! " + ex);
         }
 
     }
 
-    public boolean bajaLogicaPelicula(int id) throws SQLException {
-        String sql = "UPDATE pelicula SET enCartelera = 0 WHERE codPelicula = ?";
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            int filasAfectadas = ps.executeUpdate();
-
-            if (filasAfectadas > 0) {
-                return true;
-            } else {
-                return false;
-            }
-
-        } catch (SQLException ex) {
-            throw new SQLException("No se pudo dar de baja la pelicula " + ex);
-        }
-    }
-
-    public boolean altaLogicaPelicula(int id) throws SQLException {
-        String sql = "UPDATE pelicula SET enCartelera = 1 WHERE codPelicula = ?";
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            int filasAfectadas = ps.executeUpdate();
-
-            if (filasAfectadas > 0) {
-                return true;
-            } else {
-                return false;
-            }
-
-        } catch (SQLException ex) {
-            throw new SQLException("No se pudo dar dee alta la pelicula " + ex);
-        }
-    }
-
-    public boolean eliminarPelicula(int id) throws SQLException {
-        String sql = "DELETE FROM pelicula WHERE codPelicula = ?";
+   
+    public boolean eliminarFuncion(int id) throws SQLException {
+        String sql = "DELETE FROM funcion WHERE codFuncion = ?";
         try{
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
@@ -168,7 +135,7 @@ public class FuncionData {
                 return false;
             }
         } catch (SQLException ex) {
-            throw new SQLException("No se pudo eliminar la pelicula " + ex);
+            throw new SQLException("No se pudo eliminar la funcion" + ex);
         }
     }
     
