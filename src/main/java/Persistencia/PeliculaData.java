@@ -48,7 +48,7 @@ public class PeliculaData {
             }
 
         } catch (SQLException ex) {
-            throw new SQLException("No se pudo guardar la pelicula! " + ex);
+            throw new SQLException("Error al guardar la pelicula! " + ex);
         }
         return false;
     }
@@ -73,9 +73,9 @@ public class PeliculaData {
             }
             rs.close();
             ps.close();
-
+            
         } catch (SQLException ex) {
-            throw new SQLException("No se encontro la pelicula! + " + ex);
+            throw new SQLException(" Error al buscar la pelicula! + " + ex);
         }
         return pelicula;
     }
@@ -116,7 +116,7 @@ public class PeliculaData {
             }
 
         } catch (SQLException ex) {
-            throw new SQLException("No se pudo modificar la pelicula! " + ex);
+            throw new SQLException("Error al modificar la pelicula! " + ex);
         }
 
     }
@@ -134,7 +134,7 @@ public class PeliculaData {
             }
 
         } catch (SQLException ex) {
-            throw new SQLException("No se pudo dar de baja la pelicula " + ex);
+            throw new SQLException("Error al dar de baja la pelicula " + ex);
         }
     }
 
@@ -151,7 +151,7 @@ public class PeliculaData {
             }
 
         } catch (SQLException ex) {
-            throw new SQLException("No se pudo dar dee alta la pelicula " + ex);
+            throw new SQLException("Error al dar de alta la pelicula " + ex);
         }
     }
 
@@ -168,7 +168,7 @@ public class PeliculaData {
                 return false;
             }
         } catch (SQLException ex) {
-            throw new SQLException("No se pudo eliminar la pelicula " + ex);
+            throw new SQLException("Error al eliminar la pelicula " + ex);
         }
     }
 
