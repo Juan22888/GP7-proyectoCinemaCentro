@@ -7,6 +7,7 @@ package Persistencia;
 import Modelo.Conexion;
 import Modelo.Funcion;
 import Modelo.Pelicula;
+import Modelo.Sala;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,19 +20,29 @@ import java.sql.SQLException;
 public class FuncionData {
     private Connection con=null;
     PeliculaData peliculaData;
-
+    SalaData salaData;
     public FuncionData() {
         this.con = Conexion.buscarConexion(); 
         this.peliculaData = new PeliculaData();
+        this.salaData = new SalaData();
     }
     
       public boolean insertarFuncion(Funcion f) throws SQLException {
 
         String sql = "INSERT INTO funcion (codPelicula, idioma, es3d, subtitulada, horaInicio, horaFin,codSala,precioLugar) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        
+      
+        try{
         if(peliculaData.buscarPelicula(f.getPelicula().getCodPelicula())==null){
           throw new NullPointerException("No se encontró la pelicula!");
+        }
+        
+        if(salaData.buscarSala(f.getSalaFuncion().getCodSala())==null){
+            throw new NullPointerException("No se encontró la sala!");
+        }
+        
+        }catch(SQLException e){
+            throw new SQLException("Error de Base de Datos al validar los metodos "+e);
         }
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -51,7 +62,7 @@ public class FuncionData {
             }
 
         } catch (SQLException ex) {
-            throw new SQLException("No se pudo guardar la funcion! " + ex);
+            throw new SQLException("Error al guardar la funcion! " + ex);
         }
         return false;
     }
@@ -66,6 +77,7 @@ public class FuncionData {
             if (rs.next()) {
                 funcion = new Funcion();
                 Pelicula pelicula = null;
+                Sala sala = null;
                 funcion.setCodFuncion(rs.getInt("codFuncion"));
                 pelicula = peliculaData.buscarPelicula(rs.getInt("codPelicula"));
                 funcion.setPelicula(pelicula);
@@ -74,15 +86,15 @@ public class FuncionData {
                 funcion.setSubtitulada(rs.getBoolean("subtitulada"));
                 funcion.setHoraInicio(rs.getTime("horaInicio").toLocalTime());
                 funcion.setHoraFin(rs.getTime("horaFin").toLocalTime());
-                //buscar Sala
-                //funcion.setSalaFuncion(rs.getString("genero"));
+                sala = salaData.buscarSala(funcion.getSalaFuncion().getCodSala());
+                funcion.setSalaFuncion(sala);
                 funcion.setPrecioLugar(rs.getDouble("precioLugar"));
             }
             rs.close();
             ps.close();
 
         } catch (SQLException ex) {
-            throw new SQLException("No se encontro la funcion! + " + ex);
+            throw new SQLException("Error al buscar la funcion! + " + ex);
         }
         return funcion;
     }
@@ -123,7 +135,7 @@ public class FuncionData {
             }
 
         } catch (SQLException ex) {
-            throw new SQLException("No se pudo modificar la funcion! " + ex);
+            throw new SQLException("Error al modificar la funcion! " + ex);
         }
 
     }
@@ -142,7 +154,7 @@ public class FuncionData {
                 return false;
             }
         } catch (SQLException ex) {
-            throw new SQLException("No se pudo eliminar la funcion" + ex);
+            throw new SQLException("Error al eliminar la funcion" + ex);
         }
     }
     
