@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-10-2025 a las 21:26:05
+-- Tiempo de generación: 27-10-2025 a las 23:24:39
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -58,6 +58,7 @@ CREATE TABLE `detalleticket` (
   `codDetalle` int(11) NOT NULL,
   `codLugar` int(11) NOT NULL,
   `codTicket` int(11) NOT NULL,
+  `codFuncion` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL,
   `estado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -66,8 +67,8 @@ CREATE TABLE `detalleticket` (
 -- Volcado de datos para la tabla `detalleticket`
 --
 
-INSERT INTO `detalleticket` (`codDetalle`, `codLugar`, `codTicket`, `cantidad`, `estado`) VALUES
-(1, 10, 1, 1, 1);
+INSERT INTO `detalleticket` (`codDetalle`, `codLugar`, `codTicket`, `codFuncion`, `cantidad`, `estado`) VALUES
+(2, 10, 2, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -201,7 +202,8 @@ ALTER TABLE `comprador`
 ALTER TABLE `detalleticket`
   ADD PRIMARY KEY (`codDetalle`),
   ADD KEY `codTicket` (`codTicket`),
-  ADD KEY `codLugar` (`codLugar`);
+  ADD KEY `codLugar` (`codLugar`),
+  ADD KEY `codFuncion` (`codFuncion`);
 
 --
 -- Indices de la tabla `funcion`
@@ -253,7 +255,7 @@ ALTER TABLE `comprador`
 -- AUTO_INCREMENT de la tabla `detalleticket`
 --
 ALTER TABLE `detalleticket`
-  MODIFY `codDetalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `codDetalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `funcion`
@@ -294,7 +296,8 @@ ALTER TABLE `ticketcompra`
 --
 ALTER TABLE `detalleticket`
   ADD CONSTRAINT `detalleticket_ibfk_1` FOREIGN KEY (`codTicket`) REFERENCES `ticketcompra` (`codTicket`),
-  ADD CONSTRAINT `detalleticket_ibfk_2` FOREIGN KEY (`codLugar`) REFERENCES `lugar` (`codLugar`);
+  ADD CONSTRAINT `detalleticket_ibfk_2` FOREIGN KEY (`codLugar`) REFERENCES `lugar` (`codLugar`),
+  ADD CONSTRAINT `detalleticket_ibfk_3` FOREIGN KEY (`codFuncion`) REFERENCES `funcion` (`codFuncion`);
 
 --
 -- Filtros para la tabla `funcion`
