@@ -36,14 +36,14 @@ public class FuncionData {
         String sql = "INSERT INTO funcion (codPelicula, idioma, es3d, subtitulada, horaInicio, horaFin,codSala,precioLugar) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        
-        
+        String sqlGetId = "SELECT LAST_INSERT_ID()";
+
         try {
-            
-             Sala sala = salaData.buscarSala(f.getSalaFuncion().getCodSala());
-             Pelicula pelicula = peliculaData.buscarPelicula(f.getPelicula().getCodPelicula());
-             
-            if (pelicula==null) {
+
+            Sala sala = salaData.buscarSala(f.getSalaFuncion().getCodSala());
+            Pelicula pelicula = peliculaData.buscarPelicula(f.getPelicula().getCodPelicula());
+
+            if (pelicula == null) {
                 throw new NullPointerException("No se encontró la pelicula!");
             }
 
@@ -55,36 +55,48 @@ public class FuncionData {
                 throw new RuntimeException("Error: La sala " + f.getSalaFuncion().getNroSala() + " esta inactiva");
             }
 
-            if (pelicula.isEnCartelera()==false) {
+            if (pelicula.isEnCartelera() == false) {
                 throw new RuntimeException("Error: La pelicula " + f.getPelicula().getTitulo() + " no esta en cartelera");
             }
 
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+                ps.setInt(1, f.getPelicula().getCodPelicula());
+                ps.setString(2, f.getIdioma());
+                ps.setBoolean(3, f.isEs3d());
+                ps.setBoolean(4, f.isSubtitulada());
+                ps.setTime(5, java.sql.Time.valueOf(f.getHoraInicio()));
+                ps.setTime(6, java.sql.Time.valueOf(f.getHoraFin()));
+                ps.setInt(7, sala.getCodSala());
+                ps.setDouble(8, f.getPrecioLugar());
+
+                int filasAfectadas = ps.executeUpdate();
+                
+
+                
+                    if (filasAfectadas > 0) {
+                        int idFuncionGenerada = 0;
+                        try (PreparedStatement psGetId = con.prepareStatement(sqlGetId); ResultSet rs = psGetId.executeQuery();){
+                       
+
+                        if (rs.next()) {
+                            idFuncionGenerada = rs.getInt(1);
+                        } else {
+                            throw new SQLException("Error critico: No se pudo obtener el LAST_INSERT_ID().");
+                        }
+                       
+                    }
+                        lugarData.crearLugaresParaFuncion(idFuncionGenerada, sala.getCapacidad());
+                         return true;
+                }
+
+            } catch (SQLException ex) {
+                throw new SQLException("Error al guardar la funcion! " + ex);
+            }
         } catch (SQLException e) {
             throw new SQLException("Error de Base de Datos al validar los metodos " + e);
         }
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
-            
-            ps.setInt(1, f.getPelicula().getCodPelicula());
-            ps.setString(2, f.getIdioma());
-            ps.setBoolean(3, f.isEs3d());
-            ps.setBoolean(4, f.isSubtitulada());
-            ps.setTime(5, java.sql.Time.valueOf(f.getHoraInicio()));
-            ps.setTime(6, java.sql.Time.valueOf(f.getHoraFin()));
-            ps.setInt(7,f.getSalaFuncion().getCodSala());
-        ps.setDouble(8, f.getPrecioLugar());
-            
-            int filasAfectadas = ps.executeUpdate();
-            
-            Funcion funcion = this.buscarFuncion(f.getCodFuncion());
-            lugarData.crearLugaresParaFuncion(funcion.getCodFuncion(), f.getSalaFuncion().getCapacidad());
-            if (filasAfectadas > 0) {      
-                return true;
-            }
-
-        } catch (SQLException ex) {
-            throw new SQLException("Error al guardar la funcion! " + ex);
-        }
         return false;
     }
 
