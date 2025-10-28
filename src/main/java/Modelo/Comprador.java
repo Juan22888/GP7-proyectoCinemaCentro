@@ -84,5 +84,7 @@ public class Comprador {
     public String toString() {
         return "Comprador{" + "dni=" + dni + ", nombre=" + nombre + '}';
     }
+
+    
      
 }
