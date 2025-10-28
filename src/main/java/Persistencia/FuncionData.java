@@ -72,7 +72,7 @@ public class FuncionData {
             ps.setTime(5, java.sql.Time.valueOf(f.getHoraInicio()));
             ps.setTime(6, java.sql.Time.valueOf(f.getHoraFin()));
             ps.setInt(7,f.getSalaFuncion().getCodSala());
-            ps.setDouble(8, f.getPrecioLugar());
+        ps.setDouble(8, f.getPrecioLugar());
             
             int filasAfectadas = ps.executeUpdate();
             
