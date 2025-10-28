@@ -164,7 +164,7 @@ public class LugarData {
                 for (int j = 1; j <= asientosPorFila; j++) {
                     ps.setString(1, String.valueOf(filaActual));
                     ps.setInt(2, j);
-                    ps.setInt(3, 1);
+                    ps.setInt(3, 0);
                     ps.setInt(4, codFuncion);
                     ps.addBatch();
                 }
