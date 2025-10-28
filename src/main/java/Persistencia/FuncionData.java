@@ -37,9 +37,9 @@ public class FuncionData {
             ps.setBoolean(4, f.isSubtitulada());
             ps.setTime(5,java.sql.Time.valueOf(f.getHoraInicio()));
             ps.setTime(6, java.sql.Time.valueOf(f.getHoraFin()));
-            ps.
+ //           ps.
 
-            ps.setBoolean(7, p.isEnCartelera());
+//            ps.setBoolean(7, p.isEnCartelera());
 
             int filasAfectadas = ps.executeUpdate();
 
