@@ -15,7 +15,7 @@ public class Comprador {
     private int dni;
     private String nombre;
     private LocalDate fechaNacimiento;
-    private String possword;
+    private String password;
     private boolean metodoPago;
 
     public Comprador() {
@@ -23,12 +23,12 @@ public class Comprador {
 
     
     
-    public Comprador(int codComprador, int dni, String nombre, LocalDate fechaNacimiento, String possword, boolean metodoPago) {
+    public Comprador(int codComprador, int dni, String nombre, LocalDate fechaNacimiento, String password, boolean metodoPago) {
         this.codComprador = codComprador;
         this.dni = dni;
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
-        this.possword = possword;
+        this.password = password;
         this.metodoPago = metodoPago;
     }
 
@@ -64,12 +64,12 @@ public class Comprador {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String getPossword() {
-        return possword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPossword(String possword) {
-        this.possword = possword;
+    public void setPassword(String possword) {
+        this.password = possword;
     }
 
     public boolean isMetodoPago() {
