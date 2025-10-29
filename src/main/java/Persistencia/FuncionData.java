@@ -7,8 +7,8 @@ package Persistencia;
 import Modelo.Conexion;
 import Modelo.Funcion;
 import Modelo.Pelicula;
-import Modelo.Sala;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,130 +18,78 @@ import java.sql.SQLException;
  * @author FRANCO
  */
 public class FuncionData {
-
-    private Connection con = null;
-    PeliculaData peliculaData;
-    SalaData salaData;
-    LugarData lugarData;
+    private Connection con=null;
 
     public FuncionData() {
         this.con = Conexion.buscarConexion();
-        this.peliculaData = new PeliculaData();
-        this.salaData = new SalaData();
-        this.lugarData = new LugarData();
     }
+    
+      public boolean insertarFuncion(Funcion f) throws SQLException {
 
-    public boolean insertarFuncion(Funcion f) throws SQLException, NullPointerException, RuntimeException {
+        String sql = "INSERT INTO funcion (codPelicula, idioma, es3d, subtitulada, horaInicio, horaFin, lugaresDisponibles,codSala,precioLugar) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        String sql = "INSERT INTO funcion (codPelicula, idioma, es3d, subtitulada, horaInicio, horaFin,codSala,precioLugar) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
 
-        String sqlGetId = "SELECT LAST_INSERT_ID()";
+            ps.setInt(1, f.getPelicula().getCodPelicula());
+            ps.setString(2, f.getIdioma());
+            ps.setBoolean(3, f.isEs3d());
+            ps.setBoolean(4, f.isSubtitulada());
+            ps.setTime(5,java.sql.Time.valueOf(f.getHoraInicio()));
+            ps.setTime(6, java.sql.Time.valueOf(f.getHoraFin()));
+ //           ps.
 
-        try {
+//            ps.setBoolean(7, p.isEnCartelera());
 
-            Sala sala = salaData.buscarSala(f.getSalaFuncion().getCodSala());
-            Pelicula pelicula = peliculaData.buscarPelicula(f.getPelicula().getCodPelicula());
+            int filasAfectadas = ps.executeUpdate();
 
-            if (pelicula == null) {
-                throw new NullPointerException("No se encontró la pelicula!");
+            if (filasAfectadas > 0) {
+                return true;
             }
 
-            if (sala == null) {
-                throw new NullPointerException("No se encontró la sala!");
-            }
-
-            if (sala.isEstado() == false) {
-                throw new RuntimeException("Error: La sala " + f.getSalaFuncion().getNroSala() + " esta inactiva");
-            }
-
-            if (pelicula.isEnCartelera() == false) {
-                throw new RuntimeException("Error: La pelicula " + f.getPelicula().getTitulo() + " no esta en cartelera");
-            }
-
-            try (PreparedStatement ps = con.prepareStatement(sql)) {
-
-                ps.setInt(1, f.getPelicula().getCodPelicula());
-                ps.setString(2, f.getIdioma());
-                ps.setBoolean(3, f.isEs3d());
-                ps.setBoolean(4, f.isSubtitulada());
-                ps.setTime(5, java.sql.Time.valueOf(f.getHoraInicio()));
-                ps.setTime(6, java.sql.Time.valueOf(f.getHoraFin()));
-                ps.setInt(7, sala.getCodSala());
-                ps.setDouble(8, f.getPrecioLugar());
-
-                int filasAfectadas = ps.executeUpdate();
-                
-
-                
-                    if (filasAfectadas > 0) {
-                        int idFuncionGenerada = 0;
-                        try (PreparedStatement psGetId = con.prepareStatement(sqlGetId); ResultSet rs = psGetId.executeQuery();){
-                       
-
-                        if (rs.next()) {
-                            idFuncionGenerada = rs.getInt(1);
-                        } else {
-                            throw new SQLException("Error critico: No se pudo obtener el LAST_INSERT_ID().");
-                        }
-                       
-                    }
-                        lugarData.crearLugaresParaFuncion(idFuncionGenerada, sala.getCapacidad());
-                         return true;
-                }
-
-            } catch (SQLException ex) {
-                throw new SQLException("Error al guardar la funcion! " + ex);
-            }
-        } catch (SQLException e) {
-            throw new SQLException("Error de Base de Datos al validar los metodos " + e);
+        } catch (SQLException ex) {
+            throw new SQLException("No se pudo guardar la pelicula! " + ex);
         }
-
         return false;
     }
 
-    public Funcion buscarFuncion(int id) throws SQLException {
-        String sql = "SELECT * FROM funcion WHERE codFuncion=?";
-        Funcion funcion = null;
+    public Pelicula buscarPelicula(int id) throws SQLException {
+        String sql = "SELECT * FROM pelicula WHERE codPelicula=?";
+        Pelicula pelicula = null;
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                funcion = new Funcion();
-                Pelicula pelicula = null;
-                Sala sala = null;
-                funcion.setCodFuncion(rs.getInt("codFuncion"));
-                pelicula = peliculaData.buscarPelicula(rs.getInt("codPelicula"));
-                funcion.setPelicula(pelicula);
-                funcion.setIdioma(rs.getString("idioma"));
-                funcion.setEs3d(rs.getBoolean("es3d"));
-                funcion.setSubtitulada(rs.getBoolean("subtitulada"));
-                funcion.setHoraInicio(rs.getTime("horaInicio").toLocalTime());
-                funcion.setHoraFin(rs.getTime("horaFin").toLocalTime());
-                sala = salaData.buscarSala(funcion.getSalaFuncion().getCodSala());
-                funcion.setSalaFuncion(sala);
-                funcion.setPrecioLugar(rs.getDouble("precioLugar"));
+                pelicula = new Pelicula();
+                pelicula.setCodPelicula(rs.getInt("codPelicula"));
+                pelicula.setTitulo(rs.getString("titulo"));
+                pelicula.setDirector(rs.getString("director"));
+                pelicula.setActores(rs.getString("actores"));
+                pelicula.setOrigen(rs.getString("origen"));
+                pelicula.setGenero(rs.getString("genero"));
+                pelicula.setEstreno(rs.getDate("estreno").toLocalDate());
+                pelicula.setEnCartelera(rs.getBoolean("enCartelera"));
             }
             rs.close();
             ps.close();
 
         } catch (SQLException ex) {
-            throw new SQLException("Error al buscar la funcion! + " + ex);
+            throw new SQLException("No se encontro la pelicula! + " + ex);
         }
-        return funcion;
+        return pelicula;
     }
 
-    public boolean actualizarFuncion(int id, String columna, Object dato) throws Exception {
-        if (!columna.equals("idioma") && !columna.equals("es3d")
-                && !columna.equals("subtitulada") && !columna.equals("horaInicio")
-                && !columna.equals("horaFin") && !columna.equals("codSala")
-                && !columna.equals("precioLugar") && !columna.equals("codPelicula")) {
+    public boolean actualizarPelicula(int id, String columna, Object dato) throws Exception {
+        if (!columna.equals("titulo") && !columna.equals("director")
+                && !columna.equals("actores") && !columna.equals("origen")
+                && !columna.equals("genero") && !columna.equals("estreno")
+                && !columna.equals("enCartelera")) {
 
             throw new IllegalArgumentException("Columna de actualización no permitida: " + columna);
         }
 
-        String sql = "UPDATE funcion SET " + columna + "=? WHERE codFuncion = ?";
+        String sql = "UPDATE pelicula SET " + columna + "=? WHERE codPelicula = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -150,9 +98,9 @@ public class FuncionData {
                 ps.setString(1, (String) dato);
             } else if (dato instanceof Boolean) {
                 ps.setBoolean(1, (boolean) dato);
-            } else if (dato instanceof java.sql.Time) {
+            } else if (dato instanceof java.sql.Date) {
                 // Conversión de LocalDate a java.sql.Date
-                ps.setTime(1, (java.sql.Time) dato);
+                ps.setDate(1, (java.sql.Date) dato);
             } else {
                 // Asume que otros tipos, como int o float, se pueden manejar aquí si son necesarios
                 throw new IllegalArgumentException("Tipo de dato no soportado para actualizar.");
@@ -168,14 +116,48 @@ public class FuncionData {
             }
 
         } catch (SQLException ex) {
-            throw new SQLException("Error al modificar la funcion! " + ex);
+            throw new SQLException("No se pudo modificar la pelicula! " + ex);
         }
 
     }
 
-    public boolean eliminarFuncion(int id) throws SQLException {
-        String sql = "DELETE FROM funcion WHERE codFuncion = ?";
-        try {
+    public boolean bajaLogicaPelicula(int id) throws SQLException {
+        String sql = "UPDATE pelicula SET enCartelera = 0 WHERE codPelicula = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            int filasAfectadas = ps.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (SQLException ex) {
+            throw new SQLException("No se pudo dar de baja la pelicula " + ex);
+        }
+    }
+
+    public boolean altaLogicaPelicula(int id) throws SQLException {
+        String sql = "UPDATE pelicula SET enCartelera = 1 WHERE codPelicula = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            int filasAfectadas = ps.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (SQLException ex) {
+            throw new SQLException("No se pudo dar dee alta la pelicula " + ex);
+        }
+    }
+
+    public boolean eliminarPelicula(int id) throws SQLException {
+        String sql = "DELETE FROM pelicula WHERE codPelicula = ?";
+        try{
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             int filasAfectadas = ps.executeUpdate();
@@ -186,8 +168,10 @@ public class FuncionData {
                 return false;
             }
         } catch (SQLException ex) {
-            throw new SQLException("Error al eliminar la funcion" + ex);
+            throw new SQLException("No se pudo eliminar la pelicula " + ex);
         }
     }
-
+    
+    
+    
 }

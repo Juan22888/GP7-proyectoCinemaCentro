@@ -21,12 +21,13 @@ public class Funcion {
     private LocalTime horaFin;
     private List<Lugar> lugaresDisponibles;
     private Sala salaFuncion;
+    private Sala coFuncion;
     private double precioLugar;
 
     public Funcion() {
     }
 
-    public Funcion(int codFuncion,Pelicula pelicula, String idioma, boolean es3d, boolean subtitulada, LocalTime horaInicio, LocalTime horaFin, List<Lugar> lugaresDisponibles, Sala salaFuncion, double precioLugar) {
+    public Funcion(int codFuncion,Pelicula pelicula, String idioma, boolean es3d, boolean subtitulada, LocalTime horaInicio, LocalTime horaFin, List<Lugar> lugaresDisponibles, Sala salaFuncion, Sala coFuncion, double precioLugar) {
         this.codFuncion=codFuncion;
         this.pelicula = pelicula;
         this.idioma = idioma;
@@ -36,6 +37,7 @@ public class Funcion {
         this.horaFin = horaFin;
         this.lugaresDisponibles = lugaresDisponibles;
         this.salaFuncion = salaFuncion;
+        this.coFuncion = coFuncion;
         this.precioLugar = precioLugar;
     }
 
@@ -113,7 +115,13 @@ public class Funcion {
         this.salaFuncion = salaFuncion;
     }
 
-  
+    public Sala getCoFuncion() {
+        return coFuncion;
+    }
+
+    public void setCoFuncion(Sala coFuncion) {
+        this.coFuncion = coFuncion;
+    }
 
     public double getPrecioLugar() {
         return precioLugar;
