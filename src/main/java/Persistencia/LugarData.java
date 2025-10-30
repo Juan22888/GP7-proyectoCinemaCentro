@@ -25,10 +25,18 @@ public class LugarData {
     private Connection con = null;
     private FuncionData funData;
 
+    
+    
     public LugarData() {
         this.con = Conexion.buscarConexion();
-        this.funData = new FuncionData();
+
     }
+    
+    // Setter para inyectar la dependencia
+    public void setFuncionData(FuncionData funcionData) {
+        this.funData = funcionData;
+    }
+    // ...
 
     public boolean insertarLugar(Lugar lugar) {
 
@@ -68,7 +76,7 @@ public class LugarData {
                 if (rs.next()) {
                     lugar = new Lugar();
                     lugar.setCodLugar(rs.getInt("codLugar"));
-                    lugar.setFila(rs.getInt("fila"));
+                    lugar.setFila(rs.getString("fila").charAt(0));
                     lugar.setNumero(rs.getInt("numero"));
                     lugar.setEstado(rs.getBoolean("estado"));
                     int codFuncion = rs.getInt("codFuncion");
@@ -134,7 +142,38 @@ public class LugarData {
                     while (rs.next()) {
                         Lugar lugar = new Lugar();
                         lugar.setCodLugar(rs.getInt("codLugar"));
-                        lugar.setFila(rs.getInt("fila"));
+                        lugar.setFila(rs.getString("fila").charAt(0));
+                        lugar.setNumero(rs.getInt("numero"));
+                        lugar.setEstado(false);
+                        lugar.setFuncion(funcion);
+
+                        lugaresDisponibles.add(lugar);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar los lugares disponibles: " + ex.getMessage());
+        }
+
+        return lugaresDisponibles;
+    }
+    
+    public List<Lugar> obtenerLugaresPorFuncion(int codFuncion) {
+        String sql = "SELECT codLugar, fila, numero FROM lugar WHERE codFuncion = ?";
+        List<Lugar> lugaresDisponibles = new ArrayList<>();
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, codFuncion);
+
+            // Solo necesitamos el objeto Funcion completo una vez.
+            Funcion funcion = funData.buscarFuncion(codFuncion);
+
+            if (funcion != null) {
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        Lugar lugar = new Lugar();
+                        lugar.setCodLugar(rs.getInt("codLugar"));
+                        lugar.setFila(rs.getString("fila").charAt(0));
                         lugar.setNumero(rs.getInt("numero"));
                         lugar.setEstado(false);
                         lugar.setFuncion(funcion);
@@ -151,7 +190,7 @@ public class LugarData {
     }
 
     public void crearLugaresParaFuncion(int codFuncion, int cantidad) throws SQLException {
-        String sql = "INSERT INTO lugar(fila, numero, estado, codFuncion) VALUES (?,?,?,?))";
+        String sql = "INSERT INTO lugar (fila, numero, estado, codFuncion) VALUES (?,?,?,?)";
         PreparedStatement ps = null;
         char filaActual = 'A';
         final int asientosPorFila = 20;

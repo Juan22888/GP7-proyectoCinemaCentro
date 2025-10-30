@@ -115,7 +115,7 @@ public class CompradorData {
     }
 
     public boolean eliminarComprador(int id) throws SQLException {
-        String sql = "DELATE FROM comprador WHERE codComprador =?";
+        String sql = "DELETE FROM comprador WHERE codComprador =?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             int filas = ps.executeUpdate();

@@ -12,30 +12,38 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import Modelo.Comprador;
-
+import Modelo.DetalleTicket;
 
 /**
  *
  * @author Fede-
  */
 public class TicketData {
+
     private Connection con = null;
-    public TicketData(){
-    this.con = Conexion.buscarConexion();
+    private DetalleTicketData detalleTicketData;
+
+    public TicketData() {
     }
     
-    public boolean insertarTicket(TicketCompra t) throws SQLException{
     
-    String sql = "INSERT INTO ticketcompra (FechaCompra, FechaFuncion, Monto, IdComprador)" + " VALUES (?, ?, ?, ?)";
-    
-    try (PreparedStatement ps = con.prepareStatement(sql)){
-        ps.setDate(1, Date.valueOf(t.getFechaCompra()));
-            ps.setDate(2, Date.valueOf(t.getFechaFucion()));
+    public TicketData(LugarData lugarData) {
+        this.con = Conexion.buscarConexion();
+        this.detalleTicketData = new DetalleTicketData(lugarData);
+    }
+
+    public boolean insertarTicket(TicketCompra t) throws SQLException {
+
+        String sql = "INSERT INTO ticketcompra (FechaCompra, FechaFuncion, Monto, codComprador,codDetalle)" + " VALUES (?, ?, ?, ?,?)";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setDate(1, Date.valueOf(t.getFechaCompra()));
+            ps.setDate(2, Date.valueOf(t.getFechaFuncion()));
             ps.setDouble(3, t.getMonto());
             ps.setInt(4, t.getComprador().getCodComprador()); // Asume que la clase Comprador tiene codigoComprador
+            ps.setInt(5, t.getDetalleTicket().getCodDetalle());
 
             int filasAfectadas = ps.executeUpdate();
-           
 
             if (filasAfectadas > 0) {
                 return true;
@@ -50,20 +58,23 @@ public class TicketData {
     public TicketCompra buscarTicket(int id) throws SQLException {
         String sql = "SELECT * FROM ticketcompra WHERE codTicket = ?";
         TicketCompra ticket = null;
+        DetalleTicket detalleTicket = null;
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 ticket = new TicketCompra();
+                detalleTicket = new DetalleTicket();
                 ticket.setCodTicket(rs.getInt("codTicket"));
                 ticket.setFechaCompra(rs.getDate("FechaCompra").toLocalDate());
-                ticket.setFechaFucion(rs.getDate("FechaFuncion").toLocalDate());
+                ticket.setFechaFuncion(rs.getDate("FechaFuncion").toLocalDate());
                 ticket.setMonto(rs.getDouble("Monto"));
-
+                detalleTicket = detalleTicketData.buscarDetalleTicket(rs.getInt("codDetalle"));
+                ticket.setDetalleTicket(detalleTicket);
                 // Cargar comprador
                 CompradorData compradorData = new CompradorData();
-                Comprador comprador = compradorData.buscarComprador(rs.getInt("idComprador"));
+                Comprador comprador = compradorData.buscarComprador(rs.getInt("codComprador"));
                 ticket.setComprador(comprador);
             }
             rs.close();
@@ -77,7 +88,9 @@ public class TicketData {
 
     public boolean actualizarTicket(int id, String columna, Object dato) throws Exception {
         if (!columna.equals("FechaCompra") && !columna.equals("FechaFuncion")
-                && !columna.equals("Monto") && !columna.equals("idComprador")) {
+                && !columna.equals("Monto")
+                && !columna.equals("codComprador")
+                && !columna.equals("codDetalle")) {
 
             throw new IllegalArgumentException("Columna de actualización no permitida: " + columna);
         }
@@ -134,13 +147,3 @@ public class TicketData {
     }
 
 }
-        
-    
-    
-    
-    
-    
-    
-    
-    
-

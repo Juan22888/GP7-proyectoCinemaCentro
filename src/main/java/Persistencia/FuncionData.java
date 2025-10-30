@@ -24,12 +24,21 @@ public class FuncionData {
     SalaData salaData;
     LugarData lugarData;
 
+    
     public FuncionData() {
         this.con = Conexion.buscarConexion();
         this.peliculaData = new PeliculaData();
         this.salaData = new SalaData();
-        this.lugarData = new LugarData();
+
     }
+
+   
+    
+    // Setter para inyectar la dependencia
+    public void setLugarData(LugarData lugarData) {
+        this.lugarData = lugarData;
+    }
+    // ...
 
     public boolean insertarFuncion(Funcion f) throws SQLException, NullPointerException, RuntimeException {
 
@@ -82,7 +91,7 @@ public class FuncionData {
                         if (rs.next()) {
                             idFuncionGenerada = rs.getInt(1);
                         } else {
-                            throw new SQLException("Error critico: No se pudo obtener el LAST_INSERT_ID().");
+                            throw new SQLException("Error critico: No se pudo obtener el LAST_INSERT_ID()");
                         }
                        
                     }
@@ -122,6 +131,7 @@ public class FuncionData {
                 sala = salaData.buscarSala(funcion.getSalaFuncion().getCodSala());
                 funcion.setSalaFuncion(sala);
                 funcion.setPrecioLugar(rs.getDouble("precioLugar"));
+                funcion.setLugaresDisponibles(lugarData.obtenerLugaresDisponiblesPorFuncion(rs.getInt("codFuncion")));
             }
             rs.close();
             ps.close();
