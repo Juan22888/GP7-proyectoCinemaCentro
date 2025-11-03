@@ -11,6 +11,9 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -70,7 +73,7 @@ public class CompradorData {
                 && !columna.equals("metodoPago")) {
             throw new IllegalArgumentException("Columna no valida: " + columna);
         }
-        String Sql = "UPDATE comprador SET" + columna + "= ? WHERE codComprador= ?";
+       String Sql = "UPDATE comprador SET " + columna + " = ? WHERE codComprador = ?";
         try (PreparedStatement ps = con.prepareStatement(Sql)) {
             if (dato instanceof String) {
                 ps.setString(1, (String) dato);
@@ -122,6 +125,79 @@ public class CompradorData {
             return filas > 0;
         } catch (SQLException ex) {
             throw new SQLException("Error al eliminar el comprador: " + ex.getMessage());
+        }
+    }
+    public List<Comprador> listarCompradores() {
+        String sql = "SELECT * FROM comprador";
+        List<Comprador> compradores = new ArrayList<>();
+        
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Comprador comprador = new Comprador();
+                comprador.setCodComprador(rs.getInt("codComprador"));
+                comprador.setDni(rs.getInt("dni"));
+                comprador.setNombre(rs.getString("nombre"));
+                comprador.setFechaNacimiento(rs.getDate("fechaNac").toLocalDate()); // Corregido de 'fechaNacimiento'
+                comprador.setPassword(rs.getString("password")); // (Tu modelo usa getPassword() y setPassword()?)
+                comprador.setMetodoPago(rs.getBoolean("metodoPago"));
+                
+                compradores.add(comprador);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar compradores: " + ex.getMessage());
+        }
+        return compradores;
+    }
+    public Comprador buscarCompradorPorDni(int dni) {
+        String sql = "SELECT * FROM comprador WHERE dni = ?";
+        Comprador comprador = null;
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, dni);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                comprador = new Comprador();
+                comprador.setCodComprador(rs.getInt("codComprador"));
+                comprador.setDni(rs.getInt("dni"));
+                comprador.setNombre(rs.getString("nombre"));
+                comprador.setFechaNacimiento(rs.getDate("fechaNac").toLocalDate()); // Corregido de 'fechaNacimiento'
+                comprador.setPassword(rs.getString("password"));
+                comprador.setMetodoPago(rs.getBoolean("metodoPago"));
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo encontrar el comprador por DNI: " + ex.getMessage());
+        }
+        return comprador;
+    }
+    public boolean eliminarCompradorPorDni(int dni) throws SQLException {
+        String sql = "DELETE FROM comprador WHERE dni = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, dni);
+            int filas = ps.executeUpdate();
+            return filas > 0;
+        } catch (SQLException ex) {
+            throw new SQLException("Error al eliminar el comprador por DNI: " + ex.getMessage());
+        }
+    }
+    public boolean actualizarCompradorPorDni(int dni, String nombre, java.time.LocalDate fechaNac, String password, boolean metodoPago) {
+        // Tu tabla usa 'fechaNac'
+        String sql = "UPDATE comprador SET nombre = ?, fechaNac = ?, password = ?, metodoPago = ? WHERE dni = ?";
+        
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, nombre);
+            ps.setDate(2, Date.valueOf(fechaNac));
+            ps.setString(3, password);
+            ps.setBoolean(4, metodoPago);
+            ps.setInt(5, dni);
+            
+            int filas = ps.executeUpdate();
+            return filas > 0;
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el comprador por DNI: " + ex.getMessage());
+            return false;
         }
     }
 }
