@@ -10,7 +10,7 @@ package Modelo;
  */
 public class Lugar {
     private int codLugar;
-    private int fila;
+    private char fila;
     private int numero;
     private boolean estado;
     private Funcion funcion;
@@ -18,7 +18,7 @@ public class Lugar {
     public Lugar() {
     }
 
-    public Lugar(int codLugar, int fila, int numero, boolean estado, Funcion funcion) {
+    public Lugar(int codLugar, char fila, int numero, boolean estado, Funcion funcion) {
         this.codLugar = codLugar;
         this.fila = fila;
         this.numero = numero;
@@ -34,11 +34,11 @@ public class Lugar {
         this.codLugar = codLugar;
     }
 
-    public int getFila() {
+    public char getFila() {
         return fila;
     }
 
-    public void setFila(int fila) {
+    public void setFila(char fila) {
         this.fila = fila;
     }
 

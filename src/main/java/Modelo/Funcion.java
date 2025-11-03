@@ -26,6 +26,18 @@ public class Funcion {
     public Funcion() {
     }
 
+    public Funcion(int codFuncion, Pelicula pelicula, String idioma, boolean es3d, boolean subtitulada, LocalTime horaInicio, LocalTime horaFin, Sala salaFuncion, double precioLugar) {
+        this.codFuncion = codFuncion;
+        this.pelicula = pelicula;
+        this.idioma = idioma;
+        this.es3d = es3d;
+        this.subtitulada = subtitulada;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
+        this.salaFuncion = salaFuncion;
+        this.precioLugar = precioLugar;
+    }
+
     public Funcion(int codFuncion,Pelicula pelicula, String idioma, boolean es3d, boolean subtitulada, LocalTime horaInicio, LocalTime horaFin, List<Lugar> lugaresDisponibles, Sala salaFuncion, double precioLugar) {
         this.codFuncion=codFuncion;
         this.pelicula = pelicula;
