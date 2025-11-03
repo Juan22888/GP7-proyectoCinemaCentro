@@ -4,17 +4,28 @@
  */
 package Vista;
 
+import javax.swing.JInternalFrame;
+import Persistencia.CompradorData;
+
 /**
  *
  * @author FRANCO
  */
 public class VistaPrincipal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form VistaPrincipal
-     */
-    public VistaPrincipal() {
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaPrincipal.class.getName());
+    private final CompradorData CompradorData;
+    public VistaPrincipal(CompradorData CompradorData) {
         initComponents();
+        this.CompradorData = CompradorData;
+    }
+    
+      public void abrirInternal(JInternalFrame nuevo) {
+        for (JInternalFrame frame : Escritorio.getAllFrames()) {
+            frame.dispose();
+        }
+        Escritorio.add(nuevo);
+        nuevo.setVisible(true);
     }
 
     /**
@@ -26,9 +37,10 @@ public class VistaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Escritorio = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        CompradorMenuItem = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -39,10 +51,31 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        javax.swing.GroupLayout EscritorioLayout = new javax.swing.GroupLayout(Escritorio);
+        Escritorio.setLayout(EscritorioLayout);
+        EscritorioLayout.setHorizontalGroup(
+            EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 878, Short.MAX_VALUE)
+        );
+        EscritorioLayout.setVerticalGroup(
+            EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 729, Short.MAX_VALUE)
+        );
+
         jMenu1.setText("Administracion");
 
-        jMenuItem1.setText("Comprador");
-        jMenu1.add(jMenuItem1);
+        CompradorMenuItem.setText("Comprador");
+        CompradorMenuItem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CompradorMenuItemMouseClicked(evt);
+            }
+        });
+        CompradorMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CompradorMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(CompradorMenuItem);
 
         jMenuItem2.setText("Ticket");
         jMenu1.add(jMenuItem2);
@@ -78,11 +111,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 878, Short.MAX_VALUE)
+            .addComponent(Escritorio)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 729, Short.MAX_VALUE)
+            .addComponent(Escritorio)
         );
 
         pack();
@@ -92,47 +125,25 @@ public class VistaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void CompradorMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompradorMenuItemActionPerformed
+        // TODO add your handling code here:
+           VistaComprador vc  = new VistaComprador(CompradorData);
+           abrirInternal(vc);
+    }//GEN-LAST:event_CompradorMenuItemActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VistaPrincipal().setVisible(true);
-            }
-        });
-    }
+    private void CompradorMenuItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CompradorMenuItemMouseClicked
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_CompradorMenuItemMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem CompradorMenuItem;
+    private javax.swing.JDesktopPane Escritorio;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
