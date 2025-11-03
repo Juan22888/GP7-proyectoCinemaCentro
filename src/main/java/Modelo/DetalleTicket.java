@@ -11,18 +11,17 @@ import java.util.List;
  * @author Fede-
  */
 public class DetalleTicket {
-    private int codDetalle;
-    private List<Lugar> lugar;
-    private int cantidad;
-    private boolean estado;
 
+    private int codDetalle;
+    private Lugar lugar;
+    private boolean estado;
+    
     public DetalleTicket() {
     }
 
-    public DetalleTicket(int codDetalle, List<Lugar> lugar, int cantidad, boolean estado) {
+    public DetalleTicket(int codDetalle, Lugar lugar, boolean estado) {
         this.codDetalle = codDetalle;
         this.lugar = lugar;
-        this.cantidad = cantidad;
         this.estado = estado;
     }
 
@@ -34,20 +33,12 @@ public class DetalleTicket {
         this.codDetalle = codDetalle;
     }
 
-    public List<Lugar> getLugar() {
+    public Lugar getLugar() {
         return lugar;
     }
 
-    public void setLugar(List<Lugar> lugar) {
+    public void setLugar(Lugar lugar) {
         this.lugar = lugar;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
     }
 
     public boolean isEstado() {
@@ -57,8 +48,5 @@ public class DetalleTicket {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-    
-    
-    
-    
+
 }

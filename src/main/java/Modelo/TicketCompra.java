@@ -11,23 +11,32 @@ import java.time.LocalDate;
  * @author Emiliano
  */
 public class TicketCompra {
+
     private int codTicket;
     private LocalDate FechaCompra;
-    private LocalDate FechaFucion;
+    private LocalDate FechaFuncion;
     private double monto;
     private Comprador comprador;
+    private DetalleTicket detalleTicket;
+
+    public TicketCompra(int codTicket, LocalDate FechaCompra, LocalDate FechaFuncion, double monto, Comprador comprador, DetalleTicket detalleTicket) {
+        this.codTicket = codTicket;
+        this.FechaCompra = FechaCompra;
+        this.FechaFuncion = FechaFuncion;
+        this.monto = monto;
+        this.comprador = comprador;
+        this.detalleTicket = detalleTicket;
+    }
 
     public TicketCompra() {
     }
 
-    
-    
-    public TicketCompra(int codTicket, LocalDate FechaCompra, LocalDate FechaFucion, double monto, Comprador comprador) {
-        this.codTicket = codTicket;
-        this.FechaCompra = FechaCompra;
-        this.FechaFucion = FechaFucion;
-        this.monto = monto;
-        this.comprador = comprador;
+    public DetalleTicket getDetalleTicket() {
+        return detalleTicket;
+    }
+
+    public void setDetalleTicket(DetalleTicket detalleTicket) {
+        this.detalleTicket = detalleTicket;
     }
 
     public int getCodTicket() {
@@ -46,12 +55,12 @@ public class TicketCompra {
         this.FechaCompra = FechaCompra;
     }
 
-    public LocalDate getFechaFucion() {
-        return FechaFucion;
+    public LocalDate getFechaFuncion() {
+        return FechaFuncion;
     }
 
-    public void setFechaFucion(LocalDate FechaFucion) {
-        this.FechaFucion = FechaFucion;
+    public void setFechaFuncion(LocalDate FechaFuncion) {
+        this.FechaFuncion = FechaFuncion;
     }
 
     public double getMonto() {
@@ -74,6 +83,5 @@ public class TicketCompra {
     public String toString() {
         return "TicketCompra{" + "codTicket=" + codTicket + ", monto= $" + monto + ", comprador=" + comprador.getNombre() + '}';
     }
-    
-    
+
 }
