@@ -10,6 +10,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -162,7 +165,28 @@ public class SalaData {
             throw new SQLException("Error al eliminar la sala" + ex);
         }
     }
+    public List<Sala> listarSalas() {
+        List<Sala> salas = new ArrayList<>();
+        String sql = "SELECT * FROM sala";
+    
+    try (PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
 
+        while (rs.next()) {
+            Sala s = new Sala();
+            s.setCodSala(rs.getInt("codSala"));
+            s.setNroSala(rs.getInt("nroSala"));
+            s.setCapacidad(rs.getInt("capacidad"));
+            s.setEstado(rs.getBoolean("estado"));
+            salas.add(s);
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Error al listar salas: " + ex.getMessage());
+    }
+
+    return salas;
+}
 }
 
 
