@@ -42,7 +42,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 BoxPeliculas.addItem(p);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar las películas: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al cargar las peliculas: " + e.getMessage());
         }
     }
 
@@ -60,10 +60,10 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
 
     private void cargarIdiomas() {
         BoxIdiomas.removeAllItems();
-        BoxIdiomas.addItem("Español");
-        BoxIdiomas.addItem("Inglés");
-        BoxIdiomas.addItem("Francés");
-        BoxIdiomas.addItem("Portugués");
+        BoxIdiomas.addItem("Espaniol");
+        BoxIdiomas.addItem("Ingles");
+        BoxIdiomas.addItem("Frances");
+        BoxIdiomas.addItem("Portugues");
         BoxIdiomas.addItem("Subtitulado");
     }
 
