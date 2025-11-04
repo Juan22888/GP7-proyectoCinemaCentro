@@ -4,17 +4,67 @@
  */
 package Vista;
 
+import Modelo.Pelicula;
+import Modelo.Sala;
+import Persistencia.FuncionData;
+import Persistencia.PeliculaData;
+import Persistencia.SalaData;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Emiliano
  */
 public class VistaFuncion extends javax.swing.JInternalFrame {
+    private FuncionData fData;
+    private PeliculaData pData;
+    private SalaData sData;
 
     /**
      * Creates new form VistaFuncion
      */
     public VistaFuncion() {
         initComponents();
+         fData = new FuncionData();
+         pData = new PeliculaData();
+         sData = new SalaData();
+
+         cargarPeliculas();
+         cargarSalas();
+         cargarIdiomas();
+    }
+        private void cargarPeliculas() {
+        BoxPeliculas.removeAllItems();
+        try {
+            List<Pelicula> lista = pData.listarPeliculas();
+            for (Pelicula p : lista) {
+                BoxPeliculas.addItem(p);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar las películas: " + e.getMessage());
+        }
+    }
+
+    private void cargarSalas() {
+        BoxSalas.removeAllItems();
+        try {
+            List<Sala> lista = sData.listarSalas();
+            for (Sala s : lista) {
+                BoxSalas.addItem(s);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar las salas: " + e.getMessage());
+        }
+    }
+
+    private void cargarIdiomas() {
+        BoxIdiomas.removeAllItems();
+        BoxIdiomas.addItem("Español");
+        BoxIdiomas.addItem("Inglés");
+        BoxIdiomas.addItem("Francés");
+        BoxIdiomas.addItem("Portugués");
+        BoxIdiomas.addItem("Subtitulado");
     }
 
     /**
@@ -28,13 +78,13 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        BoxPeliculas = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        BoxSalas = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        BoxIdiomas = new javax.swing.JComboBox();
         jCheckBox1 = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
         jCheckBox3 = new javax.swing.JCheckBox();
@@ -70,6 +120,12 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+
+        BoxPeliculas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BoxPeliculasActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Peliculas");
 
@@ -148,14 +204,14 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGap(38, 38, 38)))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jComboBox2, 0, 126, Short.MAX_VALUE)
-                                .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(BoxSalas, 0, 126, Short.MAX_VALUE)
+                                .addComponent(BoxIdiomas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jTextField1)
                                 .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(0, 0, Short.MAX_VALUE))
-                                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(BoxPeliculas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addGap(208, 208, 208))
         );
         layout.setVerticalGroup(
@@ -166,15 +222,15 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(BoxPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(BoxSalas, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(BoxIdiomas, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCheckBox3)
@@ -207,14 +263,18 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void BoxPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BoxPeliculasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BoxPeliculasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox BoxIdiomas;
+    private javax.swing.JComboBox BoxPeliculas;
+    private javax.swing.JComboBox BoxSalas;
     private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
