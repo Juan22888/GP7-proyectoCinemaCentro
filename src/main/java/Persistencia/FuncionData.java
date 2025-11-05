@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -199,5 +201,39 @@ public class FuncionData {
             throw new SQLException("Error al eliminar la funcion" + ex);
         }
     }
+    
+    public List<Funcion> listarFunciones() throws SQLException {
+    List<Funcion> funciones = new ArrayList<>();
+    String sql = "SELECT * FROM funcion";
+
+    try (PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            Funcion f = new Funcion();
+            
+            Pelicula p = peliculaData.buscarPelicula(rs.getInt("codPelicula"));
+            f.setPelicula(p);
+            
+            Sala s = salaData.buscarSala(rs.getInt("codSala"));
+            f.setSalaFuncion(s);
+            
+            f.setCodFuncion(rs.getInt("codFuncion"));
+            f.setIdioma(rs.getString("idioma"));
+            f.setEs3d(rs.getBoolean("es3d"));
+            f.setSubtitulada(rs.getBoolean("subtitulada"));
+            f.setHoraInicio(rs.getTime("horaInicio").toLocalTime());
+            f.setHoraFin(rs.getTime("horaFin").toLocalTime());
+            f.setPrecioLugar(rs.getDouble("precioLugar"));
+
+            funciones.add(f);
+        }
+
+    } catch (SQLException ex) {
+        throw new SQLException("Error al listar funciones: " + ex.getMessage(), ex);
+    }
+
+    return funciones;
+}
 
 }

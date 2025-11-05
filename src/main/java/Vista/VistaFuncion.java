@@ -85,33 +85,33 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         BoxSalas = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         BoxIdiomas = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
-        jCheckBox3 = new javax.swing.JCheckBox();
+        ButCerrar = new javax.swing.JButton();
+        CBox3D = new javax.swing.JCheckBox();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        TexFielInicio = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        TexFielFin = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        jToggleButton3 = new javax.swing.JToggleButton();
-        jToggleButton4 = new javax.swing.JToggleButton();
-        jToggleButton5 = new javax.swing.JToggleButton();
+        TexFielPrecio = new javax.swing.JTextField();
+        ButInsertar = new javax.swing.JButton();
+        ButActualizar = new javax.swing.JButton();
+        ButBorrar = new javax.swing.JButton();
+        ButAltaBaja = new javax.swing.JButton();
+        ButMostrar = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Id", "Pelicula", "Sala", "Idioma", "3D", "SubTitulo", "Inicio", "Fin", "Precio"
+                "Id", "Pelicula", "Sala", "Idioma", "3D", "Inicio", "Fin", "Precio"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -136,9 +136,9 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Idioma");
 
-        jButton1.setText("Cerrar");
+        ButCerrar.setText("Cerrar");
 
-        jCheckBox3.setText("3D");
+        CBox3D.setText("3D");
 
         jLabel5.setText("Hora de inicio");
 
@@ -146,37 +146,25 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Precio");
 
-        jToggleButton1.setText("Nuevo");
+        ButInsertar.setText("Insertar");
+        ButInsertar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButInsertarActionPerformed(evt);
+            }
+        });
 
-        jToggleButton2.setText("Guardar");
+        ButActualizar.setText("Actualizar");
 
-        jToggleButton3.setText("Actualizar");
+        ButBorrar.setText("Borrar");
 
-        jToggleButton4.setText("Eliminar");
+        ButAltaBaja.setText("Dar de Alta/Baja");
 
-        jToggleButton5.setText("Ver Todos");
+        ButMostrar.setText("Mostrar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jToggleButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jToggleButton3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jToggleButton4)
-                        .addGap(18, 18, 18)
-                        .addComponent(jToggleButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
-                        .addComponent(jButton1))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(208, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,14 +186,31 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(BoxSalas, 0, 126, Short.MAX_VALUE)
                             .addComponent(BoxIdiomas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TexFielInicio)
+                            .addComponent(TexFielFin, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(TexFielPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jCheckBox3))
+                                .addComponent(CBox3D))
                             .addComponent(BoxPeliculas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(208, 208, 208))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(ButInsertar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ButActualizar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ButBorrar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ButAltaBaja)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ButMostrar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ButCerrar)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,29 +231,29 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                     .addComponent(BoxIdiomas, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TexFielInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TexFielFin, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jCheckBox3))
+                        .addComponent(TexFielPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(CBox3D))
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jToggleButton1)
-                    .addComponent(jToggleButton2)
-                    .addComponent(jToggleButton3)
-                    .addComponent(jToggleButton4)
-                    .addComponent(jToggleButton5))
-                .addContainerGap(11, Short.MAX_VALUE))
+                    .addComponent(ButInsertar)
+                    .addComponent(ButActualizar)
+                    .addComponent(ButBorrar)
+                    .addComponent(ButAltaBaja)
+                    .addComponent(ButMostrar)
+                    .addComponent(ButCerrar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -258,13 +263,25 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_BoxPeliculasActionPerformed
 
+    private void ButInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButInsertarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ButInsertarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox BoxIdiomas;
     private javax.swing.JComboBox BoxPeliculas;
     private javax.swing.JComboBox BoxSalas;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox3;
+    private javax.swing.JButton ButActualizar;
+    private javax.swing.JButton ButAltaBaja;
+    private javax.swing.JButton ButBorrar;
+    private javax.swing.JButton ButCerrar;
+    private javax.swing.JButton ButInsertar;
+    private javax.swing.JButton ButMostrar;
+    private javax.swing.JCheckBox CBox3D;
+    private javax.swing.JTextField TexFielFin;
+    private javax.swing.JTextField TexFielInicio;
+    private javax.swing.JTextField TexFielPrecio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -274,13 +291,5 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
-    private javax.swing.JToggleButton jToggleButton3;
-    private javax.swing.JToggleButton jToggleButton4;
-    private javax.swing.JToggleButton jToggleButton5;
     // End of variables declaration//GEN-END:variables
 }
