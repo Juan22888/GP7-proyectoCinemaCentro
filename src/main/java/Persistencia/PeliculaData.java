@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,9 +101,9 @@ public class PeliculaData {
                 ps.setString(1, (String) dato);
             } else if (dato instanceof Boolean) {
                 ps.setBoolean(1, (boolean) dato);
-            } else if (dato instanceof java.sql.Date) {
+            } else if (dato instanceof LocalDate ) {
                 // Conversión de LocalDate a java.sql.Date
-                ps.setDate(1, (java.sql.Date) dato);
+                ps.setDate(1,java.sql.Date.valueOf((LocalDate) dato));
             } else {
                 // Asume que otros tipos, como int o float, se pueden manejar aquí si son necesarios
                 throw new IllegalArgumentException("Tipo de dato no soportado para actualizar.");

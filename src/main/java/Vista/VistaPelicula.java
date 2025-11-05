@@ -7,7 +7,10 @@ package Vista;
 import Modelo.Pelicula;
 import Persistencia.PeliculaData;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,6 +24,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
     
     public VistaPelicula(PeliculaData peliculaData) {
         initComponents();
+        this.peliculaData=peliculaData;
         cargarPeliculas();
     }
 
@@ -69,10 +73,14 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         txtBuscarPelicula = new java.awt.TextField();
         butBuscar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        butBuscarPorCartelera = new javax.swing.JButton();
+        butGuardarCambios = new javax.swing.JButton();
+        butCancelar = new javax.swing.JButton();
+        butNuevaPelicula = new javax.swing.JButton();
+
+        setClosable(true);
+        setMaximizable(true);
+        setResizable(true);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Gestion de Pelicula");
@@ -87,31 +95,51 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
             new String [] {
                 "CodPelicula", "titulo", "director", "actores", "origen", "genero", "estreno", "enCartelera"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(TablaPeliculas);
 
         jLabel2.setText("Buscar Pelicula:");
 
         butBuscar.setText("Buscar");
 
-        jButton1.setText("Buscar Por Cartelera");
+        butBuscarPorCartelera.setText("Buscar Por Cartelera");
 
-        jButton2.setText("Guardar Cambios");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        butGuardarCambios.setText("Guardar Cambios");
+        butGuardarCambios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                butGuardarCambiosActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Cancelar");
+        butCancelar.setText("Cancelar");
 
-        jButton4.setText("Nueva Pelicula");
+        butNuevaPelicula.setText("Nueva Pelicula");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator1)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(butNuevaPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(butGuardarCambios)
+                        .addGap(18, 18, 18)
+                        .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -121,22 +149,12 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
                         .addComponent(txtBuscarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(butBuscar)
-                        .addGap(61, 61, 61)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2)
-                                .addGap(34, 34, 34)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 770, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(32, 32, 32)
+                        .addComponent(butBuscarPorCartelera, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(304, 304, 304)
                         .addComponent(jLabel1)))
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,45 +165,94 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(txtBuscarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(13, 13, 13)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel2))
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(butBuscar)
-                                    .addComponent(jButton1))
-                                .addGap(14, 14, 14)))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(txtBuscarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25))
+                                    .addComponent(butBuscarPorCartelera))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(11, 11, 11)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(butNuevaPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void butGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butGuardarCambiosActionPerformed
+          if (TablaPeliculas.isEditing()) {
+            TablaPeliculas.getCellEditor().stopCellEditing();
+        }
+
+        int filaSeleccionada = TablaPeliculas.getSelectedRow();
+        String titulo = (TablaPeliculas.getValueAt(filaSeleccionada, 1).toString());
+        String director = (TablaPeliculas.getValueAt(filaSeleccionada, 2).toString());
+        String actores = (TablaPeliculas.getValueAt(filaSeleccionada, 3).toString());
+        String origen = (TablaPeliculas.getValueAt(filaSeleccionada, 4).toString());
+        String genero = (TablaPeliculas.getValueAt(filaSeleccionada, 5).toString());
+        LocalDate estreno = LocalDate.parse(TablaPeliculas.getValueAt(filaSeleccionada, 6).toString());
+        boolean enCartelera = Boolean.parseBoolean(TablaPeliculas.getValueAt(filaSeleccionada, 7).toString());
+        int codPelicula = Integer.parseInt(TablaPeliculas.getValueAt(filaSeleccionada, 0).toString());
+        Pelicula pelicula;
+        try {
+            pelicula = peliculaData.buscarPelicula(codPelicula);
+        } catch (SQLException ex) {
+             JOptionPane.showMessageDialog(this, 
+                              "Error, al buscar la pelicula en la base de datos.",
+                              "Error de Base de Datos",
+                              JOptionPane.ERROR_MESSAGE);
+             return;
+        }
+        
+        pelicula.setTitulo(titulo);
+        pelicula.setDirector(director);
+        pelicula.setActores(actores);
+        pelicula.setOrigen(origen);
+        pelicula.setGenero(genero);
+        pelicula.setEstreno(estreno);
+        pelicula.setEnCartelera(enCartelera);
+        System.out.println(estreno);
+        try {
+            peliculaData.actualizarPelicula(codPelicula,"titulo",pelicula.getTitulo());
+            peliculaData.actualizarPelicula(codPelicula,"director",pelicula.getDirector());
+            peliculaData.actualizarPelicula(codPelicula,"actores",pelicula.getActores());
+            peliculaData.actualizarPelicula(codPelicula,"origen",pelicula.getOrigen());
+            peliculaData.actualizarPelicula(codPelicula,"genero",pelicula.getGenero());
+            peliculaData.actualizarPelicula(codPelicula,"estreno",pelicula.getEstreno());
+            peliculaData.actualizarPelicula(codPelicula,"enCartelera",pelicula.isEnCartelera());
+            
+        } catch (Exception ex) {
+             JOptionPane.showMessageDialog(this, 
+                              "Error, al actualizar datos en la base de datos.",
+                              "Error de Base de Datos",
+                              JOptionPane.ERROR_MESSAGE);
+             return;
+        }
+        
+        JOptionPane.showMessageDialog(null, "Los datos fueron actualizados correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_butGuardarCambiosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaPeliculas;
     private javax.swing.JButton butBuscar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton butBuscarPorCartelera;
+    private javax.swing.JButton butCancelar;
+    private javax.swing.JButton butGuardarCambios;
+    private javax.swing.JButton butNuevaPelicula;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
