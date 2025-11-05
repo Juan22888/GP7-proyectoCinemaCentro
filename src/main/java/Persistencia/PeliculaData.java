@@ -11,6 +11,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -171,5 +173,33 @@ public class PeliculaData {
             throw new SQLException("Error al eliminar la pelicula " + ex);
         }
     }
+    
+    
+     public List listarPeliculas() throws SQLException {
+         List<Pelicula> peliculas = new ArrayList<>();
+         String sql = "SELECT * FROM pelicula";
+    
+    try (PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            Pelicula p = new Pelicula();
+            p.setCodPelicula(rs.getInt("codPelicula"));
+            p.setTitulo(rs.getString("titulo"));
+            p.setDirector(rs.getString("director"));
+            p.setActores(rs.getString("actores"));
+            p.setOrigen(rs.getString("origen"));
+            p.setGenero(rs.getString("genero"));
+            p.setEstreno(rs.getDate("estreno").toLocalDate());
+            p.setEnCartelera(rs.getBoolean("enCartelera"));
+            peliculas.add(p);
+        }
+
+    } catch (SQLException ex) {
+       throw new SQLException("Error al listar peliculas " + ex);
+    }
+
+    return peliculas;
+}
 
 }
