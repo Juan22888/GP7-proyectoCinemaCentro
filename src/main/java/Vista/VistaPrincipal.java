@@ -6,6 +6,12 @@ package Vista;
 
 import javax.swing.JInternalFrame;
 import Persistencia.CompradorData;
+import Persistencia.DetalleTicketData;
+import Persistencia.FuncionData;
+import Persistencia.LugarData;
+import Persistencia.PeliculaData;
+import Persistencia.SalaData;
+import Persistencia.TicketData;
 
 /**
  *
@@ -15,9 +21,22 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaPrincipal.class.getName());
     private final CompradorData CompradorData;
-    public VistaPrincipal(CompradorData CompradorData) {
+    private final DetalleTicketData detalleTicketData;
+    private final FuncionData funcionData;
+    private final LugarData lugarData;
+    private final PeliculaData peliculaData;
+    private final SalaData salaData;
+    private TicketData ticketData;
+   
+    public VistaPrincipal(CompradorData CompradorData, DetalleTicketData detalleTicketData, FuncionData funcionData, LugarData lugarData, PeliculaData peliculaData, SalaData salaData, TicketData ticketData) {
         initComponents();
         this.CompradorData = CompradorData;
+        this.detalleTicketData = detalleTicketData;
+        this.funcionData = funcionData;
+        this.lugarData = lugarData;
+        this.peliculaData = peliculaData;
+        this.salaData = salaData;
+        this.ticketData = ticketData;
     }
     
       public void abrirInternal(JInternalFrame nuevo) {
