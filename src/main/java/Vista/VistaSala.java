@@ -38,7 +38,7 @@ public class VistaSala extends javax.swing.JInternalFrame {
         salaTable.setModel(modelo);
     }
 
-    private void cargarTablaCompleta() {
+    public void cargarTablaCompleta() {
         modelo.setRowCount(0); 
 
         List<Sala> salas = salaData.listarSalas();
@@ -224,19 +224,17 @@ public class VistaSala extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnBuscarSalasActionPerformed
 
     private void btnNuevaSalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaSalaActionPerformed
-        // TODO add your handling code here:
-        // Aquí debes abrir un JInternalFrame o JFrame para "Crear Nueva Sala"
-        JOptionPane.showMessageDialog(this, "Aquí se abrirá el formulario para 'Nueva Sala'.", "Funcionalidad Pendiente", JOptionPane.INFORMATION_MESSAGE);
+      VistaNuevaSala vnSala = new VistaNuevaSala(salaData, this); 
         
-        // Ejemplo (Necesitarías crear VistaNuevaSala):
-        // VistaNuevaSala vnSala = new VistaNuevaSala(salaData);
-        // getDesktopPane().add(vnSala);
-        // vnSala.setVisible(true);
-        // vnSala.toFront(); // Poner la ventana al frente
+    
+        this.getDesktopPane().add(vnSala); 
+        
+        vnSala.setVisible(true);
+        vnSala.toFront();
     }//GEN-LAST:event_btnNuevaSalaActionPerformed
 
     private void btnBajaAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBajaAltaActionPerformed
-        // TODO add your handling code here:
+        
         int filaSeleccionada = salaTable.getSelectedRow();
         
         if (filaSeleccionada == -1) {
@@ -245,7 +243,7 @@ public class VistaSala extends javax.swing.JInternalFrame {
         }
         
         int codSala = (Integer) modelo.getValueAt(filaSeleccionada, 0);
-        String estadoActualStr = (String) modelo.getValueAt(filaSeleccionada, 4); // Columna "Estado"
+        String estadoActualStr = (String) modelo.getValueAt(filaSeleccionada, 4); 
         boolean estadoActual = estadoActualStr.equalsIgnoreCase("Activa");
         
         String accion = estadoActual ? "dar de baja" : "dar de alta";
@@ -255,10 +253,10 @@ public class VistaSala extends javax.swing.JInternalFrame {
                 JOptionPane.YES_NO_OPTION);
         
         if (confirm == JOptionPane.YES_OPTION) {
-            boolean nuevoEstado = !estadoActual; // Cambiamos el estado
+            boolean nuevoEstado = !estadoActual; 
             if (salaData.cambiarEstadoSala(codSala, nuevoEstado)) {
                 JOptionPane.showMessageDialog(this, "Estado de sala actualizado exitosamente.");
-                cargarTablaCompleta(); // Recargamos la tabla para ver el cambio
+                cargarTablaCompleta(); 
             } else {
                 JOptionPane.showMessageDialog(this, "Error al cambiar el estado de la sala.", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -266,7 +264,7 @@ public class VistaSala extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnBajaAltaActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // TODO add your handling code here:
+        
         int filaSeleccionada = salaTable.getSelectedRow();
         
         if (filaSeleccionada == -1) {
@@ -274,19 +272,19 @@ public class VistaSala extends javax.swing.JInternalFrame {
             return;
         }
 
-        // Si el usuario está editando una celda, forzamos que se guarde el valor en el modelo
+        
         if (salaTable.isEditing()) {
             salaTable.getCellEditor().stopCellEditing();
         }
 
         try {
-            int codSala = (Integer) modelo.getValueAt(filaSeleccionada, 0); // CodSala (no editable)
-            int nroSala = Integer.parseInt(modelo.getValueAt(filaSeleccionada, 1).toString()); // Nro Sala
-            boolean apta3D = modelo.getValueAt(filaSeleccionada, 2).toString().equalsIgnoreCase("Sí"); // Apta3D
-            int capacidad = Integer.parseInt(modelo.getValueAt(filaSeleccionada, 3).toString()); // Capacidad
-            boolean estado = modelo.getValueAt(filaSeleccionada, 4).toString().equalsIgnoreCase("Activa"); // Estado
+            int codSala = (Integer) modelo.getValueAt(filaSeleccionada, 0); 
+            int nroSala = Integer.parseInt(modelo.getValueAt(filaSeleccionada, 1).toString()); 
+            boolean apta3D = modelo.getValueAt(filaSeleccionada, 2).toString().equalsIgnoreCase("Sí"); 
+            int capacidad = Integer.parseInt(modelo.getValueAt(filaSeleccionada, 3).toString()); 
+            boolean estado = modelo.getValueAt(filaSeleccionada, 4).toString().equalsIgnoreCase("Activa");
 
-            // Llamamos al método de actualización en SalaData
+            
             boolean exito = salaData.actualizarSala(codSala, nroSala, apta3D, capacidad, estado);
             
             if (exito) {
@@ -301,11 +299,11 @@ public class VistaSala extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Ocurrió un error al guardar los cambios: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         
-        cargarTablaCompleta(); // Recargamos la tabla para ver los cambios
+        cargarTablaCompleta(); 
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
+      
         int filaSeleccionada = salaTable.getSelectedRow();
         
         if (filaSeleccionada == -1) {
@@ -325,9 +323,9 @@ public class VistaSala extends javax.swing.JInternalFrame {
         if (confirm == JOptionPane.YES_OPTION) {
             if (salaData.eliminarSala(codSala)) {
                 JOptionPane.showMessageDialog(this, "Sala Cod: " + codSala + " eliminada exitosamente.");
-                cargarTablaCompleta(); // Recargamos la tabla
+                cargarTablaCompleta(); 
             } else {
-                // Esto puede suceder si la sala tiene relaciones con otras tablas (e.g., funciones)
+              
                 JOptionPane.showMessageDialog(this, "Error: No se pudo eliminar la sala Cod: " + codSala + ". \nPuede que esté asociada a funciones o registros.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
