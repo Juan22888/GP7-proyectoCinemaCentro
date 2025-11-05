@@ -4,16 +4,26 @@
  */
 package Vista;
 
+import Modelo.Pelicula;
+import Persistencia.PeliculaData;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author FRANCO
  */
 public class NuevaPelicula extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form NuevaPelicula
-     */
-    public NuevaPelicula() {
+    private final PeliculaData peliculaData;
+    
+    public NuevaPelicula(PeliculaData peliculaData) {
+        this.peliculaData=peliculaData;
         initComponents();
     }
 
@@ -26,21 +36,337 @@ public class NuevaPelicula extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        txtDirector = new javax.swing.JTextField();
+        butAgregar = new javax.swing.JButton();
+        butCancelar = new javax.swing.JButton();
+        labelTitulo = new javax.swing.JLabel();
+        labelDirector = new javax.swing.JLabel();
+        dateEstreno = new com.toedter.calendar.JDateChooser();
+        labelActores = new javax.swing.JLabel();
+        labelOrigen = new javax.swing.JLabel();
+        labelGenero = new javax.swing.JLabel();
+        txtTitulo = new javax.swing.JTextField();
+        labelEstreno = new javax.swing.JLabel();
+        txtActores = new javax.swing.JTextField();
+        txtOrigen = new javax.swing.JTextField();
+        txtGenero = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        tbutEnCartelera = new javax.swing.JToggleButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+
+        txtDirector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDirectorActionPerformed(evt);
+            }
+        });
+
+        butAgregar.setText("Agregar");
+        butAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butAgregarActionPerformed(evt);
+            }
+        });
+
+        butCancelar.setText("Cancelar");
+        butCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butCancelarActionPerformed(evt);
+            }
+        });
+        butCancelar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butCancelarKeyReleased(evt);
+            }
+        });
+
+        labelTitulo.setText("Titulo:");
+
+        labelDirector.setText("Director:");
+
+        labelActores.setText("Actores:");
+
+        labelOrigen.setText("Origen:");
+
+        labelGenero.setText("Genero:");
+
+        txtTitulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTituloActionPerformed(evt);
+            }
+        });
+
+        labelEstreno.setText("Estreno:");
+
+        txtActores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtActoresActionPerformed(evt);
+            }
+        });
+
+        txtOrigen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtOrigenActionPerformed(evt);
+            }
+        });
+
+        txtGenero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtGeneroActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("En Cartelera:");
+
+        tbutEnCartelera.setText("Si/No");
+        tbutEnCartelera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tbutEnCarteleraActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel2.setText("Nueva Pelicula");
+
+        jLabel3.setText("(Por defecto es NO)");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(72, 72, 72)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(labelEstreno)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(labelDirector)
+                                    .addComponent(labelTitulo)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(labelOrigen)
+                                        .addComponent(labelActores))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(labelGenero)
+                                        .addGap(4, 4, 4)))
+                                .addGap(2, 2, 2)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dateEstreno, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tbutEnCartelera)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(196, 196, 196)
+                        .addComponent(jLabel2)))
+                .addContainerGap(145, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(butAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(86, 86, 86))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(131, 131, 131)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtDirector, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtActores, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(145, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addGap(19, 19, 19)
+                .addComponent(labelTitulo)
+                .addGap(26, 26, 26)
+                .addComponent(labelDirector)
+                .addGap(18, 18, 18)
+                .addComponent(labelActores)
+                .addGap(27, 27, 27)
+                .addComponent(labelOrigen)
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelGenero)
+                    .addComponent(txtGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(labelEstreno)
+                    .addComponent(dateEstreno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(tbutEnCartelera)
+                    .addComponent(jLabel3))
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(butAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(43, 43, 43))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(47, 47, 47)
+                    .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(txtDirector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(txtActores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(txtOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(258, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void butAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butAgregarActionPerformed
+        
+        String txttitulo = txtTitulo.getText();
+        String txtdirector = txtDirector.getText();
+        String txtactores = txtActores.getText();
+        String txtorigen = txtOrigen.getText();
+        String txtgenero = txtGenero.getText();
+        boolean txtCartelera = false;
+        if(tbutEnCartelera.isSelected()){
+            txtCartelera = true;
+        }
+        
+        Date dateestreno= dateEstreno.getDate();
+
+        if (txttitulo.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese un Titulo", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (txtdirector.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese un Director", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (txtactores.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese un Actor", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (txtorigen.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese el Origen", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+          if (txtgenero.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese el Genero", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+
+        if (dateEstreno == null) {
+            JOptionPane.showMessageDialog(this, "Ingrese la fecha de Estreno", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        
+
+
+        //Conversion
+        LocalDate fechaEstreno = dateestreno.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        Pelicula pelicula = new Pelicula(-1, txttitulo,txtdirector , txtactores, txtorigen, txtgenero,fechaEstreno,txtCartelera);
+        try {
+            peliculaData.insertarPelicula(pelicula);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, 
+                              "Error, no se pudo agregar la pelicula en la bd.",
+                              "Error de Base de Datos",
+                              JOptionPane.ERROR_MESSAGE);
+            return;
+            
+        }
+        
+        JOptionPane.showMessageDialog(null, "SE GUARDO EXITOSAMENTE!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+       txtTitulo.setText("");
+        txtDirector.setText("");
+        txtActores.setText("");
+        Date date = null;
+        dateEstreno.setDate(date);
+        txtOrigen.setText("");
+        txtGenero.setText(""); 
+    }//GEN-LAST:event_butAgregarActionPerformed
+
+    private void txtDirectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDirectorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDirectorActionPerformed
+
+    private void txtGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGeneroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtGeneroActionPerformed
+
+    private void txtOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOrigenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtOrigenActionPerformed
+
+    private void txtActoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtActoresActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtActoresActionPerformed
+
+    private void butCancelarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butCancelarKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_butCancelarKeyReleased
+
+    private void butCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelarActionPerformed
+
+        txtTitulo.setText("");
+        txtDirector.setText("");
+        txtActores.setText("");
+        Date date = null;
+        dateEstreno.setDate(date);
+        txtOrigen.setText("");
+        txtGenero.setText("");       
+        
+    }//GEN-LAST:event_butCancelarActionPerformed
+
+    private void txtTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTituloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTituloActionPerformed
+
+    private void tbutEnCarteleraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbutEnCarteleraActionPerformed
+
+       
+    }//GEN-LAST:event_tbutEnCarteleraActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton butAgregar;
+    private javax.swing.JButton butCancelar;
+    private com.toedter.calendar.JDateChooser dateEstreno;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel labelActores;
+    private javax.swing.JLabel labelDirector;
+    private javax.swing.JLabel labelEstreno;
+    private javax.swing.JLabel labelGenero;
+    private javax.swing.JLabel labelOrigen;
+    private javax.swing.JLabel labelTitulo;
+    private javax.swing.JToggleButton tbutEnCartelera;
+    private javax.swing.JTextField txtActores;
+    private javax.swing.JTextField txtDirector;
+    private javax.swing.JTextField txtGenero;
+    private javax.swing.JTextField txtOrigen;
+    private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
 }
