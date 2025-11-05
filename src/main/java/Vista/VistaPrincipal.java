@@ -58,15 +58,15 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         Escritorio = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        menuAdministracion = new javax.swing.JMenu();
         CompradorMenuItem = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        itemTicket = new javax.swing.JMenuItem();
+        itemLugar = new javax.swing.JMenuItem();
+        itemFuncion = new javax.swing.JMenuItem();
+        itemSala = new javax.swing.JMenuItem();
+        itemPelicula = new javax.swing.JMenuItem();
+        menuTaquilla = new javax.swing.JMenu();
+        menuOnline = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,7 +81,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
             .addGap(0, 729, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("Administracion");
+        menuAdministracion.setText("Administracion");
+        menuAdministracion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuAdministracionActionPerformed(evt);
+            }
+        });
 
         CompradorMenuItem.setText("Comprador");
         CompradorMenuItem.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -94,35 +99,45 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 CompradorMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(CompradorMenuItem);
+        menuAdministracion.add(CompradorMenuItem);
 
-        jMenuItem2.setText("Ticket");
-        jMenu1.add(jMenuItem2);
+        itemTicket.setText("Ticket");
+        menuAdministracion.add(itemTicket);
 
-        jMenuItem3.setText("Lugar");
-        jMenu1.add(jMenuItem3);
+        itemLugar.setText("Lugar");
+        menuAdministracion.add(itemLugar);
 
-        jMenuItem5.setText("Funcion");
-        jMenu1.add(jMenuItem5);
+        itemFuncion.setText("Funcion");
+        menuAdministracion.add(itemFuncion);
 
-        jMenuItem6.setText("Sala");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+        itemSala.setText("Sala");
+        itemSala.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
+                itemSalaActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem6);
+        menuAdministracion.add(itemSala);
 
-        jMenuItem4.setText("Pelicula");
-        jMenu1.add(jMenuItem4);
+        itemPelicula.setText("Pelicula");
+        itemPelicula.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                itemPeliculaMouseClicked(evt);
+            }
+        });
+        itemPelicula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemPeliculaActionPerformed(evt);
+            }
+        });
+        menuAdministracion.add(itemPelicula);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(menuAdministracion);
 
-        jMenu5.setText("Taquilla");
-        jMenuBar1.add(jMenu5);
+        menuTaquilla.setText("Taquilla");
+        jMenuBar1.add(menuTaquilla);
 
-        jMenu2.setText("Online");
-        jMenuBar1.add(jMenu2);
+        menuOnline.setText("Online");
+        jMenuBar1.add(menuOnline);
 
         setJMenuBar(jMenuBar1);
 
@@ -140,9 +155,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+    private void itemSalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSalaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
+    }//GEN-LAST:event_itemSalaActionPerformed
 
     private void CompradorMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompradorMenuItemActionPerformed
         // TODO add your handling code here:
@@ -155,18 +170,31 @@ public class VistaPrincipal extends javax.swing.JFrame {
        
     }//GEN-LAST:event_CompradorMenuItemMouseClicked
 
+    private void menuAdministracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAdministracionActionPerformed
+      
+    }//GEN-LAST:event_menuAdministracionActionPerformed
+
+    private void itemPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemPeliculaActionPerformed
+       VistaPelicula vp = new VistaPelicula(peliculaData);
+       abrirInternal(vp);
+    }//GEN-LAST:event_itemPeliculaActionPerformed
+
+    private void itemPeliculaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemPeliculaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itemPeliculaMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem CompradorMenuItem;
     private javax.swing.JDesktopPane Escritorio;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenuItem itemFuncion;
+    private javax.swing.JMenuItem itemLugar;
+    private javax.swing.JMenuItem itemPelicula;
+    private javax.swing.JMenuItem itemSala;
+    private javax.swing.JMenuItem itemTicket;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenu menuAdministracion;
+    private javax.swing.JMenu menuOnline;
+    private javax.swing.JMenu menuTaquilla;
     // End of variables declaration//GEN-END:variables
 }
