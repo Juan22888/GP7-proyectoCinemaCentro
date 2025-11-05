@@ -7,7 +7,10 @@ package Vista;
 import Modelo.Pelicula;
 import Persistencia.PeliculaData;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,41 +21,41 @@ import javax.swing.table.DefaultTableModel;
 public class VistaPelicula extends javax.swing.JInternalFrame {
 
     private PeliculaData peliculaData;
-    
+
     public VistaPelicula(PeliculaData peliculaData) {
         initComponents();
+        this.peliculaData = peliculaData;
         cargarPeliculas();
     }
 
-    
     private void cargarPeliculas() {
-          List<Pelicula> listaPeliculas =null;
-        try{
+        List<Pelicula> listaPeliculas = null;
+        try {
             listaPeliculas = peliculaData.listarPeliculas();
-        }catch(SQLException e){
-            JOptionPane.showMessageDialog(this, 
-                              "Error al cargar las películas de la base de datos.",
-                              "Error de Base de Datos",
-                              JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar las películas de la base de datos.",
+                    "Error de Base de Datos",
+                    JOptionPane.ERROR_MESSAGE);
         }
-        
 
         DefaultTableModel modelo = (DefaultTableModel) TablaPeliculas.getModel();
         modelo.setRowCount(0);
-        
-        if(listaPeliculas==null){
-            JOptionPane.showMessageDialog(this, 
-                              "Error, no hay peliculas cargadas en la base de datos.",
-                              "Error de Base de Datos",
-                              JOptionPane.ERROR_MESSAGE);
+
+        if (listaPeliculas == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Error, no hay peliculas cargadas en la base de datos.",
+                    "Error de Base de Datos",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         for (Pelicula pelicula : listaPeliculas) {
-            Object[] fila = {pelicula.getCodPelicula(), pelicula.getTitulo(), pelicula.getDirector(),pelicula.getActores(), pelicula.getOrigen(), pelicula.getGenero(),pelicula.getEstreno(),pelicula.isEnCartelera()};
+            Object[] fila = {pelicula.getCodPelicula(), pelicula.getTitulo(), pelicula.getDirector(), pelicula.getActores(), pelicula.getOrigen(), pelicula.getGenero(), pelicula.getEstreno(), pelicula.isEnCartelera()};
             modelo.addRow(fila);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -62,6 +65,10 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDesktopPane1 = new javax.swing.JDesktopPane();
+        PeliculaDesktop = new javax.swing.JDesktopPane();
+        butCancelar = new javax.swing.JButton();
+        butNuevaPelicula = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -69,10 +76,38 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         txtBuscarPelicula = new java.awt.TextField();
         butBuscar = new javax.swing.JButton();
+        butBuscarPorCartelera = new javax.swing.JButton();
+        butGuardarCambios = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+
+        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
+        jDesktopPane1.setLayout(jDesktopPane1Layout);
+        jDesktopPane1Layout.setHorizontalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jDesktopPane1Layout.setVerticalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        setClosable(true);
+        setMaximizable(true);
+        setResizable(true);
+
+        butCancelar.setText("Cancelar");
+        butCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butCancelarActionPerformed(evt);
+            }
+        });
+
+        butNuevaPelicula.setText("Nueva Pelicula");
+        butNuevaPelicula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butNuevaPeliculaActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Gestion de Pelicula");
@@ -87,105 +122,274 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
             new String [] {
                 "CodPelicula", "titulo", "director", "actores", "origen", "genero", "estreno", "enCartelera"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(TablaPeliculas);
 
         jLabel2.setText("Buscar Pelicula:");
 
         butBuscar.setText("Buscar");
-
-        jButton1.setText("Buscar Por Cartelera");
-
-        jButton2.setText("Guardar Cambios");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        butBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                butBuscarActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Cancelar");
+        butBuscarPorCartelera.setText("Buscar Por Cartelera");
+        butBuscarPorCartelera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butBuscarPorCarteleraActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Nueva Pelicula");
+        butGuardarCambios.setText("Guardar Cambios");
+        butGuardarCambios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butGuardarCambiosActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Reiniciar Tabla");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        PeliculaDesktop.setLayer(butCancelar, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        PeliculaDesktop.setLayer(butNuevaPelicula, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        PeliculaDesktop.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        PeliculaDesktop.setLayer(jSeparator1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        PeliculaDesktop.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        PeliculaDesktop.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        PeliculaDesktop.setLayer(txtBuscarPelicula, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        PeliculaDesktop.setLayer(butBuscar, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        PeliculaDesktop.setLayer(butBuscarPorCartelera, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        PeliculaDesktop.setLayer(butGuardarCambios, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        PeliculaDesktop.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout PeliculaDesktopLayout = new javax.swing.GroupLayout(PeliculaDesktop);
+        PeliculaDesktop.setLayout(PeliculaDesktopLayout);
+        PeliculaDesktopLayout.setHorizontalGroup(
+            PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PeliculaDesktopLayout.createSequentialGroup()
+                .addGap(105, 105, 105)
+                .addComponent(jButton1)
+                .addGap(18, 18, 18)
+                .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PeliculaDesktopLayout.createSequentialGroup()
+                        .addComponent(butNuevaPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PeliculaDesktopLayout.createSequentialGroup()
+                .addContainerGap(140, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(22, 22, 22)
+                .addComponent(txtBuscarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(butBuscar)
+                .addGap(18, 18, 18)
+                .addComponent(butBuscarPorCartelera)
+                .addGap(72, 72, 72))
+            .addGroup(PeliculaDesktopLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PeliculaDesktopLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        PeliculaDesktopLayout.setVerticalGroup(
+            PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PeliculaDesktopLayout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addGap(30, 30, 30)
+                .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(butBuscarPorCartelera)
+                        .addComponent(butBuscar))
+                    .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel2)
+                        .addComponent(txtBuscarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(butNuevaPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(49, 49, 49))
+            .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PeliculaDesktopLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(132, 132, 132)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBuscarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(butBuscar)
-                        .addGap(61, 61, 61)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2)
-                                .addGap(34, 34, 34)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 770, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(304, 304, 304)
-                        .addComponent(jLabel1)))
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(PeliculaDesktop))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(13, 13, 13)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(butBuscar)
-                                    .addComponent(jButton1))
-                                .addGap(14, 14, 14)))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(txtBuscarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25))
+            .addComponent(PeliculaDesktop)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void butNuevaPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNuevaPeliculaActionPerformed
+
+        NuevaPelicula vp = new NuevaPelicula(peliculaData);
+        PeliculaDesktop.add(vp);
+        vp.setVisible(true);
+    }//GEN-LAST:event_butNuevaPeliculaActionPerformed
+
+    private void butBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBuscarActionPerformed
+        String buscarPelicula = txtBuscarPelicula.getText();
+        int codPelicula = 0;
+
+        if (buscarPelicula.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese el codigo de la pelicula", "Atencion", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            codPelicula = Integer.parseInt(buscarPelicula);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Tipo de dato no valido", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Pelicula pelicula = null;
+        try {
+            pelicula = peliculaData.buscarPelicula(codPelicula);
+        } catch (SQLException ex) {
+            Logger.getLogger(VistaPelicula.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (pelicula == null) {
+            JOptionPane.showMessageDialog(this, "No se encontro la pelicula con ese id", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        DefaultTableModel modelo = (DefaultTableModel) TablaPeliculas.getModel();
+        modelo.setRowCount(0);
+        Object[] fila = {pelicula.getCodPelicula(), pelicula.getTitulo(), pelicula.getDirector(), pelicula.getActores(), pelicula.getOrigen(), pelicula.getGenero(), pelicula.getEstreno(), pelicula.isEnCartelera()};
+        modelo.addRow(fila);
+    }//GEN-LAST:event_butBuscarActionPerformed
+
+    private void butGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butGuardarCambiosActionPerformed
+        if (TablaPeliculas.isEditing()) {
+            TablaPeliculas.getCellEditor().stopCellEditing();
+        }
+
+        int filaSeleccionada = TablaPeliculas.getSelectedRow();
+        int codPelicula = Integer.parseInt(TablaPeliculas.getValueAt(filaSeleccionada, 0).toString());
+        String titulo = (TablaPeliculas.getValueAt(filaSeleccionada, 1).toString());
+        String director = (TablaPeliculas.getValueAt(filaSeleccionada, 2).toString());
+        String actores = (TablaPeliculas.getValueAt(filaSeleccionada, 3).toString());
+        String origen = (TablaPeliculas.getValueAt(filaSeleccionada, 4).toString());
+        String genero = (TablaPeliculas.getValueAt(filaSeleccionada, 5).toString());
+        LocalDate estreno = LocalDate.parse(TablaPeliculas.getValueAt(filaSeleccionada, 6).toString());
+        boolean enCartelera = Boolean.parseBoolean(TablaPeliculas.getValueAt(filaSeleccionada, 7).toString());
+
+        Pelicula pelicula;
+        try {
+            pelicula = peliculaData.buscarPelicula(codPelicula);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Error, no se pudieron guardar los datos en la bd.",
+                    "Error de Base de Datos",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        pelicula.setTitulo(titulo);
+        pelicula.setDirector(director);
+        pelicula.setActores(actores);
+        pelicula.setOrigen(origen);
+        pelicula.setGenero(genero);
+        pelicula.setEstreno(estreno);
+        pelicula.setEnCartelera(enCartelera);
+        try {
+            peliculaData.actualizarPelicula(codPelicula, "titulo", pelicula.getTitulo());
+            peliculaData.actualizarPelicula(codPelicula, "director", pelicula.getDirector());
+            peliculaData.actualizarPelicula(codPelicula, "actores", pelicula.getActores());
+            peliculaData.actualizarPelicula(codPelicula, "origen", pelicula.getOrigen());
+            peliculaData.actualizarPelicula(codPelicula, "genero", pelicula.getGenero());
+            peliculaData.actualizarPelicula(codPelicula, "estreno", pelicula.getEstreno());
+            peliculaData.actualizarPelicula(codPelicula, "enCartelera", pelicula.isEnCartelera());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error, al actualizar datos en la base de datos.", "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        JOptionPane.showMessageDialog(null, "La pelicula se modifico correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_butGuardarCambiosActionPerformed
+
+    private void butBuscarPorCarteleraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBuscarPorCarteleraActionPerformed
+        List<Pelicula> listaPeliculas = null;
+        try {
+            listaPeliculas = peliculaData.listarPeliculasEnCartelera();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar las películas de la base de datos.",
+                    "Error de Base de Datos",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+        DefaultTableModel modelo = (DefaultTableModel) TablaPeliculas.getModel();
+        modelo.setRowCount(0);
+
+        if (listaPeliculas == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Error, no hay peliculas cargadas en la base de datos.",
+                    "Error de Base de Datos",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        for (Pelicula pelicula : listaPeliculas) {
+            Object[] fila = {pelicula.getCodPelicula(), pelicula.getTitulo(), pelicula.getDirector(), pelicula.getActores(), pelicula.getOrigen(), pelicula.getGenero(), pelicula.getEstreno(), pelicula.isEnCartelera()};
+            modelo.addRow(fila);
+        }
+    }//GEN-LAST:event_butBuscarPorCarteleraActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+      cargarPeliculas();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void butCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelarActionPerformed
+        cargarPeliculas();
+    }//GEN-LAST:event_butCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDesktopPane PeliculaDesktop;
     private javax.swing.JTable TablaPeliculas;
     private javax.swing.JButton butBuscar;
+    private javax.swing.JButton butBuscarPorCartelera;
+    private javax.swing.JButton butCancelar;
+    private javax.swing.JButton butGuardarCambios;
+    private javax.swing.JButton butNuevaPelicula;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
