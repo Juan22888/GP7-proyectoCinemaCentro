@@ -96,6 +96,11 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
         setResizable(true);
 
         butCancelar.setText("Cancelar");
+        butCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butCancelarActionPerformed(evt);
+            }
+        });
 
         butNuevaPelicula.setText("Nueva Pelicula");
         butNuevaPelicula.addActionListener(new java.awt.event.ActionListener() {
@@ -369,6 +374,10 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
       cargarPeliculas();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void butCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelarActionPerformed
+        cargarPeliculas();
+    }//GEN-LAST:event_butCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
