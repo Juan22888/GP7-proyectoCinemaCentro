@@ -28,13 +28,12 @@ public class CompradorData {
     }
 
     public boolean insertarComprador(Comprador c) throws SQLException {
-        String sql = "INSERT INTO comprador (dni, nombre, fechaNacimiento, password, metodoPago)" + "VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO comprador (dni, nombre, fechaNacimiento, password)" + "VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, c.getDni());
             ps.setString(2, c.getNombre());
             ps.setDate(3, Date.valueOf(c.getFechaNacimiento()));
             ps.setString(4, c.getPassword());
-            ps.setBoolean(5, c.isMetodoPago());
 
             int filasAfectadas = ps.executeUpdate();
             return filasAfectadas > 0;
@@ -57,8 +56,6 @@ public class CompradorData {
                 comprador.setNombre(rs.getString("nombre"));
                 comprador.setFechaNacimiento(rs.getDate("fechaNacimiento").toLocalDate());
                 comprador.setPassword(rs.getString("password"));
-                comprador.setMetodoPago(rs.getBoolean("metodoPago"));
-
             }
             rs.close();
         } catch (SQLException ex) {
@@ -139,9 +136,7 @@ public class CompradorData {
                 comprador.setDni(rs.getInt("dni"));
                 comprador.setNombre(rs.getString("nombre"));
                 comprador.setFechaNacimiento(rs.getDate("fechaNac").toLocalDate()); // Corregido de 'fechaNacimiento'
-                comprador.setPassword(rs.getString("password")); // (Tu modelo usa getPassword() y setPassword()?)
-                comprador.setMetodoPago(rs.getBoolean("metodoPago"));
-                
+                comprador.setPassword(rs.getString("password")); // (Tu modelo usa getPassword() y setPassword()?
                 compradores.add(comprador);
             }
             rs.close();
@@ -163,7 +158,6 @@ public class CompradorData {
                 comprador.setNombre(rs.getString("nombre"));
                 comprador.setFechaNacimiento(rs.getDate("fechaNac").toLocalDate()); // Corregido de 'fechaNacimiento'
                 comprador.setPassword(rs.getString("password"));
-                comprador.setMetodoPago(rs.getBoolean("metodoPago"));
             }
             rs.close();
         } catch (SQLException ex) {
@@ -181,16 +175,15 @@ public class CompradorData {
             throw new SQLException("Error al eliminar el comprador por DNI: " + ex.getMessage());
         }
     }
-    public boolean actualizarCompradorPorDni(int dni, String nombre, java.time.LocalDate fechaNac, String password, boolean metodoPago) {
+    public boolean actualizarCompradorPorDni(int dni, String nombre, java.time.LocalDate fechaNac, String password) {
         // Tu tabla usa 'fechaNac'
-        String sql = "UPDATE comprador SET nombre = ?, fechaNac = ?, password = ?, metodoPago = ? WHERE dni = ?";
+        String sql = "UPDATE comprador SET nombre = ?, fechaNac = ?, password = ? WHERE dni = ?";
         
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, nombre);
             ps.setDate(2, Date.valueOf(fechaNac));
             ps.setString(3, password);
-            ps.setBoolean(4, metodoPago);
-            ps.setInt(5, dni);
+            ps.setInt(4, dni);
             
             int filas = ps.executeUpdate();
             return filas > 0;

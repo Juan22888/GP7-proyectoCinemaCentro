@@ -16,20 +16,18 @@ public class Comprador {
     private String nombre;
     private LocalDate fechaNacimiento;
     private String password;
-    private boolean metodoPago;
 
     public Comprador() {
     }
 
     
     
-    public Comprador(int codComprador, int dni, String nombre, LocalDate fechaNacimiento, String password, boolean metodoPago) {
+    public Comprador(int codComprador, int dni, String nombre, LocalDate fechaNacimiento, String password) {
         this.codComprador = codComprador;
         this.dni = dni;
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
         this.password = password;
-        this.metodoPago = metodoPago;
     }
 
     public int getCodComprador() {
@@ -70,14 +68,6 @@ public class Comprador {
 
     public void setPassword(String possword) {
         this.password = possword;
-    }
-
-    public boolean isMetodoPago() {
-        return metodoPago;
-    }
-
-    public void setMetodoPago(boolean metodoPago) {
-        this.metodoPago = metodoPago;
     }
 
     @Override

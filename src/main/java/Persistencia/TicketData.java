@@ -34,14 +34,15 @@ public class TicketData {
 
     public boolean insertarTicket(TicketCompra t) throws SQLException {
 
-        String sql = "INSERT INTO ticketcompra (FechaCompra, FechaFuncion, Monto, codComprador,codDetalle)" + " VALUES (?, ?, ?, ?,?)";
+        String sql = "INSERT INTO ticketcompra (FechaCompra, FechaFuncion, Monto, metodoPago, codComprador,codDetalle)" + " VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setDate(1, Date.valueOf(t.getFechaCompra()));
             ps.setDate(2, Date.valueOf(t.getFechaFuncion()));
             ps.setDouble(3, t.getMonto());
-            ps.setInt(4, t.getComprador().getCodComprador()); // Asume que la clase Comprador tiene codigoComprador
-            ps.setInt(5, t.getDetalleTicket().getCodDetalle());
+            ps.setBoolean(4,t.isMetodoPago());
+            ps.setInt(5, t.getComprador().getCodComprador()); // Asume que la clase Comprador tiene codigoComprador
+            ps.setInt(6, t.getDetalleTicket().getCodDetalle());
 
             int filasAfectadas = ps.executeUpdate();
 
@@ -70,6 +71,7 @@ public class TicketData {
                 ticket.setFechaCompra(rs.getDate("FechaCompra").toLocalDate());
                 ticket.setFechaFuncion(rs.getDate("FechaFuncion").toLocalDate());
                 ticket.setMonto(rs.getDouble("Monto"));
+                ticket.setMetodoPago(rs.getBoolean("metodoPago"));
                 detalleTicket = detalleTicketData.buscarDetalleTicket(rs.getInt("codDetalle"));
                 ticket.setDetalleTicket(detalleTicket);
                 // Cargar comprador
@@ -90,7 +92,8 @@ public class TicketData {
         if (!columna.equals("FechaCompra") && !columna.equals("FechaFuncion")
                 && !columna.equals("Monto")
                 && !columna.equals("codComprador")
-                && !columna.equals("codDetalle")) {
+                && !columna.equals("codDetalle")
+                && !columna.equals("metodoPago")) {
 
             throw new IllegalArgumentException("Columna de actualización no permitida: " + columna);
         }
@@ -107,6 +110,8 @@ public class TicketData {
                 ps.setDate(1, (java.sql.Date) dato);
             } else if (dato instanceof Integer) {
                 ps.setInt(1, (Integer) dato);
+            }else if (dato instanceof Boolean) {
+                ps.setBoolean(1, (boolean) dato);
             } else {
                 throw new IllegalArgumentException("Tipo de dato no soportado para actualizar.");
             }
