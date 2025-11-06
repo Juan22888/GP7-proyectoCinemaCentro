@@ -6,13 +6,10 @@ package Vista;
 
 import Modelo.Funcion;
 import Modelo.Lugar;
-import Modelo.Sala;
 import Persistencia.FuncionData;
 import Persistencia.LugarData;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
