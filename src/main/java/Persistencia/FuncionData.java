@@ -24,7 +24,6 @@ public class FuncionData {
     private Connection con = null;
     PeliculaData peliculaData;
     SalaData salaData;
-    LugarData lugarData;
 
     
     public FuncionData() {
@@ -36,18 +35,13 @@ public class FuncionData {
 
    
     
-    // Setter para inyectar la dependencia
-    public void setLugarData(LugarData lugarData) {
-        this.lugarData = lugarData;
-    }
-    // ...
+   
 
     public boolean insertarFuncion(Funcion f) throws SQLException, NullPointerException, RuntimeException {
 
         String sql = "INSERT INTO funcion (codPelicula, idioma, es3d, subtitulada, horaInicio, horaFin,codSala,precioLugar) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        String sqlGetId = "SELECT LAST_INSERT_ID()";
 
         try {
 
@@ -86,21 +80,9 @@ public class FuncionData {
 
                 
                     if (filasAfectadas > 0) {
-                        int idFuncionGenerada = 0;
-                        try (PreparedStatement psGetId = con.prepareStatement(sqlGetId); ResultSet rs = psGetId.executeQuery();){
-                       
-
-                        if (rs.next()) {
-                            idFuncionGenerada = rs.getInt(1);
-                        } else {
-                            throw new SQLException("Error critico: No se pudo obtener el LAST_INSERT_ID()");
-                        }
-                       
-                    }
-                        lugarData.crearLugaresParaFuncion(idFuncionGenerada, sala.getCapacidad());
                          return true;
-                }
-
+                    }
+                        
             } catch (SQLException ex) {
                 throw new SQLException("Error al guardar la funcion! " + ex);
             }
@@ -130,10 +112,9 @@ public class FuncionData {
                 funcion.setSubtitulada(rs.getBoolean("subtitulada"));
                 funcion.setHoraInicio(rs.getTime("horaInicio").toLocalTime());
                 funcion.setHoraFin(rs.getTime("horaFin").toLocalTime());
-                sala = salaData.buscarSala(funcion.getSalaFuncion().getCodSala());
+                sala = salaData.buscarSala(rs.getInt("codSala"));
                 funcion.setSalaFuncion(sala);
                 funcion.setPrecioLugar(rs.getDouble("precioLugar"));
-                funcion.setLugaresDisponibles(lugarData.obtenerLugaresDisponiblesPorFuncion(rs.getInt("codFuncion")));
             }
             rs.close();
             ps.close();
@@ -202,35 +183,33 @@ public class FuncionData {
         }
     }
     
-    public List<Funcion> listarFunciones() throws SQLException {
-    List<Funcion> funciones = new ArrayList<>();
-    String sql = "SELECT * FROM funcion";
-
+     public List listarFunciones() throws SQLException {
+         List<Funcion> funciones = new ArrayList<>();
+         String sql = "SELECT * FROM funcion";
+    
     try (PreparedStatement ps = con.prepareStatement(sql);
          ResultSet rs = ps.executeQuery()) {
 
         while (rs.next()) {
             Funcion f = new Funcion();
-            
-            Pelicula p = peliculaData.buscarPelicula(rs.getInt("codPelicula"));
-            f.setPelicula(p);
-            
-            Sala s = salaData.buscarSala(rs.getInt("codSala"));
-            f.setSalaFuncion(s);
-            
+            Pelicula p = new Pelicula();
+            Sala s = new Sala();
             f.setCodFuncion(rs.getInt("codFuncion"));
+            p = peliculaData.buscarPelicula(rs.getInt("CodPelicula"));
+            f.setPelicula(p);
             f.setIdioma(rs.getString("idioma"));
             f.setEs3d(rs.getBoolean("es3d"));
             f.setSubtitulada(rs.getBoolean("subtitulada"));
             f.setHoraInicio(rs.getTime("horaInicio").toLocalTime());
             f.setHoraFin(rs.getTime("horaFin").toLocalTime());
+            s = salaData.buscarSala(rs.getInt("codSala"));
+            f.setSalaFuncion(s);
             f.setPrecioLugar(rs.getDouble("precioLugar"));
-
             funciones.add(f);
         }
 
     } catch (SQLException ex) {
-        throw new SQLException("Error al listar funciones: " + ex.getMessage(), ex);
+       throw new SQLException("Error al listar funciones " + ex);
     }
 
     return funciones;

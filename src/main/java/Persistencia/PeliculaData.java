@@ -11,9 +11,9 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -101,9 +101,9 @@ public class PeliculaData {
                 ps.setString(1, (String) dato);
             } else if (dato instanceof Boolean) {
                 ps.setBoolean(1, (boolean) dato);
-            } else if (dato instanceof java.sql.Date) {
+            } else if (dato instanceof LocalDate ) {
                 // Conversión de LocalDate a java.sql.Date
-                ps.setDate(1, (java.sql.Date) dato);
+                ps.setDate(1,java.sql.Date.valueOf((LocalDate) dato));
             } else {
                 // Asume que otros tipos, como int o float, se pueden manejar aquí si son necesarios
                 throw new IllegalArgumentException("Tipo de dato no soportado para actualizar.");
@@ -174,7 +174,9 @@ public class PeliculaData {
             throw new SQLException("Error al eliminar la pelicula " + ex);
         }
     }
-    public List<Pelicula> listarPeliculas() {
+    
+    
+     public List listarPeliculas() throws SQLException {
          List<Pelicula> peliculas = new ArrayList<>();
          String sql = "SELECT * FROM pelicula";
     
@@ -195,8 +197,38 @@ public class PeliculaData {
         }
 
     } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(null, "Error al listar peliculas: " + ex.getMessage());
+       throw new SQLException("Error al listar peliculas " + ex);
     }
+
+    return peliculas;
+}
+     
+      public List listarPeliculasEnCartelera() throws SQLException {
+         List<Pelicula> peliculas = new ArrayList<>();
+         String sql = "SELECT * FROM pelicula WHERE enCartelera=true";
+    
+    try (PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            Pelicula p = new Pelicula();
+            p.setCodPelicula(rs.getInt("codPelicula"));
+            p.setTitulo(rs.getString("titulo"));
+            p.setDirector(rs.getString("director"));
+            p.setActores(rs.getString("actores"));
+            p.setOrigen(rs.getString("origen"));
+            p.setGenero(rs.getString("genero"));
+            p.setEstreno(rs.getDate("estreno").toLocalDate());
+            p.setEnCartelera(rs.getBoolean("enCartelera"));
+            peliculas.add(p);
+        }
+
+    } catch (SQLException ex) {
+       throw new SQLException("Error al listar peliculas " + ex);
+    }
+
+    return peliculas;
+}
 
     return peliculas;
 }
