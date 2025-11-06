@@ -18,9 +18,9 @@ public class Sala {
     public Sala() {
     }
 
-    public Sala(int nroSala, int codSala, boolean apta3d, int capacidad, boolean estado) {
+    public Sala(int nroSala, boolean apta3d, int capacidad, boolean estado) {
         this.nroSala = nroSala;
-        this.codSala = codSala;
+        
         this.apta3d = apta3d;
         this.capacidad = capacidad;
         this.estado = estado;

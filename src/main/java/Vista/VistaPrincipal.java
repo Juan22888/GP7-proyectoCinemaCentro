@@ -162,6 +162,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
     private void itemSalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSalaActionPerformed
         // TODO add your handling code here:
+        VistaSala vs = new VistaSala(salaData);
+        abrirInternal(vs);
     }//GEN-LAST:event_itemSalaActionPerformed
 
     private void CompradorMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompradorMenuItemActionPerformed
