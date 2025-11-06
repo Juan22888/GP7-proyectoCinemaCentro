@@ -113,6 +113,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
         menuAdministracion.add(itemLugar);
 
         itemFuncion.setText("Funcion");
+        itemFuncion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemFuncionActionPerformed(evt);
+            }
+        });
         menuAdministracion.add(itemFuncion);
 
         itemSala.setText("Sala");
@@ -194,6 +199,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
          VistaLugar vl = new VistaLugar(peliculaData,funcionData,lugarData);
        abrirInternal(vl);
     }//GEN-LAST:event_itemLugarActionPerformed
+
+    private void itemFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemFuncionActionPerformed
+        VistaFuncion vl = new VistaFuncion();
+       abrirInternal(vl);
+    }//GEN-LAST:event_itemFuncionActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem CompradorMenuItem;

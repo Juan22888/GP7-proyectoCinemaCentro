@@ -160,26 +160,5 @@ public class SalaData {
         }
         return salas;
     }
-    public List<Sala> listarSalas() {
-        List<Sala> salas = new ArrayList<>();
-        String sql = "SELECT * FROM sala";
-    
-    try (PreparedStatement ps = con.prepareStatement(sql);
-         ResultSet rs = ps.executeQuery()) {
-
-        while (rs.next()) {
-            Sala s = new Sala();
-            s.setCodSala(rs.getInt("codSala"));
-            s.setNroSala(rs.getInt("nroSala"));
-            s.setCapacidad(rs.getInt("capacidad"));
-            s.setEstado(rs.getBoolean("estado"));
-            salas.add(s);
-        }
-
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(null, "Error al listar salas: " + ex.getMessage());
-    }
-
-    return salas;
-}
+   
 }

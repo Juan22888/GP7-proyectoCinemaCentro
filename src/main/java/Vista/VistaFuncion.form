@@ -71,9 +71,9 @@
                                   <Component id="BoxIdiomas" alignment="1" max="32767" attributes="0"/>
                                   <Component id="TexFielInicio" max="32767" attributes="0"/>
                                   <Component id="TexFielFin" alignment="0" max="32767" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="TexFielPrecio" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="TexFielPrecio" max="32767" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
                                       <Component id="CBox3D" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="BoxPeliculas" alignment="1" max="32767" attributes="0"/>
