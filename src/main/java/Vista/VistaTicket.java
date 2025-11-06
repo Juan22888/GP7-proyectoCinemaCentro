@@ -39,6 +39,8 @@ public class VistaTicket extends javax.swing.JInternalFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
 
+        setTitle("Vista Ticket");
+
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 2, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 153, 255));
         jLabel1.setText("Gestion de Ticket");
