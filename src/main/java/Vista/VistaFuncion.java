@@ -103,6 +103,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         ButMostrar = new javax.swing.JButton();
 
         setClosable(true);
+        setForeground(java.awt.Color.white);
 
         TablaFunciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
