@@ -229,7 +229,4 @@ public class PeliculaData {
 
     return peliculas;
 }
-
-    return peliculas;
-}
 }
