@@ -4,13 +4,17 @@
  */
 package Vista;
 
+import Modelo.Funcion;
 import Modelo.Pelicula;
 import Modelo.Sala;
 import Persistencia.FuncionData;
 import Persistencia.PeliculaData;
 import Persistencia.SalaData;
+import java.sql.SQLException;
+import java.time.LocalTime;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -77,7 +81,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TablaFunciones = new javax.swing.JTable();
         BoxPeliculas = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -85,7 +89,6 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         BoxSalas = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         BoxIdiomas = new javax.swing.JComboBox();
-        ButCerrar = new javax.swing.JButton();
         CBox3D = new javax.swing.JCheckBox();
         jLabel5 = new javax.swing.JLabel();
         TexFielInicio = new javax.swing.JTextField();
@@ -99,7 +102,9 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         ButAltaBaja = new javax.swing.JButton();
         ButMostrar = new javax.swing.JButton();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        setClosable(true);
+
+        TablaFunciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -118,7 +123,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(TablaFunciones);
 
         BoxPeliculas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,8 +141,6 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Idioma");
 
-        ButCerrar.setText("Cerrar");
-
         CBox3D.setText("3D");
 
         jLabel5.setText("Hora de inicio");
@@ -154,63 +157,84 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         });
 
         ButActualizar.setText("Actualizar");
+        ButActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButActualizarActionPerformed(evt);
+            }
+        });
 
         ButBorrar.setText("Borrar");
+        ButBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButBorrarActionPerformed(evt);
+            }
+        });
 
         ButAltaBaja.setText("Dar de Alta/Baja");
+        ButAltaBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButAltaBajaActionPerformed(evt);
+            }
+        });
 
         ButMostrar.setText("Mostrar");
+        ButMostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButMostrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(208, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4))
-                                .addGap(46, 46, 46))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(BoxSalas, 0, 126, Short.MAX_VALUE)
-                            .addComponent(BoxIdiomas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(TexFielInicio)
-                            .addComponent(TexFielFin, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(TexFielPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(CBox3D))
-                            .addComponent(BoxPeliculas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(208, 208, 208))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(ButInsertar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ButActualizar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ButBorrar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ButAltaBaja)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ButMostrar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ButCerrar)))
-                .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(ButInsertar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ButActualizar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ButBorrar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ButAltaBaja)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ButMostrar)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel4))
+                                        .addGap(46, 46, 46))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel6)
+                                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel5))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(BoxSalas, 0, 126, Short.MAX_VALUE)
+                                    .addComponent(BoxIdiomas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(TexFielInicio)
+                                    .addComponent(TexFielFin, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(TexFielPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(CBox3D))
+                                    .addComponent(BoxPeliculas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(208, 208, 208))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,7 +245,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BoxPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BoxSalas, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -251,8 +275,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                     .addComponent(ButActualizar)
                     .addComponent(ButBorrar)
                     .addComponent(ButAltaBaja)
-                    .addComponent(ButMostrar)
-                    .addComponent(ButCerrar))
+                    .addComponent(ButMostrar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -265,7 +288,119 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
 
     private void ButInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButInsertarActionPerformed
         // TODO add your handling code here:
+     try {
+        Pelicula pelicula = (Pelicula) BoxPeliculas.getSelectedItem();
+        Sala sala = (Sala) BoxSalas.getSelectedItem();
+        String idioma = (String) BoxIdiomas.getSelectedItem();
+        boolean es3d = CBox3D.isSelected();
+        LocalTime horaInicio = LocalTime.parse(TexFielInicio.getText());
+        LocalTime horaFin = LocalTime.parse(TexFielFin.getText());
+        double precio = Double.parseDouble(TexFielPrecio.getText());
+
+        Funcion f = new Funcion(0, pelicula, idioma, es3d, false, horaInicio, horaFin, sala, precio);
+
+        if (fData.insertarFuncion(f)) {
+            JOptionPane.showMessageDialog(this, "Función insertada correctamente");
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo insertar la función");
+        }
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al insertar función: " + ex.getMessage());
+    }
     }//GEN-LAST:event_ButInsertarActionPerformed
+
+    private void ButMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButMostrarActionPerformed
+        // TODO add your handling code here:
+        try {
+        DefaultTableModel modelo = (DefaultTableModel) TablaFunciones.getModel();
+        modelo.setRowCount(0);
+
+        List<Funcion> lista = fData.listarFunciones();
+
+        for (Funcion f : lista) {
+            modelo.addRow(new Object[]{
+                f.getCodFuncion(),
+                f.getPelicula().getTitulo(),
+                f.getSalaFuncion().getNroSala(),
+                f.getIdioma(),
+                f.isEs3d() ? "Si" : "No",
+                f.getHoraInicio(),
+                f.getHoraFin(),
+                f.getPrecioLugar()
+            });
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error al mostrar funciones: " + ex.getMessage());
+    }
+    }//GEN-LAST:event_ButMostrarActionPerformed
+
+    private void ButActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButActualizarActionPerformed
+        // TODO add your handling code here:
+            try {
+        int fila = TablaFunciones.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione una funcion para actualizar");
+            return;
+        }
+
+        int id = (int) TablaFunciones.getValueAt(fila, 0);
+        double nuevoPrecio = Double.parseDouble(TexFielPrecio.getText());
+        fData.actualizarFuncion(id, "precioLugar", nuevoPrecio);
+        JOptionPane.showMessageDialog(this, "Funcion actualizada correctamente");
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al actualizar: " + ex.getMessage());
+    }
+    }//GEN-LAST:event_ButActualizarActionPerformed
+
+    private void ButBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButBorrarActionPerformed
+        // TODO add your handling code here:
+         try {
+        int fila = TablaFunciones.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione una funcion para borrar");
+            return;
+        }
+
+        int id = (int) TablaFunciones.getValueAt(fila, 0);
+
+        if (JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar esta funcion?") == 0) {
+            fData.eliminarFuncion(id);
+            JOptionPane.showMessageDialog(this, "Funcion eliminada correctamente");
+            ButMostrarActionPerformed(evt);
+        }
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al borrar: " + ex.getMessage());
+    }
+    }//GEN-LAST:event_ButBorrarActionPerformed
+
+    private void ButAltaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButAltaBajaActionPerformed
+        // TODO add your handling code here:
+         try {
+        int fila = TablaFunciones.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione una funcion");
+            return;
+        }
+
+        int id = (int) TablaFunciones.getValueAt(fila, 0);
+        Funcion f = fData.buscarFuncion(id);
+
+        if (f.getPelicula().isEnCartelera()) {
+            f.getPelicula().setEnCartelera(false);
+            JOptionPane.showMessageDialog(this, "Funcion dada de baja");
+        } else {
+            f.getPelicula().setEnCartelera(true);
+            JOptionPane.showMessageDialog(this, "Funcion dada de alta");
+        }
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error en alta/baja: " + ex.getMessage());
+    }
+    }//GEN-LAST:event_ButAltaBajaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -275,10 +410,10 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
     private javax.swing.JButton ButActualizar;
     private javax.swing.JButton ButAltaBaja;
     private javax.swing.JButton ButBorrar;
-    private javax.swing.JButton ButCerrar;
     private javax.swing.JButton ButInsertar;
     private javax.swing.JButton ButMostrar;
     private javax.swing.JCheckBox CBox3D;
+    private javax.swing.JTable TablaFunciones;
     private javax.swing.JTextField TexFielFin;
     private javax.swing.JTextField TexFielInicio;
     private javax.swing.JTextField TexFielPrecio;
@@ -290,6 +425,5 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
