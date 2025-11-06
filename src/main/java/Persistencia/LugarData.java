@@ -95,7 +95,7 @@ public class LugarData {
 
         String sql = "UPDATE lugar SET estado = ? WHERE codLugar = ?";
 
-        try (PreparedStatement ps = con.prepareCall(sql)) {
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setBoolean(1, nuevoEstado);
             ps.setInt(2, codLugar);
@@ -120,14 +120,14 @@ public class LugarData {
             int filasAfectadas = ps.executeUpdate();
 
             return filasAfectadas > 0;
-
+            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Lugar para eliminar: " + ex.getMessage());
         }
         return false;
     }
 
-    public List<Lugar> obtenerLugaresDisponiblesPorFuncion(int codFuncion) {
+    /*public List<Lugar> obtenerLugaresDisponiblesPorFuncion(int codFuncion) {
         String sql = "SELECT codLugar, fila, numero FROM lugar WHERE codFuncion = ? AND estado = 0";
         List<Lugar> lugaresDisponibles = new ArrayList<>();
 
@@ -156,9 +156,9 @@ public class LugarData {
         }
 
         return lugaresDisponibles;
-    }
+    }*/
     
-    public List<Lugar> obtenerLugaresPorFuncion(int codFuncion) {
+   public List<Lugar> obtenerLugaresPorFuncion(int codFuncion) {
         String sql = "SELECT codLugar, fila, numero FROM lugar WHERE codFuncion = ?";
         List<Lugar> lugaresDisponibles = new ArrayList<>();
 
@@ -218,5 +218,31 @@ public class LugarData {
             throw new SQLException("Error al generar asientos en lote (batch): "+e.getMessage());
         }
     }
+    
+     public List listarLugares() throws SQLException {
+         List<Lugar> lugares = new ArrayList<>();
+         String sql = "SELECT * FROM lugar";
+    
+    try (PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            Funcion f = new Funcion();
+            Lugar l = new Lugar();
+            f=funData.buscarFuncion(rs.getInt("codFuncion"));
+            l.setCodLugar(rs.getInt("codLugar"));
+            l.setFila(rs.getString("fila").charAt(0));
+            l.setNumero(rs.getInt("numero"));
+            l.setEstado(rs.getBoolean("estado"));
+            l.setFuncion(f);
+            lugares.add(l);
+        }
+
+    } catch (SQLException ex) {
+       throw new SQLException("Error al listar peliculas " + ex);
+    }
+
+    return lugares;
+}
 
 }
