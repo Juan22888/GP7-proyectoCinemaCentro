@@ -183,15 +183,16 @@ public class VistaComprador extends javax.swing.JInternalFrame {
                                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(CompradorDesktopLayout.createSequentialGroup()
-                        .addGap(155, 155, 155)
+                        .addGap(163, 163, 163)
                         .addComponent(jLabel2)))
                 .addContainerGap(61, Short.MAX_VALUE))
         );
         CompradorDesktopLayout.setVerticalGroup(
             CompradorDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CompradorDesktopLayout.createSequentialGroup()
+                .addGap(9, 9, 9)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
                 .addGroup(CompradorDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBucar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
@@ -333,9 +334,9 @@ public class VistaComprador extends javax.swing.JInternalFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         String dniTexto = txtBucar.getText();
-
-        if (dniTexto.isEmpty()) {
-            cargarTablaCompleta();
+        
+          if (dniTexto.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese el dni del comprador", "Atencion", JOptionPane.ERROR_MESSAGE);
             return;
         }
 

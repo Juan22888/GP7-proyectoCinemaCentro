@@ -11,7 +11,6 @@ import Persistencia.FuncionData;
 import Persistencia.PeliculaData;
 import Persistencia.SalaData;
 import java.sql.SQLException;
-import java.time.LocalTime;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -91,9 +90,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         BoxIdiomas = new javax.swing.JComboBox();
         CBox3D = new javax.swing.JCheckBox();
         jLabel5 = new javax.swing.JLabel();
-        TexFielInicio = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        TexFielFin = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         TexFielPrecio = new javax.swing.JTextField();
         ButInsertar = new javax.swing.JButton();
@@ -101,6 +98,8 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         ButBorrar = new javax.swing.JButton();
         ButAltaBaja = new javax.swing.JButton();
         ButMostrar = new javax.swing.JButton();
+        dateHoraInicio = new com.toedter.calendar.JDateChooser();
+        dateHoraFin = new com.toedter.calendar.JDateChooser();
 
         setClosable(true);
         setForeground(java.awt.Color.white);
@@ -113,11 +112,11 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Id", "Pelicula", "Sala", "Idioma", "3D", "Inicio", "Fin", "Precio"
+                "Pelicula", "Sala", "Idioma", "3D", "Inicio", "Fin", "Precio", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -185,6 +184,10 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
             }
         });
 
+        dateHoraInicio.setDateFormatString("HH : mm");
+
+        dateHoraFin.setDateFormatString("HH : mm");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -194,7 +197,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(ButInsertar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -213,28 +216,32 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                             .addComponent(jLabel2)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jLabel4))
-                                        .addGap(46, 46, 46))
                                     .addGroup(layout.createSequentialGroup()
+                                        .addGap(20, 20, 20)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel6)
-                                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel5))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(jLabel5)
+                                                    .addComponent(jLabel6)
+                                                    .addComponent(jLabel4)
+                                                    .addComponent(jLabel3))
+                                                .addGap(18, 18, 18))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(BoxSalas, 0, 126, Short.MAX_VALUE)
+                                    .addComponent(BoxSalas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(BoxIdiomas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(TexFielInicio)
-                                    .addComponent(TexFielFin, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(BoxPeliculas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(dateHoraInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(TexFielPrecio)
+                                        .addComponent(TexFielPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(CBox3D))
-                                    .addComponent(BoxPeliculas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(dateHoraFin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(208, 208, 208))))
         );
         layout.setVerticalGroup(
@@ -246,29 +253,29 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BoxPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BoxSalas, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BoxSalas, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BoxIdiomas, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(BoxIdiomas, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5)
+                    .addComponent(dateHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dateHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TexFielInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(TexFielFin, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(CBox3D)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(TexFielPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(CBox3D))
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -277,7 +284,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                     .addComponent(ButBorrar)
                     .addComponent(ButAltaBaja)
                     .addComponent(ButMostrar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();
@@ -294,17 +301,11 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         Sala sala = (Sala) BoxSalas.getSelectedItem();
         String idioma = (String) BoxIdiomas.getSelectedItem();
         boolean es3d = CBox3D.isSelected();
-        LocalTime horaInicio = LocalTime.parse(TexFielInicio.getText());
-        LocalTime horaFin = LocalTime.parse(TexFielFin.getText());
         double precio = Double.parseDouble(TexFielPrecio.getText());
 
-        Funcion f = new Funcion(0, pelicula, idioma, es3d, false, horaInicio, horaFin, sala, precio);
+        
 
-        if (fData.insertarFuncion(f)) {
-            JOptionPane.showMessageDialog(this, "Función insertada correctamente");
-        } else {
-            JOptionPane.showMessageDialog(this, "No se pudo insertar la función");
-        }
+        
 
     } catch (Exception ex) {
         JOptionPane.showMessageDialog(this, "Error al insertar función: " + ex.getMessage());
@@ -338,22 +339,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_ButMostrarActionPerformed
 
     private void ButActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButActualizarActionPerformed
-        // TODO add your handling code here:
-            try {
-        int fila = TablaFunciones.getSelectedRow();
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione una funcion para actualizar");
-            return;
-        }
-
-        int id = (int) TablaFunciones.getValueAt(fila, 0);
-        double nuevoPrecio = Double.parseDouble(TexFielPrecio.getText());
-        fData.actualizarFuncion(id, "precioLugar", nuevoPrecio);
-        JOptionPane.showMessageDialog(this, "Funcion actualizada correctamente");
-
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error al actualizar: " + ex.getMessage());
-    }
+       
     }//GEN-LAST:event_ButActualizarActionPerformed
 
     private void ButBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButBorrarActionPerformed
@@ -415,9 +401,9 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
     private javax.swing.JButton ButMostrar;
     private javax.swing.JCheckBox CBox3D;
     private javax.swing.JTable TablaFunciones;
-    private javax.swing.JTextField TexFielFin;
-    private javax.swing.JTextField TexFielInicio;
     private javax.swing.JTextField TexFielPrecio;
+    private com.toedter.calendar.JDateChooser dateHoraFin;
+    private com.toedter.calendar.JDateChooser dateHoraInicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
