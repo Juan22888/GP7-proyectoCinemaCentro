@@ -11,7 +11,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +26,40 @@ public class PeliculaData {
         this.con = Conexion.buscarConexion();
     }
 
+    private void validarPelicula(Pelicula p) throws IllegalArgumentException {
+        if (p == null) {
+            throw new IllegalArgumentException("El objeto Pelicula no puede ser nulo.");
+        }
+
+        // Validamos el Título
+        String tituloLimpio = (p.getTitulo() == null) ? "" : p.getTitulo().trim();
+        if (tituloLimpio.isEmpty()) {
+            throw new IllegalArgumentException("El título no puede estar vacío.");
+        }
+        if (tituloLimpio.length() < 5) {
+            throw new IllegalArgumentException("El título debe tener al menos 5 caracteres.");
+        }
+
+        // Validamos el Director
+        String directorLimpio = (p.getDirector() == null) ? "" : p.getDirector().trim();
+        if (directorLimpio.isEmpty()) {
+            throw new IllegalArgumentException("El director no puede estar vacío.");
+        }
+
+        if (p.getActores() == null || p.getActores().trim().isEmpty()) {
+            throw new IllegalArgumentException("Los actores no pueden estar vacíos.");
+        }
+        if (p.getGenero() == null || p.getGenero().trim().isEmpty()) {
+            throw new IllegalArgumentException("El género no puede estar vacío.");
+        }
+        if (p.getEstreno() == null) {
+            throw new IllegalArgumentException("La fecha de estreno no puede ser nula.");
+        }
+    }
+
     public boolean insertarPelicula(Pelicula p) throws SQLException {
+
+        validarPelicula(p);
 
         String sql = "INSERT INTO pelicula (titulo, director, actores, origen, genero, estreno, enCartelera) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -76,50 +108,41 @@ public class PeliculaData {
             }
             rs.close();
             ps.close();
-            
+
         } catch (SQLException ex) {
             throw new SQLException(" Error al buscar la pelicula! + " + ex);
         }
         return pelicula;
     }
 
-    public boolean actualizarPelicula(int id, String columna, Object dato) throws Exception {
-        if (!columna.equals("titulo") && !columna.equals("director")
-                && !columna.equals("actores") && !columna.equals("origen")
-                && !columna.equals("genero") && !columna.equals("estreno")
-                && !columna.equals("enCartelera")) {
-
-            throw new IllegalArgumentException("Columna de actualización no permitida: " + columna);
+    public boolean actualizarPelicula(Pelicula pelicula) throws Exception {
+        // Primero, validamos el ID para el update
+        if (pelicula.getCodPelicula() <= 0) { // Asumiendo que tienes un getIdPelicula()
+            throw new IllegalArgumentException("El ID de la película no es válido para actualizar.");
         }
+        validarPelicula(pelicula);
 
-        String sql = "UPDATE pelicula SET " + columna + "=? WHERE codPelicula = ?";
+        String sql = "UPDATE pelicula SET titulo=?, director=?, actores=?, origen=?, genero=?, estreno=?, enCartelera=? WHERE codPelicula = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
 
-            // Determina el tipo de dato para establecer el parámetro
-            if (dato instanceof String) {
-                ps.setString(1, (String) dato);
-            } else if (dato instanceof Boolean) {
-                ps.setBoolean(1, (boolean) dato);
-            } else if (dato instanceof LocalDate ) {
-                // Conversión de LocalDate a java.sql.Date
-                ps.setDate(1,java.sql.Date.valueOf((LocalDate) dato));
-            } else {
-                // Asume que otros tipos, como int o float, se pueden manejar aquí si son necesarios
-                throw new IllegalArgumentException("Tipo de dato no soportado para actualizar.");
-            }
-            ps.setInt(2, id);
+            
+            ps.setString(1, pelicula.getTitulo());
+            ps.setString(2, pelicula.getDirector());
+            ps.setString(3, pelicula.getActores());
+            ps.setString(4, pelicula.getOrigen());
+            ps.setString(5, pelicula.getGenero());
+            ps.setDate(6, Date.valueOf(pelicula.getEstreno()));
+            ps.setBoolean(7, pelicula.isEnCartelera());
+
+            
+            ps.setInt(8, pelicula.getCodPelicula()); 
 
             int filasAfectadas = ps.executeUpdate();
-            ps.close();
-            if (filasAfectadas > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return (filasAfectadas > 0);
 
         } catch (SQLException ex) {
-            throw new SQLException("Error al modificar la pelicula! " + ex);
+            throw new SQLException("Error al actualizar la pelicula: " + ex.getMessage(), ex);
         }
 
     }
@@ -160,7 +183,7 @@ public class PeliculaData {
 
     public boolean eliminarPelicula(int id) throws SQLException {
         String sql = "DELETE FROM pelicula WHERE codPelicula = ?";
-        try{
+        try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             int filasAfectadas = ps.executeUpdate();
@@ -174,62 +197,57 @@ public class PeliculaData {
             throw new SQLException("Error al eliminar la pelicula " + ex);
         }
     }
-    
-    
-     public List listarPeliculas() throws SQLException {
-         List<Pelicula> peliculas = new ArrayList<>();
-         String sql = "SELECT * FROM pelicula";
-    
-    try (PreparedStatement ps = con.prepareStatement(sql);
-         ResultSet rs = ps.executeQuery()) {
 
-        while (rs.next()) {
-            Pelicula p = new Pelicula();
-            p.setCodPelicula(rs.getInt("codPelicula"));
-            p.setTitulo(rs.getString("titulo"));
-            p.setDirector(rs.getString("director"));
-            p.setActores(rs.getString("actores"));
-            p.setOrigen(rs.getString("origen"));
-            p.setGenero(rs.getString("genero"));
-            p.setEstreno(rs.getDate("estreno").toLocalDate());
-            p.setEnCartelera(rs.getBoolean("enCartelera"));
-            peliculas.add(p);
+    public List listarPeliculas() throws SQLException {
+        List<Pelicula> peliculas = new ArrayList<>();
+        String sql = "SELECT * FROM pelicula";
+
+        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Pelicula p = new Pelicula();
+                p.setCodPelicula(rs.getInt("codPelicula"));
+                p.setTitulo(rs.getString("titulo"));
+                p.setDirector(rs.getString("director"));
+                p.setActores(rs.getString("actores"));
+                p.setOrigen(rs.getString("origen"));
+                p.setGenero(rs.getString("genero"));
+                p.setEstreno(rs.getDate("estreno").toLocalDate());
+                p.setEnCartelera(rs.getBoolean("enCartelera"));
+                peliculas.add(p);
+            }
+
+        } catch (SQLException ex) {
+            throw new SQLException("Error al listar peliculas " + ex);
         }
 
-    } catch (SQLException ex) {
-       throw new SQLException("Error al listar peliculas " + ex);
+        return peliculas;
     }
 
-    return peliculas;
-}
-     
-      public List listarPeliculasEnCartelera() throws SQLException {
-         List<Pelicula> peliculas = new ArrayList<>();
-         String sql = "SELECT * FROM pelicula WHERE enCartelera=true";
-    
-    try (PreparedStatement ps = con.prepareStatement(sql);
-         ResultSet rs = ps.executeQuery()) {
+    public List listarPeliculasEnCartelera() throws SQLException {
+        List<Pelicula> peliculas = new ArrayList<>();
+        String sql = "SELECT * FROM pelicula WHERE enCartelera=true";
 
-        while (rs.next()) {
-            Pelicula p = new Pelicula();
-            p.setCodPelicula(rs.getInt("codPelicula"));
-            p.setTitulo(rs.getString("titulo"));
-            p.setDirector(rs.getString("director"));
-            p.setActores(rs.getString("actores"));
-            p.setOrigen(rs.getString("origen"));
-            p.setGenero(rs.getString("genero"));
-            p.setEstreno(rs.getDate("estreno").toLocalDate());
-            p.setEnCartelera(rs.getBoolean("enCartelera"));
-            peliculas.add(p);
+        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Pelicula p = new Pelicula();
+                p.setCodPelicula(rs.getInt("codPelicula"));
+                p.setTitulo(rs.getString("titulo"));
+                p.setDirector(rs.getString("director"));
+                p.setActores(rs.getString("actores"));
+                p.setOrigen(rs.getString("origen"));
+                p.setGenero(rs.getString("genero"));
+                p.setEstreno(rs.getDate("estreno").toLocalDate());
+                p.setEnCartelera(rs.getBoolean("enCartelera"));
+                peliculas.add(p);
+            }
+
+        } catch (SQLException ex) {
+            throw new SQLException("Error al listar peliculas " + ex);
         }
 
-    } catch (SQLException ex) {
-       throw new SQLException("Error al listar peliculas " + ex);
+        return peliculas;
     }
 
-    return peliculas;
 }
-
-  
-}
-

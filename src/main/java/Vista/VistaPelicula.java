@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class VistaPelicula extends javax.swing.JInternalFrame {
 
-    private PeliculaData peliculaData;
+    private final PeliculaData peliculaData;
 
     public VistaPelicula(PeliculaData peliculaData) {
         initComponents();
@@ -78,7 +78,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
         butBuscar = new javax.swing.JButton();
         butBuscarPorCartelera = new javax.swing.JButton();
         butGuardarCambios = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        butReiniciarTabla = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -156,10 +156,11 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton1.setText("Reiniciar Tabla");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        butReiniciarTabla.setText("Reiniciar Tabla");
+        butReiniciarTabla.setPreferredSize(new java.awt.Dimension(300, 199));
+        butReiniciarTabla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                butReiniciarTablaActionPerformed(evt);
             }
         });
 
@@ -173,39 +174,42 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
         PeliculaDesktop.setLayer(butBuscar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         PeliculaDesktop.setLayer(butBuscarPorCartelera, javax.swing.JLayeredPane.DEFAULT_LAYER);
         PeliculaDesktop.setLayer(butGuardarCambios, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        PeliculaDesktop.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        PeliculaDesktop.setLayer(butReiniciarTabla, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout PeliculaDesktopLayout = new javax.swing.GroupLayout(PeliculaDesktop);
         PeliculaDesktop.setLayout(PeliculaDesktopLayout);
         PeliculaDesktopLayout.setHorizontalGroup(
             PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PeliculaDesktopLayout.createSequentialGroup()
-                .addGap(105, 105, 105)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
                 .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PeliculaDesktopLayout.createSequentialGroup()
+                        .addGap(140, 140, 140)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtBuscarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PeliculaDesktopLayout.createSequentialGroup()
+                        .addGap(83, 83, 83)
+                        .addComponent(butReiniciarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(butNuevaPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PeliculaDesktopLayout.createSequentialGroup()
-                .addContainerGap(140, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(22, 22, 22)
-                .addComponent(txtBuscarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(butBuscar)
-                .addGap(18, 18, 18)
-                .addComponent(butBuscarPorCartelera)
-                .addGap(72, 72, 72))
-            .addGroup(PeliculaDesktopLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+                        .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PeliculaDesktopLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PeliculaDesktopLayout.createSequentialGroup()
+                                .addGap(55, 55, 55)
+                                .addComponent(butBuscar)
+                                .addGap(18, 18, 18)
+                                .addComponent(butBuscarPorCartelera))))
+                    .addGroup(PeliculaDesktopLayout.createSequentialGroup()
+                        .addGap(245, 245, 245)
+                        .addComponent(jLabel1))
+                    .addGroup(PeliculaDesktopLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 747, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(42, Short.MAX_VALUE))
             .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(PeliculaDesktopLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -215,23 +219,26 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
         PeliculaDesktopLayout.setVerticalGroup(
             PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PeliculaDesktopLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(30, 30, 30)
-                .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(butBuscarPorCartelera)
-                        .addComponent(butBuscar))
-                    .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel2)
+                .addGap(24, 24, 24)
+                .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(butBuscarPorCartelera)
+                            .addComponent(butBuscar))
+                        .addComponent(jLabel2))
+                    .addGroup(PeliculaDesktopLayout.createSequentialGroup()
+                        .addGap(7, 7, 7)
                         .addComponent(txtBuscarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(butNuevaPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(butReiniciarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49))
             .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(PeliculaDesktopLayout.createSequentialGroup()
@@ -296,51 +303,65 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_butBuscarActionPerformed
 
     private void butGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butGuardarCambiosActionPerformed
+
         if (TablaPeliculas.isEditing()) {
             TablaPeliculas.getCellEditor().stopCellEditing();
         }
 
         int filaSeleccionada = TablaPeliculas.getSelectedRow();
-        int codPelicula = Integer.parseInt(TablaPeliculas.getValueAt(filaSeleccionada, 0).toString());
-        String titulo = (TablaPeliculas.getValueAt(filaSeleccionada, 1).toString());
-        String director = (TablaPeliculas.getValueAt(filaSeleccionada, 2).toString());
-        String actores = (TablaPeliculas.getValueAt(filaSeleccionada, 3).toString());
-        String origen = (TablaPeliculas.getValueAt(filaSeleccionada, 4).toString());
-        String genero = (TablaPeliculas.getValueAt(filaSeleccionada, 5).toString());
-        LocalDate estreno = LocalDate.parse(TablaPeliculas.getValueAt(filaSeleccionada, 6).toString());
-        boolean enCartelera = Boolean.parseBoolean(TablaPeliculas.getValueAt(filaSeleccionada, 7).toString());
 
-        Pelicula pelicula;
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila para modificar.", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         try {
-            pelicula = peliculaData.buscarPelicula(codPelicula);
+
+            int codPelicula = Integer.parseInt(TablaPeliculas.getValueAt(filaSeleccionada, 0).toString());
+            String titulo = TablaPeliculas.getValueAt(filaSeleccionada, 1).toString();
+            String director = TablaPeliculas.getValueAt(filaSeleccionada, 2).toString();
+            String actores = TablaPeliculas.getValueAt(filaSeleccionada, 3).toString();
+            String origen = TablaPeliculas.getValueAt(filaSeleccionada, 4).toString();
+            String genero = TablaPeliculas.getValueAt(filaSeleccionada, 5).toString();
+
+            LocalDate estreno = LocalDate.parse(TablaPeliculas.getValueAt(filaSeleccionada, 6).toString());
+
+            boolean enCartelera = Boolean.parseBoolean(TablaPeliculas.getValueAt(filaSeleccionada, 7).toString());
+
+            Pelicula peliculaModificada = new Pelicula(codPelicula, titulo, director, actores, origen, genero, estreno, enCartelera);
+
+            boolean exito = peliculaData.actualizarPelicula(peliculaModificada);
+
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "¡La pelicula se modifico correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                cargarPeliculas();
+
+            } else {
+
+                JOptionPane.showMessageDialog(this,
+                        "La película no se pudo actualizar (0 filas afectadas).",
+                        "Error de Actualización",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+
+        } catch (NumberFormatException e) {
+            // Error si el ID o algún número de la tabla no es válido
+            JOptionPane.showMessageDialog(this, "Error en el formato de los datos de la tabla.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
+        } catch (java.time.format.DateTimeParseException e) {
+            // Error si la fecha de la tabla no tiene el formato "YYYY-MM-DD"
+            JOptionPane.showMessageDialog(this, "Error en el formato de la fecha. Use YYYY-MM-DD.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalArgumentException ex) {
+            // ¡Aquí capturamos NUESTRAS validaciones de negocio!
+            // (Ej: "El título debe tener al menos 5 caracteres")
+            JOptionPane.showMessageDialog(this, "Error de validación: " + ex.getMessage(), "Datos Incorrectos", JOptionPane.WARNING_MESSAGE);
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this,
-                    "Error, no se pudieron guardar los datos en la bd.",
-                    "Error de Base de Datos",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        pelicula.setTitulo(titulo);
-        pelicula.setDirector(director);
-        pelicula.setActores(actores);
-        pelicula.setOrigen(origen);
-        pelicula.setGenero(genero);
-        pelicula.setEstreno(estreno);
-        pelicula.setEnCartelera(enCartelera);
-        try {
-            peliculaData.actualizarPelicula(codPelicula, "titulo", pelicula.getTitulo());
-            peliculaData.actualizarPelicula(codPelicula, "director", pelicula.getDirector());
-            peliculaData.actualizarPelicula(codPelicula, "actores", pelicula.getActores());
-            peliculaData.actualizarPelicula(codPelicula, "origen", pelicula.getOrigen());
-            peliculaData.actualizarPelicula(codPelicula, "genero", pelicula.getGenero());
-            peliculaData.actualizarPelicula(codPelicula, "estreno", pelicula.getEstreno());
-            peliculaData.actualizarPelicula(codPelicula, "enCartelera", pelicula.isEnCartelera());
+            // Error de la base de datos (conexión, clave duplicada, etc.)
+            JOptionPane.showMessageDialog(this, "Error al guardar en la base de datos: " + ex.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error, al actualizar datos en la base de datos.", "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
-            return;
+            // Captura cualquier otro error inesperado
+            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        JOptionPane.showMessageDialog(null, "La pelicula se modifico correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_butGuardarCambiosActionPerformed
 
     private void butBuscarPorCarteleraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBuscarPorCarteleraActionPerformed
@@ -371,13 +392,14 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_butBuscarPorCarteleraActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      cargarPeliculas();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void butCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelarActionPerformed
         cargarPeliculas();
     }//GEN-LAST:event_butCancelarActionPerformed
+
+
+    private void butReiniciarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butReiniciarTablaActionPerformed
+        cargarPeliculas();
+    }//GEN-LAST:event_butReiniciarTablaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -388,7 +410,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
     private javax.swing.JButton butCancelar;
     private javax.swing.JButton butGuardarCambios;
     private javax.swing.JButton butNuevaPelicula;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton butReiniciarTabla;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

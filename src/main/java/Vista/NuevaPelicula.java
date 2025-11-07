@@ -19,10 +19,20 @@ import javax.swing.JOptionPane;
 public class NuevaPelicula extends javax.swing.JInternalFrame {
 
     private final PeliculaData peliculaData;
-    
+
     public NuevaPelicula(PeliculaData peliculaData) {
-        this.peliculaData=peliculaData;
+        this.peliculaData = peliculaData;
         initComponents();
+    }
+
+    public void limpiarCampos() {
+        txtTitulo.setText("");
+        txtDirector.setText("");
+        txtActores.setText("");
+        Date date = null;
+        dateEstreno.setDate(date);
+        txtOrigen.setText("");
+        txtGenero.setText("");
     }
 
     /**
@@ -234,18 +244,18 @@ public class NuevaPelicula extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void butAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butAgregarActionPerformed
-        
+
         String txttitulo = txtTitulo.getText();
         String txtdirector = txtDirector.getText();
         String txtactores = txtActores.getText();
         String txtorigen = txtOrigen.getText();
         String txtgenero = txtGenero.getText();
         boolean txtCartelera = false;
-        if(tbutEnCartelera.isSelected()){
+        if (tbutEnCartelera.isSelected()) {
             txtCartelera = true;
         }
-        
-        Date dateestreno= dateEstreno.getDate();
+
+        Date dateestreno = dateEstreno.getDate();
 
         if (txttitulo.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Ingrese un Titulo", "Error", JOptionPane.ERROR_MESSAGE);
@@ -266,43 +276,42 @@ public class NuevaPelicula extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Ingrese el Origen", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-          if (txtgenero.isEmpty()) {
+
+        if (txtgenero.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Ingrese el Genero", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
 
         if (dateEstreno == null) {
             JOptionPane.showMessageDialog(this, "Ingrese la fecha de Estreno", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        
-
-
         //Conversion
         LocalDate fechaEstreno = dateestreno.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        Pelicula pelicula = new Pelicula(-1, txttitulo,txtdirector , txtactores, txtorigen, txtgenero,fechaEstreno,txtCartelera);
+        Pelicula pelicula = new Pelicula(-1, txttitulo, txtdirector, txtactores, txtorigen, txtgenero, fechaEstreno, txtCartelera);
+
+        // --- 3. MANEJO DE ERRORES DE LÓGICA Y BASE DE DATOS ---
         try {
-            peliculaData.insertarPelicula(pelicula);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, 
-                              "Error, no se pudo agregar la pelicula en la bd.",
-                              "Error de Base de Datos",
-                              JOptionPane.ERROR_MESSAGE);
-            return;
+
+            if (peliculaData.insertarPelicula(pelicula)) {
+                JOptionPane.showMessageDialog(this, "Película guardada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+               
+                limpiarCampos(); 
+                
+            } else {
+                JOptionPane.showMessageDialog(this, "La película no se pudo guardar (filas no afectadas).", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (IllegalArgumentException ex) {
             
+            JOptionPane.showMessageDialog(this, "Error de validación: " + ex.getMessage(), "Datos Incorrectos", JOptionPane.WARNING_MESSAGE);
+
+        } catch (SQLException ex) {
+           
+            JOptionPane.showMessageDialog(this, "Error de base de datos: " + ex.getMessage(), "Error SQL", JOptionPane.ERROR_MESSAGE);
         }
-        
-        JOptionPane.showMessageDialog(null, "SE GUARDO EXITOSAMENTE!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-       txtTitulo.setText("");
-        txtDirector.setText("");
-        txtActores.setText("");
-        Date date = null;
-        dateEstreno.setDate(date);
-        txtOrigen.setText("");
-        txtGenero.setText(""); 
+
     }//GEN-LAST:event_butAgregarActionPerformed
 
     private void txtDirectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDirectorActionPerformed
@@ -333,8 +342,8 @@ public class NuevaPelicula extends javax.swing.JInternalFrame {
         Date date = null;
         dateEstreno.setDate(date);
         txtOrigen.setText("");
-        txtGenero.setText("");       
-        
+        txtGenero.setText("");
+
     }//GEN-LAST:event_butCancelarActionPerformed
 
     private void txtTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTituloActionPerformed
@@ -343,7 +352,7 @@ public class NuevaPelicula extends javax.swing.JInternalFrame {
 
     private void tbutEnCarteleraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbutEnCarteleraActionPerformed
 
-       
+
     }//GEN-LAST:event_tbutEnCarteleraActionPerformed
 
 
