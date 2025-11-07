@@ -4,18 +4,61 @@
  */
 package Vista;
 
+import Modelo.Comprador;
+import Modelo.DetalleTicket;
+import Modelo.Funcion;
+import Modelo.TicketCompra;
+import Persistencia.CompradorData;
+import Persistencia.FuncionData;
+import Persistencia.TicketData;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Emiliano
  */
 public class NuevoTicket extends javax.swing.JInternalFrame {
+    private CompradorData compradorData;
+    private FuncionData funcionData;
 
     /**
      * Creates new form NuevoTicket
      */
     public NuevoTicket() {
         initComponents();
+        compradorData = new CompradorData();
+        funcionData = new FuncionData();
+        cargarCompradores();
+        cargarFunciones();
     }
+    private void cargarCompradores() {
+    try {
+        CompradorData cData = new CompradorData();
+        List<Comprador> compradores = cData.listarCompradores();
+        for (Comprador c : compradores) {
+            CBoxComprador.addItem(c);
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al cargar compradores: " + e.getMessage());
+    }
+}
+
+
+private void cargarFunciones() {
+         try {
+        FuncionData fData = new FuncionData();
+        List<Funcion> funciones = fData.listarFunciones();
+        for (Funcion f : funciones) {
+            CBoxFuncion.addItem(f);
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al cargar funciones: " + e.getMessage());
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -32,22 +75,23 @@ public class NuevoTicket extends javax.swing.JInternalFrame {
         Fecha = new javax.swing.JLabel();
         Precio = new javax.swing.JLabel();
         TexFielTotal = new javax.swing.JTextField();
-        CBoxFuncion = new javax.swing.JComboBox<>();
-        CBoxComprador = new javax.swing.JComboBox<>();
+        CBoxFuncion = new javax.swing.JComboBox();
+        CBoxComprador = new javax.swing.JComboBox();
         DchooserFecha = new com.toedter.calendar.JDateChooser();
         ButGuardar = new javax.swing.JButton();
         ButCancelar = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(204, 204, 204));
+        setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
         setIconifiable(true);
         setTitle("Nuevo Ticket");
 
-        Titulo.setFont(new java.awt.Font("Arial Black", 2, 18)); // NOI18N
-        Titulo.setForeground(new java.awt.Color(0, 153, 255));
+        Titulo.setFont(new java.awt.Font("Calibri Light", 3, 24)); // NOI18N
+        Titulo.setForeground(new java.awt.Color(51, 51, 51));
         Titulo.setText("Nuevo Ticket");
         Titulo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
+        Comprador.setBackground(new java.awt.Color(153, 153, 153));
         Comprador.setText("Comprador:");
 
         Funcion.setText("Funcion");
@@ -56,10 +100,18 @@ public class NuevoTicket extends javax.swing.JInternalFrame {
 
         Precio.setText("Precio Total");
 
-        ButGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/iconos netbeans/guardar.png"))); // NOI18N
+        ButGuardar.setBackground(new java.awt.Color(102, 102, 102));
+        ButGuardar.setForeground(new java.awt.Color(0, 0, 0));
         ButGuardar.setText("Guardar");
         ButGuardar.setPreferredSize(new java.awt.Dimension(126, 57));
+        ButGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButGuardarActionPerformed(evt);
+            }
+        });
 
+        ButCancelar.setBackground(new java.awt.Color(102, 102, 102));
+        ButCancelar.setForeground(new java.awt.Color(0, 0, 0));
         ButCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/imagenes/close.png"))); // NOI18N
         ButCancelar.setText("Cancelar");
         ButCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -73,30 +125,25 @@ public class NuevoTicket extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(137, 137, 137)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(123, 123, 123)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Fecha)
-                                    .addComponent(Funcion)
-                                    .addComponent(Comprador)
-                                    .addComponent(Precio))
-                                .addGap(47, 47, 47))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(ButGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(CBoxFuncion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(DchooserFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(CBoxComprador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ButCancelar)
-                            .addComponent(TexFielTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(158, 158, 158)
-                        .addComponent(Titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(94, Short.MAX_VALUE))
+                    .addComponent(Fecha)
+                    .addComponent(Funcion)
+                    .addComponent(Comprador)
+                    .addComponent(Precio)
+                    .addComponent(ButGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(CBoxFuncion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(DchooserFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CBoxComprador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ButCancelar)
+                    .addComponent(TexFielTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(80, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(154, 154, 154))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,7 +170,7 @@ public class NuevoTicket extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ButCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
@@ -131,14 +178,63 @@ public class NuevoTicket extends javax.swing.JInternalFrame {
 
     private void ButCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButCancelarActionPerformed
         // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_ButCancelarActionPerformed
+
+    private void ButGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButGuardarActionPerformed
+        // TODO add your handling code here:
+         try {
+        
+        if (CBoxComprador.getSelectedItem() == null || CBoxFuncion.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un comprador y una funcion.");
+            return;
+        }
+        if (DchooserFecha.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar la fecha de compra.");
+            return;
+        }
+
+        
+        Comprador comprador = (Comprador) CBoxComprador.getSelectedItem();
+        Funcion funcion = (Funcion) CBoxFuncion.getSelectedItem();
+
+        
+        LocalDate fechaCompra = DchooserFecha.getDate()
+                .toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        DetalleTicket detalle = new DetalleTicket();
+        detalle.setEstado(true);
+
+        
+        TicketCompra ticket = new TicketCompra();
+        ticket.setComprador(comprador);
+        ticket.setDetalleTicket(detalle);
+        ticket.setFechaCompra(fechaCompra);
+        ticket.setFechaFuncion(LocalDate.now()); 
+        ticket.setMonto(Double.parseDouble(TexFielTotal.getText()));
+
+        
+        TicketData tData = new TicketData();
+        boolean exito = tData.insertarTicket(ticket);
+
+        if (exito) {
+            JOptionPane.showMessageDialog(this, "Ticket guardado con exito.");
+            this.dispose(); // cerrar el internalframe
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo guardar el ticket.");
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+    }
+    }//GEN-LAST:event_ButGuardarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButCancelar;
     private javax.swing.JButton ButGuardar;
-    private javax.swing.JComboBox<String> CBoxComprador;
-    private javax.swing.JComboBox<String> CBoxFuncion;
+    private javax.swing.JComboBox CBoxComprador;
+    private javax.swing.JComboBox CBoxFuncion;
     private javax.swing.JLabel Comprador;
     private com.toedter.calendar.JDateChooser DchooserFecha;
     private javax.swing.JLabel Fecha;
