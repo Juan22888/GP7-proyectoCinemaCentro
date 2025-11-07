@@ -79,6 +79,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
         butBuscarPorCartelera = new javax.swing.JButton();
         butGuardarCambios = new javax.swing.JButton();
         butReiniciarTabla = new javax.swing.JButton();
+        butEliminar = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -92,8 +93,6 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
         );
 
         setClosable(true);
-        setMaximizable(true);
-        setResizable(true);
 
         butCancelar.setText("Cancelar");
         butCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -164,6 +163,13 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
             }
         });
 
+        butEliminar.setText("Eliminar");
+        butEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butEliminarActionPerformed(evt);
+            }
+        });
+
         PeliculaDesktop.setLayer(butCancelar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         PeliculaDesktop.setLayer(butNuevaPelicula, javax.swing.JLayeredPane.DEFAULT_LAYER);
         PeliculaDesktop.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -175,6 +181,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
         PeliculaDesktop.setLayer(butBuscarPorCartelera, javax.swing.JLayeredPane.DEFAULT_LAYER);
         PeliculaDesktop.setLayer(butGuardarCambios, javax.swing.JLayeredPane.DEFAULT_LAYER);
         PeliculaDesktop.setLayer(butReiniciarTabla, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        PeliculaDesktop.setLayer(butEliminar, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout PeliculaDesktopLayout = new javax.swing.GroupLayout(PeliculaDesktop);
         PeliculaDesktop.setLayout(PeliculaDesktopLayout);
@@ -188,27 +195,29 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBuscarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(PeliculaDesktopLayout.createSequentialGroup()
-                        .addGap(83, 83, 83)
-                        .addComponent(butReiniciarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(butNuevaPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PeliculaDesktopLayout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PeliculaDesktopLayout.createSequentialGroup()
-                                .addGap(55, 55, 55)
-                                .addComponent(butBuscar)
-                                .addGap(18, 18, 18)
-                                .addComponent(butBuscarPorCartelera))))
-                    .addGroup(PeliculaDesktopLayout.createSequentialGroup()
                         .addGap(245, 245, 245)
                         .addComponent(jLabel1))
                     .addGroup(PeliculaDesktopLayout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 747, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PeliculaDesktopLayout.createSequentialGroup()
+                                .addComponent(butReiniciarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(PeliculaDesktopLayout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(butNuevaPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(butEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(PeliculaDesktopLayout.createSequentialGroup()
+                                        .addGap(269, 269, 269)
+                                        .addComponent(butBuscar)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(butBuscarPorCartelera))))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 747, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(42, Short.MAX_VALUE))
             .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(PeliculaDesktopLayout.createSequentialGroup()
@@ -231,14 +240,15 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
                     .addGroup(PeliculaDesktopLayout.createSequentialGroup()
                         .addGap(7, 7, 7)
                         .addComponent(txtBuscarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(butNuevaPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(butReiniciarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(butReiniciarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(butEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49))
             .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(PeliculaDesktopLayout.createSequentialGroup()
@@ -401,6 +411,52 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
         cargarPeliculas();
     }//GEN-LAST:event_butReiniciarTablaActionPerformed
 
+    private void butEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butEliminarActionPerformed
+       // 1. Obtener la fila seleccionada
+    int filaSeleccionada = TablaPeliculas.getSelectedRow();
+
+    // 2. Validar si hay una fila seleccionada
+    if (filaSeleccionada == -1) {
+        JOptionPane.showMessageDialog(this, "Error: Debe seleccionar una película de la tabla.", "Error al Eliminar", JOptionPane.ERROR_MESSAGE);
+        return; // No hacer nada si no hay selección
+    }
+
+    // 3. Pedir confirmación al usuario
+    int confirmacion = JOptionPane.showConfirmDialog(this, 
+            "¿Está seguro de que desea eliminar esta película?", 
+            "Confirmar Eliminación", 
+            JOptionPane.YES_NO_OPTION);
+
+    if (confirmacion == JOptionPane.YES_OPTION) {
+        try {
+            // 4. Obtener el ID de la fila seleccionada
+            // IMPORTANTE: Asumo que el ID (codPelicula) está en la primera columna (índice 0)
+            int idPelicula = (Integer) TablaPeliculas.getValueAt(filaSeleccionada, 0);
+
+            // 5. Llamar al método de PeliculaData
+            // (Asumo que tienes una instancia 'peliData')
+            boolean exito = peliculaData.eliminarPelicula(idPelicula);
+
+            // 6. Informar resultado y actualizar la tabla
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "Película eliminada exitosamente.");
+                
+                // Actualizar la tabla para que refleje el cambio
+                cargarPeliculas(); 
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo eliminar la película (ID no encontrado).", "Error", JOptionPane.WARNING_MESSAGE);
+            }
+
+        } catch (SQLException ex) {
+            // Capturar error de la base de datos (ej: clave foránea)
+            JOptionPane.showMessageDialog(this, "Error al eliminar: " + ex.getMessage(), "Error SQL", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassCastException cce) {
+            // Capturar error si la columna 0 no es un Integer
+            JOptionPane.showMessageDialog(this, "Error interno: No se pudo leer el ID de la tabla.", "Error de Tipo", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    }//GEN-LAST:event_butEliminarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane PeliculaDesktop;
@@ -408,6 +464,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
     private javax.swing.JButton butBuscar;
     private javax.swing.JButton butBuscarPorCartelera;
     private javax.swing.JButton butCancelar;
+    private javax.swing.JButton butEliminar;
     private javax.swing.JButton butGuardarCambios;
     private javax.swing.JButton butNuevaPelicula;
     private javax.swing.JButton butReiniciarTabla;
