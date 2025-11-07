@@ -232,7 +232,7 @@ public class PeliculaData {
 
     public List listarPeliculasEnCartelera() throws SQLException {
         List<Pelicula> peliculas = new ArrayList<>();
-        String sql = "SELECT * FROM pelicula WHERE enCartelera=1;
+        String sql = "SELECT * FROM pelicula WHERE enCartelera=1";
 
         try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
