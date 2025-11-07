@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-11-2025 a las 00:19:09
+-- Tiempo de generación: 06-11-2025 a las 16:04:19
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -34,19 +34,15 @@ CREATE TABLE `comprador` (
   `dni` int(11) NOT NULL,
   `nombre` varchar(20) NOT NULL,
   `fechaNac` date NOT NULL,
-  `password` varchar(20) NOT NULL,
-  `metodoPago` tinyint(1) NOT NULL
+  `password` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `comprador`
 --
 
-INSERT INTO `comprador` (`codComprador`, `dni`, `nombre`, `fechaNac`, `password`, `metodoPago`) VALUES
-(1, 14085034, 'Franco', '2004-06-07', 'Chamo123', 1),
-(2, 33848315, 'Fernando', '1994-09-17', 'Fercho123', 1),
-(3, 44838273, 'Juan', '2003-11-04', 'Juan123', 1),
-(4, 33981232, 'Federico', '1979-12-09', 'Fede123', 1);
+INSERT INTO `comprador` (`codComprador`, `dni`, `nombre`, `fechaNac`, `password`) VALUES
+(5, 45801072, 'Franco', '2004-06-07', 'Chamo123');
 
 -- --------------------------------------------------------
 
@@ -83,7 +79,7 @@ CREATE TABLE `funcion` (
 --
 
 INSERT INTO `funcion` (`codFuncion`, `codPelicula`, `idioma`, `es3d`, `subtitulada`, `horaInicio`, `horaFin`, `codSala`, `precioLugar`) VALUES
-(5, 23, 'Ingles', 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 10, 2500);
+(5, 23, 'Ingles', 1, 1, '2025-11-19 20:20:55', '2025-11-19 21:30:55', 10, 2500);
 
 -- --------------------------------------------------------
 
@@ -110,7 +106,7 @@ INSERT INTO `lugar` (`codLugar`, `fila`, `numero`, `estado`, `codFuncion`) VALUE
 (276, 'A', 4, 0, 5),
 (277, 'A', 5, 0, 5),
 (278, 'A', 6, 0, 5),
-(279, 'A', 7, 0, 5),
+(279, 'A', 7, 1, 5),
 (280, 'A', 8, 0, 5),
 (281, 'A', 9, 0, 5),
 (282, 'A', 10, 0, 5),
@@ -327,7 +323,9 @@ CREATE TABLE `pelicula` (
 --
 
 INSERT INTO `pelicula` (`codPelicula`, `titulo`, `director`, `actores`, `origen`, `genero`, `estreno`, `encartelera`) VALUES
-(23, 'Harry Potter', 'J.K Rowling', 'Ron Wesley, Harry Potter, Hermione', 'Britanico', 'Ciencia Ficcion', '2025-10-29', 1);
+(23, 'Harry Popotter', 'J.K Rowling', 'Ronie Wesley, Harry Potter, Hermione', 'Estados Unidos', 'Romantico', '2025-10-29', 1),
+(24, 'Mulan', 'Richard Hard', 'Eddie Philman, Laurel Williams', 'Estados Unidos', 'Animada', '2025-11-12', 1),
+(25, '28 Days Later', 'David Boyle', 'Frank Sinatra', 'Britanico', 'CIencia Ficcion', '2025-11-12', 0);
 
 -- --------------------------------------------------------
 
@@ -361,6 +359,7 @@ CREATE TABLE `ticketcompra` (
   `fechaCompra` date NOT NULL,
   `fechaFuncion` date NOT NULL,
   `monto` double NOT NULL,
+  `metodoPago` tinyint(1) NOT NULL,
   `codComprador` int(11) NOT NULL,
   `codDetalle` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -429,7 +428,7 @@ ALTER TABLE `ticketcompra`
 -- AUTO_INCREMENT de la tabla `comprador`
 --
 ALTER TABLE `comprador`
-  MODIFY `codComprador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `codComprador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `detalleticket`
@@ -453,7 +452,7 @@ ALTER TABLE `lugar`
 -- AUTO_INCREMENT de la tabla `pelicula`
 --
 ALTER TABLE `pelicula`
-  MODIFY `codPelicula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `codPelicula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `sala`
