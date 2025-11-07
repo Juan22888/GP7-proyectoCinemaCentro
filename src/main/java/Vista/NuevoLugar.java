@@ -61,9 +61,6 @@ public class NuevoLugar extends javax.swing.JInternalFrame {
         txtCapacidad = new java.awt.TextField();
 
         setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Nuevos Lugares");

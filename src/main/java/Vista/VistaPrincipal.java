@@ -27,8 +27,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private final PeliculaData peliculaData;
     private final SalaData salaData;
     private TicketData ticketData;
-   
+
     public VistaPrincipal(CompradorData CompradorData, DetalleTicketData detalleTicketData, FuncionData funcionData, LugarData lugarData, PeliculaData peliculaData, SalaData salaData, TicketData ticketData) {
+
         initComponents();
         this.CompradorData = CompradorData;
         this.detalleTicketData = detalleTicketData;
@@ -38,8 +39,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
         this.salaData = salaData;
         this.ticketData = ticketData;
     }
-    
-      public void abrirInternal(JInternalFrame nuevo) {
+
+    public void abrirInternal(JInternalFrame nuevo) {
         for (JInternalFrame frame : Escritorio.getAllFrames()) {
             frame.dispose();
         }
@@ -173,22 +174,22 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
     private void CompradorMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompradorMenuItemActionPerformed
         // TODO add your handling code here:
-           VistaComprador vc  = new VistaComprador(CompradorData);
-           abrirInternal(vc);
+        VistaComprador vc = new VistaComprador(CompradorData);
+        abrirInternal(vc);
     }//GEN-LAST:event_CompradorMenuItemActionPerformed
 
     private void CompradorMenuItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CompradorMenuItemMouseClicked
         // TODO add your handling code here:
-       
+
     }//GEN-LAST:event_CompradorMenuItemMouseClicked
 
     private void menuAdministracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAdministracionActionPerformed
-      
+
     }//GEN-LAST:event_menuAdministracionActionPerformed
 
     private void itemPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemPeliculaActionPerformed
-       VistaPelicula vp = new VistaPelicula(peliculaData);
-       abrirInternal(vp);
+        VistaPelicula vp = new VistaPelicula(peliculaData);
+        abrirInternal(vp);
     }//GEN-LAST:event_itemPeliculaActionPerformed
 
     private void itemPeliculaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemPeliculaMouseClicked
@@ -196,13 +197,13 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itemPeliculaMouseClicked
 
     private void itemLugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemLugarActionPerformed
-         VistaLugar vl = new VistaLugar(peliculaData,funcionData,lugarData);
-       abrirInternal(vl);
+        VistaLugar vl = new VistaLugar(peliculaData, funcionData, lugarData);
+        abrirInternal(vl);
     }//GEN-LAST:event_itemLugarActionPerformed
 
     private void itemFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemFuncionActionPerformed
         VistaFuncion vl = new VistaFuncion();
-       abrirInternal(vl);
+        abrirInternal(vl);
     }//GEN-LAST:event_itemFuncionActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

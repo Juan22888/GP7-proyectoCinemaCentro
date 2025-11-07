@@ -95,8 +95,6 @@ public class VistaLugar extends javax.swing.JInternalFrame {
         );
 
         setClosable(true);
-        setMaximizable(true);
-        setResizable(true);
 
         butCancelar.setText("Cancelar");
         butCancelar.addActionListener(new java.awt.event.ActionListener() {
