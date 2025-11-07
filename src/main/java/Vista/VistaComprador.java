@@ -3,9 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
 package Vista;
+
 import Modelo.Comprador;
 import Persistencia.CompradorData;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -16,36 +18,37 @@ import javax.swing.table.DefaultTableModel;
  */
 public class VistaComprador extends javax.swing.JInternalFrame {
 
-   private final CompradorData CompradorData; 
-    private DefaultTableModel modelo; 
+    private final CompradorData CompradorData;
+    private DefaultTableModel modelo;
 
     public VistaComprador(CompradorData CompradorData) {
         initComponents();
         this.CompradorData = CompradorData; // Asigna la instancia
-        
+
         prepararTabla();
         cargarTablaCompleta();
     }
- 
-   private void prepararTabla() {
+
+    private void prepararTabla() {
         modelo = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
                 // Hacemos que la columna 0 (DNI) NO sea editable.
                 // El resto (Nombre, FechaNac, Password, MetodoPago) SÍ lo serán.
-                return column != 0; 
+                return column != 0;
             }
         };
 
-        modelo.setColumnIdentifiers(new Object[]{"DNI", "Nombre", "Fecha de Nacimiento", "Password", "Metodo de Pago"});
-        compradorTable.setModel(modelo);
+        modelo.setColumnIdentifiers(new Object[]{"DNI", "Nombre", "Fecha de Nacimiento", "Password", "Estado"});
+        TablaCompradores.setModel(modelo);
     }
+
     private void cargarTablaCompleta() {
         modelo.setRowCount(0); // Limpiamos la tabla
-        
+
         // Llamamos al NUEVO método 
         List<Comprador> compradores = this.CompradorData.listarCompradores();
-        
+
         if (compradores == null) {
             JOptionPane.showMessageDialog(this, "Error al cargar la lista de compradores.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -57,46 +60,61 @@ public class VistaComprador extends javax.swing.JInternalFrame {
                 c.getNombre(),
                 c.getFechaNacimiento(),
                 c.getPassword(),
-                c.isMetodoPago() ? "Online" : "Taquilla" 
+                c.isEstado()
             });
         }
     }
-    
+
     private void cargarTablaFiltrada(Comprador c) {
-        modelo.setRowCount(0); 
+        modelo.setRowCount(0);
         modelo.addRow(new Object[]{
             c.getDni(),
             c.getNombre(),
             c.getFechaNacimiento(),
             c.getPassword(),
-            c.isMetodoPago() ? "Online" : "Taquilla"
+            c.isEstado()
         });
-    }                                        
-  
-    /**
-     * Botón Dar de Baja/Alta: (Baja Lógica)
-     */
-    private void btnAltaBajaActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        
-        JOptionPane.showMessageDialog(this, 
-                "Función no disponible.\nPara 'Dar de Baja/Alta', la tabla 'comprador' necesita \nuna columna 'estado' (activa/inactiva).", 
-                "Función no implementada", 
-                JOptionPane.INFORMATION_MESSAGE);
     }
- 
+
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        txtBucar = new javax.swing.JTextField();
-        btnBuscar = new javax.swing.JButton();
+        CompradorDesktop = new javax.swing.JDesktopPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        compradorTable = new javax.swing.JTable();
+        TablaCompradores = new javax.swing.JTable();
+        txtBucar = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        btnBuscar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
-        btnAltaBaja = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+
+        setClosable(true);
+
+        TablaCompradores.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "DNI", "Nombre", "Fecha De Nacimiento", "Password", "Estado"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TablaCompradores.setColumnSelectionAllowed(true);
+        jScrollPane1.setViewportView(TablaCompradores);
+        TablaCompradores.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         jLabel1.setText("Buscar Comprador (DNI):");
 
@@ -107,31 +125,14 @@ public class VistaComprador extends javax.swing.JInternalFrame {
             }
         });
 
-        compradorTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "DNI", "Nombre", "Fecha De Nacimiento", "Password", "Metodo de Pago"
-            }
-        ));
-        compradorTable.setColumnSelectionAllowed(true);
-        jScrollPane1.setViewportView(compradorTable);
-        compradorTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-
-        btnNuevo.setText("Nuevo");
+        btnNuevo.setText("Nuevo Comprador");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoActionPerformed(evt);
             }
         });
 
-        btnAltaBaja.setText("Dar de Baja/Alta");
-
-        btnActualizar.setText("Actualizar");
+        btnActualizar.setText("Guardar Cambios");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarActionPerformed(evt);
@@ -145,80 +146,206 @@ public class VistaComprador extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 102, 153));
+        jLabel2.setText("Gestion De Compradores");
+
+        CompradorDesktop.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        CompradorDesktop.setLayer(txtBucar, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        CompradorDesktop.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        CompradorDesktop.setLayer(btnBuscar, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        CompradorDesktop.setLayer(btnNuevo, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        CompradorDesktop.setLayer(btnActualizar, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        CompradorDesktop.setLayer(btnEliminar, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        CompradorDesktop.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout CompradorDesktopLayout = new javax.swing.GroupLayout(CompradorDesktop);
+        CompradorDesktop.setLayout(CompradorDesktopLayout);
+        CompradorDesktopLayout.setHorizontalGroup(
+            CompradorDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CompradorDesktopLayout.createSequentialGroup()
+                .addGroup(CompradorDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(CompradorDesktopLayout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtBucar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(btnBuscar))
+                    .addGroup(CompradorDesktopLayout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addGroup(CompradorDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(CompradorDesktopLayout.createSequentialGroup()
+                                .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(53, 53, 53)
+                                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(53, 53, 53)
+                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(CompradorDesktopLayout.createSequentialGroup()
+                        .addGap(155, 155, 155)
+                        .addComponent(jLabel2)))
+                .addContainerGap(61, Short.MAX_VALUE))
+        );
+        CompradorDesktopLayout.setVerticalGroup(
+            CompradorDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CompradorDesktopLayout.createSequentialGroup()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addGroup(CompradorDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtBucar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(btnBuscar))
+                .addGap(72, 72, 72)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
+                .addGroup(CompradorDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(96, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(80, 80, 80)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBucar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnBuscar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAltaBaja)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6)))))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(CompradorDesktop))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtBucar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar))
-                .addGap(30, 30, 30)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(104, 104, 104)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnAltaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(96, 96, 96))
+            .addComponent(CompradorDesktop)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // 1. Obtener la fila seleccionada
+        int filaSeleccionada = TablaCompradores.getSelectedRow();
+
+        // 2. Validar si hay una fila seleccionada
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Error: Debe seleccionar un comprador de la tabla.", "Error al Eliminar", JOptionPane.ERROR_MESSAGE);
+            return; // No hacer nada si no hay selección
+        }
+
+     
+        int confirmacion = JOptionPane.showConfirmDialog(this,
+                "¿Está seguro de que desea eliminar este comprador?",
+                "Confirmar Eliminación",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            try {
+               
+                int dni = (Integer) TablaCompradores.getValueAt(filaSeleccionada, 0);
+
+            
+                boolean exito = CompradorData.eliminarCompradorPorDni(dni);
+
+                // 6. Informar resultado y actualizar la tabla
+                if (exito) {
+                    JOptionPane.showMessageDialog(this, "Comprador eliminado exitosamente.");
+
+                    // Actualizar la tabla para que refleje el cambio
+                    cargarTablaCompleta();
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se pudo eliminar el comprador (dni no encontrado).", "Error", JOptionPane.WARNING_MESSAGE);
+                }
+
+            } catch (SQLException ex) {
+                // Capturar error de la base de datos (ej: clave foránea)
+                JOptionPane.showMessageDialog(this, "Error al eliminar: " + ex.getMessage(), "Error SQL", JOptionPane.ERROR_MESSAGE);
+            } catch (ClassCastException cce) {
+                // Capturar error si la columna 0 no es un Integer
+                JOptionPane.showMessageDialog(this, "Error interno: No se pudo leer el ID de la tabla.", "Error de Tipo", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+
+        if (TablaCompradores.isEditing()) {
+            TablaCompradores.getCellEditor().stopCellEditing();
+        }
+
+        int filaSeleccionada = TablaCompradores.getSelectedRow();
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila para modificar.", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+
+            int dni = Integer.parseInt(TablaCompradores.getValueAt(filaSeleccionada, 0).toString());
+            String nombre = TablaCompradores.getValueAt(filaSeleccionada, 1).toString();
+            String password = TablaCompradores.getValueAt(filaSeleccionada, 3).toString();
+            LocalDate fechaNacimiento = LocalDate.parse(TablaCompradores.getValueAt(filaSeleccionada, 2).toString());
+            boolean estado = Boolean.parseBoolean(TablaCompradores.getValueAt(filaSeleccionada, 4).toString());
+
+            Comprador compradorModificado = null;
+
+            compradorModificado = CompradorData.buscarCompradorPorDni(dni);
+
+            boolean exito = CompradorData.actualizarCompradorPorDni(compradorModificado);
+
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "¡El comprador se modifico correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cargarTablaCompleta();
+            } else {
+
+                JOptionPane.showMessageDialog(this,
+                        "El comprador no se pudo actualizar (0 filas afectadas).",
+                        "Error de Actualización",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+
+        } catch (NumberFormatException e) {
+            // Error si el ID o algún número de la tabla no es válido
+            JOptionPane.showMessageDialog(this, "Error en el formato de los datos de la tabla.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
+        } catch (java.time.format.DateTimeParseException e) {
+            // Error si la fecha de la tabla no tiene el formato "YYYY-MM-DD"
+            JOptionPane.showMessageDialog(this, "Error en el formato de la fecha. Use YYYY-MM-DD.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalArgumentException ex) {
+            // ¡Aquí capturamos NUESTRAS validaciones de negocio!
+            // (Ej: "El título debe tener al menos 5 caracteres")
+            JOptionPane.showMessageDialog(this, "Error de validación: " + ex.getMessage(), "Datos Incorrectos", JOptionPane.WARNING_MESSAGE);
+        } catch (SQLException ex) {
+            // Error de la base de datos (conexión, clave duplicada, etc.)
+            JOptionPane.showMessageDialog(this, "Error al guardar en la base de datos: " + ex.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            // Captura cualquier otro error inesperado
+            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, "Aquí se debe abrir el formulario 'VistaNuevoComprador'.");
+         NuevoComprador vp = new NuevoComprador(CompradorData);
+        CompradorDesktop.add(vp);
+        vp.setVisible(true);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         String dniTexto = txtBucar.getText();
-        
+
         if (dniTexto.isEmpty()) {
             cargarTablaCompleta();
             return;
         }
-        
+
         try {
             int dni = Integer.parseInt(dniTexto);
             // Llamamos al NUEVO método
             Comprador c = this.CompradorData.buscarCompradorPorDni(dni);
-            
+
             if (c != null) {
-                cargarTablaFiltrada(c); 
+                cargarTablaFiltrada(c);
             } else {
                 JOptionPane.showMessageDialog(this, "No se encontró ningún comprador con ese DNI.", "Búsqueda", JOptionPane.WARNING_MESSAGE);
                 modelo.setRowCount(0); // Limpia la tabla si no hay resultados
@@ -228,107 +355,16 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-       int filaSeleccionada = compradorTable.getSelectedRow();
-        
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione un comprador de la tabla para actualizar.", "Error", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
- 
-        if (compradorTable.isEditing()) {
-            compradorTable.getCellEditor().stopCellEditing();
-        }
-
-        try {
-           
-            int dni = (Integer) modelo.getValueAt(filaSeleccionada, 0);
-            String nombre = (String) modelo.getValueAt(filaSeleccionada, 1);
-            
-       
-            Object fechaObj = modelo.getValueAt(filaSeleccionada, 2);
-            java.time.LocalDate fechaNac;
-            if (fechaObj instanceof java.time.LocalDate) {
-                fechaNac = (java.time.LocalDate) fechaObj;
-            } else {
-                fechaNac = java.time.LocalDate.parse(fechaObj.toString());
-            }
-            
-            String password = (String) modelo.getValueAt(filaSeleccionada, 3);
-            
-          
-            Object metodoObj = modelo.getValueAt(filaSeleccionada, 4);
-            boolean metodoPago;
-            if (metodoObj instanceof Boolean) {
-                metodoPago = (Boolean) metodoObj;
-            } else {
-                metodoPago = metodoObj.toString().equalsIgnoreCase("Online");
-            }
-
-      
-            boolean exito = CompradorData.actualizarCompradorPorDni(dni, nombre, fechaNac, password, metodoPago);
-
-            if (exito) {
-                JOptionPane.showMessageDialog(this, "Comprador actualizado exitosamente.");
-            } else {
-                JOptionPane.showMessageDialog(this, "Error: No se pudo actualizar al comprador.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-
-        } catch (java.time.format.DateTimeParseException e) {
-            JOptionPane.showMessageDialog(this, "Error en el formato de la fecha. Use YYYY-MM-DD.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al procesar los datos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        
-      
-        cargarTablaCompleta();
-    }//GEN-LAST:event_btnActualizarActionPerformed
-
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
-        int filaSeleccionada = compradorTable.getSelectedRow();
-        
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione un comprador de la tabla.", "Error", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        int dni = (Integer) modelo.getValueAt(filaSeleccionada, 0);
-        String nombre = (String) modelo.getValueAt(filaSeleccionada, 1);
-
-        int confirm = JOptionPane.showConfirmDialog(this, 
-                "¿Está seguro que desea ELIMINAR permanentemente a " + nombre + " (DNI: " + dni + ")?",
-                "Confirmar Eliminación", 
-                JOptionPane.YES_NO_OPTION, 
-                JOptionPane.ERROR_MESSAGE);
-        
-        if (confirm == JOptionPane.YES_OPTION) {
-            try {
-                // Llamamos al NUEVO método
-                boolean exito = this.CompradorData.eliminarCompradorPorDni(dni);
-                if (exito) {
-                    JOptionPane.showMessageDialog(this, "Comprador eliminado exitosamente.");
-                    cargarTablaCompleta(); // Recargamos la tabla
-                } else {
-                    JOptionPane.showMessageDialog(this, "Error: No se pudo eliminar al comprador (DNI no encontrado).", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (SQLException ex) {
-                // Esto puede pasar si el comprador tiene tickets asociados (Fallo de Foreign Key)
-                JOptionPane.showMessageDialog(this, "Error: No se puede eliminar al comprador. \nPuede que tenga tickets o compras asociadas.", "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }//GEN-LAST:event_btnEliminarActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDesktopPane CompradorDesktop;
+    private javax.swing.JTable TablaCompradores;
     private javax.swing.JButton btnActualizar;
-    private javax.swing.JButton btnAltaBaja;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JTable compradorTable;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtBucar;
     // End of variables declaration//GEN-END:variables

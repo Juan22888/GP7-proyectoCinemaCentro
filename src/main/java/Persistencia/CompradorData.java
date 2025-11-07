@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -27,14 +28,47 @@ public class CompradorData {
         this.con = Conexion.buscarConexion();
     }
 
+    private void validarComprador(Comprador c) throws IllegalArgumentException {
+        if (c == null) {
+            throw new IllegalArgumentException("El objeto Comprador no puede ser nulo.");
+        }
+        if (c.getDni() <= 0) {
+            // Asumiendo que el DNI debe ser un número positivo
+            throw new IllegalArgumentException("El DNI debe ser un número positivo.");
+        }
+        if (c.getNombre() == null || c.getNombre().trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre no puede estar vacío.");
+        }
+        if (c.getNombre().length() > 100) { // Ejemplo: Regla de longitud
+            throw new IllegalArgumentException("El nombre no puede tener más de 100 caracteres.");
+        }
+        if (c.getFechaNacimiento() == null) {
+            throw new IllegalArgumentException("La fecha de nacimiento no puede ser nula.");
+        }
+        if (c.getFechaNacimiento().isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("La fecha de nacimiento no puede ser futura.");
+        }
+        if (c.getPassword() == null || c.getPassword().length() < 8) {
+            // Ejemplo: Regla de contraseña
+            throw new IllegalArgumentException("La contraseña no puede ser nula y debe tener al menos 8 caracteres.");
+        }
+    }
+
     public boolean insertarComprador(Comprador c) throws SQLException {
-        String sql = "INSERT INTO comprador (dni, nombre, fechaNacimiento, password, metodoPago)" + "VALUES (?, ?, ?, ?, ?)";
+
+        try {
+            validarComprador(c);
+        } catch (IllegalArgumentException ex) {
+            throw new SQLException("Datos de comprador inválidos: " + ex.getMessage());
+        }
+
+        String sql = "INSERT INTO comprador (dni, nombre, fechaNac, password, estado)" + "VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, c.getDni());
             ps.setString(2, c.getNombre());
             ps.setDate(3, Date.valueOf(c.getFechaNacimiento()));
             ps.setString(4, c.getPassword());
-            ps.setBoolean(5, c.isMetodoPago());
+            ps.setBoolean(5, c.isEstado());
 
             int filasAfectadas = ps.executeUpdate();
             return filasAfectadas > 0;
@@ -55,10 +89,9 @@ public class CompradorData {
                 comprador.setCodComprador(rs.getInt("codComprador"));
                 comprador.setDni(rs.getInt("dni"));
                 comprador.setNombre(rs.getString("nombre"));
-                comprador.setFechaNacimiento(rs.getDate("fechaNacimiento").toLocalDate());
+                comprador.setFechaNacimiento(rs.getDate("fechaNac").toLocalDate());
                 comprador.setPassword(rs.getString("password"));
-                comprador.setMetodoPago(rs.getBoolean("metodoPago"));
-
+                comprador.setEstado(rs.getBoolean("estado"));
             }
             rs.close();
         } catch (SQLException ex) {
@@ -67,26 +100,23 @@ public class CompradorData {
         return comprador;
     }
 
-    public boolean actualizarComprador(int id, String columna, Object dato) throws Exception {
-        if (!columna.equals("dni") && !columna.equals("nombre")
-                && !columna.equals("fechaNacimiento") && !columna.equals("password")
-                && !columna.equals("metodoPago")) {
-            throw new IllegalArgumentException("Columna no valida: " + columna);
+    public boolean actualizarComprador(Comprador c) throws Exception {
+
+        try {
+            validarComprador(c); // Reutilizamos la validación
+        } catch (IllegalArgumentException ex) {
+            throw new SQLException("Datos de comprador inválidos: " + ex.getMessage());
         }
-       String Sql = "UPDATE comprador SET " + columna + " = ? WHERE codComprador = ?";
-        try (PreparedStatement ps = con.prepareStatement(Sql)) {
-            if (dato instanceof String) {
-                ps.setString(1, (String) dato);
-            } else if (dato instanceof Boolean) {
-                ps.setBoolean(1, (Boolean) dato);
-            } else if (dato instanceof java.sql.Date) {
-                ps.setDate(1, (java.sql.Date) dato);
-            } else if (dato instanceof Integer) {
-                ps.setInt(1, (int) dato);
-            } else {
-                throw new IllegalArgumentException("El tipo de dato no es correcto para actualizar.");
-            }
-            ps.setInt(2, id);
+
+        String sql = "UPDATE comprador SET dni = ?, nombre = ?, fechaNac = ?, password = ?, estado = ? WHERE codComprador = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, c.getDni());
+            ps.setString(2, c.getNombre());
+            ps.setDate(3, Date.valueOf(c.getFechaNacimiento()));
+            ps.setString(4, c.getPassword());
+            ps.setBoolean(5, c.isEstado());
+            ps.setInt(6, c.getCodComprador());
             int filasAfectadas = ps.executeUpdate();
             return filasAfectadas > 0;
         } catch (SQLException ex) {
@@ -95,7 +125,7 @@ public class CompradorData {
     }
 
     public boolean bajaLogicaComprador(int id) throws SQLException {
-        String sql = "UPDATE comprador SET metodoPago = 1 WHERE codComprador=?";
+        String sql = "UPDATE comprador SET estado = 0 WHERE codComprador=?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             int filas = ps.executeUpdate();
@@ -106,7 +136,7 @@ public class CompradorData {
     }
 
     public boolean altaLogicaComprador(int id) throws SQLException {
-        String sql = "UPDATE comprador SET metodoPago = 1 WHERE codComprador =?";
+        String sql = "UPDATE comprador SET estado = 1 WHERE codComprador =?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             int filas = ps.executeUpdate();
@@ -127,10 +157,11 @@ public class CompradorData {
             throw new SQLException("Error al eliminar el comprador: " + ex.getMessage());
         }
     }
+
     public List<Comprador> listarCompradores() {
         String sql = "SELECT * FROM comprador";
         List<Comprador> compradores = new ArrayList<>();
-        
+
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -139,9 +170,8 @@ public class CompradorData {
                 comprador.setDni(rs.getInt("dni"));
                 comprador.setNombre(rs.getString("nombre"));
                 comprador.setFechaNacimiento(rs.getDate("fechaNac").toLocalDate()); // Corregido de 'fechaNacimiento'
-                comprador.setPassword(rs.getString("password")); // (Tu modelo usa getPassword() y setPassword()?)
-                comprador.setMetodoPago(rs.getBoolean("metodoPago"));
-                
+                comprador.setPassword(rs.getString("password")); // (Tu modelo usa getPassword() y setPassword()?
+                comprador.setEstado(rs.getBoolean("estado"));
                 compradores.add(comprador);
             }
             rs.close();
@@ -150,6 +180,7 @@ public class CompradorData {
         }
         return compradores;
     }
+
     public Comprador buscarCompradorPorDni(int dni) {
         String sql = "SELECT * FROM comprador WHERE dni = ?";
         Comprador comprador = null;
@@ -163,7 +194,7 @@ public class CompradorData {
                 comprador.setNombre(rs.getString("nombre"));
                 comprador.setFechaNacimiento(rs.getDate("fechaNac").toLocalDate()); // Corregido de 'fechaNacimiento'
                 comprador.setPassword(rs.getString("password"));
-                comprador.setMetodoPago(rs.getBoolean("metodoPago"));
+                comprador.setEstado(rs.getBoolean("estado"));
             }
             rs.close();
         } catch (SQLException ex) {
@@ -171,6 +202,7 @@ public class CompradorData {
         }
         return comprador;
     }
+
     public boolean eliminarCompradorPorDni(int dni) throws SQLException {
         String sql = "DELETE FROM comprador WHERE dni = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -181,23 +213,28 @@ public class CompradorData {
             throw new SQLException("Error al eliminar el comprador por DNI: " + ex.getMessage());
         }
     }
-    public boolean actualizarCompradorPorDni(int dni, String nombre, java.time.LocalDate fechaNac, String password, boolean metodoPago) {
-        // Tu tabla usa 'fechaNac'
-        String sql = "UPDATE comprador SET nombre = ?, fechaNac = ?, password = ?, metodoPago = ? WHERE dni = ?";
+
+    public boolean actualizarCompradorPorDni(Comprador c) throws SQLException {
         
+        try {
+            validarComprador(c); // Reutilizamos la validación
+        } catch (IllegalArgumentException ex) {
+            throw new SQLException("Datos de comprador inválidos: " + ex.getMessage());
+        }
+
+        String sql = "UPDATE comprador SET nombre = ?, fechaNac = ?, password = ?, estado = ? WHERE dni = ?";
+
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, nombre);
-            ps.setDate(2, Date.valueOf(fechaNac));
-            ps.setString(3, password);
-            ps.setBoolean(4, metodoPago);
-            ps.setInt(5, dni);
-            
-            int filas = ps.executeUpdate();
-            return filas > 0;
-            
+           
+            ps.setString(1, c.getNombre());
+            ps.setDate(2, Date.valueOf(c.getFechaNacimiento()));
+            ps.setString(3, c.getPassword());
+            ps.setBoolean(4, c.isEstado());
+            ps.setInt(5, c.getDni());
+            int filasAfectadas = ps.executeUpdate();
+            return filasAfectadas > 0;
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al actualizar el comprador por DNI: " + ex.getMessage());
-            return false;
+            throw new SQLException("no se pudo actualizar el comprador: " + ex.getMessage());
         }
     }
 }

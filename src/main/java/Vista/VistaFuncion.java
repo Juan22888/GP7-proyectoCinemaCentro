@@ -43,7 +43,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         try {
             List<Pelicula> lista = pData.listarPeliculas();
             for (Pelicula p : lista) {
-                BoxPeliculas.addItem(p);
+                BoxPeliculas.addItem(p.getTitulo());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al cargar las peliculas: " + e.getMessage());
@@ -55,7 +55,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         try {
             List<Sala> lista = sData.listarSalas();
             for (Sala s : lista) {
-                BoxSalas.addItem(s);
+                BoxSalas.addItem(s.getNroSala());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al cargar las salas: " + e.getMessage());
@@ -103,6 +103,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         ButMostrar = new javax.swing.JButton();
 
         setClosable(true);
+        setForeground(java.awt.Color.white);
 
         TablaFunciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -229,9 +230,9 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                                     .addComponent(BoxIdiomas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(TexFielInicio)
                                     .addComponent(TexFielFin, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(TexFielPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(TexFielPrecio)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(CBox3D))
                                     .addComponent(BoxPeliculas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(208, 208, 208))))
