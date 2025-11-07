@@ -38,7 +38,7 @@ public class NuevoTicket extends javax.swing.JInternalFrame {
         ButGuardar = new javax.swing.JButton();
         ButCancelar = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(102, 102, 102));
+        setBackground(new java.awt.Color(204, 204, 204));
         setClosable(true);
         setIconifiable(true);
         setTitle("Nuevo Ticket");
@@ -46,6 +46,7 @@ public class NuevoTicket extends javax.swing.JInternalFrame {
         Titulo.setFont(new java.awt.Font("Arial Black", 2, 18)); // NOI18N
         Titulo.setForeground(new java.awt.Color(0, 153, 255));
         Titulo.setText("Nuevo Ticket");
+        Titulo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         Comprador.setText("Comprador:");
 
@@ -55,8 +56,11 @@ public class NuevoTicket extends javax.swing.JInternalFrame {
 
         Precio.setText("Precio Total");
 
+        ButGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/iconos netbeans/guardar.png"))); // NOI18N
         ButGuardar.setText("Guardar");
+        ButGuardar.setPreferredSize(new java.awt.Dimension(126, 57));
 
+        ButCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/imagenes/close.png"))); // NOI18N
         ButCancelar.setText("Cancelar");
         ButCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -69,26 +73,30 @@ public class NuevoTicket extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(123, 123, 123)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Fecha)
-                    .addComponent(Funcion)
-                    .addComponent(Comprador)
-                    .addComponent(Precio)
-                    .addComponent(ButGuardar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(CBoxFuncion, 0, 99, Short.MAX_VALUE)
-                    .addComponent(DchooserFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CBoxComprador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(ButCancelar)
-                        .addComponent(TexFielTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(98, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(130, 130, 130))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(123, 123, 123)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Fecha)
+                                    .addComponent(Funcion)
+                                    .addComponent(Comprador)
+                                    .addComponent(Precio))
+                                .addGap(47, 47, 47))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(ButGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(CBoxFuncion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(DchooserFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CBoxComprador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ButCancelar)
+                            .addComponent(TexFielTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(158, 158, 158)
+                        .addComponent(Titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,9 +121,9 @@ public class NuevoTicket extends javax.swing.JInternalFrame {
                     .addComponent(TexFielTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(62, 62, 62)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ButGuardar)
-                    .addComponent(ButCancelar))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addComponent(ButGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ButCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();

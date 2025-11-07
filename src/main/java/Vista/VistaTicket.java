@@ -70,6 +70,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
 
         ButMostrar.setText("Mostrar Todos");
 
+        ButBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/imagenes/lupa.png"))); // NOI18N
         ButBuscar.setText("Buscar");
 
         CboxComprador.setForeground(new java.awt.Color(0, 0, 0));
@@ -95,15 +96,12 @@ public class VistaTicket extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addComponent(jScrollPane1))
                     .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                        .addGap(188, 188, 188)
-                        .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(CboxComprador, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(ButBuscar)))
+                        .addGap(141, 141, 141)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(CboxComprador, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(ButBuscar)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
@@ -117,16 +115,19 @@ public class VistaTicket extends javax.swing.JInternalFrame {
                 .addComponent(ButLogica)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ButMostrar)
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addContainerGap(115, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(180, 180, 180))
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ButBuscar)
                     .addComponent(CboxComprador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -145,7 +146,10 @@ public class VistaTicket extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jDesktopPane1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
