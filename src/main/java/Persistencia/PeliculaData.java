@@ -59,7 +59,11 @@ public class PeliculaData {
 
     public boolean insertarPelicula(Pelicula p) throws SQLException {
 
-        validarPelicula(p);
+        try {
+            validarPelicula(p);
+        } catch (IllegalArgumentException ex) {
+            throw new SQLException("Datos de pelicula inválidos: " + ex.getMessage());
+        }
 
         String sql = "INSERT INTO pelicula (titulo, director, actores, origen, genero, estreno, enCartelera) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -120,7 +124,11 @@ public class PeliculaData {
         if (pelicula.getCodPelicula() <= 0) { // Asumiendo que tienes un getIdPelicula()
             throw new IllegalArgumentException("El ID de la película no es válido para actualizar.");
         }
-        validarPelicula(pelicula);
+        try {
+            validarPelicula(pelicula);
+        } catch (IllegalArgumentException ex) {
+            throw new SQLException("Datos de pelicula inválidos: " + ex.getMessage());
+        }
 
         String sql = "UPDATE pelicula SET titulo=?, director=?, actores=?, origen=?, genero=?, estreno=?, enCartelera=? WHERE codPelicula = ?";
 
