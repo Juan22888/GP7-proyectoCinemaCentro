@@ -4,16 +4,24 @@
  */
 package Vista;
 
+import Modelo.Comprador;
+import Persistencia.CompradorData;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author FRANCO
  */
 public class NuevoComprador extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form NuevoComprador
-     */
-    public NuevoComprador() {
+    CompradorData compradorData;
+
+    public NuevoComprador(CompradorData compradorData) {
+        this.compradorData = compradorData;
         initComponents();
     }
 
@@ -26,31 +34,379 @@ public class NuevoComprador extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        label1 = new java.awt.Label();
+        jLabel3 = new javax.swing.JLabel();
+        txtTitulo = new javax.swing.JTextField();
+        txtDirector = new javax.swing.JTextField();
+        txtActores = new javax.swing.JTextField();
+        butAgregar = new javax.swing.JButton();
+        txtOrigen = new javax.swing.JTextField();
+        butCancelar = new javax.swing.JButton();
+        txtGenero = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        tbutEnCartelera = new javax.swing.JToggleButton();
+        dateEstreno = new com.toedter.calendar.JDateChooser();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        butAgregar1 = new javax.swing.JButton();
+        txtDni = new javax.swing.JTextField();
+        butCancelar1 = new javax.swing.JButton();
+        txtNombre = new javax.swing.JTextField();
+        tbutEstado = new javax.swing.JToggleButton();
+        dateFechaNacimiento = new com.toedter.calendar.JDateChooser();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JTextField();
 
-        label1.setText("Nuevo Comprador");
+        jLabel3.setText("(Por defecto es NO)");
+
+        txtTitulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTituloActionPerformed(evt);
+            }
+        });
+
+        txtDirector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDirectorActionPerformed(evt);
+            }
+        });
+
+        txtActores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtActoresActionPerformed(evt);
+            }
+        });
+
+        butAgregar.setText("Agregar");
+        butAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butAgregarActionPerformed(evt);
+            }
+        });
+
+        txtOrigen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtOrigenActionPerformed(evt);
+            }
+        });
+
+        butCancelar.setText("Cancelar");
+        butCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butCancelarActionPerformed(evt);
+            }
+        });
+        butCancelar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butCancelarKeyReleased(evt);
+            }
+        });
+
+        txtGenero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtGeneroActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("En Cartelera:");
+
+        tbutEnCartelera.setText("Si/No");
+        tbutEnCartelera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tbutEnCarteleraActionPerformed(evt);
+            }
+        });
+
+        setClosable(true);
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 102, 153));
+        jLabel2.setText("Nuevo Comprador");
+
+        jLabel4.setText("(Por defecto es NO)");
+
+        butAgregar1.setText("Agregar");
+        butAgregar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butAgregar1ActionPerformed(evt);
+            }
+        });
+
+        txtDni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDniActionPerformed(evt);
+            }
+        });
+
+        butCancelar1.setText("Cancelar");
+        butCancelar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butCancelar1ActionPerformed(evt);
+            }
+        });
+        butCancelar1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butCancelar1KeyReleased(evt);
+            }
+        });
+
+        txtNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreActionPerformed(evt);
+            }
+        });
+
+        tbutEstado.setText("Si/No");
+        tbutEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tbutEstadoActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("DNI");
+
+        jLabel6.setText("Nombre");
+
+        jLabel7.setText("Fecha de nacimiento");
+
+        jLabel8.setText("Password");
+
+        txtPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPasswordActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(181, 181, 181)
-                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(butAgregar1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(butCancelar1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dateFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(103, 103, 103))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(tbutEstado)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel4))
+                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 377, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dateFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tbutEstado)
+                    .addComponent(jLabel4))
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(butAgregar1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(butCancelar1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(53, 53, 53))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void limpiarCampos() {
+        Date date = null;
+        dateFechaNacimiento.setDate(date);
+        txtNombre.setText("");
+        txtDni.setText("");
+        txtTitulo.setText("");
+        txtPassword.setText("");
+    }
+    private void txtTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTituloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTituloActionPerformed
+
+    private void txtDirectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDirectorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDirectorActionPerformed
+
+    private void txtActoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtActoresActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtActoresActionPerformed
+
+    private void butAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butAgregarActionPerformed
+
+
+    }//GEN-LAST:event_butAgregarActionPerformed
+
+    private void txtOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOrigenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtOrigenActionPerformed
+
+    private void butCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelarActionPerformed
+
+        limpiarCampos();
+    }//GEN-LAST:event_butCancelarActionPerformed
+
+    private void butCancelarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butCancelarKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_butCancelarKeyReleased
+
+    private void txtGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGeneroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtGeneroActionPerformed
+
+    private void tbutEnCarteleraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbutEnCarteleraActionPerformed
+
+    }//GEN-LAST:event_tbutEnCarteleraActionPerformed
+
+    private void butAgregar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butAgregar1ActionPerformed
+        String txtdni = txtDni.getText();
+        String txtnombre = txtNombre.getText();
+        String txtpassword = txtPassword.getText();
+        boolean txtEstado = false;
+        if (tbutEstado.isSelected()) {
+            txtEstado = true;
+        }
+
+        Date dateFechaNac = dateFechaNacimiento.getDate();
+
+        if (txtdni.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese un dni", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (txtnombre.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese un nombre", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (txtpassword.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese una contraseña", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (dateEstreno == null) {
+            JOptionPane.showMessageDialog(this, "Ingrese la fecha de nacimiento", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        //Conversion+
+        int dni = Integer.parseInt(txtdni);
+        LocalDate fechaNacimiento = dateFechaNac.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        Comprador comprador = new Comprador(-1, dni, txtnombre, fechaNacimiento, txtpassword, txtEstado);
+
+        // --- 3. MANEJO DE ERRORES DE LÓGICA Y BASE DE DATOS ---
+        try {
+
+            if (compradorData.insertarComprador(comprador)) {
+                JOptionPane.showMessageDialog(this, "Comprador guardado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                limpiarCampos();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "El comprador no se pudo guardar (filas no afectadas).", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (IllegalArgumentException ex) {
+
+            JOptionPane.showMessageDialog(this, "Error de validación: " + ex.getMessage(), "Datos Incorrectos", JOptionPane.WARNING_MESSAGE);
+
+        } catch (SQLException ex) {
+
+            JOptionPane.showMessageDialog(this, "Error de base de datos: " + ex.getMessage(), "Error SQL", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_butAgregar1ActionPerformed
+
+    private void txtDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDniActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDniActionPerformed
+
+    private void butCancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelar1ActionPerformed
+        limpiarCampos();
+    }//GEN-LAST:event_butCancelar1ActionPerformed
+
+    private void butCancelar1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butCancelar1KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_butCancelar1KeyReleased
+
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void tbutEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbutEstadoActionPerformed
+
+    }//GEN-LAST:event_tbutEstadoActionPerformed
+
+    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPasswordActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.Label label1;
+    private javax.swing.JButton butAgregar;
+    private javax.swing.JButton butAgregar1;
+    private javax.swing.JButton butCancelar;
+    private javax.swing.JButton butCancelar1;
+    private com.toedter.calendar.JDateChooser dateEstreno;
+    private com.toedter.calendar.JDateChooser dateFechaNacimiento;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JToggleButton tbutEnCartelera;
+    private javax.swing.JToggleButton tbutEstado;
+    private javax.swing.JTextField txtActores;
+    private javax.swing.JTextField txtDirector;
+    private javax.swing.JTextField txtDni;
+    private javax.swing.JTextField txtGenero;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtOrigen;
+    private javax.swing.JTextField txtPassword;
+    private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
 }
