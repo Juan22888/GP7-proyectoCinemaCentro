@@ -296,19 +296,19 @@ public class NuevaPelicula extends javax.swing.JInternalFrame {
 
             if (peliculaData.insertarPelicula(pelicula)) {
                 JOptionPane.showMessageDialog(this, "Película guardada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-               
-                limpiarCampos(); 
-                
+
+                limpiarCampos();
+
             } else {
                 JOptionPane.showMessageDialog(this, "La película no se pudo guardar (filas no afectadas).", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (IllegalArgumentException ex) {
-            
+
             JOptionPane.showMessageDialog(this, "Error de validación: " + ex.getMessage(), "Datos Incorrectos", JOptionPane.WARNING_MESSAGE);
 
         } catch (SQLException ex) {
-           
+
             JOptionPane.showMessageDialog(this, "Error de base de datos: " + ex.getMessage(), "Error SQL", JOptionPane.ERROR_MESSAGE);
         }
 
@@ -336,13 +336,7 @@ public class NuevaPelicula extends javax.swing.JInternalFrame {
 
     private void butCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelarActionPerformed
 
-        txtTitulo.setText("");
-        txtDirector.setText("");
-        txtActores.setText("");
-        Date date = null;
-        dateEstreno.setDate(date);
-        txtOrigen.setText("");
-        txtGenero.setText("");
+        limpiarCampos();
 
     }//GEN-LAST:event_butCancelarActionPerformed
 

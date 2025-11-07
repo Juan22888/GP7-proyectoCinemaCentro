@@ -126,7 +126,6 @@ public class PeliculaData {
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
 
-            
             ps.setString(1, pelicula.getTitulo());
             ps.setString(2, pelicula.getDirector());
             ps.setString(3, pelicula.getActores());
@@ -135,8 +134,7 @@ public class PeliculaData {
             ps.setDate(6, Date.valueOf(pelicula.getEstreno()));
             ps.setBoolean(7, pelicula.isEnCartelera());
 
-            
-            ps.setInt(8, pelicula.getCodPelicula()); 
+            ps.setInt(8, pelicula.getCodPelicula());
 
             int filasAfectadas = ps.executeUpdate();
             return (filasAfectadas > 0);
