@@ -22,11 +22,12 @@ public class Funcion {
     private List<Lugar> lugaresDisponibles;
     private Sala salaFuncion;
     private double precioLugar;
+    private boolean estado;
 
     public Funcion() {
     }
 
-    public Funcion(int codFuncion, Pelicula pelicula, String idioma, boolean es3d, boolean subtitulada, LocalTime horaInicio, LocalTime horaFin, Sala salaFuncion, double precioLugar) {
+    public Funcion(int codFuncion, Pelicula pelicula, String idioma, boolean es3d, boolean subtitulada, LocalTime horaInicio, LocalTime horaFin, Sala salaFuncion, double precioLugar,boolean estado) {
         this.codFuncion = codFuncion;
         this.pelicula = pelicula;
         this.idioma = idioma;
@@ -36,9 +37,10 @@ public class Funcion {
         this.horaFin = horaFin;
         this.salaFuncion = salaFuncion;
         this.precioLugar = precioLugar;
+        this.estado = estado;
     }
 
-    public Funcion(int codFuncion,Pelicula pelicula, String idioma, boolean es3d, boolean subtitulada, LocalTime horaInicio, LocalTime horaFin, List<Lugar> lugaresDisponibles, Sala salaFuncion, double precioLugar) {
+    public Funcion(int codFuncion,Pelicula pelicula, String idioma, boolean es3d, boolean subtitulada, LocalTime horaInicio, LocalTime horaFin, List<Lugar> lugaresDisponibles, Sala salaFuncion, double precioLugar, boolean estado) {
         this.codFuncion=codFuncion;
         this.pelicula = pelicula;
         this.idioma = idioma;
@@ -49,6 +51,7 @@ public class Funcion {
         this.lugaresDisponibles = lugaresDisponibles;
         this.salaFuncion = salaFuncion;
         this.precioLugar = precioLugar;
+        this.estado = estado;
     }
 
     public int getCodFuncion() {
@@ -134,6 +137,16 @@ public class Funcion {
     public void setPrecioLugar(double precioLugar) {
         this.precioLugar = precioLugar;
     }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+    
+    
 
     
     
