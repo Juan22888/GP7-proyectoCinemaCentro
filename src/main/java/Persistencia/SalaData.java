@@ -160,5 +160,26 @@ public class SalaData {
         }
         return salas;
     }
+    
+     public Sala buscarSalaPorNro(int nroSala) {
+        String sql = "SELECT codSala, nroSala, apta3d, capacidad, estado FROM sala WHERE nroSala = ?";
+        Sala sala = null;
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, nroSala);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    sala = new Sala();
+                    sala.setCodSala(rs.getInt("codSala"));
+                    sala.setNroSala(rs.getInt("nroSala"));
+                    sala.setApta3d(rs.getBoolean("apta3d"));
+                    sala.setCapacidad(rs.getInt("capacidad"));
+                    sala.setEstado(rs.getBoolean("estado"));
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al buscar sala por nroSala: " + ex.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
+        }
+        return sala;
+    }
    
 }
