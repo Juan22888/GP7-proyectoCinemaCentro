@@ -423,14 +423,14 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
 
         for (Funcion f : lista) {
             modelo.addRow(new Object[]{
-                f.getCodFuncion(),
                 f.getPelicula().getTitulo(),
-                f.getSalaFuncion().getNroSala(),
-                f.getIdioma(),
-                f.isEs3d() ? "Si" : "No",
-                f.getHoraInicio(),
-                f.getHoraFin(),
-                f.getPrecioLugar()
+            f.getSalaFuncion().getNroSala(),
+            f.getIdioma(),
+            f.isEs3d(),
+            f.getHoraInicio(),
+            f.getHoraFin(),
+            f.getPrecioLugar(),
+            f.isEstado()
             });
         }
 
