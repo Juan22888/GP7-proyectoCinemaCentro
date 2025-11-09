@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,25 +85,35 @@ public class FuncionData {
     if (!pelicula.isEnCartelera()) {
         throw new RuntimeException("La película " + pelicula.getTitulo() + " no está en cartelera.");
     }
-
     
-    String sql = "SELECT COUNT(*) FROM funcion WHERE codSala = ? AND estado = true "
-               + "AND ((horaInicio <= ? AND horaFin > ?) OR (horaInicio < ? AND horaFin >= ?))";
+    if (!f.isEstado()) {
+        throw new RuntimeException("La funcion " + f.getCodFuncion() + " está inactiva.");
+    }
 
-    try (PreparedStatement ps = con.prepareStatement(sql)) {
-        ps.setInt(1, sala.getCodSala());
-        ps.setTime(2, java.sql.Time.valueOf(f.getHoraInicio()));
-        ps.setTime(3, java.sql.Time.valueOf(f.getHoraInicio()));
-        ps.setTime(4, java.sql.Time.valueOf(f.getHoraFin()));
-        ps.setTime(5, java.sql.Time.valueOf(f.getHoraFin()));
+     List<Funcion> listaFunciones=this.listarFunciones();
+      // Validar solapamiento de horarios en la misma sala
+    int solapamientos = 0;
+    for (Funcion existente : listaFunciones) {
+        // Solo verificamos funciones activas de la misma sala
+        if (existente.isEstado() && existente.getSalaFuncion().getCodSala() == f.getSalaFuncion().getCodSala()) {
 
-        ResultSet rs = ps.executeQuery();
-        if (rs.next() && rs.getInt(1) > 0) {
-            throw new RuntimeException("Ya existe una función activa en ese horario para la misma sala.");
+            LocalTime inicioExistente = existente.getHoraInicio();
+            LocalTime finExistente = existente.getHoraFin();
+            LocalTime inicioNueva = f.getHoraInicio();
+            LocalTime finNueva = f.getHoraFin();
+
+            boolean seSolapa = 
+                (inicioNueva.isBefore(finExistente) && finNueva.isAfter(inicioExistente));
+
+            if (seSolapa) {
+                solapamientos++;
+            }
         }
     }
 
-    f.setEstado(true);
+    if (solapamientos > 0) {
+        throw new RuntimeException("Ya existe una función activa en ese horario para la misma sala.");
+    }
 
     return true;
 }
