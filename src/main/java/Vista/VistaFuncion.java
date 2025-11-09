@@ -11,6 +11,7 @@ import Persistencia.FuncionData;
 import Persistencia.PeliculaData;
 import Persistencia.SalaData;
 import java.sql.SQLException;
+import java.time.LocalTime;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -69,6 +70,47 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         BoxIdiomas.addItem("Portugues");
         BoxIdiomas.addItem("Subtitulado");
     }
+    
+    private void cargarFunciones() {
+    List<Funcion> listaFunciones = null;
+
+    try {
+        listaFunciones = fData.listarFunciones();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this,
+                "Error al cargar las funciones desde la base de datos.",
+                "Error de Base de Datos",
+                JOptionPane.ERROR_MESSAGE);
+    }
+
+    DefaultTableModel modelo = (DefaultTableModel) TablaFunciones.getModel();
+    modelo.setRowCount(0); // Limpia la tabla
+
+    if (listaFunciones == null || listaFunciones.isEmpty()) {
+        JOptionPane.showMessageDialog(this,
+                "No hay funciones cargadas en la base de datos.",
+                "Sin Datos",
+                JOptionPane.INFORMATION_MESSAGE);
+        return;
+    }
+
+    for (Funcion funcion : listaFunciones) {
+        Object[] fila = {
+            funcion.getCodFuncion(),
+            funcion.getPelicula().getTitulo(),
+            funcion.getSalaFuncion().getNroSala(),
+            funcion.getIdioma(),
+            funcion.isEs3d(),
+            funcion.isSubtitulada(),
+            funcion.getHoraInicio(),
+            funcion.getHoraFin(),
+            funcion.getPrecioLugar(),
+            funcion.isEstado()
+        };
+        modelo.addRow(fila);
+    }
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -339,7 +381,79 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_ButMostrarActionPerformed
 
     private void ButActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButActualizarActionPerformed
-       
+       if (TablaFunciones.isEditing()) {
+    TablaFunciones.getCellEditor().stopCellEditing();
+}
+
+int filaSeleccionada = TablaFunciones.getSelectedRow();
+
+if (filaSeleccionada == -1) {
+    JOptionPane.showMessageDialog(this, "Debe seleccionar una fila para modificar.", "Error", JOptionPane.WARNING_MESSAGE);
+    return;
+}
+
+try {
+    // Obtener los valores de la fila seleccionada
+    int codFuncion = Integer.parseInt(TablaFunciones.getValueAt(filaSeleccionada, 0).toString());
+    int codPelicula = Integer.parseInt(TablaFunciones.getValueAt(filaSeleccionada, 1).toString());
+    int codSala = Integer.parseInt(TablaFunciones.getValueAt(filaSeleccionada, 2).toString());
+    String horaInicioStr = TablaFunciones.getValueAt(filaSeleccionada, 3).toString();
+    String horaFinStr = TablaFunciones.getValueAt(filaSeleccionada, 4).toString();
+    double precio = Double.parseDouble(TablaFunciones.getValueAt(filaSeleccionada, 5).toString());
+    boolean es3D = Boolean.parseBoolean(TablaFunciones.getValueAt(filaSeleccionada, 6).toString());
+    boolean subtitulada = Boolean.parseBoolean(TablaFunciones.getValueAt(filaSeleccionada, 7).toString());
+    boolean estado = Boolean.parseBoolean(TablaFunciones.getValueAt(filaSeleccionada, 8).toString());
+    String idioma = TablaFunciones.getValueAt(filaSeleccionada, 9).toString();
+
+    // Convertir a objetos reales
+    Pelicula pelicula = pData.buscarPelicula(codPelicula);
+    Sala sala = sData.buscarSala(codSala);
+
+    if (pelicula == null || sala == null) {
+        JOptionPane.showMessageDialog(this, "Error: no se encontró la película o la sala asociada.", "Error", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // Parsear las horas
+    LocalTime horaInicio = LocalTime.parse(horaInicioStr);
+    LocalTime horaFin = LocalTime.parse(horaFinStr);
+
+    // Validaciones básicas
+    if (horaFin.isBefore(horaInicio)) {
+        throw new IllegalArgumentException("La hora de fin no puede ser anterior a la hora de inicio.");
+    }
+
+    if (precio < 0) {
+        throw new IllegalArgumentException("El precio no puede ser negativo.");
+    }
+
+    // Crear objeto actualizado
+    Funcion funcionModificada = new Funcion(codFuncion,pelicula,idioma,es3D,subtitulada,horaInicio,horaFin,sala,precio,estado);
+
+    boolean exito = fData.actualizarFuncion(funcionModificada);
+
+    if (exito) {
+        JOptionPane.showMessageDialog(this, "¡La función se modificó correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        cargarFunciones(); // vuelve a refrescar la tabla
+    } else {
+        JOptionPane.showMessageDialog(this,
+                "La función no se pudo actualizar (0 filas afectadas).",
+                "Error de Actualización",
+                JOptionPane.WARNING_MESSAGE);
+    }
+
+} catch (NumberFormatException e) {
+    JOptionPane.showMessageDialog(this, "Error en el formato de los datos numéricos.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
+} catch (java.time.format.DateTimeParseException e) {
+    JOptionPane.showMessageDialog(this, "Error en el formato de hora. Use HH:MM.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
+} catch (IllegalArgumentException ex) {
+    JOptionPane.showMessageDialog(this, "Error de validación: " + ex.getMessage(), "Datos Incorrectos", JOptionPane.WARNING_MESSAGE);
+} catch (SQLException ex) {
+    JOptionPane.showMessageDialog(this, "Error al guardar en la base de datos: " + ex.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
+} catch (Exception ex) {
+    JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+}
+
     }//GEN-LAST:event_ButActualizarActionPerformed
 
     private void ButBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButBorrarActionPerformed
@@ -378,10 +492,10 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
 
         if (f.getPelicula().isEnCartelera()) {
             f.getPelicula().setEnCartelera(false);
-            JOptionPane.showMessageDialog(this, "Funcion dada de baja");
+            JOptionPane.showMessageDialog(this, " La Funcion fue dada de baja");
         } else {
             f.getPelicula().setEnCartelera(true);
-            JOptionPane.showMessageDialog(this, "Funcion dada de alta");
+            JOptionPane.showMessageDialog(this, "La Funcion fue dada de alta");
         }
 
     } catch (Exception ex) {
