@@ -32,14 +32,15 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane1" alignment="0" pref="671" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                               <Component id="ButInsertar" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="ButActualizar" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="ButBorrar" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="ButAltaBaja" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="ButMostrar" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -302,7 +303,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="ButActualizar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Actualizar"/>
+        <Property name="text" type="java.lang.String" value="Guardar Cambios"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButActualizarActionPerformed"/>
@@ -334,12 +335,12 @@
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="dateHoraInicio">
       <Properties>
-        <Property name="dateFormatString" type="java.lang.String" value="HH : mm"/>
+        <Property name="dateFormatString" type="java.lang.String" value="HH:mm"/>
       </Properties>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="dateHoraFin">
       <Properties>
-        <Property name="dateFormatString" type="java.lang.String" value="HH : mm"/>
+        <Property name="dateFormatString" type="java.lang.String" value="HH:mm"/>
       </Properties>
     </Component>
   </SubComponents>

@@ -36,8 +36,7 @@ public class FuncionData {
 
    
     
-    public boolean validarFuncion(Funcion f) throws SQLException {
-
+   public boolean validarFuncion(Funcion f) throws SQLException {
     if (f == null) {
         throw new NullPointerException("La función no puede ser nula.");
     }
@@ -50,7 +49,7 @@ public class FuncionData {
         throw new NullPointerException("Debe seleccionar una sala.");
     }
 
-    if (f.getIdioma() == null || f.getIdioma().isEmpty()) {
+    if (f.getIdioma() == null || f.getIdioma().trim().isEmpty()) {
         throw new IllegalArgumentException("Debe ingresar un idioma.");
     }
 
@@ -58,14 +57,13 @@ public class FuncionData {
         throw new IllegalArgumentException("Debe ingresar hora de inicio y hora de fin.");
     }
 
-    if (f.getHoraFin().isBefore(f.getHoraInicio())) {
-        throw new IllegalArgumentException("La hora de fin no puede ser anterior a la de inicio.");
+    if (!f.getHoraFin().isAfter(f.getHoraInicio())) {
+        throw new IllegalArgumentException("La hora de fin debe ser posterior a la de inicio.");
     }
 
     if (f.getPrecioLugar() <= 0) {
         throw new IllegalArgumentException("El precio debe ser mayor que 0.");
     }
-
 
     Sala sala = salaData.buscarSala(f.getSalaFuncion().getCodSala());
     Pelicula pelicula = peliculaData.buscarPelicula(f.getPelicula().getCodPelicula());
@@ -85,38 +83,34 @@ public class FuncionData {
     if (!pelicula.isEnCartelera()) {
         throw new RuntimeException("La película " + pelicula.getTitulo() + " no está en cartelera.");
     }
-    
-    if (!f.isEstado()) {
-        throw new RuntimeException("La funcion " + f.getCodFuncion() + " está inactiva.");
-    }
 
-     List<Funcion> listaFunciones=this.listarFunciones();
-      // Validar solapamiento de horarios en la misma sala
-    int solapamientos = 0;
+
+    List<Funcion> listaFunciones = this.listarFunciones();
+
     for (Funcion existente : listaFunciones) {
-        // Solo verificamos funciones activas de la misma sala
-        if (existente.isEstado() && existente.getSalaFuncion().getCodSala() == f.getSalaFuncion().getCodSala()) {
+        if (existente.isEstado() &&
+            existente.getSalaFuncion().getCodSala() == f.getSalaFuncion().getCodSala() &&
+            existente.getCodFuncion() != f.getCodFuncion()) { 
 
             LocalTime inicioExistente = existente.getHoraInicio();
             LocalTime finExistente = existente.getHoraFin();
             LocalTime inicioNueva = f.getHoraInicio();
             LocalTime finNueva = f.getHoraFin();
 
-            boolean seSolapa = 
+            boolean seSolapa =
                 (inicioNueva.isBefore(finExistente) && finNueva.isAfter(inicioExistente));
 
             if (seSolapa) {
-                solapamientos++;
+                throw new RuntimeException(
+                    "Ya existe una función activa en ese horario para la sala " +
+                    sala.getNroSala() + ".");
             }
         }
     }
 
-    if (solapamientos > 0) {
-        throw new RuntimeException("Ya existe una función activa en ese horario para la misma sala.");
-    }
-
     return true;
 }
+
 
    
 
