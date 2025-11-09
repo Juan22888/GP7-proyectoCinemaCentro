@@ -10,7 +10,7 @@ import Modelo.Sala;
 import Persistencia.FuncionData;
 import Persistencia.PeliculaData;
 import Persistencia.SalaData;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.SQLException;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -74,7 +74,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         try {
             List<Sala> lista = sData.listarSalas();
             for (Sala s : lista) {
-                BoxSalas.addItem(s.getCodSala());
+                BoxSalas.addItem(s.getNroSala());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al cargar las salas: " + e.getMessage());
@@ -116,7 +116,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
     for (Funcion funcion : listaFunciones) {
         Object[] fila = {
             funcion.getPelicula().getTitulo(),
-            funcion.getSalaFuncion().getCodSala(),
+            funcion.getSalaFuncion().getNroSala(),
             funcion.getIdioma(),
             funcion.isEs3d(),
             funcion.getHoraInicio(),
@@ -349,88 +349,72 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BoxPeliculasActionPerformed
 
     private void ButInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButInsertarActionPerformed
-            try {
-        // 🔹 OBTENER DATOS DEL FORMULARIO
-        String peliculaSeleccionada = (String) BoxPeliculas.getSelectedItem();
-        int salaSeleccionada = Integer.parseInt(BoxSalas.getSelectedItem().toString());
-        String idioma = (String) BoxIdiomas.getSelectedItem();
-        boolean es3D = CBox3D.isSelected();
-        double precio = Double.parseDouble(TexFielPrecio.getText());
-
-        // 🔹 VALIDAR SELECCIONES
-        if (peliculaSeleccionada == null || peliculaSeleccionada.isEmpty()) {
-            throw new IllegalArgumentException("Debe seleccionar una película.");
-        }
-        if (salaSeleccionada == 0) {
-            throw new IllegalArgumentException("Debe seleccionar una sala.");
-        }
-
-        // 🔹 OBTENER CÓDIGO DE PELÍCULA Y SALA DESDE EL STRING
-        int codPelicula = Integer.parseInt(peliculaSeleccionada.split(" - ")[0].trim());
-
-        // 🔹 BUSCAR LOS OBJETOS REALES EN LA BASE DE DATOS
-        Pelicula pelicula = pData.buscarPelicula(codPelicula);
-        Sala sala = sData.buscarSala(codSala);
-
-        if (pelicula == null) throw new NullPointerException("No se encontró la película seleccionada.");
-        if (sala == null) throw new NullPointerException("No se encontró la sala seleccionada.");
-
-        // 🔹 OBTENER HORAS DESDE LOS JDATECHOOSER
-        Date horaInicioDate = (Date) dateHoraInicio.getDate();
-        Date horaFinDate = (Date) dateHoraFin.getDate();
-
-        if (horaInicioDate == null || horaFinDate == null) {
-            throw new IllegalArgumentException("Debe seleccionar hora de inicio y hora de fin.");
-        }
-
-        // 🔹 CONVERTIR A LocalTime
-        LocalTime horaInicio = horaInicioDate.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalTime();
-
-        LocalTime horaFin = horaFinDate.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalTime();
-
-        // 🔹 CREAR OBJETO FUNCIÓN
-        Funcion f = new Funcion();
-        f.setPelicula(pelicula);
-        f.setSalaFuncion(sala);
-        f.setIdioma(idioma);
-        f.setEs3d(es3D);
-        f.setSubtitulada(false); // si no tenés checkbox, lo dejamos por defecto
-        f.setHoraInicio(horaInicio);
-        f.setHoraFin(horaFin);
-        f.setPrecioLugar(precio);
-        f.setEstado(true);
-
-        // 🔹 VALIDAR Y GUARDAR
+       try {
+    String peliculaSeleccionada = (String) BoxPeliculas.getSelectedItem();
+    String salaSeleccionada = BoxSalas.getSelectedItem().toString();
+    String idioma = (String) BoxIdiomas.getSelectedItem();
+    boolean es3D = CBox3D.isSelected();
+    double precio = Double.parseDouble(TexFielPrecio.getText());
 
 
-        if (fData.validarFuncion(f)) {
-            boolean exito = fData.insertarFuncion(f);
-            if (exito) {
-                JOptionPane.showMessageDialog(this, "¡Función agregada correctamente!");
-                
-                cargarFunciones(); // si tenés método para refrescar la tabla
-            } else {
-                JOptionPane.showMessageDialog(this, "No se pudo insertar la función.");
-            }
-        }
-
-    } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(this, "El precio debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (RuntimeException ex) {
-        JOptionPane.showMessageDialog(this, ex.getMessage(), "Error de Validación", JOptionPane.WARNING_MESSAGE);
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(this, "Error en la base de datos: " + ex.getMessage(), "Error SQL", JOptionPane.ERROR_MESSAGE);
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error al insertar función: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    if (peliculaSeleccionada == null || peliculaSeleccionada.isEmpty()) {
+        throw new IllegalArgumentException("Debe seleccionar una película.");
     }
+
+
+    int codPelicula = Integer.parseInt(peliculaSeleccionada.split(" - ")[0].trim());
+    int nroSala = Integer.parseInt(salaSeleccionada.split(" - ")[0].trim());
+
+
+    Pelicula pelicula = pData.buscarPelicula(codPelicula);
+    Sala sala = sData.buscarSalaPorNro(nroSala);
+
+    Date horaInicioDate =dateHoraInicio.getDate();
+    Date horaFinDate = dateHoraFin.getDate();
+
+    if (horaInicioDate == null || horaFinDate == null) {
+        throw new IllegalArgumentException("Debe seleccionar hora de inicio y hora de fin.");
+    }
+
+    LocalTime horaInicio = horaInicioDate.toInstant()
+            .atZone(ZoneId.systemDefault())
+            .toLocalTime();
+
+    LocalTime horaFin = horaFinDate.toInstant()
+            .atZone(ZoneId.systemDefault())
+            .toLocalTime();
+
+ 
+    Funcion f = new Funcion();
+    f.setPelicula(pelicula);
+    f.setSalaFuncion(sala);
+    f.setIdioma(idioma);
+    f.setEs3d(es3D);
+    f.setSubtitulada(false);
+    f.setHoraInicio(horaInicio);
+    f.setHoraFin(horaFin);
+    f.setPrecioLugar(precio);
+    f.setEstado(true);
+
+    boolean exito = fData.insertarFuncion(f);
+    if (exito) {
+        JOptionPane.showMessageDialog(this, "¡Función agregada correctamente!");
+        cargarFunciones();
+        limpiarCampos();
+    } else {
+        JOptionPane.showMessageDialog(this, "No se pudo insertar la función.");
+    }
+
+} catch (NumberFormatException ex) {
+    JOptionPane.showMessageDialog(this, "El precio debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+} catch (Exception ex) {
+    JOptionPane.showMessageDialog(this, "Error al insertar función: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+}
+
     }//GEN-LAST:event_ButInsertarActionPerformed
 
     private void ButMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButMostrarActionPerformed
-        // TODO add your handling code here:
+
         try {
         DefaultTableModel modelo = (DefaultTableModel) TablaFunciones.getModel();
         modelo.setRowCount(0);
