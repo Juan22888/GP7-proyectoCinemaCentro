@@ -7,6 +7,7 @@ package Persistencia;
 import Modelo.Conexion;
 import Modelo.Funcion;
 import Modelo.Lugar;
+import Modelo.Sala;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,13 +26,11 @@ public class LugarData {
     private Connection con = null;
     private FuncionData funData;
 
-    
-    
     public LugarData() {
         this.con = Conexion.buscarConexion();
 
     }
-    
+
     // Setter para inyectar la dependencia
     public void setFuncionData(FuncionData funcionData) {
         this.funData = funcionData;
@@ -120,7 +119,7 @@ public class LugarData {
             int filasAfectadas = ps.executeUpdate();
 
             return filasAfectadas > 0;
-            
+
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Lugar para eliminar: " + ex.getMessage());
         }
@@ -157,8 +156,7 @@ public class LugarData {
 
         return lugaresDisponibles;
     }*/
-    
-   public List<Lugar> obtenerLugaresPorFuncion(int codFuncion) {
+    public List<Lugar> obtenerLugaresPorFuncion(int codFuncion) {
         String sql = "SELECT codLugar, fila, numero FROM lugar WHERE codFuncion = ?";
         List<Lugar> lugaresDisponibles = new ArrayList<>();
 
@@ -190,59 +188,99 @@ public class LugarData {
     }
 
     public void crearLugaresParaFuncion(int codFuncion, int cantidad) throws SQLException {
+        if (cantidad <= 0) {
+            throw new IllegalArgumentException("La cantidad de asientos debe ser mayor que cero.");
+        }
+
+        // 🔹 Buscar la función y su sala
+        FuncionData funcionData = new FuncionData();
+        Funcion funcion = funcionData.buscarFuncion(codFuncion);
+
+        if (funcion == null) {
+            throw new IllegalArgumentException("No se encontró la función con el código especificado.");
+        }
+
+        Sala sala = funcion.getSalaFuncion();
+        
+        if (sala == null) {
+            throw new IllegalArgumentException("No se encontró la sala asociada a la función.");
+        }
+
+        int capacidadMaxima = sala.getCapacidad();
+
+        // 🔹 Contar lugares ya existentes
+        List<Lugar> lugaresExistentes = obtenerLugaresPorFuncion(codFuncion);
+        int cantidadActual = lugaresExistentes.size();
+
+        if (cantidadActual >= capacidadMaxima) {
+            throw new IllegalArgumentException("La función ya tiene todos los lugares creados.");
+        }
+
+        if (cantidadActual + cantidad > capacidadMaxima) {
+            int disponibles = capacidadMaxima - cantidadActual;
+            throw new IllegalArgumentException("No se pueden crear " + cantidad
+                    + " lugares. Solo quedan disponibles " + disponibles + ".");
+        }
+
+        // 🔹 Generar lugares (respetando estructura por filas)
         String sql = "INSERT INTO lugar (fila, numero, estado, codFuncion) VALUES (?,?,?,?)";
-        PreparedStatement ps = null;
-        char filaActual = 'A';
         final int asientosPorFila = 20;
-        int filas = cantidad / asientosPorFila;
+        PreparedStatement ps = null;
+
         try {
             ps = con.prepareStatement(sql);
+            char filaActual = 'A';
 
-            for (int i = 0; i < filas; i++) {
+            // Avanzar las filas en función de los lugares ya existentes
+            int filasExistentes = cantidadActual / asientosPorFila;
+            filaActual += filasExistentes;
 
-                for (int j = 1; j <= asientosPorFila; j++) {
+            int filasNuevas = (int) Math.ceil((double) cantidad / asientosPorFila);
+            int lugaresRestantes = cantidad;
+
+            for (int i = 0; i < filasNuevas; i++) {
+                for (int j = 1; j <= asientosPorFila && lugaresRestantes > 0; j++) {
                     ps.setString(1, String.valueOf(filaActual));
                     ps.setInt(2, j);
-                    ps.setInt(3, 0);
+                    ps.setInt(3, 0); // 0 = libre
                     ps.setInt(4, codFuncion);
                     ps.addBatch();
+                    lugaresRestantes--;
                 }
-                
                 filaActual++;
             }
-            
+
             ps.executeBatch();
             ps.close();
 
         } catch (SQLException e) {
-            throw new SQLException("Error al generar asientos en lote (batch): "+e.getMessage());
+            throw new SQLException("Error al generar asientos en lote (batch): " + e.getMessage());
         }
     }
-    
-     public List listarLugares() throws SQLException {
-         List<Lugar> lugares = new ArrayList<>();
-         String sql = "SELECT * FROM lugar";
-    
-    try (PreparedStatement ps = con.prepareStatement(sql);
-         ResultSet rs = ps.executeQuery()) {
 
-        while (rs.next()) {
-            Funcion f = new Funcion();
-            Lugar l = new Lugar();
-            f=funData.buscarFuncion(rs.getInt("codFuncion"));
-            l.setCodLugar(rs.getInt("codLugar"));
-            l.setFila(rs.getString("fila").charAt(0));
-            l.setNumero(rs.getInt("numero"));
-            l.setEstado(rs.getBoolean("estado"));
-            l.setFuncion(f);
-            lugares.add(l);
+    public List listarLugares() throws SQLException {
+        List<Lugar> lugares = new ArrayList<>();
+        String sql = "SELECT * FROM lugar";
+
+        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Funcion f = new Funcion();
+                Lugar l = new Lugar();
+                f = funData.buscarFuncion(rs.getInt("codFuncion"));
+                l.setCodLugar(rs.getInt("codLugar"));
+                l.setFila(rs.getString("fila").charAt(0));
+                l.setNumero(rs.getInt("numero"));
+                l.setEstado(rs.getBoolean("estado"));
+                l.setFuncion(f);
+                lugares.add(l);
+            }
+
+        } catch (SQLException ex) {
+            throw new SQLException("Error al listar peliculas " + ex);
         }
 
-    } catch (SQLException ex) {
-       throw new SQLException("Error al listar peliculas " + ex);
+        return lugares;
     }
-
-    return lugares;
-}
 
 }

@@ -82,6 +82,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
         butBuscar = new javax.swing.JButton();
         butGuardarCambios = new javax.swing.JButton();
         butReiniciar = new javax.swing.JButton();
+        buscarPorFuncion = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -157,6 +158,8 @@ public class VistaLugar extends javax.swing.JInternalFrame {
             }
         });
 
+        buscarPorFuncion.setText("Buscar Por Funcion");
+
         LugarDesktop.setLayer(butCancelar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         LugarDesktop.setLayer(butNuevosLugares, javax.swing.JLayeredPane.DEFAULT_LAYER);
         LugarDesktop.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -167,6 +170,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
         LugarDesktop.setLayer(butBuscar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         LugarDesktop.setLayer(butGuardarCambios, javax.swing.JLayeredPane.DEFAULT_LAYER);
         LugarDesktop.setLayer(butReiniciar, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        LugarDesktop.setLayer(buscarPorFuncion, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout LugarDesktopLayout = new javax.swing.GroupLayout(LugarDesktop);
         LugarDesktop.setLayout(LugarDesktopLayout);
@@ -186,13 +190,15 @@ public class VistaLugar extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LugarDesktopLayout.createSequentialGroup()
-                .addContainerGap(159, Short.MAX_VALUE)
+                .addContainerGap(102, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(22, 22, 22)
                 .addComponent(txtBuscarLugar, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(butBuscar)
-                .addGap(218, 218, 218))
+                .addGap(18, 18, 18)
+                .addComponent(buscarPorFuncion)
+                .addGap(125, 125, 125))
             .addGroup(LugarDesktopLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1)
@@ -209,7 +215,9 @@ public class VistaLugar extends javax.swing.JInternalFrame {
                 .addComponent(jLabel1)
                 .addGap(30, 30, 30)
                 .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(butBuscar)
+                    .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(butBuscar)
+                        .addComponent(buscarPorFuncion))
                     .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel2)
                         .addComponent(txtBuscarLugar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -319,6 +327,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane LugarDesktop;
     private javax.swing.JTable TablaLugares;
+    private javax.swing.JButton buscarPorFuncion;
     private javax.swing.JButton butBuscar;
     private javax.swing.JButton butCancelar;
     private javax.swing.JButton butGuardarCambios;

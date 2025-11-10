@@ -27,6 +27,13 @@ public class NuevoLugar extends javax.swing.JInternalFrame {
         initComponents();
         cargarFunciones();
     }
+    
+    private void limpiarCampos() {
+    boxFunciones.setSelectedIndex(0); // Deselecciona la función
+    txtCantidad.setText("");            // Limpia el campo cantidad
+    txtCapacidad.setText("");           // Limpia el campo capacidad
+}
+
 
     private void cargarFunciones() {
         boxFunciones.removeAllItems();
@@ -160,37 +167,36 @@ public class NuevoLugar extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void butAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butAgregarActionPerformed
-       String funcionSeleccionado = boxFunciones.getSelectedItem().toString();
-        String[] partes = funcionSeleccionado.split(" - ");
-        String txtCodFuncion = partes[0].trim();
-        int codFuncion = Integer.parseInt(txtCodFuncion);
-        String txtcantidad = txtCantidad.getText();
-       int cantidad = Integer.parseInt(txtcantidad);
-       String txtcapacidad = txtCapacidad.getText();
-       int capacidad = Integer.parseInt(txtcapacidad);
-       boolean bandera=true;
-       if(cantidad>capacidad){
-           JOptionPane.showMessageDialog(this, "Error! La cantidad de asientos debe ser menor a la capacidad: ");
-           bandera=false;
-           return;
-       }
-       
-        try {
-            List<Lugar> lugares = lugarData.obtenerLugaresPorFuncion(codFuncion);
-            
-            if(lugares.size()==capacidad){
-              JOptionPane.showMessageDialog(this, "Error! La funcion ya tiene todo los lugares");
-              bandera=false;
-            }
-            lugarData.crearLugaresParaFuncion(codFuncion,cantidad);
-        } catch (SQLException ex) {
-             JOptionPane.showMessageDialog(this, "Error al crear lugares para la funcion: " + ex.getMessage());
-             bandera=false;
-             return;
+        if (boxFunciones.getSelectedItem() == null) {
+        JOptionPane.showMessageDialog(this, "Debe seleccionar una función.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    try {
+        String funcionSeleccionada = boxFunciones.getSelectedItem().toString();
+        String[] partes = funcionSeleccionada.split(" - ");
+        int codFuncion = Integer.parseInt(partes[0].trim());
+
+        int cantidad = Integer.parseInt(txtCantidad.getText().trim());
+
+        if (cantidad <= 0) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar una cantidad mayor a 0.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-        
-        if(bandera==true){
-        JOptionPane.showMessageDialog(null, "Se crearon lugares correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);}
+
+        // delega todo lo demás al DAO
+        lugarData.crearLugaresParaFuncion(codFuncion, cantidad);
+
+        JOptionPane.showMessageDialog(this, "Lugares creados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        limpiarCampos();
+
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "Verifique que la cantidad sea un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error al crear lugares: " + ex.getMessage(), "Error SQL", JOptionPane.ERROR_MESSAGE);
+    } catch (RuntimeException ex) {
+        JOptionPane.showMessageDialog(this, "Error de validación: " + ex.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+    }
     }//GEN-LAST:event_butAgregarActionPerformed
 
     private void butCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelarActionPerformed
