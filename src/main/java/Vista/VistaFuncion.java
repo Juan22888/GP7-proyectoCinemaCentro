@@ -60,7 +60,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         private void cargarPeliculas() {
         BoxPeliculas.removeAllItems();
         try {
-            List<Pelicula> lista = pData.listarPeliculas();
+            List<Pelicula> lista = pData.listarPeliculasEnCartelera();
             for (Pelicula p : lista) {
                 BoxPeliculas.addItem(p.getCodPelicula()+" - "+p.getTitulo());
             }
