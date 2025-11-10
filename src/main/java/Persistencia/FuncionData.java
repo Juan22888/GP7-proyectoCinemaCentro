@@ -83,6 +83,10 @@ public class FuncionData {
     if (!pelicula.isEnCartelera()) {
         throw new RuntimeException("La película " + pelicula.getTitulo() + " no está en cartelera.");
     }
+    
+     if (f.isEs3d() && !sala.isApta3d()) {
+        throw new RuntimeException("La sala " + sala.getNroSala() + " no es apta para proyecciones 3D.");
+    }
 
 
     List<Funcion> listaFunciones = this.listarFunciones();
