@@ -37,6 +37,48 @@ public class LugarData {
     }
     // ...
 
+    public boolean validarLugar(Lugar lugar) throws IllegalArgumentException, SQLException {
+        if (lugar == null) {
+            throw new IllegalArgumentException("El lugar no puede ser nulo.");
+        }
+
+        if (!Character.isLetter(lugar.getFila())) {
+            throw new IllegalArgumentException("La fila debe ser una letra (A, B, C...).");
+        }
+
+        if (lugar.getNumero() <= 0 || lugar.getNumero() > 20) {
+            throw new IllegalArgumentException("El número de asiento debe estar entre 1 y 20.");
+        }
+
+        if (lugar.isEstado() != true && lugar.isEstado() != false) {
+            throw new IllegalArgumentException("El estado del asiento debe ser válido (ocupado o libre).");
+        }
+
+        if (lugar.getFuncion() == null || lugar.getFuncion().getCodFuncion() <= 0) {
+            throw new IllegalArgumentException("El lugar debe estar asociado a una función válida.");
+        }
+
+        FuncionData funcionData = new FuncionData();
+        Funcion funcion = funcionData.buscarFuncion(lugar.getFuncion().getCodFuncion());
+        if (funcion == null) {
+            throw new IllegalArgumentException("La función asociada al lugar no existe en la base de datos.");
+        }
+
+        String sql = "SELECT COUNT(*) FROM lugar WHERE fila = ? AND numero = ? AND codFuncion = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, String.valueOf(lugar.getFila()));
+            ps.setInt(2, lugar.getNumero());
+            ps.setInt(3, lugar.getFuncion().getCodFuncion());
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next() && rs.getInt(1) > 0) {
+                throw new IllegalArgumentException("Ya existe un asiento con esa fila y número para la función seleccionada.");
+            }
+        }
+
+        return true;
+    }
+
     public boolean insertarLugar(Lugar lugar) {
 
         String sql = "INSERT INTO lugar (fila, numero, estado, codFuncion) VALUES (?, ?, ?, ?)";
@@ -163,7 +205,6 @@ public class LugarData {
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, codFuncion);
 
-            // Solo necesitamos el objeto Funcion completo una vez.
             Funcion funcion = funData.buscarFuncion(codFuncion);
 
             if (funcion != null) {
@@ -192,7 +233,6 @@ public class LugarData {
             throw new IllegalArgumentException("La cantidad de asientos debe ser mayor que cero.");
         }
 
-        // 🔹 Buscar la función y su sala
         FuncionData funcionData = new FuncionData();
         Funcion funcion = funcionData.buscarFuncion(codFuncion);
 
@@ -201,14 +241,13 @@ public class LugarData {
         }
 
         Sala sala = funcion.getSalaFuncion();
-        
+
         if (sala == null) {
             throw new IllegalArgumentException("No se encontró la sala asociada a la función.");
         }
 
         int capacidadMaxima = sala.getCapacidad();
 
-        // 🔹 Contar lugares ya existentes
         List<Lugar> lugaresExistentes = obtenerLugaresPorFuncion(codFuncion);
         int cantidadActual = lugaresExistentes.size();
 
@@ -222,7 +261,6 @@ public class LugarData {
                     + " lugares. Solo quedan disponibles " + disponibles + ".");
         }
 
-        // 🔹 Generar lugares (respetando estructura por filas)
         String sql = "INSERT INTO lugar (fila, numero, estado, codFuncion) VALUES (?,?,?,?)";
         final int asientosPorFila = 20;
         PreparedStatement ps = null;
@@ -231,7 +269,6 @@ public class LugarData {
             ps = con.prepareStatement(sql);
             char filaActual = 'A';
 
-            // Avanzar las filas en función de los lugares ya existentes
             int filasExistentes = cantidadActual / asientosPorFila;
             filaActual += filasExistentes;
 

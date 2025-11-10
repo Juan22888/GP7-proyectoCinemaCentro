@@ -5,7 +5,6 @@
 package Vista;
 
 import Modelo.Funcion;
-import Modelo.Lugar;
 import Persistencia.FuncionData;
 import Persistencia.LugarData;
 import java.sql.SQLException;

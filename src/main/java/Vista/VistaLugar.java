@@ -159,6 +159,11 @@ public class VistaLugar extends javax.swing.JInternalFrame {
         });
 
         buscarPorFuncion.setText("Buscar Por Funcion");
+        buscarPorFuncion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarPorFuncionActionPerformed(evt);
+            }
+        });
 
         LugarDesktop.setLayer(butCancelar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         LugarDesktop.setLayer(butNuevosLugares, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -322,6 +327,56 @@ public class VistaLugar extends javax.swing.JInternalFrame {
     private void butCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelarActionPerformed
 
     }//GEN-LAST:event_butCancelarActionPerformed
+
+    private void buscarPorFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarPorFuncionActionPerformed
+  
+    if (txtBuscarLugar.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this,
+                "Debe ingresar un código de función.",
+                "Error de validación",
+                JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    int codFuncion;
+    try {
+        codFuncion = Integer.parseInt(txtBuscarLugar.getText().trim());
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this,
+                "El código de función debe ser un número entero válido.",
+                "Error de formato",
+                JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    List<Lugar> listaLugares = null;
+    
+    listaLugares = lugarData.obtenerLugaresPorFuncion(codFuncion);
+
+
+    DefaultTableModel modelo = (DefaultTableModel) TablaLugares.getModel();
+    modelo.setRowCount(0);
+
+    if (listaLugares == null || listaLugares.isEmpty()) {
+        JOptionPane.showMessageDialog(this,
+                "No se encontraron lugares para la función con código " + codFuncion + ".",
+                "Sin resultados",
+                JOptionPane.INFORMATION_MESSAGE);
+        return;
+    }
+
+ 
+    for (Lugar lugar : listaLugares) {
+        Object[] fila = {
+            lugar.getCodLugar(),
+            lugar.getFila(),
+            lugar.getNumero(),
+            lugar.isEstado(),
+            lugar.getFuncion().getCodFuncion()
+        };
+        modelo.addRow(fila);
+    }
+    }//GEN-LAST:event_buscarPorFuncionActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
