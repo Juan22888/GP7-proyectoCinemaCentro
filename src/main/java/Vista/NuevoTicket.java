@@ -5,13 +5,13 @@
 package Vista;
 
 import Modelo.Comprador;
-import Modelo.DetalleTicket;
+//import Modelo.DetalleTicket;
 import Modelo.Funcion;
 import Modelo.TicketCompra;
 import Persistencia.CompradorData;
 import Persistencia.FuncionData;
 import Persistencia.TicketData;
-import java.sql.SQLException;
+//import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
@@ -193,25 +193,24 @@ private void cargarFunciones() {
             JOptionPane.showMessageDialog(this, "Debe seleccionar la fecha de compra.");
             return;
         }
+        if (TexFielTotal.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this,"Debe ingresar el monto total");
+        }
 
         
         Comprador comprador = (Comprador) CBoxComprador.getSelectedItem();
-        Funcion funcion = (Funcion) CBoxFuncion.getSelectedItem();
-
-        
+        Funcion funcion = (Funcion) CBoxFuncion.getSelectedItem(); 
         LocalDate fechaCompra = DchooserFecha.getDate()
                 .toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-        DetalleTicket detalle = new DetalleTicket();
-        detalle.setEstado(true);
+        double monto = Double.parseDouble(TexFielTotal.getText());
 
         
         TicketCompra ticket = new TicketCompra();
         ticket.setComprador(comprador);
-        ticket.setDetalleTicket(detalle);
         ticket.setFechaCompra(fechaCompra);
         ticket.setFechaFuncion(LocalDate.now()); 
         ticket.setMonto(Double.parseDouble(TexFielTotal.getText()));
+        ticket.setMonto(monto);
 
         
         TicketData tData = new TicketData();
