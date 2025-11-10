@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,12 +36,94 @@ public class FuncionData {
 
    
     
+   public boolean validarFuncion(Funcion f) throws SQLException {
+    if (f == null) {
+        throw new NullPointerException("La función no puede ser nula.");
+    }
+
+    if (f.getPelicula() == null) {
+        throw new NullPointerException("Debe seleccionar una película.");
+    }
+
+    if (f.getSalaFuncion() == null) {
+        throw new NullPointerException("Debe seleccionar una sala.");
+    }
+
+    if (f.getIdioma() == null || f.getIdioma().trim().isEmpty()) {
+        throw new IllegalArgumentException("Debe ingresar un idioma.");
+    }
+
+    if (f.getHoraInicio() == null || f.getHoraFin() == null) {
+        throw new IllegalArgumentException("Debe ingresar hora de inicio y hora de fin.");
+    }
+
+    if (!f.getHoraFin().isAfter(f.getHoraInicio())) {
+        throw new IllegalArgumentException("La hora de fin debe ser posterior a la de inicio.");
+    }
+
+    if (f.getPrecioLugar() <= 0) {
+        throw new IllegalArgumentException("El precio debe ser mayor que 0.");
+    }
+
+    Sala sala = salaData.buscarSala(f.getSalaFuncion().getCodSala());
+    Pelicula pelicula = peliculaData.buscarPelicula(f.getPelicula().getCodPelicula());
+
+    if (pelicula == null) {
+        throw new NullPointerException("No se encontró la película en la base de datos.");
+    }
+
+    if (sala == null) {
+        throw new NullPointerException("No se encontró la sala en la base de datos.");
+    }
+
+    if (!sala.isEstado()) {
+        throw new RuntimeException("La sala " + sala.getNroSala() + " está inactiva.");
+    }
+
+    if (!pelicula.isEnCartelera()) {
+        throw new RuntimeException("La película " + pelicula.getTitulo() + " no está en cartelera.");
+    }
+
+
+    List<Funcion> listaFunciones = this.listarFunciones();
+
+    for (Funcion existente : listaFunciones) {
+        if (existente.isEstado() &&
+            existente.getSalaFuncion().getCodSala() == f.getSalaFuncion().getCodSala() &&
+            existente.getCodFuncion() != f.getCodFuncion()) { 
+
+            LocalTime inicioExistente = existente.getHoraInicio();
+            LocalTime finExistente = existente.getHoraFin();
+            LocalTime inicioNueva = f.getHoraInicio();
+            LocalTime finNueva = f.getHoraFin();
+
+            boolean seSolapa =
+                (inicioNueva.isBefore(finExistente) && finNueva.isAfter(inicioExistente));
+
+            if (seSolapa) {
+                throw new RuntimeException(
+                    "Ya existe una función activa en ese horario para la sala " +
+                    sala.getNroSala() + ".");
+            }
+        }
+    }
+
+    return true;
+}
+
+
    
 
     public boolean insertarFuncion(Funcion f) throws SQLException, NullPointerException, RuntimeException {
+        
+         try {
+            validarFuncion(f);
+        } catch (IllegalArgumentException ex) {
+            throw new SQLException("Datos de funcion inválidos: " + ex.getMessage());
+        }
 
-        String sql = "INSERT INTO funcion (codPelicula, idioma, es3d, subtitulada, horaInicio, horaFin,codSala,precioLugar) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO funcion (codPelicula, idioma, es3d, subtitulada, horaInicio, horaFin,codSala,precioLugar,estado) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 
         try {
@@ -74,6 +157,7 @@ public class FuncionData {
                 ps.setTime(6, java.sql.Time.valueOf(f.getHoraFin()));
                 ps.setInt(7, sala.getCodSala());
                 ps.setDouble(8, f.getPrecioLugar());
+                ps.setBoolean(9, f.isEstado());
 
                 int filasAfectadas = ps.executeUpdate();
                 
@@ -115,6 +199,7 @@ public class FuncionData {
                 sala = salaData.buscarSala(rs.getInt("codSala"));
                 funcion.setSalaFuncion(sala);
                 funcion.setPrecioLugar(rs.getDouble("precioLugar"));
+                funcion.setEstado(rs.getBoolean("estado"));
             }
             rs.close();
             ps.close();
@@ -125,32 +210,26 @@ public class FuncionData {
         return funcion;
     }
 
-    public boolean actualizarFuncion(int id, String columna, Object dato) throws Exception {
-        if (!columna.equals("idioma") && !columna.equals("es3d")
-                && !columna.equals("subtitulada") && !columna.equals("horaInicio")
-                && !columna.equals("horaFin") && !columna.equals("codSala")
-                && !columna.equals("precioLugar") && !columna.equals("codPelicula")) {
-
-            throw new IllegalArgumentException("Columna de actualización no permitida: " + columna);
+    public boolean actualizarFuncion(Funcion f) throws Exception {
+        try {
+            validarFuncion(f);
+        } catch (IllegalArgumentException ex) {
+            throw new SQLException("Datos de funcion inválidos: " + ex.getMessage());
         }
 
-        String sql = "UPDATE funcion SET " + columna + "=? WHERE codFuncion = ?";
+        String sql = "UPDATE funcion SET codPelicula = ?, idioma = ?, es3d = ?, subtitulada = ?, horaInicio = ?, horaFin = ?, codSala = ?, precioLugar = ?, estado = ?  WHERE codFuncion = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
 
-            // Determina el tipo de dato para establecer el parámetro
-            if (dato instanceof String) {
-                ps.setString(1, (String) dato);
-            } else if (dato instanceof Boolean) {
-                ps.setBoolean(1, (boolean) dato);
-            } else if (dato instanceof java.sql.Time) {
-                // Conversión de LocalDate a java.sql.Date
-                ps.setTime(1, (java.sql.Time) dato);
-            } else {
-                // Asume que otros tipos, como int o float, se pueden manejar aquí si son necesarios
-                throw new IllegalArgumentException("Tipo de dato no soportado para actualizar.");
-            }
-            ps.setInt(2, id);
+          ps.setInt(1, f.getPelicula().getCodPelicula());
+                ps.setString(2, f.getIdioma());
+                ps.setBoolean(3, f.isEs3d());
+                ps.setBoolean(4, f.isSubtitulada());
+                ps.setTime(5, java.sql.Time.valueOf(f.getHoraInicio()));
+                ps.setTime(6, java.sql.Time.valueOf(f.getHoraFin()));
+                ps.setInt(7, f.getSalaFuncion().getCodSala());
+                ps.setDouble(8, f.getPrecioLugar());
+                ps.setBoolean(9, f.isEstado());
 
             int filasAfectadas = ps.executeUpdate();
             ps.close();
@@ -205,6 +284,7 @@ public class FuncionData {
             s = salaData.buscarSala(rs.getInt("codSala"));
             f.setSalaFuncion(s);
             f.setPrecioLugar(rs.getDouble("precioLugar"));
+            f.setEstado(rs.getBoolean("estado"));
             funciones.add(f);
         }
 

@@ -142,25 +142,44 @@ public class SalaData {
     }
 
     public List<Sala> listarSalas() {
-        List <Sala> salas = new ArrayList<>();
-        String sql = "SELECT * FROM sala";
-    
-    try (PreparedStatement ps = con.prepareStatement(sql);
-         ResultSet rs = ps.executeQuery()) {
+        String sql = "SELECT codSala, nroSala, apta3d, capacidad, estado FROM sala";
+        List<Sala> salas = new ArrayList<>();
+        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
-        while (rs.next()) {
-            Sala s = new Sala();
-            s.setCodSala(rs.getInt("codSala"));
-            s.setNroSala(rs.getInt("nroSala"));
-            s.setCapacidad(rs.getInt("capacidad"));
-            s.setEstado(rs.getBoolean("estado"));
-            salas.add(s);
+            while (rs.next()) {
+                Sala sala = new Sala();
+                sala.setCodSala(rs.getInt("codSala"));
+                sala.setNroSala(rs.getInt("nroSala"));
+                sala.setApta3d(rs.getBoolean("apta3d"));
+                sala.setCapacidad(rs.getInt("capacidad"));
+                sala.setEstado(rs.getBoolean("estado"));
+                salas.add(sala);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar salas: " + ex.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
         }
-
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(null, "Error al listar salas: " + ex.getMessage());
+        return salas;
     }
-
-    return salas;
-}
+    
+     public Sala buscarSalaPorNro(int nroSala) {
+        String sql = "SELECT codSala, nroSala, apta3d, capacidad, estado FROM sala WHERE nroSala = ?";
+        Sala sala = null;
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, nroSala);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    sala = new Sala();
+                    sala.setCodSala(rs.getInt("codSala"));
+                    sala.setNroSala(rs.getInt("nroSala"));
+                    sala.setApta3d(rs.getBoolean("apta3d"));
+                    sala.setCapacidad(rs.getInt("capacidad"));
+                    sala.setEstado(rs.getBoolean("estado"));
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al buscar sala por nroSala: " + ex.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
+        }
+        return sala;
+    }
+   
 }
