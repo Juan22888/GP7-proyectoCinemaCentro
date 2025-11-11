@@ -1,9 +1,10 @@
+
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-11-2025 a las 16:04:19
+-- Tiempo de generación: 11-11-2025 a las 14:19:41
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -34,6 +35,7 @@ CREATE TABLE `comprador` (
   `dni` int(11) NOT NULL,
   `nombre` varchar(20) NOT NULL,
   `fechaNac` date NOT NULL,
+  `estado` tinyint(1) NOT NULL,
   `password` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -41,8 +43,9 @@ CREATE TABLE `comprador` (
 -- Volcado de datos para la tabla `comprador`
 --
 
-INSERT INTO `comprador` (`codComprador`, `dni`, `nombre`, `fechaNac`, `password`) VALUES
-(5, 45801072, 'Franco', '2004-06-07', 'Chamo123');
+INSERT INTO `comprador` (`codComprador`, `dni`, `nombre`, `fechaNac`, `estado`, `password`) VALUES
+(7, 45801072, 'Franco Coria', '2004-06-07', 1, 'Kakito123'),
+(9, 33848316, 'Aquiles Bailo', '2005-11-08', 0, 'Aquilesbailo123');
 
 -- --------------------------------------------------------
 
@@ -68,8 +71,9 @@ CREATE TABLE `funcion` (
   `idioma` varchar(20) NOT NULL,
   `es3d` tinyint(1) NOT NULL,
   `subtitulada` tinyint(1) NOT NULL,
-  `horaInicio` datetime NOT NULL,
-  `horaFin` datetime NOT NULL,
+  `horaInicio` time NOT NULL,
+  `horaFin` time NOT NULL,
+  `estado` tinyint(1) NOT NULL,
   `codSala` int(11) NOT NULL,
   `precioLugar` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -78,8 +82,9 @@ CREATE TABLE `funcion` (
 -- Volcado de datos para la tabla `funcion`
 --
 
-INSERT INTO `funcion` (`codFuncion`, `codPelicula`, `idioma`, `es3d`, `subtitulada`, `horaInicio`, `horaFin`, `codSala`, `precioLugar`) VALUES
-(5, 23, 'Ingles', 1, 1, '2025-11-19 20:20:55', '2025-11-19 21:30:55', 10, 2500);
+INSERT INTO `funcion` (`codFuncion`, `codPelicula`, `idioma`, `es3d`, `subtitulada`, `horaInicio`, `horaFin`, `estado`, `codSala`, `precioLugar`) VALUES
+(8, 23, 'Espaniol', 1, 0, '20:12:00', '23:00:00', 1, 11, 2599),
+(9, 26, 'Espaniol', 1, 0, '20:30:00', '22:30:00', 1, 12, 2500);
 
 -- --------------------------------------------------------
 
@@ -100,206 +105,66 @@ CREATE TABLE `lugar` (
 --
 
 INSERT INTO `lugar` (`codLugar`, `fila`, `numero`, `estado`, `codFuncion`) VALUES
-(273, 'A', 1, 0, 5),
-(274, 'A', 2, 0, 5),
-(275, 'A', 3, 0, 5),
-(276, 'A', 4, 0, 5),
-(277, 'A', 5, 0, 5),
-(278, 'A', 6, 0, 5),
-(279, 'A', 7, 1, 5),
-(280, 'A', 8, 0, 5),
-(281, 'A', 9, 0, 5),
-(282, 'A', 10, 0, 5),
-(283, 'A', 11, 0, 5),
-(284, 'A', 12, 0, 5),
-(285, 'A', 13, 0, 5),
-(286, 'A', 14, 0, 5),
-(287, 'A', 15, 0, 5),
-(288, 'A', 16, 0, 5),
-(289, 'A', 17, 0, 5),
-(290, 'A', 18, 0, 5),
-(291, 'A', 19, 0, 5),
-(292, 'A', 20, 0, 5),
-(293, 'B', 1, 0, 5),
-(294, 'B', 2, 0, 5),
-(295, 'B', 3, 0, 5),
-(296, 'B', 4, 0, 5),
-(297, 'B', 5, 0, 5),
-(298, 'B', 6, 0, 5),
-(299, 'B', 7, 0, 5),
-(300, 'B', 8, 0, 5),
-(301, 'B', 9, 0, 5),
-(302, 'B', 10, 0, 5),
-(303, 'B', 11, 0, 5),
-(304, 'B', 12, 0, 5),
-(305, 'B', 13, 0, 5),
-(306, 'B', 14, 0, 5),
-(307, 'B', 15, 0, 5),
-(308, 'B', 16, 0, 5),
-(309, 'B', 17, 0, 5),
-(310, 'B', 18, 0, 5),
-(311, 'B', 19, 0, 5),
-(312, 'B', 20, 0, 5),
-(313, 'C', 1, 0, 5),
-(314, 'C', 2, 0, 5),
-(315, 'C', 3, 0, 5),
-(316, 'C', 4, 0, 5),
-(317, 'C', 5, 0, 5),
-(318, 'C', 6, 0, 5),
-(319, 'C', 7, 0, 5),
-(320, 'C', 8, 0, 5),
-(321, 'C', 9, 0, 5),
-(322, 'C', 10, 0, 5),
-(323, 'C', 11, 0, 5),
-(324, 'C', 12, 0, 5),
-(325, 'C', 13, 0, 5),
-(326, 'C', 14, 0, 5),
-(327, 'C', 15, 0, 5),
-(328, 'C', 16, 0, 5),
-(329, 'C', 17, 0, 5),
-(330, 'C', 18, 0, 5),
-(331, 'C', 19, 0, 5),
-(332, 'C', 20, 0, 5),
-(333, 'D', 1, 0, 5),
-(334, 'D', 2, 0, 5),
-(335, 'D', 3, 0, 5),
-(336, 'D', 4, 0, 5),
-(337, 'D', 5, 0, 5),
-(338, 'D', 6, 0, 5),
-(339, 'D', 7, 0, 5),
-(340, 'D', 8, 0, 5),
-(341, 'D', 9, 0, 5),
-(342, 'D', 10, 0, 5),
-(343, 'D', 11, 0, 5),
-(344, 'D', 12, 0, 5),
-(345, 'D', 13, 0, 5),
-(346, 'D', 14, 0, 5),
-(347, 'D', 15, 0, 5),
-(348, 'D', 16, 0, 5),
-(349, 'D', 17, 0, 5),
-(350, 'D', 18, 0, 5),
-(351, 'D', 19, 0, 5),
-(352, 'D', 20, 0, 5),
-(353, 'E', 1, 0, 5),
-(354, 'E', 2, 0, 5),
-(355, 'E', 3, 0, 5),
-(356, 'E', 4, 0, 5),
-(357, 'E', 5, 0, 5),
-(358, 'E', 6, 0, 5),
-(359, 'E', 7, 0, 5),
-(360, 'E', 8, 0, 5),
-(361, 'E', 9, 0, 5),
-(362, 'E', 10, 0, 5),
-(363, 'E', 11, 0, 5),
-(364, 'E', 12, 0, 5),
-(365, 'E', 13, 0, 5),
-(366, 'E', 14, 0, 5),
-(367, 'E', 15, 0, 5),
-(368, 'E', 16, 0, 5),
-(369, 'E', 17, 0, 5),
-(370, 'E', 18, 0, 5),
-(371, 'E', 19, 0, 5),
-(372, 'E', 20, 0, 5),
-(373, 'F', 1, 0, 5),
-(374, 'F', 2, 0, 5),
-(375, 'F', 3, 0, 5),
-(376, 'F', 4, 0, 5),
-(377, 'F', 5, 0, 5),
-(378, 'F', 6, 0, 5),
-(379, 'F', 7, 0, 5),
-(380, 'F', 8, 0, 5),
-(381, 'F', 9, 0, 5),
-(382, 'F', 10, 0, 5),
-(383, 'F', 11, 0, 5),
-(384, 'F', 12, 0, 5),
-(385, 'F', 13, 0, 5),
-(386, 'F', 14, 0, 5),
-(387, 'F', 15, 0, 5),
-(388, 'F', 16, 0, 5),
-(389, 'F', 17, 0, 5),
-(390, 'F', 18, 0, 5),
-(391, 'F', 19, 0, 5),
-(392, 'F', 20, 0, 5),
-(393, 'G', 1, 0, 5),
-(394, 'G', 2, 0, 5),
-(395, 'G', 3, 0, 5),
-(396, 'G', 4, 0, 5),
-(397, 'G', 5, 0, 5),
-(398, 'G', 6, 0, 5),
-(399, 'G', 7, 0, 5),
-(400, 'G', 8, 0, 5),
-(401, 'G', 9, 0, 5),
-(402, 'G', 10, 0, 5),
-(403, 'G', 11, 0, 5),
-(404, 'G', 12, 0, 5),
-(405, 'G', 13, 0, 5),
-(406, 'G', 14, 0, 5),
-(407, 'G', 15, 0, 5),
-(408, 'G', 16, 0, 5),
-(409, 'G', 17, 0, 5),
-(410, 'G', 18, 0, 5),
-(411, 'G', 19, 0, 5),
-(412, 'G', 20, 0, 5),
-(413, 'H', 1, 0, 5),
-(414, 'H', 2, 0, 5),
-(415, 'H', 3, 0, 5),
-(416, 'H', 4, 0, 5),
-(417, 'H', 5, 0, 5),
-(418, 'H', 6, 0, 5),
-(419, 'H', 7, 0, 5),
-(420, 'H', 8, 0, 5),
-(421, 'H', 9, 0, 5),
-(422, 'H', 10, 0, 5),
-(423, 'H', 11, 0, 5),
-(424, 'H', 12, 0, 5),
-(425, 'H', 13, 0, 5),
-(426, 'H', 14, 0, 5),
-(427, 'H', 15, 0, 5),
-(428, 'H', 16, 0, 5),
-(429, 'H', 17, 0, 5),
-(430, 'H', 18, 0, 5),
-(431, 'H', 19, 0, 5),
-(432, 'H', 20, 0, 5),
-(433, 'I', 1, 0, 5),
-(434, 'I', 2, 0, 5),
-(435, 'I', 3, 0, 5),
-(436, 'I', 4, 0, 5),
-(437, 'I', 5, 0, 5),
-(438, 'I', 6, 0, 5),
-(439, 'I', 7, 0, 5),
-(440, 'I', 8, 0, 5),
-(441, 'I', 9, 0, 5),
-(442, 'I', 10, 0, 5),
-(443, 'I', 11, 0, 5),
-(444, 'I', 12, 0, 5),
-(445, 'I', 13, 0, 5),
-(446, 'I', 14, 0, 5),
-(447, 'I', 15, 0, 5),
-(448, 'I', 16, 0, 5),
-(449, 'I', 17, 0, 5),
-(450, 'I', 18, 0, 5),
-(451, 'I', 19, 0, 5),
-(452, 'I', 20, 0, 5),
-(453, 'J', 1, 0, 5),
-(454, 'J', 2, 0, 5),
-(455, 'J', 3, 0, 5),
-(456, 'J', 4, 0, 5),
-(457, 'J', 5, 0, 5),
-(458, 'J', 6, 0, 5),
-(459, 'J', 7, 0, 5),
-(460, 'J', 8, 0, 5),
-(461, 'J', 9, 0, 5),
-(462, 'J', 10, 0, 5),
-(463, 'J', 11, 0, 5),
-(464, 'J', 12, 0, 5),
-(465, 'J', 13, 0, 5),
-(466, 'J', 14, 0, 5),
-(467, 'J', 15, 0, 5),
-(468, 'J', 16, 0, 5),
-(469, 'J', 17, 0, 5),
-(470, 'J', 18, 0, 5),
-(471, 'J', 19, 0, 5),
-(472, 'J', 20, 0, 5);
+(473, 'A', 1, 0, 8),
+(474, 'A', 2, 0, 8),
+(475, 'A', 3, 0, 8),
+(476, 'A', 4, 0, 8),
+(477, 'A', 5, 0, 8),
+(478, 'A', 6, 0, 8),
+(479, 'A', 7, 0, 8),
+(480, 'A', 8, 0, 8),
+(481, 'A', 9, 0, 8),
+(482, 'A', 10, 0, 8),
+(483, 'A', 11, 0, 8),
+(484, 'A', 12, 0, 8),
+(485, 'A', 13, 0, 8),
+(486, 'A', 14, 0, 8),
+(487, 'A', 15, 0, 8),
+(488, 'A', 16, 0, 8),
+(489, 'A', 17, 0, 8),
+(490, 'A', 18, 0, 8),
+(491, 'A', 19, 0, 8),
+(492, 'A', 20, 0, 8),
+(493, 'B', 1, 0, 8),
+(494, 'B', 2, 0, 8),
+(495, 'B', 3, 0, 8),
+(496, 'B', 4, 0, 8),
+(497, 'B', 5, 0, 8),
+(498, 'B', 6, 0, 8),
+(499, 'B', 7, 0, 8),
+(500, 'B', 8, 0, 8),
+(501, 'B', 9, 0, 8),
+(502, 'B', 10, 0, 8),
+(504, 'A', 1, 0, 9),
+(505, 'A', 2, 0, 9),
+(506, 'A', 3, 0, 9),
+(507, 'A', 4, 0, 9),
+(508, 'A', 5, 0, 9),
+(509, 'A', 6, 0, 9),
+(510, 'A', 7, 0, 9),
+(511, 'A', 8, 0, 9),
+(512, 'A', 9, 0, 9),
+(513, 'A', 10, 0, 9),
+(514, 'A', 11, 0, 9),
+(515, 'A', 12, 0, 9),
+(516, 'A', 13, 0, 9),
+(517, 'A', 14, 0, 9),
+(518, 'A', 15, 0, 9),
+(519, 'A', 16, 0, 9),
+(520, 'A', 17, 0, 9),
+(521, 'A', 18, 0, 9),
+(522, 'A', 19, 0, 9),
+(523, 'A', 20, 0, 9),
+(524, 'B', 1, 0, 9),
+(525, 'B', 2, 0, 9),
+(526, 'B', 3, 0, 9),
+(527, 'B', 4, 0, 9),
+(528, 'B', 5, 0, 9),
+(529, 'B', 6, 0, 9),
+(530, 'B', 7, 0, 9),
+(531, 'B', 8, 0, 9),
+(532, 'B', 9, 0, 9),
+(533, 'B', 10, 0, 9);
 
 -- --------------------------------------------------------
 
@@ -323,9 +188,9 @@ CREATE TABLE `pelicula` (
 --
 
 INSERT INTO `pelicula` (`codPelicula`, `titulo`, `director`, `actores`, `origen`, `genero`, `estreno`, `encartelera`) VALUES
-(23, 'Harry Popotter', 'J.K Rowling', 'Ronie Wesley, Harry Potter, Hermione', 'Estados Unidos', 'Romantico', '2025-10-29', 1),
-(24, 'Mulan', 'Richard Hard', 'Eddie Philman, Laurel Williams', 'Estados Unidos', 'Animada', '2025-11-12', 1),
-(25, '28 Days Later', 'David Boyle', 'Frank Sinatra', 'Britanico', 'CIencia Ficcion', '2025-11-12', 0);
+(23, 'Harry Potter', 'J.K Rowling', 'Ronie Wesley, Harry Potter, Hermione', 'Estados Unidos', 'Romantico', '2025-10-27', 1),
+(25, '28 Days Later', 'David Boyle', 'Frank Sinatra', 'Britanico', 'CIencia Ficcion', '2025-11-12', 0),
+(26, 'Ready Player One', 'Clark Host', 'Nick Boss, Clark Robbertson', 'Britanico', 'CIencia Ficcion', '2025-11-20', 1);
 
 -- --------------------------------------------------------
 
@@ -346,7 +211,8 @@ CREATE TABLE `sala` (
 --
 
 INSERT INTO `sala` (`codSala`, `nroSala`, `apta3d`, `capacidad`, `estado`) VALUES
-(10, 1, 1, 200, 1);
+(11, 1, 1, 170, 1),
+(12, 2, 1, 200, 1);
 
 -- --------------------------------------------------------
 
@@ -396,7 +262,6 @@ ALTER TABLE `funcion`
 --
 ALTER TABLE `lugar`
   ADD PRIMARY KEY (`codLugar`),
-  ADD UNIQUE KEY `llaveCompuesta` (`fila`,`numero`),
   ADD KEY `codFuncion` (`codFuncion`);
 
 --
@@ -410,7 +275,8 @@ ALTER TABLE `pelicula`
 -- Indices de la tabla `sala`
 --
 ALTER TABLE `sala`
-  ADD PRIMARY KEY (`codSala`);
+  ADD PRIMARY KEY (`codSala`),
+  ADD UNIQUE KEY `nroSala` (`nroSala`);
 
 --
 -- Indices de la tabla `ticketcompra`
@@ -428,7 +294,7 @@ ALTER TABLE `ticketcompra`
 -- AUTO_INCREMENT de la tabla `comprador`
 --
 ALTER TABLE `comprador`
-  MODIFY `codComprador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `codComprador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `detalleticket`
@@ -440,25 +306,25 @@ ALTER TABLE `detalleticket`
 -- AUTO_INCREMENT de la tabla `funcion`
 --
 ALTER TABLE `funcion`
-  MODIFY `codFuncion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `codFuncion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `lugar`
 --
 ALTER TABLE `lugar`
-  MODIFY `codLugar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=473;
+  MODIFY `codLugar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=535;
 
 --
 -- AUTO_INCREMENT de la tabla `pelicula`
 --
 ALTER TABLE `pelicula`
-  MODIFY `codPelicula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `codPelicula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `sala`
 --
 ALTER TABLE `sala`
-  MODIFY `codSala` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `codSala` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `ticketcompra`
