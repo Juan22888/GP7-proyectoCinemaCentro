@@ -28,9 +28,9 @@ public class NuevoLugar extends javax.swing.JInternalFrame {
     }
     
     private void limpiarCampos() {
-    boxFunciones.setSelectedIndex(0); // Deselecciona la función
-    txtCantidad.setText("");            // Limpia el campo cantidad
-    txtCapacidad.setText("");           // Limpia el campo capacidad
+    boxFunciones.setSelectedIndex(0); 
+    txtCantidad.setText("");            
+    txtCapacidad.setText("");         
 }
 
 
@@ -183,7 +183,7 @@ public class NuevoLugar extends javax.swing.JInternalFrame {
             return;
         }
 
-        // delega todo lo demás al DAO
+       
         lugarData.crearLugaresParaFuncion(codFuncion, cantidad);
 
         JOptionPane.showMessageDialog(this, "Lugares creados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
