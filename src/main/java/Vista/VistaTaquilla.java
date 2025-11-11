@@ -137,7 +137,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
                 butCancelarActionPerformed(evt);
             }
         });
-        getContentPane().add(butCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 670, 130, 50));
+        getContentPane().add(butCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 670, 140, 50));
 
         labellLugaresDisponibles.setFont(new java.awt.Font("Calibri", 3, 24)); // NOI18N
         labellLugaresDisponibles.setForeground(new java.awt.Color(255, 255, 255));
@@ -196,7 +196,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         getContentPane().add(butGenerarTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 670, 190, 50));
 
         fondo.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Documents\\NetBeansProjects\\CineCentro\\GP7-proyectoCinemaCentro\\img\\fondo.jpg")); // NOI18N
-        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -170, 990, 1060));
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -40, 1000, 790));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
