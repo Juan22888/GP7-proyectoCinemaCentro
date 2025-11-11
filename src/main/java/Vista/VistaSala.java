@@ -83,15 +83,13 @@ public class VistaSala extends javax.swing.JInternalFrame {
         btnBajaAlta = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
 
         setClosable(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Administracion de Salas del Cine");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Buscar Salas:");
@@ -137,7 +135,6 @@ public class VistaSala extends javax.swing.JInternalFrame {
         });
         getContentPane().add(btnBajaAlta, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 640, -1, 50));
 
-        btnActualizar.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Desktop\\iconos netbeans\\guardar.png")); // NOI18N
         btnActualizar.setText("Guardar");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,7 +143,6 @@ public class VistaSala extends javax.swing.JInternalFrame {
         });
         getContentPane().add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 640, 135, 50));
 
-        btnEliminar.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Desktop\\iconos netbeans\\eliminar.png")); // NOI18N
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,10 +150,6 @@ public class VistaSala extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 640, 136, 50));
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vista/cine (1).jpg"))); // NOI18N
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 857, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -303,7 +295,6 @@ public class VistaSala extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnNuevaSala;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable salaTable;
     private javax.swing.JTextField txtBuscarSalas;
