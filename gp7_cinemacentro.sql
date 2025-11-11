@@ -1,9 +1,10 @@
+
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-11-2025 a las 20:02:10
+-- Tiempo de generación: 11-11-2025 a las 14:19:41
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -82,7 +83,8 @@ CREATE TABLE `funcion` (
 --
 
 INSERT INTO `funcion` (`codFuncion`, `codPelicula`, `idioma`, `es3d`, `subtitulada`, `horaInicio`, `horaFin`, `estado`, `codSala`, `precioLugar`) VALUES
-(8, 23, 'Espaniol', 1, 0, '20:12:00', '23:00:00', 1, 11, 2599);
+(8, 23, 'Espaniol', 1, 0, '20:12:00', '23:00:00', 1, 11, 2599),
+(9, 26, 'Espaniol', 1, 0, '20:30:00', '22:30:00', 1, 12, 2500);
 
 -- --------------------------------------------------------
 
@@ -97,6 +99,72 @@ CREATE TABLE `lugar` (
   `estado` tinyint(1) NOT NULL,
   `codFuncion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `lugar`
+--
+
+INSERT INTO `lugar` (`codLugar`, `fila`, `numero`, `estado`, `codFuncion`) VALUES
+(473, 'A', 1, 0, 8),
+(474, 'A', 2, 0, 8),
+(475, 'A', 3, 0, 8),
+(476, 'A', 4, 0, 8),
+(477, 'A', 5, 0, 8),
+(478, 'A', 6, 0, 8),
+(479, 'A', 7, 0, 8),
+(480, 'A', 8, 0, 8),
+(481, 'A', 9, 0, 8),
+(482, 'A', 10, 0, 8),
+(483, 'A', 11, 0, 8),
+(484, 'A', 12, 0, 8),
+(485, 'A', 13, 0, 8),
+(486, 'A', 14, 0, 8),
+(487, 'A', 15, 0, 8),
+(488, 'A', 16, 0, 8),
+(489, 'A', 17, 0, 8),
+(490, 'A', 18, 0, 8),
+(491, 'A', 19, 0, 8),
+(492, 'A', 20, 0, 8),
+(493, 'B', 1, 0, 8),
+(494, 'B', 2, 0, 8),
+(495, 'B', 3, 0, 8),
+(496, 'B', 4, 0, 8),
+(497, 'B', 5, 0, 8),
+(498, 'B', 6, 0, 8),
+(499, 'B', 7, 0, 8),
+(500, 'B', 8, 0, 8),
+(501, 'B', 9, 0, 8),
+(502, 'B', 10, 0, 8),
+(504, 'A', 1, 0, 9),
+(505, 'A', 2, 0, 9),
+(506, 'A', 3, 0, 9),
+(507, 'A', 4, 0, 9),
+(508, 'A', 5, 0, 9),
+(509, 'A', 6, 0, 9),
+(510, 'A', 7, 0, 9),
+(511, 'A', 8, 0, 9),
+(512, 'A', 9, 0, 9),
+(513, 'A', 10, 0, 9),
+(514, 'A', 11, 0, 9),
+(515, 'A', 12, 0, 9),
+(516, 'A', 13, 0, 9),
+(517, 'A', 14, 0, 9),
+(518, 'A', 15, 0, 9),
+(519, 'A', 16, 0, 9),
+(520, 'A', 17, 0, 9),
+(521, 'A', 18, 0, 9),
+(522, 'A', 19, 0, 9),
+(523, 'A', 20, 0, 9),
+(524, 'B', 1, 0, 9),
+(525, 'B', 2, 0, 9),
+(526, 'B', 3, 0, 9),
+(527, 'B', 4, 0, 9),
+(528, 'B', 5, 0, 9),
+(529, 'B', 6, 0, 9),
+(530, 'B', 7, 0, 9),
+(531, 'B', 8, 0, 9),
+(532, 'B', 9, 0, 9),
+(533, 'B', 10, 0, 9);
 
 -- --------------------------------------------------------
 
@@ -143,7 +211,8 @@ CREATE TABLE `sala` (
 --
 
 INSERT INTO `sala` (`codSala`, `nroSala`, `apta3d`, `capacidad`, `estado`) VALUES
-(11, 1, 1, 170, 1);
+(11, 1, 1, 170, 1),
+(12, 2, 1, 200, 1);
 
 -- --------------------------------------------------------
 
@@ -193,7 +262,6 @@ ALTER TABLE `funcion`
 --
 ALTER TABLE `lugar`
   ADD PRIMARY KEY (`codLugar`),
-  ADD UNIQUE KEY `llaveCompuesta` (`fila`,`numero`),
   ADD KEY `codFuncion` (`codFuncion`);
 
 --
@@ -238,13 +306,13 @@ ALTER TABLE `detalleticket`
 -- AUTO_INCREMENT de la tabla `funcion`
 --
 ALTER TABLE `funcion`
-  MODIFY `codFuncion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `codFuncion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `lugar`
 --
 ALTER TABLE `lugar`
-  MODIFY `codLugar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=473;
+  MODIFY `codLugar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=535;
 
 --
 -- AUTO_INCREMENT de la tabla `pelicula`
@@ -256,7 +324,7 @@ ALTER TABLE `pelicula`
 -- AUTO_INCREMENT de la tabla `sala`
 --
 ALTER TABLE `sala`
-  MODIFY `codSala` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `codSala` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `ticketcompra`
