@@ -413,16 +413,16 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_butReiniciarTablaActionPerformed
 
     private void butEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butEliminarActionPerformed
-       // 1. Obtener la fila seleccionada
+     
     int filaSeleccionada = TablaPeliculas.getSelectedRow();
 
-    // 2. Validar si hay una fila seleccionada
+   
     if (filaSeleccionada == -1) {
         JOptionPane.showMessageDialog(this, "Error: Debe seleccionar una película de la tabla.", "Error al Eliminar", JOptionPane.ERROR_MESSAGE);
-        return; // No hacer nada si no hay selección
+        return; 
     }
 
-    // 3. Pedir confirmación al usuario
+  
     int confirmacion = JOptionPane.showConfirmDialog(this, 
             "¿Está seguro de que desea eliminar esta película?", 
             "Confirmar Eliminación", 
@@ -430,29 +430,27 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
 
     if (confirmacion == JOptionPane.YES_OPTION) {
         try {
-            // 4. Obtener el ID de la fila seleccionada
-            // IMPORTANTE: Asumo que el ID (codPelicula) está en la primera columna (índice 0)
+          
             int idPelicula = (Integer) TablaPeliculas.getValueAt(filaSeleccionada, 0);
 
-            // 5. Llamar al método de PeliculaData
-            // (Asumo que tienes una instancia 'peliData')
+          
             boolean exito = peliculaData.eliminarPelicula(idPelicula);
 
-            // 6. Informar resultado y actualizar la tabla
+         
             if (exito) {
                 JOptionPane.showMessageDialog(this, "Película eliminada exitosamente.");
                 
-                // Actualizar la tabla para que refleje el cambio
+             
                 cargarPeliculas(); 
             } else {
                 JOptionPane.showMessageDialog(this, "No se pudo eliminar la película (ID no encontrado).", "Error", JOptionPane.WARNING_MESSAGE);
             }
 
         } catch (SQLException ex) {
-            // Capturar error de la base de datos (ej: clave foránea)
+         
             JOptionPane.showMessageDialog(this, "Error al eliminar: " + ex.getMessage(), "Error SQL", JOptionPane.ERROR_MESSAGE);
         } catch (ClassCastException cce) {
-            // Capturar error si la columna 0 no es un Integer
+           
             JOptionPane.showMessageDialog(this, "Error interno: No se pudo leer el ID de la tabla.", "Error de Tipo", JOptionPane.ERROR_MESSAGE);
         }
     }
