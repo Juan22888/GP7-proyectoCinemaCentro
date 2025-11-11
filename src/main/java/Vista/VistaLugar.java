@@ -313,25 +313,41 @@ public class VistaLugar extends javax.swing.JInternalFrame {
         }
 
         int filaSeleccionada = TablaLugares.getSelectedRow();
-        int codLugar = Integer.parseInt(TablaLugares.getValueAt(filaSeleccionada, 0).toString());
-        //char fila = (TablaLugares.getValueAt(filaSeleccionada, 2).toString().charAt(0));
-        //int numero = Integer.parseInt(TablaLugares.getValueAt(filaSeleccionada, 3).toString());
-        boolean estado = Boolean.parseBoolean(TablaLugares.getValueAt(filaSeleccionada, 3).toString());
-        //int codFuncion =Integer.parseInt(TablaLugares.getValueAt(filaSeleccionada, 5).toString());
-        
-        
-        Lugar lugar;
-       
-        
-        
-        try {
-            lugarData.actualizarLugar(codLugar,estado);
 
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error, al actualizar datos en la base de datos.", "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila para modificar.", "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        JOptionPane.showMessageDialog(null, "El lugar se modifico correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+        try {
+
+            int codLugar = Integer.parseInt(TablaLugares.getValueAt(filaSeleccionada, 0).toString());
+            boolean estado = Boolean.parseBoolean(TablaLugares.getValueAt(filaSeleccionada, 3).toString());
+
+            if (estado != true && estado != false) {
+                JOptionPane.showMessageDialog(this, "\"El estado del asiento debe ser válido (ocupado/true o libre/false).\"", "Error de Datos", JOptionPane.ERROR_MESSAGE);
+            }
+
+            boolean exito = lugarData.actualizarLugar(codLugar, estado);
+
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "¡El estado del lugar se modificó correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cargarLugares(); // refresca la tabla
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "No se pudo actualizar el estado del lugar (0 filas afectadas).",
+                        "Error de Actualización",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error en el formato del ID del lugar.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al guardar en la base de datos: " + ex.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_butGuardarCambiosActionPerformed
 
     private void butReiniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butReiniciarActionPerformed
@@ -343,94 +359,87 @@ public class VistaLugar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_butCancelarActionPerformed
 
     private void buscarPorFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarPorFuncionActionPerformed
-  
-    if (txtBuscarLugar.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this,
-                "Debe ingresar un código de función.",
-                "Error de validación",
-                JOptionPane.WARNING_MESSAGE);
-        return;
-    }
 
-    int codFuncion;
-    try {
-        codFuncion = Integer.parseInt(txtBuscarLugar.getText().trim());
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this,
-                "El código de función debe ser un número entero válido.",
-                "Error de formato",
-                JOptionPane.ERROR_MESSAGE);
-        return;
-    }
+        if (txtBuscarLugar.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Debe ingresar un código de función.",
+                    "Error de validación",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-    List<Lugar> listaLugares = null;
-    
-    listaLugares = lugarData.obtenerLugaresPorFuncion(codFuncion);
+        int codFuncion;
+        try {
+            codFuncion = Integer.parseInt(txtBuscarLugar.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                    "El código de función debe ser un número entero válido.",
+                    "Error de formato",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
+        List<Lugar> listaLugares = null;
 
-    DefaultTableModel modelo = (DefaultTableModel) TablaLugares.getModel();
-    modelo.setRowCount(0);
+        listaLugares = lugarData.obtenerLugaresPorFuncion(codFuncion);
 
-    if (listaLugares == null || listaLugares.isEmpty()) {
-        JOptionPane.showMessageDialog(this,
-                "No se encontraron lugares para la función con código " + codFuncion + ".",
-                "Sin resultados",
-                JOptionPane.INFORMATION_MESSAGE);
-        return;
-    }
+        DefaultTableModel modelo = (DefaultTableModel) TablaLugares.getModel();
+        modelo.setRowCount(0);
 
- 
-    for (Lugar lugar : listaLugares) {
-        Object[] fila = {
-            lugar.getCodLugar(),
-            lugar.getFila(),
-            lugar.getNumero(),
-            lugar.isEstado(),
-            lugar.getFuncion().getCodFuncion()
-        };
-        modelo.addRow(fila);
-    }
+        if (listaLugares == null || listaLugares.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "No se encontraron lugares para la función con código " + codFuncion + ".",
+                    "Sin resultados",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        for (Lugar lugar : listaLugares) {
+            Object[] fila = {
+                lugar.getCodLugar(),
+                lugar.getFila(),
+                lugar.getNumero(),
+                lugar.isEstado(),
+                lugar.getFuncion().getCodFuncion()
+            };
+            modelo.addRow(fila);
+        }
     }//GEN-LAST:event_buscarPorFuncionActionPerformed
 
     private void butEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butEliminarActionPerformed
-      
-    int filaSeleccionada = TablaLugares.getSelectedRow();
 
-   
-    if (filaSeleccionada == -1) {
-        JOptionPane.showMessageDialog(this, "Error: Debe seleccionar un lugar de la tabla.", "Error al Eliminar", JOptionPane.ERROR_MESSAGE);
-        return; 
-    }
+        int filaSeleccionada = TablaLugares.getSelectedRow();
 
-  
-    int confirmacion = JOptionPane.showConfirmDialog(this, 
-            "¿Está seguro de que desea eliminar este lugar?", 
-            "Confirmar Eliminación", 
-            JOptionPane.YES_NO_OPTION);
-
-    if (confirmacion == JOptionPane.YES_OPTION) {
-        try {
-          
-            int idPelicula = Integer.parseInt(TablaLugares.getValueAt(filaSeleccionada, 0).toString());
-
-          
-            boolean exito = lugarData.eliminarLugar(idPelicula);
-
-         
-            if (exito) {
-                JOptionPane.showMessageDialog(this, "Lugar eliminado exitosamente.");
-                
-             
-                cargarLugares(); 
-            } else {
-                JOptionPane.showMessageDialog(this, "No se pudo eliminar el lugar (ID no encontrado).", "Error", JOptionPane.WARNING_MESSAGE);
-            }
-
-        } catch (ClassCastException cce) {
-           
-            JOptionPane.showMessageDialog(this, "Error interno: No se pudo leer el ID de la tabla.", "Error de Tipo", JOptionPane.ERROR_MESSAGE);
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Error: Debe seleccionar un lugar de la tabla.", "Error al Eliminar", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-    }
+
+        int confirmacion = JOptionPane.showConfirmDialog(this,
+                "¿Está seguro de que desea eliminar este lugar?",
+                "Confirmar Eliminación",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            try {
+
+                int idPelicula = Integer.parseInt(TablaLugares.getValueAt(filaSeleccionada, 0).toString());
+
+                boolean exito = lugarData.eliminarLugar(idPelicula);
+
+                if (exito) {
+                    JOptionPane.showMessageDialog(this, "Lugar eliminado exitosamente.");
+
+                    cargarLugares();
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se pudo eliminar el lugar (ID no encontrado).", "Error", JOptionPane.WARNING_MESSAGE);
+                }
+
+            } catch (ClassCastException cce) {
+
+                JOptionPane.showMessageDialog(this, "Error interno: No se pudo leer el ID de la tabla.", "Error de Tipo", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_butEliminarActionPerformed
 
 
