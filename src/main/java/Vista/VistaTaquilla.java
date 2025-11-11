@@ -125,10 +125,10 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         jLabel4.setText("Venta de Entrada");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, -1, -1));
 
-        labelComprador.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
+        labelComprador.setFont(new java.awt.Font("Calibri", 3, 24)); // NOI18N
         labelComprador.setForeground(new java.awt.Color(255, 255, 255));
         labelComprador.setText("Comprador");
-        getContentPane().add(labelComprador, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, -1, -1));
+        getContentPane().add(labelComprador, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, -1, -1));
 
         butCancelar.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Documents\\NetBeansProjects\\CineCentro\\GP7-proyectoCinemaCentro\\img\\icons8-cross-mark-48.png")); // NOI18N
         butCancelar.setText("Cancelar");
