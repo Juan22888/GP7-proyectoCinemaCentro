@@ -72,8 +72,6 @@ public class VistaTicket extends javax.swing.JInternalFrame {
 
         ButBuscar.setText("Buscar");
 
-        CboxComprador.setForeground(new java.awt.Color(0, 0, 0));
-
         jDesktopPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -96,7 +94,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
                         .addComponent(jScrollPane1))
                     .addGroup(jDesktopPane1Layout.createSequentialGroup()
                         .addGap(188, 188, 188)
-                        .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jDesktopPane1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
