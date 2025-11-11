@@ -133,7 +133,7 @@ public class LugarData {
     }
 
     public boolean actualizarLugar(int codLugar, boolean nuevoEstado) throws SQLException {
-
+        
         String sql = "UPDATE lugar SET estado = ? WHERE codLugar = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
