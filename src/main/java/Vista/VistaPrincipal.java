@@ -66,6 +66,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         itemSala = new javax.swing.JMenuItem();
         itemPelicula = new javax.swing.JMenuItem();
         menuTaquilla = new javax.swing.JMenu();
+        taquillaMenu = new javax.swing.JMenuItem();
         menuOnline = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -102,6 +103,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
         menuAdministracion.add(CompradorMenuItem);
 
         itemTicket.setText("Ticket");
+        itemTicket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemTicketActionPerformed(evt);
+            }
+        });
         menuAdministracion.add(itemTicket);
 
         itemLugar.setText("Lugar");
@@ -134,6 +140,20 @@ public class VistaPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(menuAdministracion);
 
         menuTaquilla.setText("Taquilla");
+        menuTaquilla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuTaquillaActionPerformed(evt);
+            }
+        });
+
+        taquillaMenu.setText("Taquilla");
+        taquillaMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                taquillaMenuActionPerformed(evt);
+            }
+        });
+        menuTaquilla.add(taquillaMenu);
+
         jMenuBar1.add(menuTaquilla);
 
         menuOnline.setText("Online");
@@ -185,6 +205,22 @@ public class VistaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_itemPeliculaMouseClicked
 
+    private void menuTaquillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuTaquillaActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_menuTaquillaActionPerformed
+
+    private void itemTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemTicketActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_itemTicketActionPerformed
+
+    private void taquillaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_taquillaMenuActionPerformed
+        // TODO add your handling code here:
+        VistaTaquilla vt = new VistaTaquilla(peliculaData, funcionData, lugarData, CompradorData, ticketData);
+    abrirInternal(vt);
+    }//GEN-LAST:event_taquillaMenuActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem CompradorMenuItem;
@@ -198,5 +234,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu menuAdministracion;
     private javax.swing.JMenu menuOnline;
     private javax.swing.JMenu menuTaquilla;
+    private javax.swing.JMenuItem taquillaMenu;
     // End of variables declaration//GEN-END:variables
 }
