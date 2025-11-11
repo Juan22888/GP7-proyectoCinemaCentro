@@ -198,6 +198,7 @@ public class LugarData {
 
         return lugaresDisponibles;
     }*/
+    
     public List<Lugar> obtenerLugaresPorFuncion(int codFuncion) {
         String sql = "SELECT codLugar, fila, numero FROM lugar WHERE codFuncion = ?";
         List<Lugar> lugaresDisponibles = new ArrayList<>();

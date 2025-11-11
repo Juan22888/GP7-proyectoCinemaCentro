@@ -17,8 +17,8 @@ import javax.swing.JOptionPane;
  */
 public class NuevoLugar extends javax.swing.JInternalFrame {
 
-    private LugarData lugarData;
-    private FuncionData funcionData;
+    private final LugarData lugarData;
+    private final FuncionData funcionData;
 
     public NuevoLugar(LugarData lugarData, FuncionData funcionData) {
         this.lugarData = lugarData;
