@@ -196,7 +196,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         getContentPane().add(butGenerarTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 670, 190, 50));
 
         fondo.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Documents\\NetBeansProjects\\CineCentro\\GP7-proyectoCinemaCentro\\img\\fondo.jpg")); // NOI18N
-        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -170, 990, 940));
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -170, 990, 1060));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
