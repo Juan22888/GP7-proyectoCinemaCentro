@@ -19,12 +19,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class VistaLugar extends javax.swing.JInternalFrame {
 
-    private final PeliculaData peliculaData;
     private final FuncionData funcionData;
     private final LugarData lugarData;
 
     public VistaLugar(PeliculaData peliculaData, FuncionData funcionData, LugarData lugarData) {
-        this.peliculaData = peliculaData;
         this.funcionData = funcionData;
         this.lugarData = lugarData;
         lugarData.setFuncionData(funcionData);
@@ -83,6 +81,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
         butGuardarCambios = new javax.swing.JButton();
         butReiniciar = new javax.swing.JButton();
         buscarPorFuncion = new javax.swing.JButton();
+        butEliminar = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -165,6 +164,13 @@ public class VistaLugar extends javax.swing.JInternalFrame {
             }
         });
 
+        butEliminar.setText("Eliminar");
+        butEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butEliminarActionPerformed(evt);
+            }
+        });
+
         LugarDesktop.setLayer(butCancelar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         LugarDesktop.setLayer(butNuevosLugares, javax.swing.JLayeredPane.DEFAULT_LAYER);
         LugarDesktop.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -176,24 +182,12 @@ public class VistaLugar extends javax.swing.JInternalFrame {
         LugarDesktop.setLayer(butGuardarCambios, javax.swing.JLayeredPane.DEFAULT_LAYER);
         LugarDesktop.setLayer(butReiniciar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         LugarDesktop.setLayer(buscarPorFuncion, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        LugarDesktop.setLayer(butEliminar, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout LugarDesktopLayout = new javax.swing.GroupLayout(LugarDesktop);
         LugarDesktop.setLayout(LugarDesktopLayout);
         LugarDesktopLayout.setHorizontalGroup(
             LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(LugarDesktopLayout.createSequentialGroup()
-                .addGap(105, 105, 105)
-                .addComponent(butReiniciar)
-                .addGap(18, 18, 18)
-                .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(LugarDesktopLayout.createSequentialGroup()
-                        .addComponent(butNuevosLugares, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LugarDesktopLayout.createSequentialGroup()
                 .addContainerGap(102, Short.MAX_VALUE)
                 .addComponent(jLabel2)
@@ -206,8 +200,27 @@ public class VistaLugar extends javax.swing.JInternalFrame {
                 .addGap(125, 125, 125))
             .addGroup(LugarDesktopLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+                .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(LugarDesktopLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(butReiniciar)
+                        .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(LugarDesktopLayout.createSequentialGroup()
+                                .addGap(111, 111, 111)
+                                .addComponent(jLabel1))
+                            .addGroup(LugarDesktopLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(butNuevosLugares, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(butEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(25, Short.MAX_VALUE))
+                    .addGroup(LugarDesktopLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())))
             .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(LugarDesktopLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -233,7 +246,8 @@ public class VistaLugar extends javax.swing.JInternalFrame {
                     .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(butNuevosLugares, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(butReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(butReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(butEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49))
             .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(LugarDesktopLayout.createSequentialGroup()
@@ -378,6 +392,47 @@ public class VistaLugar extends javax.swing.JInternalFrame {
     }
     }//GEN-LAST:event_buscarPorFuncionActionPerformed
 
+    private void butEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butEliminarActionPerformed
+      
+    int filaSeleccionada = TablaLugares.getSelectedRow();
+
+   
+    if (filaSeleccionada == -1) {
+        JOptionPane.showMessageDialog(this, "Error: Debe seleccionar un lugar de la tabla.", "Error al Eliminar", JOptionPane.ERROR_MESSAGE);
+        return; 
+    }
+
+  
+    int confirmacion = JOptionPane.showConfirmDialog(this, 
+            "¿Está seguro de que desea eliminar este lugar?", 
+            "Confirmar Eliminación", 
+            JOptionPane.YES_NO_OPTION);
+
+    if (confirmacion == JOptionPane.YES_OPTION) {
+        try {
+          
+            int idPelicula = Integer.parseInt(TablaLugares.getValueAt(filaSeleccionada, 0).toString());
+
+          
+            boolean exito = lugarData.eliminarLugar(idPelicula);
+
+         
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "Lugar eliminado exitosamente.");
+                
+             
+                cargarLugares(); 
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo eliminar el lugar (ID no encontrado).", "Error", JOptionPane.WARNING_MESSAGE);
+            }
+
+        } catch (ClassCastException cce) {
+           
+            JOptionPane.showMessageDialog(this, "Error interno: No se pudo leer el ID de la tabla.", "Error de Tipo", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    }//GEN-LAST:event_butEliminarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane LugarDesktop;
@@ -385,6 +440,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
     private javax.swing.JButton buscarPorFuncion;
     private javax.swing.JButton butBuscar;
     private javax.swing.JButton butCancelar;
+    private javax.swing.JButton butEliminar;
     private javax.swing.JButton butGuardarCambios;
     private javax.swing.JButton butNuevosLugares;
     private javax.swing.JButton butReiniciar;
