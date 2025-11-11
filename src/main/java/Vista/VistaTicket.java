@@ -4,19 +4,61 @@
  */
 package Vista;
 
+import Modelo.Comprador;
+import Modelo.TicketCompra;
+import Persistencia.CompradorData;
+import Persistencia.TicketData;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Emiliano
  */
 public class VistaTicket extends javax.swing.JInternalFrame {
-
+    private TicketData ticketdata;
+    private CompradorData compradordata;
+    private DefaultTableModel modelo;
+    
+    
     /**
      * Creates new form VistaTicket
      */
     public VistaTicket() {
         initComponents();
+        
+        this.ticketdata = new TicketData();
+       this.compradordata = new CompradorData();
+        this.modelo = new DefaultTableModel();
+        
+        cargarCompradores();
+        cargarTicket();
+        
+      
     }
-
+    
+    public void cargarCompradores(){
+        try { List<Comprador> compradores = compradordata.listarCompradores();
+        for (Comprador c : compradores){
+            CboxComprador.addItem(c);   
+        }
+          } catch(Exception e){
+          JOptionPane.showMessageDialog(this,"Error al cargar compradores: " + e.getMessage());
+          
+          }
+     }
+        private void cargarTicket(){
+         List<TicketCompra> tickets = ticketdata.listarTickets();
+        for ( TicketCompra t: tickets){
+        modelo.addRow(new Object[]{
+        t.getComprador().getNombre(),
+        //t.getDetalleTicket().getFuncion(),
+        t.getFechaCompra(),
+        t.getMonto()});
+        }
+        }
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,7 +71,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableTicket = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         ButNuevo = new javax.swing.JButton();
         ButActualizar = new javax.swing.JButton();
@@ -37,7 +79,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
         ButLogica = new javax.swing.JButton();
         ButMostrar = new javax.swing.JButton();
         ButBuscar = new javax.swing.JButton();
-        CboxComprador = new javax.swing.JComboBox<>();
+        CboxComprador = new javax.swing.JComboBox();
 
         setTitle("Vista Ticket");
 
@@ -47,7 +89,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
         jLabel1.setForeground(new java.awt.Color(153, 153, 153));
         jLabel1.setText("Gestion de Ticket");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableTicket.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -66,7 +108,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTableTicket);
 
         jLabel2.setText("Comprado:");
 
@@ -211,11 +253,11 @@ public class VistaTicket extends javax.swing.JInternalFrame {
     private javax.swing.JButton ButLogica;
     private javax.swing.JButton ButMostrar;
     private javax.swing.JButton ButNuevo;
-    private javax.swing.JComboBox<String> CboxComprador;
+    private javax.swing.JComboBox CboxComprador;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableTicket;
     // End of variables declaration//GEN-END:variables
 }

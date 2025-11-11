@@ -24,7 +24,10 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
 
     public VistaPelicula(PeliculaData peliculaData) {
         initComponents();
+        
         this.peliculaData = peliculaData;
+        
+        
         cargarPeliculas();
     }
 

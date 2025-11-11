@@ -13,6 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import Modelo.Comprador;
 import Modelo.DetalleTicket;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -150,5 +153,39 @@ public class TicketData {
             throw new SQLException("No se pudo eliminar el ticket " + ex);
         }
     }
+    
+    public List <TicketCompra> listarTickets(){
+    List<TicketCompra> tickets = new ArrayList<>();
+    CompradorData cData = new CompradorData();
+    DetalleTicketData dData = new DetalleTicketData(new LugarData());
 
+    String sql = "SELECT * FROM ticketcompra";
+
+    try (PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            TicketCompra t = new TicketCompra();
+            t.setCodTicket(rs.getInt("codTicket"));
+            t.setFechaCompra(rs.getDate("fechaCompra").toLocalDate());
+            t.setFechaFuncion(rs.getDate("fechaFuncion").toLocalDate());
+            t.setMonto(rs.getDouble("monto"));
+
+            // Relaciones
+            Comprador comprador = cData.buscarComprador(rs.getInt("codComprador"));
+            DetalleTicket detalle = dData.buscarDetalleTicket(rs.getInt("codDetalle"));
+            
+            t.setComprador(comprador);
+            t.setDetalleTicket(detalle);
+
+            tickets.add(t);
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Error al listar tickets: " + ex.getMessage());
+    }
+
+    return tickets;
 }
+}
+   

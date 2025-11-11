@@ -22,6 +22,7 @@ public class VistaSala extends javax.swing.JInternalFrame {
     public VistaSala(SalaData salaData) {
         initComponents();
         this.salaData = salaData;
+        
         prepararTabla();
         cargarTablaCompleta();
     }
