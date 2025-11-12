@@ -212,12 +212,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itemLugarActionPerformed
 
     private void itemFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemFuncionActionPerformed
-        VistaFuncion vl = new VistaFuncion();
-        abrirInternal(vl);
+       // VistaFuncion vl = new VistaFuncion();
+      //  abrirInternal(vl);
     }//GEN-LAST:event_itemFuncionActionPerformed
 
     private void menuTaquillaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuTaquillaMouseClicked
-        VistaTaquilla vt = new VistaTaquilla();
+        VistaTaquilla vt = new VistaTaquilla(peliculaData, funcionData, lugarData, ticketData, detalleTicketData,CompradorData);
         abrirInternal(vt);
     }//GEN-LAST:event_menuTaquillaMouseClicked
 
