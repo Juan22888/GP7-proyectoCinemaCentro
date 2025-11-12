@@ -14,16 +14,14 @@ public class TicketCompra {
 
     private int codTicket;
     private LocalDate FechaCompra;
-    private LocalDate FechaFuncion;
     private double monto;
     private Comprador comprador;
     private boolean metodoPago;
     private DetalleTicket detalleTicket;
 
-    public TicketCompra(int codTicket, LocalDate FechaCompra, LocalDate FechaFuncion, double monto, Comprador comprador, DetalleTicket detalleTicket,boolean metodoPago) {
+    public TicketCompra(int codTicket, LocalDate FechaCompra, double monto, Comprador comprador, DetalleTicket detalleTicket,boolean metodoPago) {
         this.codTicket = codTicket;
         this.FechaCompra = FechaCompra;
-        this.FechaFuncion = FechaFuncion;
         this.monto = monto;
         this.comprador = comprador;
         this.detalleTicket = detalleTicket;
@@ -55,14 +53,6 @@ public class TicketCompra {
 
     public void setFechaCompra(LocalDate FechaCompra) {
         this.FechaCompra = FechaCompra;
-    }
-
-    public LocalDate getFechaFuncion() {
-        return FechaFuncion;
-    }
-
-    public void setFechaFuncion(LocalDate FechaFuncion) {
-        this.FechaFuncion = FechaFuncion;
     }
 
     public double getMonto() {

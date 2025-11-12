@@ -25,8 +25,7 @@ public class TicketData {
 
     public TicketData() {
     }
-    
-    
+
     public TicketData(LugarData lugarData) {
         this.con = Conexion.buscarConexion();
         this.detalleTicketData = new DetalleTicketData(lugarData);
@@ -34,15 +33,14 @@ public class TicketData {
 
     public boolean insertarTicket(TicketCompra t) throws SQLException {
 
-        String sql = "INSERT INTO ticketcompra (FechaCompra, FechaFuncion, Monto, metodoPago, codComprador,codDetalle)" + " VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO ticketcompra (FechaCompra,  Monto, metodoPago, codComprador,codDetalle)" + " VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setDate(1, Date.valueOf(t.getFechaCompra()));
-            ps.setDate(2, Date.valueOf(t.getFechaFuncion()));
-            ps.setDouble(3, t.getMonto());
-            ps.setBoolean(4,t.isMetodoPago());
-            ps.setInt(5, t.getComprador().getCodComprador()); // Asume que la clase Comprador tiene codigoComprador
-            ps.setInt(6, t.getDetalleTicket().getCodDetalle());
+            ps.setDouble(2, t.getMonto());
+            ps.setBoolean(3, t.isMetodoPago());
+            ps.setInt(4, t.getComprador().getCodComprador()); // Asume que la clase Comprador tiene codigoComprador
+            ps.setInt(5, t.getDetalleTicket().getCodDetalle());
 
             int filasAfectadas = ps.executeUpdate();
 
@@ -69,7 +67,6 @@ public class TicketData {
                 detalleTicket = new DetalleTicket();
                 ticket.setCodTicket(rs.getInt("codTicket"));
                 ticket.setFechaCompra(rs.getDate("FechaCompra").toLocalDate());
-                ticket.setFechaFuncion(rs.getDate("FechaFuncion").toLocalDate());
                 ticket.setMonto(rs.getDouble("Monto"));
                 ticket.setMetodoPago(rs.getBoolean("metodoPago"));
                 detalleTicket = detalleTicketData.buscarDetalleTicket(rs.getInt("codDetalle"));
@@ -89,7 +86,7 @@ public class TicketData {
     }
 
     public boolean actualizarTicket(int id, String columna, Object dato) throws Exception {
-        if (!columna.equals("FechaCompra") && !columna.equals("FechaFuncion")
+        if (!columna.equals("FechaCompra")
                 && !columna.equals("Monto")
                 && !columna.equals("codComprador")
                 && !columna.equals("codDetalle")
@@ -110,7 +107,7 @@ public class TicketData {
                 ps.setDate(1, (java.sql.Date) dato);
             } else if (dato instanceof Integer) {
                 ps.setInt(1, (Integer) dato);
-            }else if (dato instanceof Boolean) {
+            } else if (dato instanceof Boolean) {
                 ps.setBoolean(1, (boolean) dato);
             } else {
                 throw new IllegalArgumentException("Tipo de dato no soportado para actualizar.");
