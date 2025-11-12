@@ -210,7 +210,6 @@ private void cargarFunciones() {
         TicketCompra ticket = new TicketCompra();
         ticket.setComprador(comprador);
         ticket.setFechaCompra(fechaCompra);
-        ticket.setFechaFuncion(LocalDate.now()); 
         ticket.setMonto(Double.parseDouble(TexFielTotal.getText()));
         ticket.setMonto(monto);
 

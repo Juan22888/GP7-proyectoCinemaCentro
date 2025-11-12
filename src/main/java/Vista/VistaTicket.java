@@ -110,9 +110,8 @@ public class VistaTicket extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(jTableTicket);
 
-        jLabel2.setText("Comprado:");
+        jLabel2.setText("Comprador:");
 
-        ButNuevo.setBackground(new java.awt.Color(255, 255, 255));
         ButNuevo.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         ButNuevo.setForeground(new java.awt.Color(51, 51, 51));
         ButNuevo.setText("Nuevo");
@@ -122,36 +121,26 @@ public class VistaTicket extends javax.swing.JInternalFrame {
             }
         });
 
-        ButActualizar.setBackground(new java.awt.Color(255, 255, 255));
         ButActualizar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         ButActualizar.setForeground(new java.awt.Color(51, 51, 51));
         ButActualizar.setText("Actualizar");
         ButActualizar.setBorderPainted(false);
 
-        ButBorrar.setBackground(new java.awt.Color(255, 255, 255));
         ButBorrar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         ButBorrar.setForeground(new java.awt.Color(51, 51, 51));
         ButBorrar.setText("Borrar");
 
-        ButLogica.setBackground(new java.awt.Color(255, 255, 255));
         ButLogica.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         ButLogica.setForeground(new java.awt.Color(51, 51, 51));
         ButLogica.setText("Alta/Baja logica");
 
-        ButMostrar.setBackground(new java.awt.Color(255, 255, 255));
         ButMostrar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         ButMostrar.setForeground(new java.awt.Color(51, 51, 51));
         ButMostrar.setText("Mostrar Todos");
 
-        ButBuscar.setBackground(new java.awt.Color(255, 255, 255));
         ButBuscar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        ButBuscar.setForeground(new java.awt.Color(0, 0, 0));
         ButBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/imagenes/lupa.png"))); // NOI18N
         ButBuscar.setText("Buscar");
-
-        CboxComprador.setBackground(new java.awt.Color(255, 255, 255));
-        CboxComprador.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        CboxComprador.setForeground(new java.awt.Color(0, 0, 0));
 
         jDesktopPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -174,12 +163,15 @@ public class VistaTicket extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addComponent(jScrollPane1))
                     .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                        .addGap(141, 141, 141)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(CboxComprador, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(ButBuscar)
+                        .addGap(188, 188, 188)
+                        .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(CboxComprador, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(ButBuscar)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
@@ -194,10 +186,6 @@ public class VistaTicket extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ButMostrar)
                 .addContainerGap(91, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(180, 180, 180))
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

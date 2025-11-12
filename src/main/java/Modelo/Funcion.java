@@ -4,6 +4,7 @@
  */
 package Modelo;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class Funcion {
     private boolean subtitulada;
     private LocalTime horaInicio;
     private LocalTime horaFin;
+    private LocalDate fecha;
     private List<Lugar> lugaresDisponibles;
     private Sala salaFuncion;
     private double precioLugar;
@@ -27,7 +29,7 @@ public class Funcion {
     public Funcion() {
     }
 
-    public Funcion(int codFuncion, Pelicula pelicula, String idioma, boolean es3d, boolean subtitulada, LocalTime horaInicio, LocalTime horaFin, Sala salaFuncion, double precioLugar,boolean estado) {
+    public Funcion(int codFuncion, Pelicula pelicula, String idioma, boolean es3d, boolean subtitulada, LocalTime horaInicio, LocalTime horaFin, LocalDate fecha, Sala salaFuncion, double precioLugar,boolean estado) {
         this.codFuncion = codFuncion;
         this.pelicula = pelicula;
         this.idioma = idioma;
@@ -35,6 +37,7 @@ public class Funcion {
         this.subtitulada = subtitulada;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
+        this.fecha = fecha;
         this.salaFuncion = salaFuncion;
         this.precioLugar = precioLugar;
         this.estado = estado;
@@ -111,6 +114,16 @@ public class Funcion {
     public void setHoraFin(LocalTime horaFin) {
         this.horaFin = horaFin;
     }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+    
+    
 
     public List<Lugar> getLugaresDisponibles() {
         return lugaresDisponibles;
