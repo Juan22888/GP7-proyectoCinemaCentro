@@ -72,8 +72,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Documents\\NetBeansProjects\\CineCentro\\GP7-proyectoCinemaCentro\\img\\cine (1).jpg")); // NOI18N
-
         Escritorio.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout EscritorioLayout = new javax.swing.GroupLayout(Escritorio);
@@ -158,6 +156,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(menuTaquilla);
 
         menuOnline.setText("Online");
+        menuOnline.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuOnlineMouseClicked(evt);
+            }
+        });
         jMenuBar1.add(menuOnline);
 
         setJMenuBar(jMenuBar1);
@@ -220,6 +223,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
         VistaTaquilla vt = new VistaTaquilla();
         abrirInternal(vt);
     }//GEN-LAST:event_menuTaquillaMouseClicked
+
+    private void menuOnlineMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuOnlineMouseClicked
+        // TODO add your handling code here:
+        VistaOnline vo = new VistaOnline();
+        abrirInternal(vo);
+    }//GEN-LAST:event_menuOnlineMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem CompradorMenuItem;
