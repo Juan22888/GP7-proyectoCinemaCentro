@@ -29,7 +29,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
         initComponents();
         
         this.ticketdata = new TicketData();
-       this.compradordata = new CompradorData();
+        this.compradordata = new CompradorData();
         this.modelo = new DefaultTableModel();
         
         cargarCompradores();
