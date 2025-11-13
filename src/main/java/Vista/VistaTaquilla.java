@@ -23,7 +23,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -51,6 +53,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         this.compradorData = compradorData;
         initComponents();
         cargarPeliculas();
+        cargarMetodoPago();
     }
 
     private void cargarPeliculas() {
@@ -63,6 +66,21 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Error al cargar los ComboBox: " + e.getMessage());
         }
 
+    }
+
+    private void cargarTabla(List<Funcion> listaFunciones) {
+        DefaultTableModel modelo = (DefaultTableModel) tablaFunciones.getModel();
+        modelo.setRowCount(0);
+
+        for (Funcion f : listaFunciones) {
+            Object[] fila = {f.getCodFuncion(), f.getSalaFuncion().getNroSala(), f.getPelicula().getTitulo(), f.getFecha(), f.getIdioma(), f.isSubtitulada(), f.isEs3d(), f.getHoraInicio(), f.getHoraFin()};
+            modelo.addRow(fila);
+        }
+    }
+
+    private void cargarMetodoPago() {
+        boxMetodoPago.addItem("Efectivo");
+        boxMetodoPago.addItem("Debito");
     }
 
     @SuppressWarnings("unchecked")
@@ -105,8 +123,10 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         dateFecha = new com.toedter.calendar.JDateChooser();
         butBuscarFecha = new javax.swing.JButton();
         butBuscarHorario = new javax.swing.JButton();
+        boxMetodoPago = new javax.swing.JComboBox<>();
+        labelPorDefecto1 = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
-        jDesktopPane1 = new javax.swing.JDesktopPane();
+        Escritorio = new javax.swing.JDesktopPane();
 
         button1.setLabel("button1");
 
@@ -144,15 +164,17 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         getContentPane().add(butNuevoComprador, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 80, -1, -1));
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 1080, 20));
         getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1080, 20));
+
+        txtPrecio3d.setEnabled(false);
         getContentPane().add(txtPrecio3d, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 700, 100, -1));
 
         labelPorDefecto.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
         labelPorDefecto.setForeground(new java.awt.Color(255, 255, 255));
-        labelPorDefecto.setText("Por Defecto (No)");
-        getContentPane().add(labelPorDefecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 540, -1, -1));
+        labelPorDefecto.setText("Metodo de pago");
+        getContentPane().add(labelPorDefecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 630, -1, -1));
         getContentPane().add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 600, 1080, 10));
 
-        jLabel4.setFont(new java.awt.Font("Calibri", 3, 24)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Calibri", 3, 36)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Venta de Entrada");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, -1, -1));
@@ -200,7 +222,11 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         labelCombo2.setForeground(new java.awt.Color(255, 255, 255));
         labelCombo2.setText("2D");
         getContentPane().add(labelCombo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 660, -1, -1));
+
+        txtTotal.setEnabled(false);
         getContentPane().add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 690, 140, -1));
+
+        txtPrecio2d.setEnabled(false);
         getContentPane().add(txtPrecio2d, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 660, 100, -1));
 
         butLugaresDisponibles.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Documents\\NetBeansProjects\\CineCentro\\GP7-proyectoCinemaCentro\\img\\silla.png")); // NOI18N
@@ -227,17 +253,19 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "nroSala", "Pelicula", "Fecha", "Idioma", "Subtitulada", "Es3D", "HoraInicio", "HoraFin"
+                "codFuncion", "nroSala", "Pelicula", "Fecha", "Idioma", "Subtitulada", "Es3D", "HoraInicio", "HoraFin"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        tablaFunciones.setShowGrid(true);
+        tablaFunciones.setShowHorizontalLines(true);
         tablaFunciones.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaFuncionesMouseClicked(evt);
@@ -245,7 +273,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tablaFunciones);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 240, 820, 220));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 240, 840, 220));
 
         boxPeliculas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -299,33 +327,83 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         });
         getContentPane().add(butBuscarHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 180, 40, -1));
 
+        boxMetodoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        boxMetodoPago.setToolTipText("");
+        getContentPane().add(boxMetodoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 630, 100, -1));
+
+        labelPorDefecto1.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
+        labelPorDefecto1.setForeground(new java.awt.Color(255, 255, 255));
+        labelPorDefecto1.setText("Por Defecto (No)");
+        getContentPane().add(labelPorDefecto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 540, -1, -1));
+
         fondo.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Documents\\NetBeansProjects\\CineCentro\\GP7-proyectoCinemaCentro\\img\\fondo.jpg")); // NOI18N
         getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -30, -1, 790));
-        getContentPane().add(jDesktopPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, -20, 1080, 760));
+        getContentPane().add(Escritorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, -20, 1080, 760));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cargarTabla(List<Funcion> listaFunciones) {
-        DefaultTableModel modelo = (DefaultTableModel) tablaFunciones.getModel();
-        modelo.setRowCount(0);
+    private void butBuscarHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBuscarHorarioActionPerformed
+        Date horaSeleccionada = dateHorario.getDate();
 
-        for (Funcion f : listaFunciones) {
-            Object[] fila = {f.getSalaFuncion().getNroSala(), f.getPelicula().getTitulo(), f.getFecha(), f.getIdioma(), f.isSubtitulada(), f.isEs3d(), f.getHoraInicio(), f.getHoraFin()};
-            modelo.addRow(fila);
+        if (horaSeleccionada == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una hora para buscar.");
+            return;
         }
-    }
-    private void butCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_butCancelarActionPerformed
 
-    private void butLugaresDisponiblesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butLugaresDisponiblesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_butLugaresDisponiblesActionPerformed
+        LocalTime horaBuscada = horaSeleccionada.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalTime();
 
-    private void butGenerarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butGenerarTicketActionPerformed
+        List<Funcion> listaFunciones = null;
+        try {
+            listaFunciones = funcionData.listarFunciones();
+        } catch (SQLException ex) {
+            Logger.getLogger(VistaTaquilla.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        List<Funcion> filtradas = new ArrayList<>();
+        for (Funcion f : listaFunciones) {
+            if (f.getHoraInicio().equals(horaBuscada)) {
+                filtradas.add(f);
+            }
+        }
+
+        cargarTabla(filtradas);
+    }//GEN-LAST:event_butBuscarHorarioActionPerformed
+
+    private void butBuscarFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBuscarFechaActionPerformed
+        Date horaSeleccionada = dateFecha.getDate();
+
+        if (horaSeleccionada == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una hora para buscar.");
+            return;
+        }
+
+        LocalDate horaBuscada = horaSeleccionada.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+        List<Funcion> listaFunciones = null;
+        try {
+            listaFunciones = funcionData.listarFunciones();
+        } catch (SQLException ex) {
+            Logger.getLogger(VistaTaquilla.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        List<Funcion> filtradas = new ArrayList<>();
+        for (Funcion f : listaFunciones) {
+            if (f.getHoraInicio().equals(horaBuscada)) {
+                filtradas.add(f);
+            }
+        }
+
+        cargarTabla(filtradas);
+    }//GEN-LAST:event_butBuscarFechaActionPerformed
+
+    private void dateFechaAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_dateFechaAncestorAdded
         // TODO add your handling code here:
-    }//GEN-LAST:event_butGenerarTicketActionPerformed
+    }//GEN-LAST:event_dateFechaAncestorAdded
 
     private void boxPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxPeliculasActionPerformed
         String peliculaSeleccionada = boxPeliculas.getSelectedItem().toString();
@@ -342,6 +420,112 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
 
         cargarTabla(listaFunciones);
     }//GEN-LAST:event_boxPeliculasActionPerformed
+
+    private void tablaFuncionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaFuncionesMouseClicked
+        if (tablaFunciones.isEditing()) {
+            tablaFunciones.getCellEditor().stopCellEditing();
+        }
+
+        int filaSeleccionada = tablaFunciones.getSelectedRow();
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila para modificar.", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int codFuncion = 0;
+
+        try {
+
+            codFuncion = Integer.parseInt(tablaFunciones.getValueAt(filaSeleccionada, 0).toString());
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error en el formato del ID de la funcion.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
+        }
+
+        try {
+            funcion = funcionData.buscarFuncion(codFuncion);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al buscar la funcion en la base de datos.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
+        }
+
+        
+        double precio = funcion.getPrecioLugar();
+        if (funcion.isEs3d()) {
+            txtPrecio3d.setText(String.valueOf(precio));
+        } else {
+            txtPrecio2d.setText(String.valueOf(precio));
+        }
+    }//GEN-LAST:event_tablaFuncionesMouseClicked
+
+    private void butGenerarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butGenerarTicketActionPerformed
+        if (comprador == null) {
+            JOptionPane.showMessageDialog(this, "Error! No se cargó al comprador.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String metodoPagoSeleccionado = boxMetodoPago.getSelectedItem().toString();
+        if (metodoPagoSeleccionado.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Error! Debe elegir un metodo de pago.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+
+    }//GEN-LAST:event_butGenerarTicketActionPerformed
+
+    private void butLugaresDisponiblesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butLugaresDisponiblesActionPerformed
+        int filaSeleccionada = tablaFunciones.getSelectedRow();
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una fila.");
+            return;
+        }
+
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+
+        // Crear el diálogo modal
+        DialogLugaresDisponibles dialog = new DialogLugaresDisponibles(parentFrame, true, lugarData, funcionData, funcion);
+        dialog.setVisible(true);
+
+        // Recuperar los asientos seleccionados
+        List<Lugar> seleccionados = dialog.getLugaresReservados();
+        if (!seleccionados.isEmpty()) {
+            String mensaje = "Asientos reservados:\n\n";
+            double precioTotal = 0;
+            for (Lugar l : seleccionados) {
+                mensaje += "Fila: " + l.getFila() + " - Número: " + l.getNumero() + "\n";
+                precioTotal += l.getFuncion().getPrecioLugar();
+            }
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    mensaje,
+                    "Atención",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+            String precioTotalStr = String.valueOf(precioTotal);
+            txtTotal.setText(precioTotalStr);
+        }
+    }//GEN-LAST:event_butLugaresDisponiblesActionPerformed
+
+    private void butCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelarActionPerformed
+        txtTotal.setText("");
+        txtDni.setText("");
+        txtPrecio2d.setText("");
+        boxPeliculas.setSelectedIndex(0);
+        boxMetodoPago.setSelectedIndex(0);
+        DefaultTableModel modelo = (DefaultTableModel) tablaFunciones.getModel();
+        modelo.setRowCount(0);
+         dateHorario.setDate(null); // limpia la fecha
+         dateFecha.setDate(null);
+         
+    }//GEN-LAST:event_butCancelarActionPerformed
+
+    private void butNuevoCompradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNuevoCompradorActionPerformed
+        NuevoComprador nv = new NuevoComprador(compradorData);
+        this.add(nv);
+        nv.setVisible(true);
+    }//GEN-LAST:event_butNuevoCompradorActionPerformed
 
     private void butBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBuscarActionPerformed
         String txtdni = txtDni.getText();
@@ -367,90 +551,12 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Comprador encontrado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         }
 
-
     }//GEN-LAST:event_butBuscarActionPerformed
-
-    private void butNuevoCompradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNuevoCompradorActionPerformed
-        NuevoComprador nv = new NuevoComprador(compradorData);
-        this.add(nv);
-        nv.setVisible(true);
-    }//GEN-LAST:event_butNuevoCompradorActionPerformed
-
-    private void butBuscarHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBuscarHorarioActionPerformed
-        Date horaSeleccionada = dateHorario.getDate();
-
-        if (horaSeleccionada == null) {
-            JOptionPane.showMessageDialog(this, "Debe seleccionar una hora para buscar.");
-            return;
-        }
-
-        
-        LocalTime horaBuscada = horaSeleccionada.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalTime();
-
-    
-        List<Funcion> listaFunciones = null;
-        try {
-            listaFunciones = funcionData.listarFunciones();
-        } catch (SQLException ex) {
-            Logger.getLogger(VistaTaquilla.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        
-        List<Funcion> filtradas = new ArrayList<>();
-        for (Funcion f : listaFunciones) {
-            if (f.getHoraInicio().equals(horaBuscada)) {
-                filtradas.add(f);
-            }
-        }
-
-        cargarTabla(filtradas);
-    }//GEN-LAST:event_butBuscarHorarioActionPerformed
-
-    private void dateFechaAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_dateFechaAncestorAdded
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dateFechaAncestorAdded
-
-    private void butBuscarFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBuscarFechaActionPerformed
-         Date horaSeleccionada = dateFecha.getDate();
-
-        if (horaSeleccionada == null) {
-            JOptionPane.showMessageDialog(this, "Debe seleccionar una hora para buscar.");
-            return;
-        }
-
-        
-        LocalDate horaBuscada = horaSeleccionada.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate();
-
-    
-        List<Funcion> listaFunciones = null;
-        try {
-            listaFunciones = funcionData.listarFunciones();
-        } catch (SQLException ex) {
-            Logger.getLogger(VistaTaquilla.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        
-        List<Funcion> filtradas = new ArrayList<>();
-        for (Funcion f : listaFunciones) {
-            if (f.getHoraInicio().equals(horaBuscada)) {
-                filtradas.add(f);
-            }
-        }
-
-        cargarTabla(filtradas);
-    }//GEN-LAST:event_butBuscarFechaActionPerformed
-
-    private void tablaFuncionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaFuncionesMouseClicked
-      
-       
-    }//GEN-LAST:event_tablaFuncionesMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDesktopPane Escritorio;
+    private javax.swing.JComboBox<String> boxMetodoPago;
     private javax.swing.JComboBox<String> boxPeliculas;
     private javax.swing.JButton butBuscar;
     private javax.swing.JButton butBuscarFecha;
@@ -464,7 +570,6 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JDateChooser dateFecha;
     private com.toedter.calendar.JDateChooser dateHorario;
     private javax.swing.JLabel fondo;
-    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -481,6 +586,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
     private javax.swing.JLabel labelCombo5;
     private javax.swing.JLabel labelComprador;
     private javax.swing.JLabel labelPorDefecto;
+    private javax.swing.JLabel labelPorDefecto1;
     private javax.swing.JLabel labelPrecios;
     private javax.swing.JLabel labellLugaresDisponibles;
     private javax.swing.JLabel labellLugaresDisponibles1;

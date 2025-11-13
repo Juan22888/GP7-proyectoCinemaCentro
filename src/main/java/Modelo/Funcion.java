@@ -144,6 +144,9 @@ public class Funcion {
   
 
     public double getPrecioLugar() {
+         if (salaFuncion.isApta3d() && es3d) {
+            return precioLugar * 1.5; // recargo 50% si es 3D
+        }
         return precioLugar;
     }
 
@@ -158,7 +161,6 @@ public class Funcion {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-    
     
 
     
