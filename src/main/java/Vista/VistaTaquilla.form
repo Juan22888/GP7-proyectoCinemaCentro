@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
+<Form version="1.9" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
   <NonVisualComponents>
     <Component class="java.awt.Button" name="button1">
       <Properties>
@@ -70,9 +70,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="butBuscar">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\FRANCO\Documents\NetBeansProjects\CineCentro\GP7-proyectoCinemaCentro\img\lupa.png"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Buscar"/>
       </Properties>
       <Events>
@@ -86,9 +83,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="butNuevoComprador">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\FRANCO\Documents\NetBeansProjects\CineCentro\GP7-proyectoCinemaCentro\img\agregar-usuario.png"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Nuevo Comprador"/>
       </Properties>
       <Events>
@@ -181,9 +175,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="butCancelar">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\FRANCO\Documents\NetBeansProjects\CineCentro\GP7-proyectoCinemaCentro\img\icons8-cross-mark-48.png"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Cancelar"/>
       </Properties>
       <Events>
@@ -321,9 +312,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="butLugaresDisponibles">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\FRANCO\Documents\NetBeansProjects\CineCentro\GP7-proyectoCinemaCentro\img\silla.png"/>
-        </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
             <EmptyBorder/>
@@ -342,9 +330,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="butGenerarTicket">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\FRANCO\Documents\NetBeansProjects\CineCentro\GP7-proyectoCinemaCentro\img\iconticket.jpg"/>
-        </Property>
         <Property name="text" type="java.lang.String" value=" Generar Ticket"/>
       </Properties>
       <Events>
@@ -433,7 +418,6 @@
               </TableColumnModel>
             </Property>
             <Property name="showGrid" type="boolean" value="true"/>
-            <Property name="showHorizontalLines" type="boolean" value="true"/>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
@@ -531,11 +515,6 @@
       </Constraints>
     </Component>
     <Component class="javax.swing.JButton" name="butBuscarFecha">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\FRANCO\Documents\NetBeansProjects\CineCentro\GP7-proyectoCinemaCentro\img\lupa.png"/>
-        </Property>
-      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butBuscarFechaActionPerformed"/>
       </Events>
@@ -546,11 +525,6 @@
       </Constraints>
     </Component>
     <Component class="javax.swing.JButton" name="butBuscarHorario">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\FRANCO\Documents\NetBeansProjects\CineCentro\GP7-proyectoCinemaCentro\img\lupa.png"/>
-        </Property>
-      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butBuscarHorarioActionPerformed"/>
       </Events>
@@ -595,11 +569,6 @@
       </Constraints>
     </Component>
     <Component class="javax.swing.JLabel" name="fondo">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\FRANCO\Documents\NetBeansProjects\CineCentro\GP7-proyectoCinemaCentro\img\fondo.jpg"/>
-        </Property>
-      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="0" y="-30" width="-1" height="790"/>
@@ -616,6 +585,21 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
         <Property name="useNullLayout" type="boolean" value="true"/>
       </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JButton" name="btnCargarTarjeta">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Cargar Tarjeta"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCargarTarjetaActionPerformed"/>
+          </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="890" y="100" width="130" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+      </SubComponents>
     </Container>
   </SubComponents>
 </Form>
