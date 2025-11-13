@@ -27,12 +27,133 @@ public class VistaFucion extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jDesktopPane1 = new javax.swing.JDesktopPane();
-        fondo = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TablaFunciones = new javax.swing.JTable();
+        Titulo = new javax.swing.JLabel();
+        JLPeliculas = new javax.swing.JLabel();
+        CBoxPeliculas = new javax.swing.JComboBox<>();
+        JLSalas = new javax.swing.JLabel();
+        CBoxSalas = new javax.swing.JComboBox<>();
+        JLIdioma = new javax.swing.JLabel();
+        CBoxIdioma = new javax.swing.JComboBox<>();
+        ButMostrar = new javax.swing.JButton();
+        ButInsertar = new javax.swing.JButton();
+        ButActualizar = new javax.swing.JButton();
+        ButBorrar = new javax.swing.JButton();
+        ButAltaBaja = new javax.swing.JButton();
+        ButCerrar = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        jSeparator3 = new javax.swing.JSeparator();
 
         jDesktopPane1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/Fondo_1.jpg"))); // NOI18N
-        jDesktopPane1.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 730, 500));
+        TablaFunciones.setBackground(new java.awt.Color(255, 255, 255));
+        TablaFunciones.setForeground(new java.awt.Color(0, 0, 0));
+        TablaFunciones.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Pelicula", "Sala", "Idioma", "Subtitulada", "3D", "H.Inicio", "H.Fin", "Precio", "Estado"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TablaFunciones.setGridColor(new java.awt.Color(0, 0, 0));
+        TablaFunciones.setSelectionBackground(new java.awt.Color(102, 102, 102));
+        TablaFunciones.setShowGrid(true);
+        jScrollPane1.setViewportView(TablaFunciones);
+
+        jDesktopPane1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 730, 180));
+
+        Titulo.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        Titulo.setForeground(new java.awt.Color(153, 153, 153));
+        Titulo.setText("GESTION DE FUNCIONES");
+        jDesktopPane1.add(Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
+
+        JLPeliculas.setText("Peliculas");
+        jDesktopPane1.add(JLPeliculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 50, 50, 20));
+
+        CBoxPeliculas.setBackground(new java.awt.Color(255, 255, 255));
+        CBoxPeliculas.setForeground(new java.awt.Color(0, 0, 0));
+        jDesktopPane1.add(CBoxPeliculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 50, 130, -1));
+
+        JLSalas.setText("Salas");
+        jDesktopPane1.add(JLSalas, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, 30, 20));
+
+        CBoxSalas.setBackground(new java.awt.Color(255, 255, 255));
+        CBoxSalas.setForeground(new java.awt.Color(0, 0, 0));
+        jDesktopPane1.add(CBoxSalas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 90, 130, -1));
+
+        JLIdioma.setText("Idioma");
+        jDesktopPane1.add(JLIdioma, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 130, -1, 20));
+
+        CBoxIdioma.setBackground(new java.awt.Color(255, 255, 255));
+        CBoxIdioma.setForeground(new java.awt.Color(0, 0, 0));
+        jDesktopPane1.add(CBoxIdioma, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, 130, -1));
+
+        ButMostrar.setBackground(new java.awt.Color(255, 255, 255));
+        ButMostrar.setForeground(new java.awt.Color(0, 0, 0));
+        ButMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/mostrar-contrasena.png"))); // NOI18N
+        ButMostrar.setText("Mostrar Funciones");
+        jDesktopPane1.add(ButMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, 160, -1));
+
+        ButInsertar.setBackground(new java.awt.Color(255, 255, 255));
+        ButInsertar.setForeground(new java.awt.Color(0, 0, 0));
+        ButInsertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar-tarea24.png"))); // NOI18N
+        ButInsertar.setText("Insertar");
+        jDesktopPane1.add(ButInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, -1, -1));
+
+        ButActualizar.setBackground(new java.awt.Color(255, 255, 255));
+        ButActualizar.setForeground(new java.awt.Color(0, 0, 0));
+        ButActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/actualizar32.png"))); // NOI18N
+        ButActualizar.setText("Actualizar");
+        jDesktopPane1.add(ButActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 460, 120, 30));
+
+        ButBorrar.setBackground(new java.awt.Color(255, 255, 255));
+        ButBorrar.setForeground(new java.awt.Color(0, 0, 0));
+        ButBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/borrar.png"))); // NOI18N
+        ButBorrar.setText("Borrar");
+        ButBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButBorrarActionPerformed(evt);
+            }
+        });
+        jDesktopPane1.add(ButBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 460, 90, 30));
+
+        ButAltaBaja.setBackground(new java.awt.Color(255, 255, 255));
+        ButAltaBaja.setForeground(new java.awt.Color(0, 0, 0));
+        ButAltaBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/001-dos-caminos.png"))); // NOI18N
+        ButAltaBaja.setText("Alta/Baja");
+        jDesktopPane1.add(ButAltaBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 460, 110, 30));
+
+        ButCerrar.setBackground(new java.awt.Color(255, 255, 255));
+        ButCerrar.setForeground(new java.awt.Color(0, 0, 0));
+        ButCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cerrado.png"))); // NOI18N
+        ButCerrar.setText("Cerrar");
+        ButCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButCerrarActionPerformed(evt);
+            }
+        });
+        jDesktopPane1.add(ButCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 460, -1, 30));
+        jDesktopPane1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 730, -1));
+        jDesktopPane1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 730, -1));
+        jDesktopPane1.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 443, 730, 10));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -42,15 +163,40 @@ public class VistaFucion extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
+            .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void ButBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButBorrarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ButBorrarActionPerformed
+
+    private void ButCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButCerrarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ButCerrarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel fondo;
+    private javax.swing.JButton ButActualizar;
+    private javax.swing.JButton ButAltaBaja;
+    private javax.swing.JButton ButBorrar;
+    private javax.swing.JButton ButCerrar;
+    private javax.swing.JButton ButInsertar;
+    private javax.swing.JButton ButMostrar;
+    private javax.swing.JComboBox<String> CBoxIdioma;
+    private javax.swing.JComboBox<String> CBoxPeliculas;
+    private javax.swing.JComboBox<String> CBoxSalas;
+    private javax.swing.JLabel JLIdioma;
+    private javax.swing.JLabel JLPeliculas;
+    private javax.swing.JLabel JLSalas;
+    private javax.swing.JTable TablaFunciones;
+    private javax.swing.JLabel Titulo;
     private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     // End of variables declaration//GEN-END:variables
 }
