@@ -45,19 +45,38 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
     private Comprador comprador;
     private Funcion funcion;
     private Lugar lugar;
-    private List<Lugar> lugaresReservados;
+    private boolean tarjetaIngresada = false;
+    private String numTarjeta;
+    private String titularTarjeta;
+    private String fechaExpTarjeta;
+    private String codVerificaTarjeta;
+    private String modoVenta;
+   
+   
+    
 
-    public VistaTaquilla(PeliculaData peliculaData, FuncionData funcionData, LugarData lugarData, TicketData ticketData, DetalleTicketData detalleTicketData, CompradorData compradorData) {
+    public VistaTaquilla(PeliculaData peliculaData, FuncionData funcionData, LugarData lugarData, TicketData ticketData, DetalleTicketData detalleTicketData, CompradorData compradorData, String modoVenta) {
         this.peliculaData = peliculaData;
         this.funcionData = funcionData;
         this.lugarData = lugarData;
         this.ticketData = ticketData;
         this.detalleTicketData = detalleTicketData;
         this.compradorData = compradorData;
-        this.lugaresReservados = null;
+        this.modoVenta = modoVenta;
+        
         initComponents();
         cargarPeliculas();
         cargarMetodoPago();
+       if (this.modoVenta.equals("Taquilla")) {
+            // Si es Taquilla, ocultamos el botón de pago con tarjeta.
+            btnCargarTarjeta.setVisible(false);
+            // Opcional: Cambiar el texto del botón principal si es taquilla
+            // butGenerarTicket.setText("Pagar Efectivo y Generar Ticket");
+        } else if (this.modoVenta.equals("Online")) {
+            // Si es Online, mostramos el botón de pago con tarjeta.
+            btnCargarTarjeta.setVisible(true);
+        }
+        
     }
 
     private void cargarPeliculas() {
@@ -132,6 +151,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         boxMetodoPago = new javax.swing.JComboBox<>();
         fondo = new javax.swing.JLabel();
         Escritorio = new javax.swing.JDesktopPane();
+        btnCargarTarjeta = new javax.swing.JButton();
 
         button1.setLabel("button1");
 
@@ -150,7 +170,6 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         labelPrecios.setText("Precios");
         getContentPane().add(labelPrecios, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 630, -1, -1));
 
-        butBuscar.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Documents\\NetBeansProjects\\CineCentro\\GP7-proyectoCinemaCentro\\img\\lupa.png")); // NOI18N
         butBuscar.setText("Buscar");
         butBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -159,7 +178,6 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         });
         getContentPane().add(butBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 80, -1, -1));
 
-        butNuevoComprador.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Documents\\NetBeansProjects\\CineCentro\\GP7-proyectoCinemaCentro\\img\\agregar-usuario.png")); // NOI18N
         butNuevoComprador.setText("Nuevo Comprador");
         butNuevoComprador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -189,7 +207,6 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         labelComprador.setText("Comprador");
         getContentPane().add(labelComprador, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, -1, -1));
 
-        butCancelar.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Documents\\NetBeansProjects\\CineCentro\\GP7-proyectoCinemaCentro\\img\\icons8-cross-mark-48.png")); // NOI18N
         butCancelar.setText("Cancelar");
         butCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -234,7 +251,6 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         txtPrecio2d.setEnabled(false);
         getContentPane().add(txtPrecio2d, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 660, 100, -1));
 
-        butLugaresDisponibles.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Documents\\NetBeansProjects\\CineCentro\\GP7-proyectoCinemaCentro\\img\\silla.png")); // NOI18N
         butLugaresDisponibles.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         butLugaresDisponibles.setBorderPainted(false);
         butLugaresDisponibles.addActionListener(new java.awt.event.ActionListener() {
@@ -244,7 +260,6 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         });
         getContentPane().add(butLugaresDisponibles, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 520, 60, 70));
 
-        butGenerarTicket.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Documents\\NetBeansProjects\\CineCentro\\GP7-proyectoCinemaCentro\\img\\iconticket.jpg")); // NOI18N
         butGenerarTicket.setText(" Generar Ticket");
         butGenerarTicket.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -324,7 +339,6 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         });
         getContentPane().add(dateFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 190, 120, -1));
 
-        butBuscarFecha.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Documents\\NetBeansProjects\\CineCentro\\GP7-proyectoCinemaCentro\\img\\lupa.png")); // NOI18N
         butBuscarFecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butBuscarFechaActionPerformed(evt);
@@ -332,7 +346,6 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         });
         getContentPane().add(butBuscarFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 180, 40, -1));
 
-        butBuscarHorario.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Documents\\NetBeansProjects\\CineCentro\\GP7-proyectoCinemaCentro\\img\\lupa.png")); // NOI18N
         butBuscarHorario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butBuscarHorarioActionPerformed(evt);
@@ -344,16 +357,17 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         labelPorDefecto1.setForeground(new java.awt.Color(255, 255, 255));
         labelPorDefecto1.setText("Por Defecto (No)");
         getContentPane().add(labelPorDefecto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 540, -1, -1));
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -30, -1, 790));
 
-        boxMetodoPago.addActionListener(new java.awt.event.ActionListener() {
+        btnCargarTarjeta.setText("Cargar Tarjeta");
+        btnCargarTarjeta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boxMetodoPagoActionPerformed(evt);
+                btnCargarTarjetaActionPerformed(evt);
             }
         });
-        getContentPane().add(boxMetodoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 630, 170, -1));
+        Escritorio.add(btnCargarTarjeta);
+        btnCargarTarjeta.setBounds(890, 100, 130, 23);
 
-        fondo.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Documents\\NetBeansProjects\\CineCentro\\GP7-proyectoCinemaCentro\\img\\fondo.jpg")); // NOI18N
-        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -30, -1, 790));
         getContentPane().add(Escritorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, -20, 1080, 760));
 
         pack();
@@ -474,6 +488,11 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tablaFuncionesMouseClicked
 
     private void butGenerarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butGenerarTicketActionPerformed
+        if (!tarjetaIngresada && this.modoVenta.equals("Online")) {
+        JOptionPane.showMessageDialog(this, "Debe cargar los datos de la tarjeta usando el botón 'Cargar Tarjeta'.", "Error de Pago", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+        
         if (comprador == null) {
             JOptionPane.showMessageDialog(this, "Error! No se cargó al comprador.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
             return;
@@ -616,19 +635,31 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_butBuscarActionPerformed
 
-    private void dateHorarioAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_dateHorarioAncestorAdded
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dateHorarioAncestorAdded
+    private void btnCargarTarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarTarjetaActionPerformed
 
-    private void boxMetodoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxMetodoPagoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_boxMetodoPagoActionPerformed
+        javax.swing.JFrame parentFrame = (javax.swing.JFrame) this.getDesktopPane().getTopLevelAncestor();
+    
+    NuevaTarjeta nuevaTarjeta = new NuevaTarjeta(parentFrame, true);
+    nuevaTarjeta.setVisible(true);
+
+    if (nuevaTarjeta.isDatosCargados()) {
+     
+        this.numTarjeta = nuevaTarjeta.getNumero();
+        this.titularTarjeta = nuevaTarjeta.getTitular();
+        this.fechaExpTarjeta = nuevaTarjeta.getFechaExpira();
+        this.codVerificaTarjeta = nuevaTarjeta.getCodVerifica();
+        this.tarjetaIngresada = true;
+        
+        
+    }
+    }//GEN-LAST:event_btnCargarTarjetaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane Escritorio;
     private javax.swing.JComboBox<String> boxMetodoPago;
     private javax.swing.JComboBox<String> boxPeliculas;
+    private javax.swing.JButton btnCargarTarjeta;
     private javax.swing.JButton butBuscar;
     private javax.swing.JButton butBuscarFecha;
     private javax.swing.JButton butBuscarHorario;

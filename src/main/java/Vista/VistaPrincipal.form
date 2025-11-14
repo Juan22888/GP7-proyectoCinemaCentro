@@ -73,6 +73,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Online"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="menuOnlineMouseClicked"/>
+          </Events>
         </Menu>
       </SubComponents>
     </Menu>
@@ -132,11 +135,6 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel2">
-          <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\FRANCO\Documents\NetBeansProjects\CineCentro\GP7-proyectoCinemaCentro\img\cine.jpg"/>
-            </Property>
-          </Properties>
         </Component>
       </SubComponents>
     </Container>
