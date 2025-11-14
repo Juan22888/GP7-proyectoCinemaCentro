@@ -255,7 +255,7 @@
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Iconos/mostrar-contrasena.png"/>
+              <Image iconType="3" name="/Fondos/Iconos/mostrar-contrasena.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Mostrar Funciones"/>
           </Properties>
@@ -274,13 +274,16 @@
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Iconos/agregar-tarea24.png"/>
+              <Image iconType="3" name="/Fondos/Iconos/agregar-tarea24.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Insertar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButInsertarActionPerformed"/>
+          </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="10" y="460" width="-1" height="-1"/>
+              <AbsoluteConstraints x="10" y="460" width="-1" height="30"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -293,7 +296,7 @@
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Iconos/actualizar32.png"/>
+              <Image iconType="3" name="/Fondos/Iconos/actualizar32.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Actualizar"/>
           </Properties>
@@ -312,7 +315,7 @@
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Iconos/borrar.png"/>
+              <Image iconType="3" name="/Fondos/Iconos/borrar.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Borrar"/>
           </Properties>
@@ -334,7 +337,7 @@
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Iconos/001-dos-caminos.png"/>
+              <Image iconType="3" name="/Fondos/Iconos/001-dos-caminos.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Alta/Baja"/>
           </Properties>
@@ -353,7 +356,7 @@
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Iconos/cerrado.png"/>
+              <Image iconType="3" name="/Fondos/Iconos/cerrado.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Cerrar"/>
           </Properties>

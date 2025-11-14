@@ -108,25 +108,30 @@ public class VistaFucion extends javax.swing.JInternalFrame {
 
         ButMostrar.setBackground(new java.awt.Color(255, 255, 255));
         ButMostrar.setForeground(new java.awt.Color(0, 0, 0));
-        ButMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/mostrar-contrasena.png"))); // NOI18N
+        ButMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/Iconos/mostrar-contrasena.png"))); // NOI18N
         ButMostrar.setText("Mostrar Funciones");
         jDesktopPane1.add(ButMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, 160, -1));
 
         ButInsertar.setBackground(new java.awt.Color(255, 255, 255));
         ButInsertar.setForeground(new java.awt.Color(0, 0, 0));
-        ButInsertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar-tarea24.png"))); // NOI18N
+        ButInsertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/Iconos/agregar-tarea24.png"))); // NOI18N
         ButInsertar.setText("Insertar");
-        jDesktopPane1.add(ButInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, -1, -1));
+        ButInsertar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButInsertarActionPerformed(evt);
+            }
+        });
+        jDesktopPane1.add(ButInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, -1, 30));
 
         ButActualizar.setBackground(new java.awt.Color(255, 255, 255));
         ButActualizar.setForeground(new java.awt.Color(0, 0, 0));
-        ButActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/actualizar32.png"))); // NOI18N
+        ButActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/Iconos/actualizar32.png"))); // NOI18N
         ButActualizar.setText("Actualizar");
         jDesktopPane1.add(ButActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 460, 120, 30));
 
         ButBorrar.setBackground(new java.awt.Color(255, 255, 255));
         ButBorrar.setForeground(new java.awt.Color(0, 0, 0));
-        ButBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/borrar.png"))); // NOI18N
+        ButBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/Iconos/borrar.png"))); // NOI18N
         ButBorrar.setText("Borrar");
         ButBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -137,13 +142,13 @@ public class VistaFucion extends javax.swing.JInternalFrame {
 
         ButAltaBaja.setBackground(new java.awt.Color(255, 255, 255));
         ButAltaBaja.setForeground(new java.awt.Color(0, 0, 0));
-        ButAltaBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/001-dos-caminos.png"))); // NOI18N
+        ButAltaBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/Iconos/001-dos-caminos.png"))); // NOI18N
         ButAltaBaja.setText("Alta/Baja");
         jDesktopPane1.add(ButAltaBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 460, 110, 30));
 
         ButCerrar.setBackground(new java.awt.Color(255, 255, 255));
         ButCerrar.setForeground(new java.awt.Color(0, 0, 0));
-        ButCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cerrado.png"))); // NOI18N
+        ButCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/Iconos/cerrado.png"))); // NOI18N
         ButCerrar.setText("Cerrar");
         ButCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -176,6 +181,10 @@ public class VistaFucion extends javax.swing.JInternalFrame {
     private void ButCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButCerrarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ButCerrarActionPerformed
+
+    private void ButInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButInsertarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ButInsertarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

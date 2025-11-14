@@ -31,20 +31,24 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
         jSeparator1 = new javax.swing.JSeparator();
         BoxPeliculas = new javax.swing.JComboBox<>();
         JLSala = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        BoxSalas = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        BoxIdiomas = new javax.swing.JComboBox<>();
         JLFecha = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        DChooserFecha = new com.toedter.calendar.JDateChooser();
         JLInicio = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        TexHoraInicio = new javax.swing.JTextField();
         JLFin = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        TexHoraFin = new javax.swing.JTextField();
         JLPrecio = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        JLOpciones = new javax.swing.JLabel();
+        TexPrecio = new javax.swing.JTextField();
         CBox3D = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
+        CBoxSubtitulo = new javax.swing.JCheckBox();
+        jLabel2 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -54,80 +58,102 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
 
         JLPelicula.setText("Pelicula :");
         getContentPane().add(JLPelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 50, 20));
-        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 450, 10));
+        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 440, 10));
 
         getContentPane().add(BoxPeliculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, 130, -1));
 
         JLSala.setText("Sala :");
         getContentPane().add(JLSala, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 40, 20));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, 130, -1));
+        getContentPane().add(BoxSalas, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, 130, -1));
 
         jLabel3.setText("Idioma :");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, -1, 20));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 130, 130, -1));
+        getContentPane().add(BoxIdiomas, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 130, 130, -1));
 
         JLFecha.setText("Fecha Funcion :");
         getContentPane().add(JLFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, -1, 20));
-        getContentPane().add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 170, 130, -1));
+        getContentPane().add(DChooserFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 170, 130, -1));
 
         JLInicio.setText("Hora Inicio :");
         getContentPane().add(JLInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, -1, 20));
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 210, 90, -1));
+        getContentPane().add(TexHoraInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 210, 90, -1));
 
         JLFin.setText("Hora Fin");
         getContentPane().add(JLFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, -1, 20));
-        getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 250, 90, -1));
+        getContentPane().add(TexHoraFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 250, 90, -1));
 
         JLPrecio.setText("Precio Lugar :");
         getContentPane().add(JLPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 290, -1, 20));
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        TexPrecio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                TexPrecioActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 290, 90, -1));
-
-        JLOpciones.setText("Opciones :");
-        getContentPane().add(JLOpciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 340, -1, 20));
+        getContentPane().add(TexPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 290, 90, -1));
 
         CBox3D.setText("3D");
-        getContentPane().add(CBox3D, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 340, -1, -1));
+        CBox3D.setToolTipText("");
+        CBox3D.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CBox3DActionPerformed(evt);
+            }
+        });
+        getContentPane().add(CBox3D, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 330, 50, -1));
 
-        jCheckBox2.setText("Subtitulada");
-        getContentPane().add(jCheckBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 340, -1, -1));
+        CBoxSubtitulo.setText("Subtitulada");
+        getContentPane().add(CBoxSubtitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 330, -1, -1));
+
+        jLabel2.setText("Opciones :");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 330, 60, -1));
+        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 353, 440, 10));
+
+        jButton1.setText("Guardar");
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, -1, -1));
+
+        jButton2.setText("Limpiar");
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 370, -1, -1));
+
+        jButton3.setText("Cerrar");
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 370, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void TexPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TexPrecioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_TexPrecioActionPerformed
+
+    private void CBox3DActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBox3DActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CBox3DActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> BoxIdiomas;
     private javax.swing.JComboBox<String> BoxPeliculas;
+    private javax.swing.JComboBox<String> BoxSalas;
     private javax.swing.JCheckBox CBox3D;
+    private javax.swing.JCheckBox CBoxSubtitulo;
+    private com.toedter.calendar.JDateChooser DChooserFecha;
     private javax.swing.JLabel JLFecha;
     private javax.swing.JLabel JLFin;
     private javax.swing.JLabel JLInicio;
-    private javax.swing.JLabel JLOpciones;
     private javax.swing.JLabel JLPelicula;
     private javax.swing.JLabel JLPrecio;
     private javax.swing.JLabel JLSala;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JTextField TexHoraFin;
+    private javax.swing.JTextField TexHoraInicio;
+    private javax.swing.JTextField TexPrecio;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
 }
