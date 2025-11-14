@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-11-2025 a las 16:15:18
+-- Tiempo de generación: 14-11-2025 a las 14:36:48
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -55,8 +55,17 @@ INSERT INTO `comprador` (`codComprador`, `dni`, `nombre`, `fechaNac`, `estado`, 
 CREATE TABLE `detalleticket` (
   `codDetalle` int(11) NOT NULL,
   `codLugar` int(11) NOT NULL,
+  `codTicket` int(11) NOT NULL,
   `estado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `detalleticket`
+--
+
+INSERT INTO `detalleticket` (`codDetalle`, `codLugar`, `codTicket`, `estado`) VALUES
+(10, 604, 10, 1),
+(11, 621, 10, 1);
 
 -- --------------------------------------------------------
 
@@ -83,7 +92,8 @@ CREATE TABLE `funcion` (
 --
 
 INSERT INTO `funcion` (`codFuncion`, `codPelicula`, `idioma`, `es3d`, `subtitulada`, `horaInicio`, `horaFin`, `fechaFuncion`, `estado`, `codSala`, `precioLugar`) VALUES
-(12, 23, 'Ingles', 1, 1, '21:30:00', '23:50:00', '2025-11-14', 1, 11, 3000);
+(12, 23, 'Ingles', 1, 1, '21:30:00', '23:50:00', '2025-11-14', 1, 11, 3000),
+(13, 25, 'Ingles', 1, 1, '20:30:00', '22:30:00', '2025-11-14', 1, 12, 3000);
 
 -- --------------------------------------------------------
 
@@ -98,6 +108,32 @@ CREATE TABLE `lugar` (
   `estado` tinyint(1) NOT NULL,
   `codFuncion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `lugar`
+--
+
+INSERT INTO `lugar` (`codLugar`, `fila`, `numero`, `estado`, `codFuncion`) VALUES
+(597, 'A', 1, 0, 12),
+(598, 'A', 2, 0, 12),
+(599, 'A', 3, 0, 12),
+(600, 'A', 4, 0, 12),
+(601, 'A', 5, 0, 12),
+(602, 'A', 6, 0, 12),
+(603, 'A', 7, 0, 12),
+(604, 'A', 8, 0, 12),
+(605, 'A', 9, 0, 12),
+(606, 'A', 10, 0, 12),
+(612, 'A', 11, 0, 12),
+(613, 'A', 12, 0, 12),
+(614, 'A', 13, 0, 12),
+(615, 'A', 14, 0, 12),
+(616, 'A', 15, 0, 12),
+(617, 'A', 16, 0, 12),
+(618, 'A', 17, 0, 12),
+(619, 'A', 18, 0, 12),
+(620, 'A', 19, 0, 12),
+(621, 'A', 20, 0, 12);
 
 -- --------------------------------------------------------
 
@@ -158,9 +194,15 @@ CREATE TABLE `ticketcompra` (
   `fechaCompra` date NOT NULL,
   `monto` double NOT NULL,
   `metodoPago` tinyint(1) NOT NULL,
-  `codComprador` int(11) NOT NULL,
-  `codDetalle` int(11) NOT NULL
+  `codComprador` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `ticketcompra`
+--
+
+INSERT INTO `ticketcompra` (`codTicket`, `fechaCompra`, `monto`, `metodoPago`, `codComprador`) VALUES
+(10, '2025-11-14', 9000, 1, 7);
 
 --
 -- Índices para tablas volcadas
@@ -178,8 +220,8 @@ ALTER TABLE `comprador`
 --
 ALTER TABLE `detalleticket`
   ADD PRIMARY KEY (`codDetalle`),
-  ADD UNIQUE KEY `codLugar_2` (`codLugar`),
-  ADD KEY `codLugar` (`codLugar`);
+  ADD KEY `codLugar` (`codLugar`),
+  ADD KEY `codTicket` (`codTicket`);
 
 --
 -- Indices de la tabla `funcion`
@@ -214,9 +256,7 @@ ALTER TABLE `sala`
 -- Indices de la tabla `ticketcompra`
 --
 ALTER TABLE `ticketcompra`
-  ADD PRIMARY KEY (`codTicket`),
-  ADD KEY `codComprador` (`codComprador`),
-  ADD KEY `codDetalle` (`codDetalle`);
+  ADD PRIMARY KEY (`codTicket`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -232,19 +272,19 @@ ALTER TABLE `comprador`
 -- AUTO_INCREMENT de la tabla `detalleticket`
 --
 ALTER TABLE `detalleticket`
-  MODIFY `codDetalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `codDetalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `funcion`
 --
 ALTER TABLE `funcion`
-  MODIFY `codFuncion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `codFuncion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `lugar`
 --
 ALTER TABLE `lugar`
-  MODIFY `codLugar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=535;
+  MODIFY `codLugar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=627;
 
 --
 -- AUTO_INCREMENT de la tabla `pelicula`
@@ -262,7 +302,7 @@ ALTER TABLE `sala`
 -- AUTO_INCREMENT de la tabla `ticketcompra`
 --
 ALTER TABLE `ticketcompra`
-  MODIFY `codTicket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `codTicket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Restricciones para tablas volcadas
@@ -272,7 +312,8 @@ ALTER TABLE `ticketcompra`
 -- Filtros para la tabla `detalleticket`
 --
 ALTER TABLE `detalleticket`
-  ADD CONSTRAINT `detalleticket_ibfk_2` FOREIGN KEY (`codLugar`) REFERENCES `lugar` (`codLugar`);
+  ADD CONSTRAINT `detalleticket_ibfk_2` FOREIGN KEY (`codLugar`) REFERENCES `lugar` (`codLugar`),
+  ADD CONSTRAINT `detalleticket_ibfk_3` FOREIGN KEY (`codTicket`) REFERENCES `ticketcompra` (`codTicket`);
 
 --
 -- Filtros para la tabla `funcion`
@@ -291,10 +332,10 @@ ALTER TABLE `lugar`
 -- Filtros para la tabla `ticketcompra`
 --
 ALTER TABLE `ticketcompra`
-  ADD CONSTRAINT `ticketcompra_ibfk_1` FOREIGN KEY (`codComprador`) REFERENCES `comprador` (`codComprador`),
-  ADD CONSTRAINT `ticketcompra_ibfk_2` FOREIGN KEY (`codDetalle`) REFERENCES `detalleticket` (`codDetalle`);
+  ADD CONSTRAINT `ticketcompra_ibfk_1` FOREIGN KEY (`codComprador`) REFERENCES `comprador` (`codComprador`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
