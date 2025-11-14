@@ -12,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import Modelo.Comprador;
-import Modelo.DetalleTicket;
+import java.sql.Statement;
 
 /**
  *
@@ -21,56 +21,58 @@ import Modelo.DetalleTicket;
 public class TicketData {
 
     private Connection con = null;
-    private DetalleTicketData detalleTicketData;
 
     public TicketData() {
+        this.con = Conexion.buscarConexion();
     }
 
     public TicketData(LugarData lugarData) {
         this.con = Conexion.buscarConexion();
-        this.detalleTicketData = new DetalleTicketData(lugarData);
     }
 
-    public boolean insertarTicket(TicketCompra t) throws SQLException {
+   public boolean insertarTicket(TicketCompra t) throws SQLException {
 
-        String sql = "INSERT INTO ticketcompra (FechaCompra,  Monto, metodoPago, codComprador,codDetalle)" + " VALUES (?, ?, ?, ?, ?)";
+    String sql = "INSERT INTO ticketcompra (FechaCompra, Monto, metodoPago, codComprador) VALUES (?, ?, ?, ?)";
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setDate(1, Date.valueOf(t.getFechaCompra()));
-            ps.setDouble(2, t.getMonto());
-            ps.setBoolean(3, t.isMetodoPago());
-            ps.setInt(4, t.getComprador().getCodComprador()); // Asume que la clase Comprador tiene codigoComprador
-            ps.setInt(5, t.getDetalleTicket().getCodDetalle());
+    try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            int filasAfectadas = ps.executeUpdate();
+        ps.setDate(1, Date.valueOf(t.getFechaCompra()));
+        ps.setDouble(2, t.getMonto());
+        ps.setBoolean(3, t.isMetodoPago());
+        ps.setInt(4, t.getComprador().getCodComprador());
 
-            if (filasAfectadas > 0) {
-                return true;
+        int filasAfectadas = ps.executeUpdate();
+
+        if (filasAfectadas > 0) {
+            // Obtener el ID generado automáticamente
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                t.setCodTicket(rs.getInt(1));  // <<< FUNDAMENTAL
             }
-
-        } catch (SQLException ex) {
-            throw new SQLException("No se pudo guardar el ticket! " + ex);
+            return true;
         }
-        return false;
+
+    } catch (SQLException ex) {
+        throw new SQLException("No se pudo guardar el ticket! " + ex);
     }
+
+    return false;
+}
+
 
     public TicketCompra buscarTicket(int id) throws SQLException {
         String sql = "SELECT * FROM ticketcompra WHERE codTicket = ?";
         TicketCompra ticket = null;
-        DetalleTicket detalleTicket = null;
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 ticket = new TicketCompra();
-                detalleTicket = new DetalleTicket();
                 ticket.setCodTicket(rs.getInt("codTicket"));
                 ticket.setFechaCompra(rs.getDate("FechaCompra").toLocalDate());
                 ticket.setMonto(rs.getDouble("Monto"));
                 ticket.setMetodoPago(rs.getBoolean("metodoPago"));
-                detalleTicket = detalleTicketData.buscarDetalleTicket(rs.getInt("codDetalle"));
-                ticket.setDetalleTicket(detalleTicket);
                 // Cargar comprador
                 CompradorData compradorData = new CompradorData();
                 Comprador comprador = compradorData.buscarComprador(rs.getInt("codComprador"));
@@ -89,7 +91,6 @@ public class TicketData {
         if (!columna.equals("FechaCompra")
                 && !columna.equals("Monto")
                 && !columna.equals("codComprador")
-                && !columna.equals("codDetalle")
                 && !columna.equals("metodoPago")) {
 
             throw new IllegalArgumentException("Columna de actualización no permitida: " + columna);
