@@ -4,18 +4,75 @@
  */
 package Vista;
 
+
+import Modelo.Funcion;
+import Modelo.Pelicula;
+import Modelo.Sala;
+import Persistencia.FuncionData;
+import Persistencia.PeliculaData;
+import Persistencia.SalaData;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Emiliano
  */
 public class NuevaFuncion extends javax.swing.JInternalFrame {
-
+    
+    private PeliculaData pData = new PeliculaData();
+    private SalaData sData = new SalaData();
+    private FuncionData fData = new FuncionData();
     /**
      * Creates new form NuevaFuncion
      */
     public NuevaFuncion() {
         initComponents();
+        pData = new PeliculaData();
+        sData = new SalaData();
+        fData = new FuncionData();
+        cargarPeliculas();
+        cargarSalas();
+        cargarIdiomas();
+
+
     }
+    private void cargarPeliculas(){
+        try{
+            List<Pelicula> lista = pData.listarPeliculas();
+            CBoxPeliculas.removeAllItems();
+            for(Pelicula p : lista){
+                CBoxPeliculas.addItem(p);
+            }
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Error al cargar peliculas: "+ e.getMessage());
+        }
+    }
+    private void cargarSalas(){
+        try{
+            List<Sala> lista = sData.listarSalas();
+            CBoxSalas.removeAllItems();
+            for (Sala s : lista){
+                CBoxSalas.addItem(s);
+            }
+        } catch ( Exception e){
+            JOptionPane.showMessageDialog(this, "Error al cargar salas: "+ e.getMessage());
+        }
+    }
+    private void cargarIdiomas(){
+        CBoxIdiomas.removeAllItems();
+        CBoxIdiomas.addItem("Español");
+        CBoxIdiomas.addItem("Ingles");
+        CBoxIdiomas.addItem("Frances");
+        CBoxIdiomas.addItem("Portugues");
+                
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,11 +86,11 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
         Titulo = new javax.swing.JLabel();
         JLPelicula = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        BoxPeliculas = new javax.swing.JComboBox<>();
+        CBoxPeliculas = new javax.swing.JComboBox();
         JLSala = new javax.swing.JLabel();
-        BoxSalas = new javax.swing.JComboBox<>();
+        CBoxSalas = new javax.swing.JComboBox();
         JLIdioma = new javax.swing.JLabel();
-        BoxIdiomas = new javax.swing.JComboBox<>();
+        CBoxIdiomas = new javax.swing.JComboBox();
         JLFecha = new javax.swing.JLabel();
         DChooserFecha = new com.toedter.calendar.JDateChooser();
         JLInicio = new javax.swing.JLabel();
@@ -62,17 +119,17 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
         getContentPane().add(JLPelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 50, 20));
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 410, 10));
 
-        getContentPane().add(BoxPeliculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 130, -1));
+        getContentPane().add(CBoxPeliculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 130, -1));
 
         JLSala.setText("Sala :");
         getContentPane().add(JLSala, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 40, 20));
 
-        getContentPane().add(BoxSalas, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 50, 130, -1));
+        getContentPane().add(CBoxSalas, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 50, 130, -1));
 
         JLIdioma.setText("Idioma :");
         getContentPane().add(JLIdioma, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, 20));
 
-        getContentPane().add(BoxIdiomas, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 130, -1));
+        getContentPane().add(CBoxIdiomas, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 130, -1));
 
         JLFecha.setText("Fecha Funcion :");
         getContentPane().add(JLFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 100, -1, 20));
@@ -114,14 +171,29 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
 
         ButGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/Iconos/ahorrar.png"))); // NOI18N
         ButGuardar.setText("Guardar");
+        ButGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButGuardarActionPerformed(evt);
+            }
+        });
         getContentPane().add(ButGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, 30));
 
         ButLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/Iconos/escoba.png"))); // NOI18N
         ButLimpiar.setText("Limpiar");
+        ButLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButLimpiarActionPerformed(evt);
+            }
+        });
         getContentPane().add(ButLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 330, -1, -1));
 
         ButCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/Iconos/cerrar.png"))); // NOI18N
         ButCancelar.setText("Cerrar");
+        ButCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButCancelarActionPerformed(evt);
+            }
+        });
         getContentPane().add(ButCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 330, -1, 30));
 
         pack();
@@ -135,15 +207,120 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_CBox3DActionPerformed
 
+    private void ButLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButLimpiarActionPerformed
+        // TODO add your handling code here:
+    CBoxPeliculas.setSelectedIndex(0);
+    CBoxSalas.setSelectedIndex(0);
+    CBoxIdiomas.setSelectedIndex(0);
+    DChooserFecha.setDate(null);
+    TexHoraInicio.setText("");
+    TexHoraFin.setText("");
+    TexPrecio.setText("");
+    CBox3D.setSelected(false);
+    CBoxSubtitulo.setSelected(false);
+    }//GEN-LAST:event_ButLimpiarActionPerformed
+
+    private void ButGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButGuardarActionPerformed
+
+      try {
+        // Validar película
+        String pPeli = (String) CBoxPeliculas.getSelectedItem();
+        if (pPeli == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una pelicula.");
+            return;
+        }
+        int codPelicula = Integer.parseInt(pPeli.split(" - ")[0]);
+
+        // Validar sala
+        String sSala = (String) CBoxSalas.getSelectedItem();
+        if (sSala == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una sala.");
+            return;
+        }
+        int nroSala = Integer.parseInt(sSala);
+
+        // Idioma
+        String idioma = (String) CBoxIdiomas.getSelectedItem();
+
+        // Fecha de función
+        Date fechaDate = DChooserFecha.getDate();
+        if (fechaDate == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar la fecha de funcion.");
+            return;
+        }
+        LocalDate fechaFuncion = fechaDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+        // Horas
+        String horaInicioStr = TexHoraInicio.getText();
+        String horaFinStr = TexHoraFin.getText();
+
+        if (horaInicioStr.isEmpty() || horaFinStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe completar las horas.");
+            return;
+        }
+
+        LocalTime horaInicio = LocalTime.parse(horaInicioStr);
+        LocalTime horaFin = LocalTime.parse(horaFinStr);
+
+        if (horaFin.isBefore(horaInicio)) {
+            JOptionPane.showMessageDialog(this, "La hora de fin no puede ser antes que la de inicio.");
+            return;
+        }
+
+        // Precio
+        double precio = Double.parseDouble(TexPrecio.getText());
+
+        // Opciones
+        boolean es3D = CBox3D.isSelected();
+        boolean subtitulada = CBoxSubtitulo.isSelected();
+
+        // Crear objetos reales
+        Pelicula peli = pData.buscarPelicula(codPelicula);
+        Sala sala = sData.buscarSalaPorNro(nroSala);
+
+        Funcion f = new Funcion();
+        f.setPelicula(peli);
+        f.setSalaFuncion(sala);
+        f.setIdioma(idioma);
+        f.setFecha(fechaFuncion);
+        f.setHoraInicio(horaInicio);
+        f.setHoraFin(horaFin);
+        f.setPrecioLugar(precio);
+        f.setEs3d(es3D);
+        f.setSubtitulada(subtitulada);
+        f.setEstado(true);
+
+        boolean exito = fData.insertarFuncion(f);
+
+        if (exito) {
+            JOptionPane.showMessageDialog(this, "Funcion creada con exito.");
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al guardar la funcion.");
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+    }
+        
+    }//GEN-LAST:event_ButGuardarActionPerformed
+
+    private void ButCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButCancelarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_ButCancelarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> BoxIdiomas;
-    private javax.swing.JComboBox<String> BoxPeliculas;
-    private javax.swing.JComboBox<String> BoxSalas;
     private javax.swing.JButton ButCancelar;
     private javax.swing.JButton ButGuardar;
     private javax.swing.JButton ButLimpiar;
     private javax.swing.JCheckBox CBox3D;
+    private javax.swing.JComboBox CBoxIdiomas;
+    private javax.swing.JComboBox CBoxPeliculas;
+    private javax.swing.JComboBox CBoxSalas;
     private javax.swing.JCheckBox CBoxSubtitulo;
     private com.toedter.calendar.JDateChooser DChooserFecha;
     private javax.swing.JLabel JLFecha;
