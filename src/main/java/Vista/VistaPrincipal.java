@@ -72,8 +72,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Documents\\NetBeansProjects\\CineCentro\\GP7-proyectoCinemaCentro\\img\\cine (1).jpg")); // NOI18N
-
         Escritorio.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout EscritorioLayout = new javax.swing.GroupLayout(Escritorio);
@@ -158,6 +156,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(menuTaquilla);
 
         menuOnline.setText("Online");
+        menuOnline.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuOnlineMouseClicked(evt);
+            }
+        });
         jMenuBar1.add(menuOnline);
 
         setJMenuBar(jMenuBar1);
@@ -212,14 +215,31 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itemLugarActionPerformed
 
     private void itemFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemFuncionActionPerformed
-       // VistaFuncion vl = new VistaFuncion();
-      //  abrirInternal(vl);
+        // VistaFuncion vl = new VistaFuncion();
+        //  abrirInternal(vl);
     }//GEN-LAST:event_itemFuncionActionPerformed
 
     private void menuTaquillaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuTaquillaMouseClicked
-        VistaTaquilla vt = new VistaTaquilla(peliculaData, funcionData, lugarData, ticketData, detalleTicketData,CompradorData);
-        abrirInternal(vt);
+//        VistaTaquilla vt = new VistaTaquilla(peliculaData, funcionData, lugarData, ticketData, detalleTicketData,CompradorData);
+//        abrirInternal(vt);
+        ModoCompra selectorModo = new ModoCompra(this, true);
+       selectorModo.setVisible(true);
+        String modoElegido = selectorModo.getModoSeleccionado();
+        if (modoElegido != null) { 
+        
+        VistaTaquilla vt = new VistaTaquilla(peliculaData, funcionData, lugarData, ticketData, detalleTicketData,CompradorData, modoElegido);
+       abrirInternal(vt);
+        vt.setVisible(true);
+    
+        vt.toFront();
+    }
     }//GEN-LAST:event_menuTaquillaMouseClicked
+
+    private void menuOnlineMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuOnlineMouseClicked
+//        // TODO add your handling code here:
+//        VistaOnline vo = new VistaOnline();
+//        abrirInternal(vo);
+    }//GEN-LAST:event_menuOnlineMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem CompradorMenuItem;
