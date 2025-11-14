@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -78,6 +79,27 @@ public class DetalleTicketData {
             throw new SQLException("No se encontró el detalle del ticket! " + ex);
         }
         return dt;
+    }
+    
+      public boolean asientoOcupado(DetalleTicket dt) {
+
+        String sql = "SELECT * FROM detalleticket WHERE codLugar = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, dt.getLugar().getCodLugar());
+
+            ResultSet rs = ps.executeQuery();
+            boolean ocupado = rs.next();
+            rs.close();
+
+            return ocupado;
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,
+                    "Error al verificar asiento ocupado: " + ex.getMessage());
+            return true; // si hay error lo consideramos ocupado para seguridad
+        }
     }
 
     public boolean actualizarDetalleTicket(int id, String columna, Object dato) throws Exception {

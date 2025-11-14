@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Persistencia;
 
 import Modelo.Conexion;
@@ -13,82 +9,128 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import Modelo.Comprador;
 import Modelo.DetalleTicket;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Fede-
- */
 public class TicketData {
 
     private Connection con = null;
-    private DetalleTicketData detalleTicketData;
+    private DetalleTicketData detalleData;
+    private CompradorData compradorData;
 
     public TicketData() {
-    }
-
-    public TicketData(LugarData lugarData) {
         this.con = Conexion.buscarConexion();
-        this.detalleTicketData = new DetalleTicketData(lugarData);
+        this.detalleData = new DetalleTicketData(new LugarData());
+        this.compradorData = new CompradorData();
     }
 
+    private void validarTicket(TicketCompra t) {
+
+        if (t == null)
+            throw new IllegalArgumentException("El ticket no puede ser nulo.");
+
+        if (t.getFechaCompra() == null)
+            throw new IllegalArgumentException("La fecha de compra no puede ser nula.");
+
+        if (t.getFechaCompra().isAfter(LocalDate.now()))
+            throw new IllegalArgumentException("La fecha de compra no puede ser futura.");
+
+        if (t.getMonto() <= 0)
+            throw new IllegalArgumentException("El monto debe ser mayor a 0.");
+
+        if (t.getComprador() == null)
+            throw new IllegalArgumentException("Debe tener un comprador asociado.");
+
+        if (!t.getComprador().isEstado())
+            throw new IllegalArgumentException("El comprador está dado de baja.");
+
+        if (t.getDetalleTicket() == null)
+            throw new IllegalArgumentException("Debe tener un detalle asociado.");
+
+        // Valida si el asiento está ocupado
+        if (detalleData.asientoOcupado(t.getDetalleTicket()))
+            throw new IllegalArgumentException("Ese asiento ya está ocupado para esa función.");
+    }
+
+   
     public boolean insertarTicket(TicketCompra t) throws SQLException {
 
-        String sql = "INSERT INTO ticketcompra (FechaCompra,  Monto, metodoPago, codComprador,codDetalle)" + " VALUES (?, ?, ?, ?, ?)";
+        validarTicket(t);
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+        // Inserta primero el detalle
+        detalleData.insertarDetalleTicket(t.getDetalleTicket());
+
+        String sql = "INSERT INTO ticketcompra (FechaCompra, Monto, metodoPago, codComprador, codDetalle)"
+                   + " VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
             ps.setDate(1, Date.valueOf(t.getFechaCompra()));
             ps.setDouble(2, t.getMonto());
             ps.setBoolean(3, t.isMetodoPago());
-            ps.setInt(4, t.getComprador().getCodComprador()); // Asume que la clase Comprador tiene codigoComprador
+            ps.setInt(4, t.getComprador().getCodComprador());
             ps.setInt(5, t.getDetalleTicket().getCodDetalle());
 
             int filasAfectadas = ps.executeUpdate();
 
             if (filasAfectadas > 0) {
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    t.setCodTicket(rs.getInt(1));
+                }
+                rs.close();
                 return true;
             }
 
         } catch (SQLException ex) {
             throw new SQLException("No se pudo guardar el ticket! " + ex);
         }
+
         return false;
     }
 
+    
     public TicketCompra buscarTicket(int id) throws SQLException {
+
         String sql = "SELECT * FROM ticketcompra WHERE codTicket = ?";
         TicketCompra ticket = null;
-        DetalleTicket detalleTicket = null;
+
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
+
             if (rs.next()) {
+
                 ticket = new TicketCompra();
-                detalleTicket = new DetalleTicket();
+
                 ticket.setCodTicket(rs.getInt("codTicket"));
                 ticket.setFechaCompra(rs.getDate("FechaCompra").toLocalDate());
                 ticket.setMonto(rs.getDouble("Monto"));
                 ticket.setMetodoPago(rs.getBoolean("metodoPago"));
-                detalleTicket = detalleTicketData.buscarDetalleTicket(rs.getInt("codDetalle"));
-                ticket.setDetalleTicket(detalleTicket);
-                // Cargar comprador
-                CompradorData compradorData = new CompradorData();
+
+                // cargar detalle
+                DetalleTicket detalle = detalleData.buscarDetalleTicket(rs.getInt("codDetalle"));
+                ticket.setDetalleTicket(detalle);
+
+                // cargar comprador
                 Comprador comprador = compradorData.buscarComprador(rs.getInt("codComprador"));
                 ticket.setComprador(comprador);
             }
+
             rs.close();
-            ps.close();
 
         } catch (SQLException ex) {
             throw new SQLException("No se encontró el ticket! " + ex);
         }
+
         return ticket;
     }
 
     public boolean actualizarTicket(int id, String columna, Object dato) throws Exception {
+
         if (!columna.equals("FechaCompra")
                 && !columna.equals("Monto")
                 && !columna.equals("codComprador")
@@ -102,87 +144,77 @@ public class TicketData {
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
 
-            if (dato instanceof String) {
+            if (dato instanceof String)
                 ps.setString(1, (String) dato);
-            } else if (dato instanceof Double) {
+            else if (dato instanceof Double)
                 ps.setDouble(1, (Double) dato);
-            } else if (dato instanceof java.sql.Date) {
+            else if (dato instanceof java.sql.Date)
                 ps.setDate(1, (java.sql.Date) dato);
-            } else if (dato instanceof Integer) {
+            else if (dato instanceof Integer)
                 ps.setInt(1, (Integer) dato);
-            } else if (dato instanceof Boolean) {
-                ps.setBoolean(1, (boolean) dato);
-            } else {
+            else if (dato instanceof Boolean)
+                ps.setBoolean(1, (Boolean) dato);
+            else
                 throw new IllegalArgumentException("Tipo de dato no soportado para actualizar.");
-            }
+
             ps.setInt(2, id);
 
-            int filasAfectadas = ps.executeUpdate();
-            ps.close();
-
-            if (filasAfectadas > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return ps.executeUpdate() > 0;
 
         } catch (SQLException ex) {
             throw new SQLException("No se pudo modificar el ticket! " + ex);
         }
-
     }
 
+   
     public boolean eliminarTicket(int id) throws SQLException {
+
         String sql = "DELETE FROM ticketcompra WHERE codTicket = ?";
+
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
-            int filasAfectadas = ps.executeUpdate();
-            ps.close();
 
-            if (filasAfectadas > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return ps.executeUpdate() > 0;
 
         } catch (SQLException ex) {
             throw new SQLException("No se pudo eliminar el ticket " + ex);
         }
     }
+
     
-    public List <TicketCompra> listarTickets(){
-    List<TicketCompra> tickets = new ArrayList<>();
-    CompradorData cData = new CompradorData();
-    DetalleTicketData dData = new DetalleTicketData(new LugarData());
+    public List<TicketCompra> listarTickets() {
 
-    String sql = "SELECT * FROM ticketcompra";
+        List<TicketCompra> tickets = new ArrayList<>();
+        CompradorData cData = new CompradorData();
+        DetalleTicketData dData = new DetalleTicketData(new LugarData());
 
-    try (PreparedStatement ps = con.prepareStatement(sql);
-         ResultSet rs = ps.executeQuery()) {
+        String sql = "SELECT * FROM ticketcompra";
 
-        while (rs.next()) {
-            TicketCompra t = new TicketCompra();
-            t.setCodTicket(rs.getInt("codTicket"));
-            t.setFechaCompra(rs.getDate("fechaCompra").toLocalDate());
-           // t.setFechaFuncion(rs.getDate("fechaFuncion").toLocalDate());
-            t.setMonto(rs.getDouble("monto"));
+        try (PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-            // Relaciones
-            Comprador comprador = cData.buscarComprador(rs.getInt("codComprador"));
-            DetalleTicket detalle = dData.buscarDetalleTicket(rs.getInt("codDetalle"));
-            
-            t.setComprador(comprador);
-            t.setDetalleTicket(detalle);
+            while (rs.next()) {
 
-            tickets.add(t);
+                TicketCompra t = new TicketCompra();
+
+                t.setCodTicket(rs.getInt("codTicket"));
+                t.setFechaCompra(rs.getDate("FechaCompra").toLocalDate());
+                t.setMonto(rs.getDouble("Monto"));
+
+                Comprador comprador = cData.buscarComprador(rs.getInt("codComprador"));
+                DetalleTicket detalle = dData.buscarDetalleTicket(rs.getInt("codDetalle"));
+
+                t.setComprador(comprador);
+                t.setDetalleTicket(detalle);
+
+                tickets.add(t);
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar tickets: " + ex.getMessage());
         }
 
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(null, "Error al listar tickets: " + ex.getMessage());
+        return tickets;
     }
-
-    return tickets;
 }
-}
-   
