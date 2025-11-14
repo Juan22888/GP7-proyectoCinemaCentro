@@ -223,7 +223,7 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
     private void ButGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButGuardarActionPerformed
 
       try {
-        // Validar película
+        
         String pPeli = (String) CBoxPeliculas.getSelectedItem();
         if (pPeli == null) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una pelicula.");
@@ -231,7 +231,7 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
         }
         int codPelicula = Integer.parseInt(pPeli.split(" - ")[0]);
 
-        // Validar sala
+        
         String sSala = (String) CBoxSalas.getSelectedItem();
         if (sSala == null) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una sala.");
@@ -239,10 +239,10 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
         }
         int nroSala = Integer.parseInt(sSala);
 
-        // Idioma
+       
         String idioma = (String) CBoxIdiomas.getSelectedItem();
 
-        // Fecha de función
+       
         Date fechaDate = DChooserFecha.getDate();
         if (fechaDate == null) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar la fecha de funcion.");
@@ -252,7 +252,7 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
 
-        // Horas
+        
         String horaInicioStr = TexHoraInicio.getText();
         String horaFinStr = TexHoraFin.getText();
 
@@ -269,14 +269,14 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
             return;
         }
 
-        // Precio
+        
         double precio = Double.parseDouble(TexPrecio.getText());
 
-        // Opciones
+        
         boolean es3D = CBox3D.isSelected();
         boolean subtitulada = CBoxSubtitulo.isSelected();
 
-        // Crear objetos reales
+        
         Pelicula peli = pData.buscarPelicula(codPelicula);
         Sala sala = sData.buscarSalaPorNro(nroSala);
 
