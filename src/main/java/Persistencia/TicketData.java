@@ -165,7 +165,7 @@ public class TicketData {
             TicketCompra t = new TicketCompra();
             t.setCodTicket(rs.getInt("codTicket"));
             t.setFechaCompra(rs.getDate("fechaCompra").toLocalDate());
-            t.setFechaFuncion(rs.getDate("fechaFuncion").toLocalDate());
+           // t.setFechaFuncion(rs.getDate("fechaFuncion").toLocalDate());
             t.setMonto(rs.getDouble("monto"));
 
             // Relaciones

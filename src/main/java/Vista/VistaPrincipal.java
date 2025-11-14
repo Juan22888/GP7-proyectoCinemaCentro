@@ -193,7 +193,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
     private void CompradorMenuItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CompradorMenuItemMouseClicked
         // TODO add your handling code here:
-
+      
     }//GEN-LAST:event_CompradorMenuItemMouseClicked
 
     private void menuAdministracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAdministracionActionPerformed

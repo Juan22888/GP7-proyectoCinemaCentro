@@ -17,6 +17,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  *
  * @author FRANCO
@@ -338,5 +339,90 @@ public class FuncionData {
 
         return funciones;
     }
+        
+    public List ListarFuncionesPorIdioma(String idioma) throws SQLException{
+    
+        List<Funcion> funciones = new ArrayList<>();
+        
+        // SQLseleciona todos las funciones activas por idioma
+        String sql = "SELECT * FROM funcion WHERE idioa LIKE AND estado = true";
+        try (PreparedStatement ps = con.prepareStatement(sql)){
+        
+            // usamos '%' para permitir busquedas 
+            //parciales o asegurar que coincida exactamente sino hay comodines
+            
+            ps.setString(1,"%"+idioma + "%");
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()){
+                Funcion f = new Funcion();
+                Pelicula p = new Pelicula();
+                Sala s = new Sala();
+                
+                f.setCodFuncion(rs.getInt("codFuncion"));
+                p = peliculaData.buscarPelicula(rs.getInt("codPelicula"));
+                f.setPelicula(p);
+                f.setIdioma(rs.getString(idioma));
+                f.setEs3d(rs.getBoolean("es3D"));
+                f.setSubtitulada(rs.getBoolean("subtitulada"));
+                f.setHoraInicio(rs.getTime("horaInicio").toLocalTime());
+                f.setHoraFin(rs.getTime("horaFin").toLocalTime());
+                f.setFecha(rs.getDate("fechaFuncion").toLocalDate());
+                s = salaData.buscarSala(rs.getInt("codSala"));
+                f.setSalaFuncion(s);
+                f.setPrecioLugar(rs.getDouble("precioLugar"));
+                f.setEstado(rs.getBoolean("estado"));
+                
+                funciones.add(f);
+                }
+            rs.close();
+        
+         } catch (SQLException ex){
+             throw new SQLException("Error al listar funciones por sala:" + ex.getMessage());
+         
+         }
+         
+        return funciones;
+        }
+    public List listarFuncionesPorSala(int codSala) throws SQLException {
+    List<Funcion> funciones = new ArrayList<>();
+    // SQL: Selecciona todas las funciones activas para un código de sala específico
+    String sql = "SELECT * FROM funcion WHERE codSala = ? AND estado = true"; 
 
+    try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setInt(1, codSala);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Funcion f = new Funcion();
+            Pelicula p = new Pelicula();
+            Sala s = new Sala();
+            
+            f.setCodFuncion(rs.getInt("codFuncion"));
+            p = peliculaData.buscarPelicula(rs.getInt("codPelicula"));
+            f.setPelicula(p);
+            f.setIdioma(rs.getString("idioma"));
+            f.setEs3d(rs.getBoolean("es3d"));
+            f.setSubtitulada(rs.getBoolean("subtitulada"));
+            f.setHoraInicio(rs.getTime("horaInicio").toLocalTime());
+            f.setHoraFin(rs.getTime("horaFin").toLocalTime());
+            f.setFecha(rs.getDate("fechaFuncion").toLocalDate());
+            s = salaData.buscarSala(rs.getInt("codSala"));
+            f.setSalaFuncion(s);
+            f.setPrecioLugar(rs.getDouble("precioLugar"));
+            f.setEstado(rs.getBoolean("estado"));
+            
+            funciones.add(f);
+        }
+        rs.close();
+        
+    } catch (SQLException ex) {
+        throw new SQLException("Error al listar funciones por sala: " + ex.getMessage());
+    }
+
+    return funciones;
 }
+        
+        }
+
