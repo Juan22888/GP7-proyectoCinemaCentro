@@ -94,6 +94,8 @@ public class VistaComprador extends javax.swing.JInternalFrame {
 
         setClosable(true);
 
+        CompradorDesktop.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         TablaCompradores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -116,7 +118,11 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(TablaCompradores);
         TablaCompradores.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
+        CompradorDesktop.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 163, 522, 256));
+        CompradorDesktop.add(txtBucar, new org.netbeans.lib.awtextra.AbsoluteConstraints(239, 68, 150, -1));
+
         jLabel1.setText("Buscar Comprador (DNI):");
+        CompradorDesktop.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(88, 71, -1, -1));
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -124,6 +130,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
                 btnBuscarActionPerformed(evt);
             }
         });
+        CompradorDesktop.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 68, -1, -1));
 
         btnNuevo.setText("Nuevo Comprador");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -131,81 +138,30 @@ public class VistaComprador extends javax.swing.JInternalFrame {
                 btnNuevoActionPerformed(evt);
             }
         });
+        CompradorDesktop.add(btnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 469, 145, 50));
 
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/iconos netbeans/guardar.png"))); // NOI18N
         btnActualizar.setText("Guardar Cambios");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarActionPerformed(evt);
             }
         });
+        CompradorDesktop.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(248, 469, 139, 49));
 
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/iconos netbeans/icons8-delete-64.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
             }
         });
+        CompradorDesktop.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 469, 115, 49));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 102, 153));
         jLabel2.setText("Gestion De Compradores");
-
-        CompradorDesktop.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        CompradorDesktop.setLayer(txtBucar, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        CompradorDesktop.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        CompradorDesktop.setLayer(btnBuscar, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        CompradorDesktop.setLayer(btnNuevo, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        CompradorDesktop.setLayer(btnActualizar, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        CompradorDesktop.setLayer(btnEliminar, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        CompradorDesktop.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        javax.swing.GroupLayout CompradorDesktopLayout = new javax.swing.GroupLayout(CompradorDesktop);
-        CompradorDesktop.setLayout(CompradorDesktopLayout);
-        CompradorDesktopLayout.setHorizontalGroup(
-            CompradorDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(CompradorDesktopLayout.createSequentialGroup()
-                .addGroup(CompradorDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(CompradorDesktopLayout.createSequentialGroup()
-                        .addGap(88, 88, 88)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtBucar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
-                        .addComponent(btnBuscar))
-                    .addGroup(CompradorDesktopLayout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addGroup(CompradorDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(CompradorDesktopLayout.createSequentialGroup()
-                                .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(53, 53, 53)
-                                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(53, 53, 53)
-                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(CompradorDesktopLayout.createSequentialGroup()
-                        .addGap(163, 163, 163)
-                        .addComponent(jLabel2)))
-                .addContainerGap(61, Short.MAX_VALUE))
-        );
-        CompradorDesktopLayout.setVerticalGroup(
-            CompradorDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(CompradorDesktopLayout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(CompradorDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBucar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(btnBuscar))
-                .addGap(72, 72, 72)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addGroup(CompradorDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(96, Short.MAX_VALUE))
-        );
+        CompradorDesktop.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(163, 9, -1, 41));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

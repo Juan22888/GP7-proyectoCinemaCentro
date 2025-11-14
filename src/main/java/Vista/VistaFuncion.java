@@ -162,6 +162,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setForeground(java.awt.Color.white);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         TablaFunciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -184,29 +185,45 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(TablaFunciones);
 
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 286, 671, 173));
+
         BoxPeliculas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BoxPeliculasActionPerformed(evt);
             }
         });
+        getContentPane().add(BoxPeliculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(335, 80, 129, 16));
 
         jLabel1.setText("Peliculas");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(283, 77, -1, 22));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 102, 153));
         jLabel2.setText("Gestion De Funciones");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(234, 6, -1, 41));
 
         jLabel3.setText("Salas");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(302, 111, -1, 22));
+
+        getContentPane().add(BoxSalas, new org.netbeans.lib.awtextra.AbsoluteConstraints(335, 114, 129, 16));
 
         jLabel4.setText("Idioma");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(291, 145, -1, -1));
+
+        getContentPane().add(BoxIdiomas, new org.netbeans.lib.awtextra.AbsoluteConstraints(335, 145, 129, 16));
 
         CBox3D.setText("3D");
+        getContentPane().add(CBox3D, new org.netbeans.lib.awtextra.AbsoluteConstraints(426, 241, -1, -1));
 
         jLabel5.setText("Hora de inicio");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(254, 173, -1, -1));
 
         jLabel6.setText("Hora de Fin");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(267, 207, -1, -1));
 
         jLabel7.setText("Precio");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(288, 241, 41, 22));
+        getContentPane().add(TexFielPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(335, 244, 85, 16));
 
         ButInsertar.setText("Insertar");
         ButInsertar.addActionListener(new java.awt.event.ActionListener() {
@@ -214,6 +231,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 ButInsertarActionPerformed(evt);
             }
         });
+        getContentPane().add(ButInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 485, -1, -1));
 
         ButActualizar.setText("Guardar Cambios");
         ButActualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -221,6 +239,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 ButActualizarActionPerformed(evt);
             }
         });
+        getContentPane().add(ButActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(134, 485, -1, -1));
 
         ButBorrar.setText("Borrar");
         ButBorrar.addActionListener(new java.awt.event.ActionListener() {
@@ -228,6 +247,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 ButBorrarActionPerformed(evt);
             }
         });
+        getContentPane().add(ButBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(268, 485, -1, -1));
 
         ButAltaBaja.setText("Dar de Alta/Baja");
         ButAltaBaja.addActionListener(new java.awt.event.ActionListener() {
@@ -235,6 +255,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 ButAltaBajaActionPerformed(evt);
             }
         });
+        getContentPane().add(ButAltaBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(346, 485, -1, -1));
 
         ButMostrar.setText("Mostrar");
         ButMostrar.addActionListener(new java.awt.event.ActionListener() {
@@ -242,102 +263,13 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 ButMostrarActionPerformed(evt);
             }
         });
+        getContentPane().add(ButMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(477, 485, -1, -1));
 
         dateHoraInicio.setDateFormatString("HH:mm");
+        getContentPane().add(dateHoraInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(335, 173, -1, -1));
 
         dateHoraFin.setDateFormatString("HH:mm");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addComponent(ButInsertar)
-                                .addGap(18, 18, 18)
-                                .addComponent(ButActualizar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ButBorrar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ButAltaBaja)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ButMostrar)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel1))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(BoxSalas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(BoxIdiomas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(BoxPeliculas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(dateHoraInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(TexFielPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(CBox3D))
-                                    .addComponent(dateHoraFin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(208, 208, 208))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BoxPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BoxSalas, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BoxIdiomas, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(dateHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dateHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(CBox3D)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(TexFielPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ButInsertar)
-                    .addComponent(ButActualizar)
-                    .addComponent(ButBorrar)
-                    .addComponent(ButAltaBaja)
-                    .addComponent(ButMostrar))
-                .addContainerGap(25, Short.MAX_VALUE))
-        );
+        getContentPane().add(dateHoraFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(335, 207, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
