@@ -70,7 +70,6 @@ public class LugarData {
             ps.setInt(2, lugar.getNumero());
             ps.setInt(3, lugar.getFuncion().getCodFuncion());
             ResultSet rs = ps.executeQuery();
-
             if (rs.next() && rs.getInt(1) > 0) {
                 throw new IllegalArgumentException("Ya existe un asiento con esa fila y número para la función seleccionada.");
             }
@@ -168,7 +167,7 @@ public class LugarData {
         return false;
     }
 
-    /*public List<Lugar> obtenerLugaresDisponiblesPorFuncion(int codFuncion) {
+    public List<Lugar> obtenerLugaresDisponiblesPorFuncion(int codFuncion) {
         String sql = "SELECT codLugar, fila, numero FROM lugar WHERE codFuncion = ? AND estado = 0";
         List<Lugar> lugaresDisponibles = new ArrayList<>();
 
@@ -197,7 +196,7 @@ public class LugarData {
         }
 
         return lugaresDisponibles;
-    }*/
+    }
     
     public List<Lugar> obtenerLugaresPorFuncion(int codFuncion) {
         String sql = "SELECT codLugar, fila, numero FROM lugar WHERE codFuncion = ?";
@@ -252,7 +251,7 @@ public class LugarData {
         List<Lugar> lugaresExistentes = obtenerLugaresPorFuncion(codFuncion);
         int cantidadActual = lugaresExistentes.size();
 
-        if (cantidadActual >= capacidadMaxima) {
+        if (cantidadActual == capacidadMaxima) {
             throw new IllegalArgumentException("La función ya tiene todos los lugares creados.");
         }
 
