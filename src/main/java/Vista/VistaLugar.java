@@ -95,6 +95,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
         );
 
         setClosable(true);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         butCancelar.setText("Cancelar");
         butCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -189,35 +190,38 @@ public class VistaLugar extends javax.swing.JInternalFrame {
         LugarDesktopLayout.setHorizontalGroup(
             LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LugarDesktopLayout.createSequentialGroup()
-                .addGap(230, 230, 230)
-                .addComponent(jLabel1))
-            .addGroup(LugarDesktopLayout.createSequentialGroup()
-                .addGap(102, 102, 102)
-                .addComponent(jLabel2)
-                .addGap(22, 22, 22)
-                .addComponent(txtBuscarLugar, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(butBuscar)
-                .addGap(18, 18, 18)
-                .addComponent(buscarPorFuncion))
-            .addGroup(LugarDesktopLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
                 .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(LugarDesktopLayout.createSequentialGroup()
-                        .addGap(355, 355, 355)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addGroup(LugarDesktopLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(butReiniciar)
-                .addGap(12, 12, 12)
-                .addComponent(butNuevosLugares, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(butEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(230, 230, 230)
+                        .addComponent(jLabel1))
+                    .addGroup(LugarDesktopLayout.createSequentialGroup()
+                        .addGap(102, 102, 102)
+                        .addComponent(jLabel2)
+                        .addGap(22, 22, 22)
+                        .addComponent(txtBuscarLugar, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(butBuscar)
+                        .addGap(18, 18, 18)
+                        .addComponent(buscarPorFuncion))
+                    .addGroup(LugarDesktopLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(LugarDesktopLayout.createSequentialGroup()
+                                .addGap(355, 355, 355)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(LugarDesktopLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(butReiniciar)
+                        .addGap(12, 12, 12)
+                        .addComponent(butNuevosLugares, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(butEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         LugarDesktopLayout.setVerticalGroup(
             LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,18 +255,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
                     .addComponent(butEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(LugarDesktop))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(LugarDesktop)
-        );
+        getContentPane().add(LugarDesktop, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 0, -1, 662));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

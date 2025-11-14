@@ -17,27 +17,18 @@ public class TicketCompra {
     private double monto;
     private Comprador comprador;
     private boolean metodoPago;
-    private DetalleTicket detalleTicket;
 
-    public TicketCompra(int codTicket, LocalDate FechaCompra, double monto, Comprador comprador, DetalleTicket detalleTicket,boolean metodoPago) {
+    public TicketCompra(int codTicket, LocalDate FechaCompra, double monto, Comprador comprador,boolean metodoPago) {
         this.codTicket = codTicket;
         this.FechaCompra = FechaCompra;
         this.monto = monto;
         this.comprador = comprador;
-        this.detalleTicket = detalleTicket;
         this.metodoPago = metodoPago;
     }
 
     public TicketCompra() {
     }
 
-    public DetalleTicket getDetalleTicket() {
-        return detalleTicket;
-    }
-
-    public void setDetalleTicket(DetalleTicket detalleTicket) {
-        this.detalleTicket = detalleTicket;
-    }
 
     public int getCodTicket() {
         return codTicket;
@@ -72,7 +63,6 @@ public class TicketCompra {
     }
     
     
-
     public Comprador getComprador() {
         return comprador;
     }
