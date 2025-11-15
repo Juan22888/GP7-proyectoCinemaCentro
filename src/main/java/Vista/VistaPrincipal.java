@@ -68,7 +68,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
         itemSala = new javax.swing.JMenuItem();
         itemPelicula = new javax.swing.JMenuItem();
         menuTaquilla = new javax.swing.JMenu();
-        menuOnline = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -157,14 +156,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
         });
         jMenuBar1.add(menuTaquilla);
 
-        menuOnline.setText("Online");
-        menuOnline.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menuOnlineMouseClicked(evt);
-            }
-        });
-        jMenuBar1.add(menuOnline);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -239,12 +230,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_menuTaquillaMouseClicked
 
-    private void menuOnlineMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuOnlineMouseClicked
-//        // TODO add your handling code here:
-//        VistaOnline vo = new VistaOnline();
-//        abrirInternal(vo);
-    }//GEN-LAST:event_menuOnlineMouseClicked
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem CompradorMenuItem;
     private javax.swing.JDesktopPane Escritorio;
@@ -256,7 +241,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu menuAdministracion;
-    private javax.swing.JMenu menuOnline;
     private javax.swing.JMenu menuTaquilla;
     // End of variables declaration//GEN-END:variables
 }
