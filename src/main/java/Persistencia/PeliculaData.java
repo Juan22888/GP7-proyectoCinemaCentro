@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,6 @@ public class PeliculaData {
             throw new IllegalArgumentException("El objeto Pelicula no puede ser nulo.");
         }
 
-        // Validamos el Título
         String tituloLimpio = (p.getTitulo() == null) ? "" : p.getTitulo().trim();
         if (tituloLimpio.isEmpty()) {
             throw new IllegalArgumentException("El título no puede estar vacío.");
@@ -40,7 +40,6 @@ public class PeliculaData {
             throw new IllegalArgumentException("El título debe tener al menos 5 caracteres.");
         }
 
-        // Validamos el Director
         String directorLimpio = (p.getDirector() == null) ? "" : p.getDirector().trim();
         if (directorLimpio.isEmpty()) {
             throw new IllegalArgumentException("El director no puede estar vacío.");
@@ -55,6 +54,24 @@ public class PeliculaData {
         if (p.getEstreno() == null) {
             throw new IllegalArgumentException("La fecha de estreno no puede ser nula.");
         }
+        if (p.isEnCartelera() && p.getEstreno().isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("La pelicula no puede estar en cartelera si su fecha de estreno es futura");
+        }
+        
+        //Estas validaciones estan hechas para la base de datos, para que se inyecten de forma organica y no la rompan
+        if (p.getDirector().length() > 20) {
+            throw new IllegalArgumentException("El director no puede tener más de 20 caracteres.");
+        }
+        if (p.getActores().length() > 100) {
+            throw new IllegalArgumentException("Los actores no pueden tener más de 100 caracteres.");
+        }
+        if (p.getOrigen().length() > 30) {
+            throw new IllegalArgumentException("El origen no puede tener más de 30 caracteres.");
+        }
+        if (p.getGenero().length() > 25) {
+            throw new IllegalArgumentException("El género no puede tener más de 25 caracteres.");
+        }
+
     }
 
     public boolean insertarPelicula(Pelicula p) throws SQLException {

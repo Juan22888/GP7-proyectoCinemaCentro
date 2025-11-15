@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import Modelo.Comprador;
 import java.sql.Statement;
+import Persistencia.CompradorData;
+import java.time.LocalDate;
 
 /**
  *
@@ -29,8 +31,36 @@ public class TicketData {
     public TicketData(LugarData lugarData) {
         this.con = Conexion.buscarConexion();
     }
+    
+    private void validarTicket(TicketCompra t) throws IllegalArgumentException{
+        if(t == null){
+            throw new NullPointerException("El objeto ThicketCompra no puede ser nulo.");
+        }
+        if(t.getComprador() == null || t.getComprador().getCodComprador() <= 0){
+            throw new IllegalArgumentException("El ticket debe de estar asociado a un comprador");
+        }
+        if(t.getFechaCompra() == null || t.getFechaCompra().isAfter(LocalDate.now())){
+            throw new IllegalArgumentException("La fecha de compra no puede ser nula ni futura.");
+        }
+        if(t.getMonto() <= 0){
+            throw new IllegalArgumentException("El monto total del ticket debe ser mayor a 0");
+        }
+        try{
+            CompradorData cd = new CompradorData();
+            if(cd.buscarComprador(t.getComprador().getCodComprador()) == null){
+                throw new IllegalArgumentException("El comprador asociado al ticket no existe en la DB");
+            }
+        } catch(SQLException ex){
+            throw new RuntimeException("Error al verificar la existencia del comprador: " + ex.getMessage());
+        }
+    }
 
    public boolean insertarTicket(TicketCompra t) throws SQLException {
+       try {
+            validarTicket(t);
+        } catch (IllegalArgumentException ex) {
+            throw new SQLException("Datos de funcion inválidos: " + ex.getMessage());
+        }
 
     String sql = "INSERT INTO ticketcompra (FechaCompra, Monto, metodoPago, codComprador) VALUES (?, ?, ?, ?)";
 
@@ -88,6 +118,7 @@ public class TicketData {
     }
 
     public boolean actualizarTicket(int id, String columna, Object dato) throws Exception {
+        
         if (!columna.equals("FechaCompra")
                 && !columna.equals("Monto")
                 && !columna.equals("codComprador")
