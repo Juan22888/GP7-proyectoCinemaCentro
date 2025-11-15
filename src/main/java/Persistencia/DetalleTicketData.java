@@ -24,7 +24,7 @@ public class DetalleTicketData {
       private Connection con = null;
       private LugarData lugarData;
       private TicketData ticketData;
-    public DetalleTicketData() {
+    public DetalleTicketData(LugarData lugarData1) {
         this.con = Conexion.buscarConexion();
     }
       

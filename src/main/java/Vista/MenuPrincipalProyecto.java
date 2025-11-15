@@ -23,7 +23,7 @@ public class MenuPrincipalProyecto {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 CompradorData compradorData = new CompradorData();
-                DetalleTicketData detalleTicketData = new DetalleTicketData();
+                DetalleTicketData detalleTicketData = new DetalleTicketData(new LugarData());
                 FuncionData funcionData = new FuncionData();
                 LugarData lugarData = new LugarData();
                 PeliculaData peliculaData = new PeliculaData();

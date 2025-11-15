@@ -17,13 +17,15 @@ public class TicketCompra {
     private double monto;
     private Comprador comprador;
     private boolean metodoPago;
+    private DetalleTicket detalleTicket;
 
-    public TicketCompra(int codTicket, LocalDate FechaCompra, double monto, Comprador comprador,boolean metodoPago) {
+    public TicketCompra(int codTicket, LocalDate FechaCompra, double monto, Comprador comprador,boolean metodoPago,DetalleTicket detalleTicket ) {
         this.codTicket = codTicket;
         this.FechaCompra = FechaCompra;
         this.monto = monto;
         this.comprador = comprador;
         this.metodoPago = metodoPago;
+        this.detalleTicket = detalleTicket;
     }
 
     public TicketCompra() {
@@ -70,10 +72,18 @@ public class TicketCompra {
     public void setComprador(Comprador comprador) {
         this.comprador = comprador;
     }
+    public DetalleTicket getDetalleTicket() {
+        return detalleTicket;
+    }
+
+    public void setDetalleTicket(DetalleTicket detalleTicket) {
+        this.detalleTicket = detalleTicket;
+    }
 
     @Override
     public String toString() {
-        return "TicketCompra{" + "codTicket=" + codTicket + ", monto= $" + monto + ", comprador=" + comprador.getNombre() + '}';
+        return "TicketCompra{" + "codTicket=" + codTicket + ", FechaCompra=" + FechaCompra + ", monto=" + monto + ", comprador=" + comprador + ", metodoPago=" + metodoPago + ", detalleTicket=" + detalleTicket + '}';
     }
 
 }
+    

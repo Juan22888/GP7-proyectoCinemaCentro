@@ -61,7 +61,10 @@ public class TicketData {
 
         // Inserta primero el detalle
         detalleData.insertarDetalleTicket(t.getDetalleTicket());
-
+        
+        if (t.getDetalleTicket().getCodDetalle() <= 0) {
+            throw new SQLException("No se generó codDetalle correctamente.");
+        }
         String sql = "INSERT INTO ticketcompra (FechaCompra, Monto, metodoPago, codComprador, codDetalle)"
                    + " VALUES (?, ?, ?, ?, ?)";
 
@@ -72,11 +75,8 @@ public class TicketData {
             ps.setBoolean(3, t.isMetodoPago());
             ps.setInt(4, t.getComprador().getCodComprador());
             ps.setInt(5, t.getDetalleTicket().getCodDetalle());
-
-        ps.setDate(1, Date.valueOf(t.getFechaCompra()));
-        ps.setDouble(2, t.getMonto());
-        ps.setBoolean(3, t.isMetodoPago());
-        ps.setInt(4, t.getComprador().getCodComprador());
+            
+            int filasAfectadas = ps.executeUpdate();
 
             if (filasAfectadas > 0) {
                 ResultSet rs = ps.getGeneratedKeys();
@@ -87,18 +87,9 @@ public class TicketData {
                 return true;
             }
 
-        if (filasAfectadas > 0) {
-            // Obtener el ID generado automáticamente
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) {
-                t.setCodTicket(rs.getInt(1));  // <<< FUNDAMENTAL
-            }
-            return true;
-        }
-
-        return false;
+                 return false;
     }
-
+    }
     
     public TicketCompra buscarTicket(int id) throws SQLException {
 
@@ -107,6 +98,7 @@ public class TicketData {
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
+            
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
