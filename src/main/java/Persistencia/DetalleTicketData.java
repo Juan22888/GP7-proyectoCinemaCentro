@@ -34,8 +34,30 @@ public class DetalleTicketData {
     this.lugarData=lugarData;
     this.ticketData = ticketData;
     }
+    private void validarDetalleTicket(DetalleTicket dt) throws IllegalArgumentException {
+    if (dt == null) {
+        throw new NullPointerException("El objeto DetalleTicket no puede ser nulo.");
+    }
+    if (dt.getTicketCompra() == null || dt.getTicketCompra().getCodTicket() <= 0) {
+        throw new IllegalArgumentException("El detalle debe estar asociado a un ticket de compra válido.");
+    }
+    if (dt.getLugar() == null || dt.getLugar().getCodLugar() <= 0) {
+        throw new IllegalArgumentException("El detalle debe estar asociado a un lugar (asiento) válido.");
+    }
+    
+
+    try {
+        TicketData td = new TicketData();
+        if (td.buscarTicket(dt.getTicketCompra().getCodTicket()) == null) {
+             throw new IllegalArgumentException("El ticket asociado al detalle no existe en la base de datos.");
+        }
+    } catch (SQLException ex) {
+         throw new RuntimeException("Error al verificar la existencia del ticket: " + ex.getMessage());
+    }
+}
     
     public boolean insertarDetalleTicket(DetalleTicket dt) throws SQLException{
+        validarDetalleTicket(dt);
     
     String sql = "INSERT INTO detalleticket (codDetalle, codLugar,codTicket, estado)" + " VALUES (?, ?, ?, ?)";
     

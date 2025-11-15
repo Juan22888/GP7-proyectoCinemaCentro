@@ -33,14 +33,14 @@ public class CompradorData {
             throw new IllegalArgumentException("El objeto Comprador no puede ser nulo.");
         }
         if (c.getDni() <= 0) {
-            // Asumiendo que el DNI debe ser un número positivo
+
             throw new IllegalArgumentException("El DNI debe ser un número positivo.");
         }
         if (c.getNombre() == null || c.getNombre().trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre no puede estar vacío.");
         }
-        if (c.getNombre().length() > 100) { // Ejemplo: Regla de longitud
-            throw new IllegalArgumentException("El nombre no puede tener más de 100 caracteres.");
+        if (c.getNombre().length() > 20) {
+            throw new IllegalArgumentException("El nombre no puede tener más de 20 caracteres.");
         }
         if (c.getFechaNacimiento() == null) {
             throw new IllegalArgumentException("La fecha de nacimiento no puede ser nula.");
@@ -49,7 +49,7 @@ public class CompradorData {
             throw new IllegalArgumentException("La fecha de nacimiento no puede ser futura.");
         }
         if (c.getPassword() == null || c.getPassword().length() < 8) {
-            // Ejemplo: Regla de contraseña
+          
             throw new IllegalArgumentException("La contraseña no puede ser nula y debe tener al menos 8 caracteres.");
         }
     }
@@ -215,7 +215,7 @@ public class CompradorData {
     }
 
     public boolean actualizarCompradorPorDni(Comprador c) throws SQLException {
-        
+
         try {
             validarComprador(c); // Reutilizamos la validación
         } catch (IllegalArgumentException ex) {
@@ -225,7 +225,7 @@ public class CompradorData {
         String sql = "UPDATE comprador SET nombre = ?, fechaNac = ?, password = ?, estado = ? WHERE dni = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-           
+
             ps.setString(1, c.getNombre());
             ps.setDate(2, Date.valueOf(c.getFechaNacimiento()));
             ps.setString(3, c.getPassword());
