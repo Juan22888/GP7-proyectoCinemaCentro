@@ -25,8 +25,11 @@ public class VistaLugar extends javax.swing.JInternalFrame {
     public VistaLugar(PeliculaData peliculaData, FuncionData funcionData, LugarData lugarData) {
         this.funcionData = funcionData;
         this.lugarData = lugarData;
+        
+        
         lugarData.setFuncionData(funcionData);
         initComponents();
+        
         cargarLugares();
     }
 

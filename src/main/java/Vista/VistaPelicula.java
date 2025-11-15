@@ -24,7 +24,10 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
 
     public VistaPelicula(PeliculaData peliculaData) {
         initComponents();
+        
         this.peliculaData = peliculaData;
+        
+        
         cargarPeliculas();
     }
 
@@ -94,12 +97,15 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
 
         setClosable(true);
 
+        PeliculaDesktop.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         butCancelar.setText("Cancelar");
         butCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butCancelarActionPerformed(evt);
             }
         });
+        PeliculaDesktop.add(butCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(623, 544, 112, 50));
 
         butNuevaPelicula.setText("Nueva Pelicula");
         butNuevaPelicula.addActionListener(new java.awt.event.ActionListener() {
@@ -107,9 +113,12 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
                 butNuevaPeliculaActionPerformed(evt);
             }
         });
+        PeliculaDesktop.add(butNuevaPelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(172, 544, 135, 50));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Gestion de Pelicula");
+        PeliculaDesktop.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 6, -1, -1));
+        PeliculaDesktop.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(405, 320, -1, -1));
 
         TablaPeliculas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -132,7 +141,11 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(TablaPeliculas);
 
+        PeliculaDesktop.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 99, 747, -1));
+
         jLabel2.setText("Buscar Pelicula:");
+        PeliculaDesktop.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 69, -1, -1));
+        PeliculaDesktop.add(txtBuscarPelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(231, 69, 170, -1));
 
         butBuscar.setText("Buscar");
         butBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -140,6 +153,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
                 butBuscarActionPerformed(evt);
             }
         });
+        PeliculaDesktop.add(butBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(423, 62, -1, -1));
 
         butBuscarPorCartelera.setText("Buscar Por Cartelera");
         butBuscarPorCartelera.addActionListener(new java.awt.event.ActionListener() {
@@ -147,6 +161,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
                 butBuscarPorCarteleraActionPerformed(evt);
             }
         });
+        PeliculaDesktop.add(butBuscarPorCartelera, new org.netbeans.lib.awtextra.AbsoluteConstraints(513, 62, -1, -1));
 
         butGuardarCambios.setText("Guardar Cambios");
         butGuardarCambios.addActionListener(new java.awt.event.ActionListener() {
@@ -154,6 +169,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
                 butGuardarCambiosActionPerformed(evt);
             }
         });
+        PeliculaDesktop.add(butGuardarCambios, new org.netbeans.lib.awtextra.AbsoluteConstraints(325, 544, 145, 50));
 
         butReiniciarTabla.setText("Reiniciar Tabla");
         butReiniciarTabla.setPreferredSize(new java.awt.Dimension(300, 199));
@@ -162,6 +178,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
                 butReiniciarTablaActionPerformed(evt);
             }
         });
+        PeliculaDesktop.add(butReiniciarTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 544, 132, 50));
 
         butEliminar.setText("Eliminar");
         butEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -169,94 +186,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
                 butEliminarActionPerformed(evt);
             }
         });
-
-        PeliculaDesktop.setLayer(butCancelar, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        PeliculaDesktop.setLayer(butNuevaPelicula, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        PeliculaDesktop.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        PeliculaDesktop.setLayer(jSeparator1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        PeliculaDesktop.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        PeliculaDesktop.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        PeliculaDesktop.setLayer(txtBuscarPelicula, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        PeliculaDesktop.setLayer(butBuscar, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        PeliculaDesktop.setLayer(butBuscarPorCartelera, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        PeliculaDesktop.setLayer(butGuardarCambios, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        PeliculaDesktop.setLayer(butReiniciarTabla, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        PeliculaDesktop.setLayer(butEliminar, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        javax.swing.GroupLayout PeliculaDesktopLayout = new javax.swing.GroupLayout(PeliculaDesktop);
-        PeliculaDesktop.setLayout(PeliculaDesktopLayout);
-        PeliculaDesktopLayout.setHorizontalGroup(
-            PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PeliculaDesktopLayout.createSequentialGroup()
-                .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PeliculaDesktopLayout.createSequentialGroup()
-                        .addGap(140, 140, 140)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBuscarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PeliculaDesktopLayout.createSequentialGroup()
-                        .addGap(245, 245, 245)
-                        .addComponent(jLabel1))
-                    .addGroup(PeliculaDesktopLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PeliculaDesktopLayout.createSequentialGroup()
-                                .addComponent(butReiniciarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(PeliculaDesktopLayout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(butNuevaPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(butEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(PeliculaDesktopLayout.createSequentialGroup()
-                                        .addGap(269, 269, 269)
-                                        .addComponent(butBuscar)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(butBuscarPorCartelera))))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 747, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(42, Short.MAX_VALUE))
-            .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(PeliculaDesktopLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        PeliculaDesktopLayout.setVerticalGroup(
-            PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PeliculaDesktopLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(24, 24, 24)
-                .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(butBuscarPorCartelera)
-                            .addComponent(butBuscar))
-                        .addComponent(jLabel2))
-                    .addGroup(PeliculaDesktopLayout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(txtBuscarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(butEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(butNuevaPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(butReiniciarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(49, 49, 49))
-            .addGroup(PeliculaDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(PeliculaDesktopLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+        PeliculaDesktop.add(butEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(488, 544, 117, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

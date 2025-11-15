@@ -4,19 +4,61 @@
  */
 package Vista;
 
+import Modelo.Comprador;
+import Modelo.TicketCompra;
+import Persistencia.CompradorData;
+import Persistencia.TicketData;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Emiliano
  */
 public class VistaTicket extends javax.swing.JInternalFrame {
-
+    private TicketData ticketdata;
+    private CompradorData compradordata;
+    private DefaultTableModel modelo;
+    
+    
     /**
      * Creates new form VistaTicket
      */
     public VistaTicket() {
         initComponents();
+        
+        this.ticketdata = new TicketData();
+        this.compradordata = new CompradorData();
+        this.modelo = new DefaultTableModel();
+        
+        cargarCompradores();
+        cargarTicket();
+        
+      
     }
-
+    
+    public void cargarCompradores(){
+        try { List<Comprador> compradores = compradordata.listarCompradores();
+        for (Comprador c : compradores){
+            CboxComprador.addItem(c);   
+        }
+          } catch(Exception e){
+          JOptionPane.showMessageDialog(this,"Error al cargar compradores: " + e.getMessage());
+          
+          }
+     }
+        private void cargarTicket(){
+         List<TicketCompra> tickets = ticketdata.listarTickets();
+        for ( TicketCompra t: tickets){
+        modelo.addRow(new Object[]{
+        t.getComprador().getNombre(),
+        //t.getDetalleTicket().getFuncion(),
+        t.getFechaCompra(),
+        t.getMonto()});
+        }
+        }
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,7 +71,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableTicket = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         ButNuevo = new javax.swing.JButton();
         ButActualizar = new javax.swing.JButton();
@@ -37,17 +79,19 @@ public class VistaTicket extends javax.swing.JInternalFrame {
         ButLogica = new javax.swing.JButton();
         ButMostrar = new javax.swing.JButton();
         ButBuscar = new javax.swing.JButton();
-        CboxComprador = new javax.swing.JComboBox<>();
+        CboxComprador = new javax.swing.JComboBox();
 
         setTitle("Vista Ticket");
 
         jDesktopPane1.setForeground(new java.awt.Color(51, 51, 51));
+        jDesktopPane1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 2, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(153, 153, 153));
         jLabel1.setText("Gestion de Ticket");
+        jDesktopPane1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(188, 0, 214, -1));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableTicket.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -66,9 +110,12 @@ public class VistaTicket extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTableTicket);
+
+        jDesktopPane1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 149, 578, 195));
 
         jLabel2.setText("Comprador:");
+        jDesktopPane1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(188, 100, -1, 31));
 
         ButNuevo.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         ButNuevo.setForeground(new java.awt.Color(51, 51, 51));
@@ -78,93 +125,45 @@ public class VistaTicket extends javax.swing.JInternalFrame {
                 ButNuevoActionPerformed(evt);
             }
         });
+        jDesktopPane1.add(ButNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 391, -1, -1));
 
         ButActualizar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         ButActualizar.setForeground(new java.awt.Color(51, 51, 51));
         ButActualizar.setText("Actualizar");
         ButActualizar.setBorderPainted(false);
+        jDesktopPane1.add(ButActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(84, 391, -1, -1));
 
         ButBorrar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         ButBorrar.setForeground(new java.awt.Color(51, 51, 51));
         ButBorrar.setText("Borrar");
+        jDesktopPane1.add(ButBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(179, 391, -1, -1));
 
         ButLogica.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         ButLogica.setForeground(new java.awt.Color(51, 51, 51));
         ButLogica.setText("Alta/Baja logica");
+        jDesktopPane1.add(ButLogica, new org.netbeans.lib.awtextra.AbsoluteConstraints(257, 391, -1, -1));
 
         ButMostrar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         ButMostrar.setForeground(new java.awt.Color(51, 51, 51));
         ButMostrar.setText("Mostrar Todos");
+        jDesktopPane1.add(ButMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(387, 391, -1, -1));
 
         ButBuscar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         ButBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/imagenes/lupa.png"))); // NOI18N
         ButBuscar.setText("Buscar");
+        ButBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButBuscarActionPerformed(evt);
+            }
+        });
+        jDesktopPane1.add(ButBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(401, 100, -1, -1));
 
-        jDesktopPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(ButNuevo, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(ButActualizar, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(ButBorrar, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(ButLogica, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(ButMostrar, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(ButBuscar, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(CboxComprador, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1))
-                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                        .addGap(188, 188, 188)
-                        .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(CboxComprador, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(ButBuscar)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(ButNuevo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ButActualizar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ButBorrar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ButLogica)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ButMostrar)
-                .addContainerGap(91, Short.MAX_VALUE))
-        );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
-                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButBuscar)
-                    .addComponent(CboxComprador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
-                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ButNuevo)
-                    .addComponent(ButActualizar)
-                    .addComponent(ButBorrar)
-                    .addComponent(ButLogica)
-                    .addComponent(ButMostrar))
-                .addGap(9, 9, 9))
-        );
+        CboxComprador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CboxCompradorActionPerformed(evt);
+            }
+        });
+        jDesktopPane1.add(CboxComprador, new org.netbeans.lib.awtextra.AbsoluteConstraints(257, 104, 126, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -191,6 +190,14 @@ public class VistaTicket extends javax.swing.JInternalFrame {
         nt.toFront();
     }//GEN-LAST:event_ButNuevoActionPerformed
 
+    private void CboxCompradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CboxCompradorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CboxCompradorActionPerformed
+
+    private void ButBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ButBuscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButActualizar;
@@ -199,11 +206,11 @@ public class VistaTicket extends javax.swing.JInternalFrame {
     private javax.swing.JButton ButLogica;
     private javax.swing.JButton ButMostrar;
     private javax.swing.JButton ButNuevo;
-    private javax.swing.JComboBox<String> CboxComprador;
+    private javax.swing.JComboBox CboxComprador;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableTicket;
     // End of variables declaration//GEN-END:variables
 }

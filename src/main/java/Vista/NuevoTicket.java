@@ -32,6 +32,8 @@ public class NuevoTicket extends javax.swing.JInternalFrame {
         initComponents();
         compradorData = new CompradorData();
         funcionData = new FuncionData();
+       
+        
         cargarCompradores();
         cargarFunciones();
     }
