@@ -8,11 +8,13 @@ package Persistencia;
 import Modelo.Conexion;
 import Modelo.DetalleTicket;
 import Modelo.Lugar;
+import Modelo.TicketCompra;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import java.util.List;
 
 /**
  *
@@ -21,26 +23,50 @@ import javax.swing.JOptionPane;
 public class DetalleTicketData {
       private Connection con = null;
       private LugarData lugarData;
-
+      private TicketData ticketData;
     public DetalleTicketData() {
+        this.con = Conexion.buscarConexion();
     }
       
       
       
-    public DetalleTicketData(LugarData lugarData){
+    public DetalleTicketData(LugarData lugarData,TicketData ticketData){
     this.con = Conexion.buscarConexion();
     this.lugarData=lugarData;
-
+    this.ticketData = ticketData;
+    }
+    private void validarDetalleTicket(DetalleTicket dt) throws IllegalArgumentException {
+    if (dt == null) {
+        throw new NullPointerException("El objeto DetalleTicket no puede ser nulo.");
+    }
+    if (dt.getTicketCompra() == null || dt.getTicketCompra().getCodTicket() <= 0) {
+        throw new IllegalArgumentException("El detalle debe estar asociado a un ticket de compra válido.");
+    }
+    if (dt.getLugar() == null || dt.getLugar().getCodLugar() <= 0) {
+        throw new IllegalArgumentException("El detalle debe estar asociado a un lugar (asiento) válido.");
     }
     
-    public boolean insertarDetalleTicket(DetalleTicket dt) throws SQLException{
+
+    try {
+        TicketData td = new TicketData();
+        if (td.buscarTicket(dt.getTicketCompra().getCodTicket()) == null) {
+             throw new IllegalArgumentException("El ticket asociado al detalle no existe en la base de datos.");
+        }
+    } catch (SQLException ex) {
+         throw new RuntimeException("Error al verificar la existencia del ticket: " + ex.getMessage());
+    }
+}
     
-    String sql = "INSERT INTO detalleticket (codDetalle, codLugar, estado)" + " VALUES (?, ?, ?)";
+    public boolean insertarDetalleTicket(DetalleTicket dt) throws SQLException{
+        validarDetalleTicket(dt);
+    
+    String sql = "INSERT INTO detalleticket (codDetalle, codLugar,codTicket, estado)" + " VALUES (?, ?, ?, ?)";
     
     try (PreparedStatement ps = con.prepareStatement(sql)){
         ps.setInt(1, dt.getCodDetalle());
         ps.setInt(2, dt.getLugar().getCodLugar());
-        ps.setBoolean(3, dt.isEstado());
+        ps.setInt(3,dt.getTicketCompra().getCodTicket());
+        ps.setBoolean(4, dt.isEstado());
             
 
             int filasAfectadas = ps.executeUpdate();
@@ -60,6 +86,7 @@ public class DetalleTicketData {
         String sql = "SELECT * FROM detalleticket WHERE codDetalle = ?";
         DetalleTicket dt = null;
         Lugar lugar = null;
+        TicketCompra ticketCompra = null;
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
@@ -69,8 +96,10 @@ public class DetalleTicketData {
                 dt.setCodDetalle(rs.getInt("codDetalle"));
                 lugar=lugarData.buscarLugar(rs.getInt("codLugar"));
                 dt.setLugar(lugar);
+                ticketCompra = ticketData.buscarTicket(rs.getInt("codTicket"));
+                dt.setTicketCompra(ticketCompra);
                 dt.setEstado(rs.getBoolean("estado"));
-
+                
             }
             rs.close();
             ps.close();
@@ -104,7 +133,7 @@ public class DetalleTicketData {
 
     public boolean actualizarDetalleTicket(int id, String columna, Object dato) throws Exception {
         if (!columna.equals("codDetalle") && !columna.equals("codLugar")
-                && !columna.equals("estado")) {
+                && !columna.equals("estado")  && !columna.equals("codTicket")) {
 
             throw new IllegalArgumentException("Columna de actualización no permitida: " + columna);
         }
@@ -154,6 +183,32 @@ public class DetalleTicketData {
         } catch (SQLException ex) {
             throw new SQLException("No se pudo eliminar el detalle del ticket " + ex);
         }
+    }
+    
+    public void crearDetallesTicket(List<DetalleTicket> listaDetalleTicket) throws SQLException{
+        if(listaDetalleTicket==null){
+         throw new NullPointerException("No hay detalles ticket.");
+        }
+        
+        
+        String sql = "INSERT INTO detalleticket(codLugar,codTicket,estado) VALUES (?, ?, ?)";
+        
+        
+        try{
+           PreparedStatement ps = con.prepareStatement(sql);
+            
+            for(int i = 0; i<listaDetalleTicket.size();i++){
+                ps.setInt(1, listaDetalleTicket.get(i).getLugar().getCodLugar());
+                ps.setInt(2, listaDetalleTicket.get(i).getTicketCompra().getCodTicket());
+                ps.setBoolean(3,listaDetalleTicket.get(i).isEstado());
+                ps.addBatch();
+            }
+            ps.executeBatch();
+            ps.close();
+        }catch(SQLException ex){
+            throw new SQLException("Error al generar detalleticket en lote " + ex);
+        }
+    
     }
 
 }

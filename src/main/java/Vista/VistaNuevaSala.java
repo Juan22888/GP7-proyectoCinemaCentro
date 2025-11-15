@@ -100,14 +100,13 @@ public class VistaNuevaSala extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
-            // 1. Validar y obtener los datos de los campos
+         
             int nroSala = Integer.parseInt(txtNroSala.getText().trim());
             int capacidad = Integer.parseInt(txtCapacidad.getText().trim());
-            boolean apta3d = chkApta3D.isSelected(); // True si el checkbox está marcado
-            boolean estado = chkEstado.isSelected(); // True si el checkbox está marcado (Activa)
+            boolean apta3d = chkApta3D.isSelected(); 
+            boolean estado = chkEstado.isSelected();
 
-            // 2. Crear el objeto Sala
-            // Usamos el constructor que solo requiere los datos, no el codSala autoincremental
+        
            
             Sala nuevaSala = new Sala(nroSala,apta3d,capacidad,estado);
             
@@ -119,7 +118,7 @@ public class VistaNuevaSala extends javax.swing.JInternalFrame {
                     vistaPrincipal.cargarTablaCompleta(); 
                 }
                 
-                // 5. Cerrar la ventana
+              
                 this.dispose();
                 
             } else {

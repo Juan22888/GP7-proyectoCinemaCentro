@@ -5,9 +5,11 @@
 package Vista;
 
 import Modelo.Comprador;
+import Modelo.DetalleTicket;
 import Modelo.Funcion;
 import Modelo.Lugar;
 import Modelo.Pelicula;
+import Modelo.TicketCompra;
 import Persistencia.CompradorData;
 import Persistencia.DetalleTicketData;
 import Persistencia.FuncionData;
@@ -100,8 +102,9 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
     }
 
     private void cargarMetodoPago() {
+        boxMetodoPago.addItem("Seleccionar método de pago");
         boxMetodoPago.addItem("Efectivo");
-        boxMetodoPago.addItem("Debito");
+        boxMetodoPago.addItem("Débito");
     }
 
     @SuppressWarnings("unchecked")
@@ -144,8 +147,8 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         dateFecha = new com.toedter.calendar.JDateChooser();
         butBuscarFecha = new javax.swing.JButton();
         butBuscarHorario = new javax.swing.JButton();
-        boxMetodoPago = new javax.swing.JComboBox<>();
         labelPorDefecto1 = new javax.swing.JLabel();
+        boxMetodoPago = new javax.swing.JComboBox<>();
         fondo = new javax.swing.JLabel();
         Escritorio = new javax.swing.JDesktopPane();
         btnCargarTarjeta = new javax.swing.JButton();
@@ -304,6 +307,15 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         getContentPane().add(labelCombo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 500, -1, -1));
 
         dateHorario.setDateFormatString("HH:mm");
+        dateHorario.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                dateHorarioAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
         getContentPane().add(dateHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 190, -1, -1));
 
         labelCombo4.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
@@ -340,10 +352,6 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(butBuscarHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 180, 40, -1));
-
-        boxMetodoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
-        boxMetodoPago.setToolTipText("");
-        getContentPane().add(boxMetodoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 630, 100, -1));
 
         labelPorDefecto1.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
         labelPorDefecto1.setForeground(new java.awt.Color(255, 255, 255));
@@ -415,7 +423,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
 
         List<Funcion> filtradas = new ArrayList<>();
         for (Funcion f : listaFunciones) {
-            if (f.getHoraInicio().equals(horaBuscada)) {
+            if (f.getFecha().equals(horaBuscada)) {
                 filtradas.add(f);
             }
         }
@@ -424,7 +432,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_butBuscarFechaActionPerformed
 
     private void dateFechaAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_dateFechaAncestorAdded
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_dateFechaAncestorAdded
 
     private void boxPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxPeliculasActionPerformed
@@ -471,7 +479,6 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Error al buscar la funcion en la base de datos.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
         }
 
-        
         double precio = funcion.getPrecioLugar();
         if (funcion.isEs3d()) {
             txtPrecio3d.setText(String.valueOf(precio));
@@ -491,11 +498,59 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
             return;
         }
 
-        String metodoPagoSeleccionado = boxMetodoPago.getSelectedItem().toString();
-        if (metodoPagoSeleccionado.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Error! Debe elegir un metodo de pago.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
+        if (lugaresReservados == null) {
+            JOptionPane.showMessageDialog(this, "Error! No hay lugares reservados.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
             return;
         }
+
+        String seleccionado = (String) boxMetodoPago.getSelectedItem();
+        if (seleccionado.equals("Seleccionar método de pago")) {
+            JOptionPane.showMessageDialog(this, "Debe elegir un método de pago.",
+                    "Error de Datos", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        boolean metodoPago = false;
+
+        //Si es false es efectivo y si es true es debito
+        if (seleccionado.equals("Débito")) {
+            metodoPago = true;
+        }
+
+        double total = 0;
+        try {
+            total = Double.parseDouble(txtTotal.getText());
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Tipo de dato no valido.",
+                    "Error de Datos", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        TicketCompra ticket = new TicketCompra(-1, LocalDate.now(), total, comprador, metodoPago);
+        try {
+            ticketData.insertarTicket(ticket);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al crear ticket en la bd.",
+                    "Error de Datos", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        List<DetalleTicket> detallesTicket = new ArrayList<>();
+        for (int i = 0; i < lugaresReservados.size(); i++) {
+            DetalleTicket dt = new DetalleTicket(-1, lugaresReservados.get(i), ticket, true); // true-1 para decir que el ticket se dio de alta
+            detallesTicket.add(dt);
+        }
+        try {
+            detalleTicketData.crearDetallesTicket(detallesTicket);
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // <<< MUESTRA EL ERROR REAL EN CONSOLA
+            JOptionPane.showMessageDialog(this,
+                    "Error al crear Detalles Ticket en la BD.\n" + ex.getMessage(),
+                    "Error de Datos",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+
+        JOptionPane.showMessageDialog(this, "¡El ticket se generó correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
 
     }//GEN-LAST:event_butGenerarTicketActionPerformed
@@ -515,11 +570,11 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         dialog.setVisible(true);
 
         // Recuperar los asientos seleccionados
-        List<Lugar> seleccionados = dialog.getLugaresReservados();
-        if (!seleccionados.isEmpty()) {
+        lugaresReservados = dialog.getLugaresReservados();
+        if (!lugaresReservados.isEmpty()) {
             String mensaje = "Asientos reservados:\n\n";
             double precioTotal = 0;
-            for (Lugar l : seleccionados) {
+            for (Lugar l : lugaresReservados) {
                 mensaje += "Fila: " + l.getFila() + " - Número: " + l.getNumero() + "\n";
                 precioTotal += l.getFuncion().getPrecioLugar();
             }
@@ -543,9 +598,9 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         boxMetodoPago.setSelectedIndex(0);
         DefaultTableModel modelo = (DefaultTableModel) tablaFunciones.getModel();
         modelo.setRowCount(0);
-         dateHorario.setDate(null); // limpia la fecha
-         dateFecha.setDate(null);
-         
+        dateHorario.setDate(null); // limpia la fecha
+        dateFecha.setDate(null);
+
     }//GEN-LAST:event_butCancelarActionPerformed
 
     private void butNuevoCompradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNuevoCompradorActionPerformed

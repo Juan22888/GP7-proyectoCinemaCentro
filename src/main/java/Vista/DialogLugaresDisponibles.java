@@ -19,10 +19,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public final class DialogLugaresDisponibles extends javax.swing.JDialog {
 
-    private LugarData lugarData;
-    private Funcion funcion;
-    private FuncionData funcionData;
-    private List<Lugar> lugaresReservados;
+    private final LugarData lugarData;
+    private final Funcion funcion;
+    private final FuncionData funcionData;
+    private final List<Lugar> lugaresReservados;
 
     public DialogLugaresDisponibles(java.awt.Frame parent, boolean modal, LugarData lugarData, FuncionData funcionData, Funcion funcion) {
         super(parent, modal);

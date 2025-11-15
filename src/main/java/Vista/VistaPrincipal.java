@@ -26,7 +26,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private final LugarData lugarData;
     private final PeliculaData peliculaData;
     private final SalaData salaData;
-    private TicketData ticketData;
+    private final TicketData ticketData;
 
     public VistaPrincipal(CompradorData CompradorData, DetalleTicketData detalleTicketData, FuncionData funcionData, LugarData lugarData, PeliculaData peliculaData, SalaData salaData, TicketData ticketData) {
 
@@ -78,11 +78,13 @@ public class VistaPrincipal extends javax.swing.JFrame {
         Escritorio.setLayout(EscritorioLayout);
         EscritorioLayout.setHorizontalGroup(
             EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(EscritorioLayout.createSequentialGroup()
+                .addContainerGap(1168, Short.MAX_VALUE)
+                .addComponent(jLabel2))
         );
         EscritorioLayout.setVerticalGroup(
             EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1051, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         menuAdministracion.setText("Administracion");
@@ -173,7 +175,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Escritorio)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(Escritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();

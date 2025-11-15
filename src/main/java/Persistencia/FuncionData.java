@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,6 +119,17 @@ public class FuncionData {
                 }
             }
         }
+        
+        long minutosDuracion = ChronoUnit.MINUTES.between(f.getHoraInicio(), f.getHoraFin());
+        if (minutosDuracion < 90) {
+        throw new IllegalArgumentException("La duración de la función debe ser de al menos 90 minutos.");
+    }
+        if (minutosDuracion > 240) {
+        throw new IllegalArgumentException("La duración de la función no puede exceder las 4 horas.");
+    }
+        if (f.getIdioma().length() > 20) {
+        throw new IllegalArgumentException("El idioma no puede tener más de 20 caracteres.");
+    }
 
         return true;
     }

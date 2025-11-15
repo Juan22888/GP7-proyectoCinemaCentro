@@ -27,10 +27,31 @@ public class SalaData {
         this.con = Conexion.buscarConexion();
     }
 
+    private void validarCapacidad(int capacidad) throws IllegalArgumentException {
+
+        if (capacidad < 170 || capacidad > 230) {
+            throw new IllegalArgumentException("La capacidad de la sala debe estar entre 170 y 230 butacas.");
+        }
+    }
+
+    private void validarSala(Sala sala) throws IllegalArgumentException {
+        if (sala == null) {
+            throw new NullPointerException("El objeto Sala no puede ser nulo");
+
+        }
+
+        if (sala.getNroSala() <= 0) {
+            throw new IllegalArgumentException("El numero de sala debe de ser un valor positivo");
+        }
+        validarCapacidad(sala.getCapacidad());
+    }
+
     public boolean insertarSala(Sala sala) throws SQLException {
 
         String sql = "INSERT INTO sala (nroSala, apta3d, capacidad, estado) VALUES (?, ?, ?, ?)";
+        
         try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            validarSala(sala);
             ps.setInt(1, sala.getNroSala());
             ps.setBoolean(2, sala.isApta3d());
             ps.setInt(3, sala.getCapacidad());
@@ -45,9 +66,13 @@ public class SalaData {
                         sala.setCodSala(rs.getInt(1));
                     }
                 }
-                JOptionPane.showMessageDialog(null, "Sala guardada exitosamente. CodSala: " + sala.getCodSala(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
+          
                 return true;
             }
+            if (buscarSalaPorNroSala(sala.getNroSala()) != null) { 
+             JOptionPane.showMessageDialog(null, "Error: Ya existe una sala con el número " + sala.getNroSala(), "Error", JOptionPane.ERROR_MESSAGE);
+             return false;
+        }
             return false;
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al guardar sala: " + ex.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
@@ -77,14 +102,14 @@ public class SalaData {
     }
 
     public boolean actualizarSala(int codSala, int nroSala, boolean apta3D, int capacidad, boolean estado) {
-     
+
         String sql = "UPDATE sala SET nroSala = ?, apta3d = ?, capacidad = ?, estado = ? WHERE codSala = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, nroSala);
             ps.setBoolean(2, apta3D);
             ps.setInt(3, capacidad);
             ps.setBoolean(4, estado);
-            ps.setInt(5, codSala); 
+            ps.setInt(5, codSala);
 
             int filasAfectadas = ps.executeUpdate();
             return filasAfectadas > 0;
@@ -94,7 +119,7 @@ public class SalaData {
         }
     }
 
-    public boolean cambiarEstadoSala(int codSala, boolean nuevoEstado) { 
+    public boolean cambiarEstadoSala(int codSala, boolean nuevoEstado) {
         String sql = "UPDATE sala SET estado = ? WHERE codSala = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setBoolean(1, nuevoEstado);
@@ -160,8 +185,8 @@ public class SalaData {
         }
         return salas;
     }
-    
-     public Sala buscarSalaPorNro(int nroSala) {
+
+    public Sala buscarSalaPorNro(int nroSala) {
         String sql = "SELECT codSala, nroSala, apta3d, capacidad, estado FROM sala WHERE nroSala = ?";
         Sala sala = null;
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -181,5 +206,5 @@ public class SalaData {
         }
         return sala;
     }
-   
+
 }

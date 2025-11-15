@@ -132,7 +132,7 @@ public class LugarData {
     }
 
     public boolean actualizarLugar(int codLugar, boolean nuevoEstado) throws SQLException {
-        
+
         String sql = "UPDATE lugar SET estado = ? WHERE codLugar = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -197,7 +197,7 @@ public class LugarData {
 
         return lugaresDisponibles;
     }
-    
+
     public List<Lugar> obtenerLugaresPorFuncion(int codFuncion) {
         String sql = "SELECT codLugar, fila, numero FROM lugar WHERE codFuncion = ?";
         List<Lugar> lugaresDisponibles = new ArrayList<>();
@@ -267,24 +267,26 @@ public class LugarData {
 
         try {
             ps = con.prepareStatement(sql);
-            char filaActual = 'A';
+            
 
-            int filasExistentes = cantidadActual / asientosPorFila;
-            filaActual += filasExistentes;
+            char filaActual = (char) ('A' + (cantidadActual / asientosPorFila));
+            int numeroActual = (cantidadActual % asientosPorFila) + 1;
 
-            int filasNuevas = (int) Math.ceil((double) cantidad / asientosPorFila);
-            int lugaresRestantes = cantidad;
+            for (int i = 0; i < cantidad; i++) {
 
-            for (int i = 0; i < filasNuevas; i++) {
-                for (int j = 1; j <= asientosPorFila && lugaresRestantes > 0; j++) {
-                    ps.setString(1, String.valueOf(filaActual));
-                    ps.setInt(2, j);
-                    ps.setInt(3, 0); // 0 = libre
-                    ps.setInt(4, codFuncion);
-                    ps.addBatch();
-                    lugaresRestantes--;
+                // Si el número supera los asientos por fila, pasamos a la siguiente fila
+                if (numeroActual > asientosPorFila) {
+                    filaActual++;
+                    numeroActual = 1;
                 }
-                filaActual++;
+
+                ps.setString(1, String.valueOf(filaActual));
+                ps.setInt(2, numeroActual);
+                ps.setInt(3, 0);
+                ps.setInt(4, codFuncion);
+                ps.addBatch();
+
+                numeroActual++;
             }
 
             ps.executeBatch();

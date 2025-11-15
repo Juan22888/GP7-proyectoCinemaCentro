@@ -73,7 +73,10 @@ public class TicketData {
             ps.setInt(4, t.getComprador().getCodComprador());
             ps.setInt(5, t.getDetalleTicket().getCodDetalle());
 
-            int filasAfectadas = ps.executeUpdate();
+        ps.setDate(1, Date.valueOf(t.getFechaCompra()));
+        ps.setDouble(2, t.getMonto());
+        ps.setBoolean(3, t.isMetodoPago());
+        ps.setInt(4, t.getComprador().getCodComprador());
 
             if (filasAfectadas > 0) {
                 ResultSet rs = ps.getGeneratedKeys();
@@ -84,8 +87,13 @@ public class TicketData {
                 return true;
             }
 
-        } catch (SQLException ex) {
-            throw new SQLException("No se pudo guardar el ticket! " + ex);
+        if (filasAfectadas > 0) {
+            // Obtener el ID generado automáticamente
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                t.setCodTicket(rs.getInt(1));  // <<< FUNDAMENTAL
+            }
+            return true;
         }
 
         return false;
@@ -134,7 +142,6 @@ public class TicketData {
         if (!columna.equals("FechaCompra")
                 && !columna.equals("Monto")
                 && !columna.equals("codComprador")
-                && !columna.equals("codDetalle")
                 && !columna.equals("metodoPago")) {
 
             throw new IllegalArgumentException("Columna de actualización no permitida: " + columna);
