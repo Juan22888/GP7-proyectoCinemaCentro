@@ -47,7 +47,7 @@ public class TicketData {
             // Obtener el ID generado automáticamente
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
-                t.setCodTicket(rs.getInt(1));  // <<< FUNDAMENTAL
+                t.setCodTicket(rs.getInt(1));  
             }
             return true;
         }

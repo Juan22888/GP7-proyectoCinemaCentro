@@ -51,9 +51,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
     private String fechaExpTarjeta;
     private String codVerificaTarjeta;
     private String modoVenta;
-   
-   
-    
+    private List<Lugar> lugaresReservados;
 
     public VistaTaquilla(PeliculaData peliculaData, FuncionData funcionData, LugarData lugarData, TicketData ticketData, DetalleTicketData detalleTicketData, CompradorData compradorData, String modoVenta) {
         this.peliculaData = peliculaData;
@@ -63,11 +61,12 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         this.detalleTicketData = detalleTicketData;
         this.compradorData = compradorData;
         this.modoVenta = modoVenta;
-        
+        this.lugaresReservados = null;
+
         initComponents();
         cargarPeliculas();
         cargarMetodoPago();
-       if (this.modoVenta.equals("Taquilla")) {
+        if (this.modoVenta.equals("Taquilla")) {
             // Si es Taquilla, ocultamos el botón de pago con tarjeta.
             btnCargarTarjeta.setVisible(false);
             // Opcional: Cambiar el texto del botón principal si es taquilla
@@ -76,7 +75,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
             // Si es Online, mostramos el botón de pago con tarjeta.
             btnCargarTarjeta.setVisible(true);
         }
-        
+
     }
 
     private void cargarPeliculas() {
@@ -139,19 +138,19 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         butGenerarTicket = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaFunciones = new javax.swing.JTable();
-        boxPeliculas = new javax.swing.JComboBox<>();
         labelCombo3 = new javax.swing.JLabel();
-        dateHorario = new com.toedter.calendar.JDateChooser();
         labelCombo4 = new javax.swing.JLabel();
         labelCombo5 = new javax.swing.JLabel();
-        dateFecha = new com.toedter.calendar.JDateChooser();
         butBuscarFecha = new javax.swing.JButton();
         butBuscarHorario = new javax.swing.JButton();
         labelPorDefecto1 = new javax.swing.JLabel();
-        boxMetodoPago = new javax.swing.JComboBox<>();
         fondo = new javax.swing.JLabel();
         Escritorio = new javax.swing.JDesktopPane();
         btnCargarTarjeta = new javax.swing.JButton();
+        dateFecha = new com.toedter.calendar.JDateChooser();
+        dateHorario = new com.toedter.calendar.JDateChooser();
+        boxPeliculas = new javax.swing.JComboBox<>();
+        boxMetodoPago = new javax.swing.JComboBox<>();
 
         button1.setLabel("button1");
 
@@ -294,29 +293,10 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 240, 840, 220));
 
-        boxPeliculas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boxPeliculasActionPerformed(evt);
-            }
-        });
-        getContentPane().add(boxPeliculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, 190, -1));
-
         labelCombo3.setFont(new java.awt.Font("Calibri", 3, 24)); // NOI18N
         labelCombo3.setForeground(new java.awt.Color(255, 255, 255));
         labelCombo3.setText("Combo 2x1");
         getContentPane().add(labelCombo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 500, -1, -1));
-
-        dateHorario.setDateFormatString("HH:mm");
-        dateHorario.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                dateHorarioAncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-        });
-        getContentPane().add(dateHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 190, -1, -1));
 
         labelCombo4.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
         labelCombo4.setForeground(new java.awt.Color(255, 255, 255));
@@ -327,17 +307,6 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         labelCombo5.setForeground(new java.awt.Color(255, 255, 255));
         labelCombo5.setText("Horario");
         getContentPane().add(labelCombo5, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, -1, -1));
-
-        dateFecha.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                dateFechaAncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-        });
-        getContentPane().add(dateFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 190, 120, -1));
 
         butBuscarFecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -367,6 +336,47 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         });
         Escritorio.add(btnCargarTarjeta);
         btnCargarTarjeta.setBounds(890, 100, 130, 23);
+
+        dateFecha.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                dateFechaAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        Escritorio.add(dateFecha);
+        dateFecha.setBounds(760, 210, 120, 22);
+
+        dateHorario.setDateFormatString("HH:mm");
+        dateHorario.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                dateHorarioAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        Escritorio.add(dateHorario);
+        dateHorario.setBounds(470, 210, 120, 22);
+
+        boxPeliculas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boxPeliculasActionPerformed(evt);
+            }
+        });
+        Escritorio.add(boxPeliculas);
+        boxPeliculas.setBounds(120, 210, 190, 22);
+
+        boxMetodoPago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boxMetodoPagoActionPerformed(evt);
+            }
+        });
+        Escritorio.add(boxMetodoPago);
+        boxMetodoPago.setBounds(150, 650, 190, 22);
 
         getContentPane().add(Escritorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, -20, 1080, 760));
 
@@ -452,9 +462,6 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_boxPeliculasActionPerformed
 
     private void tablaFuncionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaFuncionesMouseClicked
-        if (tablaFunciones.isEditing()) {
-            tablaFunciones.getCellEditor().stopCellEditing();
-        }
 
         int filaSeleccionada = tablaFunciones.getSelectedRow();
 
@@ -489,10 +496,10 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
 
     private void butGenerarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butGenerarTicketActionPerformed
         if (!tarjetaIngresada && this.modoVenta.equals("Online")) {
-        JOptionPane.showMessageDialog(this, "Debe cargar los datos de la tarjeta usando el botón 'Cargar Tarjeta'.", "Error de Pago", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-        
+            JOptionPane.showMessageDialog(this, "Debe cargar los datos de la tarjeta usando el botón 'Cargar Tarjeta'.", "Error de Pago", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         if (comprador == null) {
             JOptionPane.showMessageDialog(this, "Error! No se cargó al comprador.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
             return;
@@ -536,13 +543,18 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         }
         List<DetalleTicket> detallesTicket = new ArrayList<>();
         for (int i = 0; i < lugaresReservados.size(); i++) {
+            try {
+                lugarData.actualizarLugar(lugaresReservados.get(i).getCodLugar(), true);
+            } catch (SQLException ex) {
+                Logger.getLogger(VistaTaquilla.class.getName()).log(Level.SEVERE, null, ex);
+            }
             DetalleTicket dt = new DetalleTicket(-1, lugaresReservados.get(i), ticket, true); // true-1 para decir que el ticket se dio de alta
             detallesTicket.add(dt);
         }
         try {
             detalleTicketData.crearDetallesTicket(detallesTicket);
         } catch (SQLException ex) {
-            ex.printStackTrace(); // <<< MUESTRA EL ERROR REAL EN CONSOLA
+
             JOptionPane.showMessageDialog(this,
                     "Error al crear Detalles Ticket en la BD.\n" + ex.getMessage(),
                     "Error de Datos",
@@ -585,7 +597,16 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
                     "Atención",
                     JOptionPane.INFORMATION_MESSAGE
             );
-            String precioTotalStr = String.valueOf(precioTotal);
+
+            boolean txtEstado = false;
+            if (butComboSiNo.isSelected()) {
+                txtEstado = true;
+            }
+
+            int cantidadEntradas = lugaresReservados.size();
+            int entradasC = (cantidadEntradas / 2) + (cantidadEntradas % 2);
+
+            String precioTotalStr = String.valueOf(entradasC*funcion.getPrecioLugar());
             txtTotal.setText(precioTotalStr);
         }
     }//GEN-LAST:event_butLugaresDisponiblesActionPerformed
@@ -638,21 +659,28 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
     private void btnCargarTarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarTarjetaActionPerformed
 
         javax.swing.JFrame parentFrame = (javax.swing.JFrame) this.getDesktopPane().getTopLevelAncestor();
-    
-    NuevaTarjeta nuevaTarjeta = new NuevaTarjeta(parentFrame, true);
-    nuevaTarjeta.setVisible(true);
 
-    if (nuevaTarjeta.isDatosCargados()) {
-     
-        this.numTarjeta = nuevaTarjeta.getNumero();
-        this.titularTarjeta = nuevaTarjeta.getTitular();
-        this.fechaExpTarjeta = nuevaTarjeta.getFechaExpira();
-        this.codVerificaTarjeta = nuevaTarjeta.getCodVerifica();
-        this.tarjetaIngresada = true;
-        
-        
-    }
+        NuevaTarjeta nuevaTarjeta = new NuevaTarjeta(parentFrame, true);
+        nuevaTarjeta.setVisible(true);
+
+        if (nuevaTarjeta.isDatosCargados()) {
+
+            this.numTarjeta = nuevaTarjeta.getNumero();
+            this.titularTarjeta = nuevaTarjeta.getTitular();
+            this.fechaExpTarjeta = nuevaTarjeta.getFechaExpira();
+            this.codVerificaTarjeta = nuevaTarjeta.getCodVerifica();
+            this.tarjetaIngresada = true;
+
+        }
     }//GEN-LAST:event_btnCargarTarjetaActionPerformed
+
+    private void dateHorarioAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_dateHorarioAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dateHorarioAncestorAdded
+
+    private void boxMetodoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxMetodoPagoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_boxMetodoPagoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
