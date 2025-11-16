@@ -91,6 +91,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         btnEliminar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setClosable(true);
 
@@ -169,6 +170,14 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         });
         CompradorDesktop.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 470, 140, 50));
 
+        jButton2.setText("Alta / Baja");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        CompradorDesktop.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 250, 90, 50));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -179,7 +188,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(CompradorDesktop, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
+            .addComponent(CompradorDesktop, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
         );
 
         pack();
@@ -327,6 +336,21 @@ public class VistaComprador extends javax.swing.JInternalFrame {
        cargarTablaCompleta();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+         if (TablaCompradores.isEditing()) {
+            TablaCompradores.getCellEditor().stopCellEditing();
+        }
+
+        int filaSeleccionada = TablaCompradores.getSelectedRow();
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila para modificar.", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane CompradorDesktop;
@@ -336,6 +360,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
