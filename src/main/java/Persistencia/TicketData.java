@@ -191,4 +191,65 @@ public class TicketData {
         }
         return tickets;
     }
+    public List<TicketCompra> listarTicketsPorFecha(LocalDate fecha) throws SQLException {
+        List<TicketCompra> tickets = new ArrayList<>();
+        String sql = "SELECT * FROM ticketcompra WHERE FechaCompra = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setDate(1, Date.valueOf(fecha));
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    TicketCompra t = new TicketCompra();
+                    t.setCodTicket(rs.getInt("codTicket"));
+                    t.setFechaCompra(rs.getDate("FechaCompra").toLocalDate());
+                    t.setMonto(rs.getDouble("Monto"));
+                    t.setMetodoPago(rs.getBoolean("metodoPago"));
+
+                   
+                    Comprador comprador = compradorData.buscarComprador(rs.getInt("codComprador"));
+                    t.setComprador(comprador);
+
+                    
+
+                    tickets.add(t);
+                }
+            }
+
+        } catch (SQLException ex) {
+            throw new SQLException("Error al listar tickets por fecha: " + ex.getMessage());
+        }
+        return tickets;
+    }
+    public List<TicketCompra> listarTicketsPorPelicula(int codPelicula) throws SQLException {
+        List<TicketCompra> tickets = new ArrayList<>();
+        String sql = "SELECT DISTINCT t.* FROM ticketcompra t "
+                   + "JOIN detalleticket dt ON t.codTicket = dt.codTicket "
+                   + "JOIN lugar l ON dt.codLugar = l.codLugar "
+                   + "JOIN funcion f ON l.codFuncion = f.codFuncion "
+                   + "WHERE f.codPelicula = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, codPelicula);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    TicketCompra t = new TicketCompra();
+                    t.setCodTicket(rs.getInt("codTicket"));
+                    t.setFechaCompra(rs.getDate("FechaCompra").toLocalDate());
+                    t.setMonto(rs.getDouble("Monto"));
+                    t.setMetodoPago(rs.getBoolean("metodoPago"));
+
+                    Comprador comprador = compradorData.buscarComprador(rs.getInt("codComprador"));
+                    t.setComprador(comprador);
+
+                    tickets.add(t);
+                }
+            }
+
+        } catch (SQLException ex) {
+            throw new SQLException("Error al listar tickets por película: " + ex.getMessage());
+        }
+        return tickets;
+    }
 }

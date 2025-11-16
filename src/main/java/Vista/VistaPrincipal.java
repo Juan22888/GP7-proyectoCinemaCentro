@@ -67,6 +67,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         itemFuncion = new javax.swing.JMenuItem();
         itemSala = new javax.swing.JMenuItem();
         itemPelicula = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         menuTaquilla = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -150,6 +151,14 @@ public class VistaPrincipal extends javax.swing.JFrame {
             }
         });
         menuAdministracion.add(itemPelicula);
+
+        jMenuItem1.setText("Informes");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        menuAdministracion.add(jMenuItem1);
 
         jMenuBar1.add(menuAdministracion);
 
@@ -241,6 +250,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
         abrirInternal(vt);
     }//GEN-LAST:event_itemTicketActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        VistaInformes vi = new VistaInformes(peliculaData, ticketData,detalleTicketData,CompradorData);
+        abrirInternal(vi);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem CompradorMenuItem;
     private javax.swing.JDesktopPane Escritorio;
@@ -251,6 +266,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemTicket;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu menuAdministracion;
     private javax.swing.JMenu menuTaquilla;
     // End of variables declaration//GEN-END:variables
