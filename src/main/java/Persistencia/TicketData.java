@@ -67,9 +67,8 @@ public class TicketData {
             ps.setBoolean(3, t.isMetodoPago());
             ps.setInt(4, t.getComprador().getCodComprador());
 
-            
             int filasAfectadas = ps.executeUpdate();
-            
+
             if (filasAfectadas > 0) {
                 try (ResultSet rs = ps.getGeneratedKeys()) {
                     if (rs.next()) {
@@ -81,7 +80,7 @@ public class TicketData {
             return false;
 
         } catch (SQLException ex) {
-     
+
             throw new SQLException("Error al insertar el ticket: " + ex.getMessage(), ex);
         }
     }
@@ -91,7 +90,7 @@ public class TicketData {
         String sql = "SELECT * FROM ticketcompra WHERE codTicket = ?";
         TicketCompra ticket = null;
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) { 
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
@@ -101,8 +100,6 @@ public class TicketData {
                 ticket.setFechaCompra(rs.getDate("FechaCompra").toLocalDate());
                 ticket.setMonto(rs.getDouble("Monto"));
                 ticket.setMetodoPago(rs.getBoolean("metodoPago"));
-
-            
 
                 Comprador comprador = compradorData.buscarComprador(rs.getInt("codComprador"));
                 ticket.setComprador(comprador);
@@ -153,6 +150,8 @@ public class TicketData {
     }
 
     public boolean eliminarTicket(int id) throws SQLException {
+        String sqlDetalles = "DELETE FROM detalleticket WHERE codTicket = ?";
+        String sqlTicket = "DELETE FROM ticketcompra WHERE codTicket = ?";
 
         // 1. Define SQL para ambas tablas
         String sqlDetalles = "DELETE FROM detalleticket WHERE codTicket = ?";
@@ -215,7 +214,7 @@ public class TicketData {
         List<TicketCompra> tickets = new ArrayList<>();
         CompradorData cData = new CompradorData();
 //        DetalleTicketData dData = new DetalleTicketData(new LugarData());
-      
+
         String sql = "SELECT * FROM ticketcompra";
 
         try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
@@ -237,6 +236,7 @@ public class TicketData {
         }
         return tickets;
     }
+
     public List<TicketCompra> listarTicketsPorFecha(LocalDate fecha) throws SQLException {
         List<TicketCompra> tickets = new ArrayList<>();
         String sql = "SELECT * FROM ticketcompra WHERE FechaCompra = ?";
@@ -252,11 +252,8 @@ public class TicketData {
                     t.setMonto(rs.getDouble("Monto"));
                     t.setMetodoPago(rs.getBoolean("metodoPago"));
 
-                   
                     Comprador comprador = compradorData.buscarComprador(rs.getInt("codComprador"));
                     t.setComprador(comprador);
-
-                    
 
                     tickets.add(t);
                 }
@@ -267,13 +264,14 @@ public class TicketData {
         }
         return tickets;
     }
+
     public List<TicketCompra> listarTicketsPorPelicula(int codPelicula) throws SQLException {
         List<TicketCompra> tickets = new ArrayList<>();
         String sql = "SELECT DISTINCT t.* FROM ticketcompra t "
-                   + "JOIN detalleticket dt ON t.codTicket = dt.codTicket "
-                   + "JOIN lugar l ON dt.codLugar = l.codLugar "
-                   + "JOIN funcion f ON l.codFuncion = f.codFuncion "
-                   + "WHERE f.codPelicula = ?";
+                + "JOIN detalleticket dt ON t.codTicket = dt.codTicket "
+                + "JOIN lugar l ON dt.codLugar = l.codLugar "
+                + "JOIN funcion f ON l.codFuncion = f.codFuncion "
+                + "WHERE f.codPelicula = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, codPelicula);

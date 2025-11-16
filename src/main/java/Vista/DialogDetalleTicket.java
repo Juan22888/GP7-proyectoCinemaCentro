@@ -31,11 +31,10 @@ public class DialogDetalleTicket extends javax.swing.JDialog {
         this.ticket = ticket;
         this.ticketData = ticketData;
         this.detalleTicketData = detalleTicketData;
-        // Los demás datos (comprador, funcion, lugares) se buscarán en la BD.
         
         initComponents();
         this.setLocationRelativeTo(parent);
-        cargarDetallesTicketExistente(); // Método para buscar info
+        cargarDetallesTicketExistente(); 
     }
    public DialogDetalleTicket(Frame parent, boolean modal, TicketCompra ticket, Comprador comprador, Funcion funcion, List<Lugar> lugares) {
         super(parent, modal);
@@ -43,13 +42,13 @@ public class DialogDetalleTicket extends javax.swing.JDialog {
         this.comprador = comprador;
         this.funcion = funcion;
         this.lugares = lugares;
-        // Los 'Data' no son necesarios aquí porque recibimos todo
+      
         this.ticketData = null; 
         this.detalleTicketData = null;
         
         initComponents();
         this.setLocationRelativeTo(parent);
-        cargarDetallesNuevaCompra(); // Método para rellenar con la info recibida
+        cargarDetallesNuevaCompra(); 
     }
    private void cargarDetallesNuevaCompra() {
         if (this.ticket == null || this.comprador == null || this.funcion == null || this.lugares == null) {
