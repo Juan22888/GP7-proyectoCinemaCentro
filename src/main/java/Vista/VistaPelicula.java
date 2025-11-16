@@ -206,12 +206,9 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
 
     private void butNuevaPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNuevaPeliculaActionPerformed
 
-        NuevaPelicula np = new NuevaPelicula(peliculaData);
-        this.getDesktopPane().add(np);
-        np.setVisible(true);
-         np.toFront();
-        
-     
+        NuevaPelicula vp = new NuevaPelicula(peliculaData);
+        PeliculaDesktop.add(vp);
+        vp.setVisible(true);
     }//GEN-LAST:event_butNuevaPeliculaActionPerformed
 
     private void butBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBuscarActionPerformed

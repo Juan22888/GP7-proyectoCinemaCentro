@@ -76,6 +76,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         });
     }
 
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -139,6 +140,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         });
         CompradorDesktop.add(btnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 469, 145, 50));
 
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/iconos netbeans/guardar.png"))); // NOI18N
         btnActualizar.setText("Guardar Cambios");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,6 +149,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         });
         CompradorDesktop.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(248, 469, 139, 49));
 
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/iconos netbeans/icons8-delete-64.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -186,6 +189,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
             return; // No hacer nada si no hay selección
         }
 
+     
         int confirmacion = JOptionPane.showConfirmDialog(this,
                 "¿Está seguro de que desea eliminar este comprador?",
                 "Confirmar Eliminación",
@@ -193,9 +197,10 @@ public class VistaComprador extends javax.swing.JInternalFrame {
 
         if (confirmacion == JOptionPane.YES_OPTION) {
             try {
-
+               
                 int dni = (Integer) TablaCompradores.getValueAt(filaSeleccionada, 0);
 
+            
                 boolean exito = CompradorData.eliminarCompradorPorDni(dni);
 
                 // 6. Informar resultado y actualizar la tabla
@@ -277,17 +282,16 @@ public class VistaComprador extends javax.swing.JInternalFrame {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
-        NuevoComprador vc = new NuevoComprador(CompradorData);
-        this.getDesktopPane().add(vc);
-        vc.setVisible(true);
-        vc.toFront();
+         NuevoComprador vp = new NuevoComprador(CompradorData);
+        CompradorDesktop.add(vp);
+        vp.setVisible(true);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         String dniTexto = txtBucar.getText();
-
-        if (dniTexto.isEmpty()) {
+        
+          if (dniTexto.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Ingrese el dni del comprador", "Atencion", JOptionPane.ERROR_MESSAGE);
             return;
         }

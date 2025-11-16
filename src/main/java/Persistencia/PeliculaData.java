@@ -272,32 +272,5 @@ public class PeliculaData {
 
         return peliculas;
     }
-    public List<Pelicula> listarProximosEstrenos() throws SQLException {
-        List<Pelicula> peliculas = new ArrayList<>();
-        
-        String sql = "SELECT * FROM pelicula WHERE estreno > CURDATE() AND enCartelera = 0";
-
-        try (PreparedStatement ps = con.prepareStatement(sql); 
-             ResultSet rs = ps.executeQuery()) {
-
-            while (rs.next()) {
-                Pelicula p = new Pelicula();
-                p.setCodPelicula(rs.getInt("codPelicula"));
-                p.setTitulo(rs.getString("titulo"));
-                p.setDirector(rs.getString("director"));
-                p.setActores(rs.getString("actores"));
-                p.setOrigen(rs.getString("origen"));
-                p.setGenero(rs.getString("genero"));
-                p.setEstreno(rs.getDate("estreno").toLocalDate());
-                p.setEnCartelera(rs.getBoolean("enCartelera"));
-                peliculas.add(p);
-            }
-
-        } catch (SQLException ex) {
-            throw new SQLException("Error al listar próximos estrenos: " + ex);
-        }
-
-        return peliculas;
-    }
 
 }

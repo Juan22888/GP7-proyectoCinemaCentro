@@ -28,12 +28,11 @@ public class LugarData {
 
     public LugarData() {
         this.con = Conexion.buscarConexion();
-        this.funData = new FuncionData();
 
     }
 
-    
-   public void setFuncionData(FuncionData funcionData) {
+    // Setter para inyectar la dependencia
+    public void setFuncionData(FuncionData funcionData) {
         this.funData = funcionData;
     }
     // ...
@@ -175,7 +174,7 @@ public class LugarData {
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, codFuncion);
 
-           
+            // Solo necesitamos el objeto Funcion completo una vez.
             Funcion funcion = funData.buscarFuncion(codFuncion);
 
             if (funcion != null) {
@@ -251,7 +250,8 @@ public class LugarData {
 
         List<Lugar> lugaresExistentes = obtenerLugaresPorFuncion(codFuncion);
         int cantidadActual = lugaresExistentes.size();
-          if (cantidadActual == capacidadMaxima) {
+
+        if (cantidadActual == capacidadMaxima) {
             throw new IllegalArgumentException("La función ya tiene todos los lugares creados.");
         }
 
@@ -275,7 +275,7 @@ public class LugarData {
             for (int i = 0; i < cantidad; i++) {
 
                 // Si el número supera los asientos por fila, pasamos a la siguiente fila
-                if (numeroActual > asientosPorFila) { 
+                if (numeroActual > asientosPorFila) {
                     filaActual++;
                     numeroActual = 1;
                 }
