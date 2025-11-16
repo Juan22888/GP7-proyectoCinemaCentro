@@ -90,6 +90,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
 
@@ -117,7 +118,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(TablaCompradores);
         TablaCompradores.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        CompradorDesktop.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 163, 522, 256));
+        CompradorDesktop.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 160, 522, 256));
         CompradorDesktop.add(txtBucar, new org.netbeans.lib.awtextra.AbsoluteConstraints(239, 68, 150, -1));
 
         jLabel1.setText("Buscar Comprador (DNI):");
@@ -137,7 +138,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
                 btnNuevoActionPerformed(evt);
             }
         });
-        CompradorDesktop.add(btnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 469, 145, 50));
+        CompradorDesktop.add(btnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 145, 50));
 
         btnActualizar.setText("Guardar Cambios");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -145,7 +146,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
                 btnActualizarActionPerformed(evt);
             }
         });
-        CompradorDesktop.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(248, 469, 139, 49));
+        CompradorDesktop.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 470, 139, 49));
 
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -153,12 +154,20 @@ public class VistaComprador extends javax.swing.JInternalFrame {
                 btnEliminarActionPerformed(evt);
             }
         });
-        CompradorDesktop.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 469, 115, 49));
+        CompradorDesktop.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 470, 115, 49));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 102, 153));
         jLabel2.setText("Gestion De Compradores");
         CompradorDesktop.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(163, 9, -1, 41));
+
+        jButton1.setText("Reiniciar Tabla");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        CompradorDesktop.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 470, 140, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -242,6 +251,12 @@ public class VistaComprador extends javax.swing.JInternalFrame {
             Comprador compradorModificado = null;
 
             compradorModificado = CompradorData.buscarCompradorPorDni(dni);
+            
+            compradorModificado.setDni(dni);
+            compradorModificado.setNombre(nombre);
+            compradorModificado.setPassword(password);
+            compradorModificado.setFechaNacimiento(fechaNacimiento);
+            compradorModificado.setEstado(estado);
 
             boolean exito = CompradorData.actualizarCompradorPorDni(compradorModificado);
 
@@ -308,6 +323,10 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       cargarTablaCompleta();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane CompradorDesktop;
@@ -316,6 +335,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
