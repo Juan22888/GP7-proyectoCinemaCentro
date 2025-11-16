@@ -237,7 +237,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
     private void itemTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemTicketActionPerformed
         // TODO add your handling code here:
-        VistaTicket vt = new VistaTicket(ticketData, CompradorData);
+        VistaTicket vt = new VistaTicket(ticketData, CompradorData,detalleTicketData);
         abrirInternal(vt);
     }//GEN-LAST:event_itemTicketActionPerformed
 

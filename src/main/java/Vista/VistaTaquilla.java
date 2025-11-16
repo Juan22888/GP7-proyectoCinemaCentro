@@ -11,6 +11,8 @@ import Modelo.Lugar;
 import Modelo.Pelicula;
 import Modelo.TicketCompra;
 import Persistencia.CompradorData;
+import java.awt.Frame;
+import javax.swing.SwingUtilities;
 import Persistencia.DetalleTicketData;
 import Persistencia.FuncionData;
 import Persistencia.LugarData;
@@ -61,7 +63,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         this.detalleTicketData = detalleTicketData;
         this.compradorData = compradorData;
         this.modoVenta = modoVenta;
-        this.lugaresReservados = null;
+        this.lugaresReservados = new ArrayList<>();
 
         initComponents();
         cargarPeliculas();
@@ -496,16 +498,14 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
 
     private void butGenerarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butGenerarTicketActionPerformed
         if (!tarjetaIngresada && this.modoVenta.equals("Online")) {
-            JOptionPane.showMessageDialog(this, "Debe cargar los datos de la tarjeta usando el botón 'Cargar Tarjeta'.", "Error de Pago", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Debe cargar los datos de la tarjeta...", "Error de Pago", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
         if (comprador == null) {
             JOptionPane.showMessageDialog(this, "Error! No se cargó al comprador.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        if (lugaresReservados == null) {
+        if (lugaresReservados == null || lugaresReservados.isEmpty()) { // Comprobación importante
             JOptionPane.showMessageDialog(this, "Error! No hay lugares reservados.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -518,13 +518,11 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         }
 
         boolean metodoPago = false;
-
-        //Si es false es efectivo y si es true es debito
-        if (seleccionado.equals("Débito")) {
+        if ("Débito".equals(seleccionado)) {
             metodoPago = true;
         }
-
-        double total = 0;
+        double total = Double.parseDouble(txtTotal.getText());
+        
         try {
             total = Double.parseDouble(txtTotal.getText());
         } catch (NumberFormatException ex) {
@@ -537,8 +535,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         try {
             ticketData.insertarTicket(ticket);
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al crear ticket en la bd.",
-                    "Error de Datos", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al crear ticket en la bd.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
             return;
         }
         List<DetalleTicket> detallesTicket = new ArrayList<>();
@@ -548,7 +545,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(VistaTaquilla.class.getName()).log(Level.SEVERE, null, ex);
             }
-            DetalleTicket dt = new DetalleTicket(-1, lugaresReservados.get(i), ticket, true); // true-1 para decir que el ticket se dio de alta
+            DetalleTicket dt = new DetalleTicket(-1, lugaresReservados.get(i), ticket, true);
             detallesTicket.add(dt);
         }
         try {
@@ -563,6 +560,31 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         }
 
         JOptionPane.showMessageDialog(this, "¡El ticket se generó correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        try {
+            Frame parentFrame = (Frame) SwingUtilities.getWindowAncestor(this);
+
+            // LLAMAMOS AL OTRO CONSTRUCTOR (el de "Nueva Compra")
+            DialogDetalleTicket dialog = new DialogDetalleTicket(
+                    parentFrame,
+                    true,
+                    ticket,           // El ticket que acabamos de crear
+                    this.comprador,   // El comprador de la vista
+                    this.funcion,   // La función seleccionada
+                    this.lugaresReservados // Los asientos seleccionados
+            );
+            
+            dialog.setVisible(true); // Mostrar el diálogo
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Ticket guardado, pero no se pudo mostrar el detalle: " + e.getMessage(), 
+                "Error al ver Detalle", 
+                JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+        
+        // 6. Limpiar la vista para la siguiente venta
+        butCancelarActionPerformed(null);
 
 
     }//GEN-LAST:event_butGenerarTicketActionPerformed
@@ -606,7 +628,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
             int cantidadEntradas = lugaresReservados.size();
             int entradasC = (cantidadEntradas / 2) + (cantidadEntradas % 2);
 
-            String precioTotalStr = String.valueOf(entradasC*funcion.getPrecioLugar());
+            String precioTotalStr = String.valueOf(entradasC * funcion.getPrecioLugar());
             txtTotal.setText(precioTotalStr);
         }
     }//GEN-LAST:event_butLugaresDisponiblesActionPerformed
