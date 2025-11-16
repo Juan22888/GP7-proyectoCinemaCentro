@@ -4,6 +4,10 @@
  */
 package Vista;
 
+import Modelo.Comprador;
+import Modelo.DetalleTicket;
+import Modelo.Funcion;
+import Modelo.Lugar;
 import Modelo.TicketCompra;
 import Persistencia.DetalleTicketData;
 import Persistencia.TicketData;
@@ -12,27 +16,165 @@ import java.util.List;
 import javax.swing.JDialog;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-
+        
 public class DialogDetalleTicket extends javax.swing.JDialog {
 
     private final TicketCompra ticket;
     private final TicketData ticketData;
+    private DetalleTicketData detalleTicketData;
+    private Comprador comprador;
+    private Funcion funcion;
+    private List<Lugar> lugares;
 
-    public DialogDetalleTicket(Frame parent, boolean modal, TicketData ticketData, TicketCompra ticket) {
+    public DialogDetalleTicket(Frame parent, boolean modal, TicketData ticketData, DetalleTicketData detalleTicketData, TicketCompra ticket) {
         super(parent, modal);
         this.ticket = ticket;
         this.ticketData = ticketData;
+        this.detalleTicketData = detalleTicketData;
+        // Los demás datos (comprador, funcion, lugares) se buscarán en la BD.
         
         initComponents();
         this.setLocationRelativeTo(parent);
-        cargarDetalles();
+        cargarDetallesTicketExistente(); // Método para buscar info
     }
-    private void cargarDetalles() {
-       
-     
+   public DialogDetalleTicket(Frame parent, boolean modal, TicketCompra ticket, Comprador comprador, Funcion funcion, List<Lugar> lugares) {
+        super(parent, modal);
+        this.ticket = ticket;
+        this.comprador = comprador;
+        this.funcion = funcion;
+        this.lugares = lugares;
+        // Los 'Data' no son necesarios aquí porque recibimos todo
+        this.ticketData = null; 
+        this.detalleTicketData = null;
+        
+        initComponents();
+        this.setLocationRelativeTo(parent);
+        cargarDetallesNuevaCompra(); // Método para rellenar con la info recibida
     }
-    
+   private void cargarDetallesNuevaCompra() {
+        if (this.ticket == null || this.comprador == null || this.funcion == null || this.lugares == null) {
+            JOptionPane.showMessageDialog(this, "Error: Faltan datos para mostrar el detalle.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
+        // --- DATOS DE LA FUNCIÓN ---
+        txtPelicula.setText(funcion.getPelicula().getTitulo());
+        txtSala.setText(String.valueOf(funcion.getSalaFuncion().getNroSala()));
+        txtFechaFuncion.setText(funcion.getFecha().toString());
+        txtHoraInicio.setText(funcion.getHoraInicio().toString());
+
+        // --- DETALLES DE LA FUNCIÓN ---
+        txtFormato.setText(funcion.isEs3d() ? "3D" : "2D");
+        txtSubtitulada.setText(funcion.isSubtitulada() ? "Sí" : "No");
+        txtIdioma.setText(funcion.getIdioma());
+        
+        // --- RESUMEN DE COMPRA ---
+        txtNroTicket.setText(String.valueOf(ticket.getCodTicket()));
+        txtNombreComprador.setText(comprador.getNombre());
+        txtMetodoPago.setText(ticket.isMetodoPago() ? "Tarjeta / Online" : "Efectivo / Taquilla");
+        txtFechaCompra.setText(ticket.getFechaCompra().toString());
+        txtMontoTotal.setText("$ " + String.valueOf(ticket.getMonto())); // Agregamos $
+
+        // --- ASIENTOS (LUGARES) ---
+        StringBuilder asientosStr = new StringBuilder();
+        for (Lugar lugar : lugares) {
+            asientosStr.append("Fila: ").append(lugar.getFila());
+            asientosStr.append(", Asiento: ").append(lugar.getNumero());
+            asientosStr.append(" | ");
+        }
+        if (asientosStr.length() > 3) {
+            asientosStr.setLength(asientosStr.length() - 3);
+        }
+        txtLugarAsignado.setText(asientosStr.toString());
+        
+        // Hacemos todos los campos no editables
+        setCamposEditables(false);
+    }
+   private void cargarDetallesTicketExistente() {
+        if (this.ticket == null) {
+            JOptionPane.showMessageDialog(this, "No se pudo cargar el ticket.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            // 1. Buscar todos los detalles (asientos) asociados a este ticket
+            List<DetalleTicket> detalles = detalleTicketData.listarDetallesPorTicket(ticket.getCodTicket());
+
+            if (detalles.isEmpty()) {
+                // Si no hay asientos, al menos mostramos la info básica de la compra
+                txtNroTicket.setText(String.valueOf(ticket.getCodTicket()));
+                txtNombreComprador.setText(ticket.getComprador().getNombre());
+                txtFechaCompra.setText(ticket.getFechaCompra().toString());
+                txtMontoTotal.setText("$ " + String.valueOf(ticket.getMonto()));
+                txtMetodoPago.setText(ticket.isMetodoPago() ? "Tarjeta / Online" : "Efectivo / Taquilla");
+                txtLugarAsignado.setText("¡TICKET SIN ASIENTOS ASIGNADOS! (Error)");
+                setCamposEditables(false);
+                return;
+            }
+
+            // 2. Extraer la información de los objetos
+            // (Asumimos que todos los detalles/lugares pertenecen a la misma función)
+            this.funcion = detalles.get(0).getLugar().getFuncion();
+            this.comprador = ticket.getComprador();
+
+            // --- DATOS DE LA FUNCIÓN ---
+            txtPelicula.setText(funcion.getPelicula().getTitulo());
+            txtSala.setText(String.valueOf(funcion.getSalaFuncion().getNroSala()));
+            txtFechaFuncion.setText(funcion.getFecha().toString());
+            txtHoraInicio.setText(funcion.getHoraInicio().toString());
+
+            // --- DETALLES DE LA FUNCIÓN ---
+            txtFormato.setText(funcion.isEs3d() ? "3D" : "2D");
+            txtSubtitulada.setText(funcion.isSubtitulada() ? "Sí" : "No");
+            txtIdioma.setText(funcion.getIdioma());
+            
+            // --- RESUMEN DE COMPRA ---
+            txtNroTicket.setText(String.valueOf(ticket.getCodTicket()));
+            txtNombreComprador.setText(comprador.getNombre());
+            txtMetodoPago.setText(ticket.isMetodoPago() ? "Tarjeta / Online" : "Efectivo / Taquilla");
+            txtFechaCompra.setText(ticket.getFechaCompra().toString());
+            txtMontoTotal.setText("$ " + String.valueOf(ticket.getMonto()));
+
+            // --- ASIENTOS (LUGARES) ---
+            StringBuilder asientosStr = new StringBuilder();
+            for (DetalleTicket det : detalles) {
+                Lugar lugar = det.getLugar();
+                if (lugar != null) {
+                    asientosStr.append("Fila: ").append(lugar.getFila());
+                    asientosStr.append(", Asiento: ").append(lugar.getNumero());
+                    asientosStr.append(" | ");
+                }
+            }
+            if (asientosStr.length() > 3) {
+                asientosStr.setLength(asientosStr.length() - 3);
+            }
+            txtLugarAsignado.setText(asientosStr.toString());
+
+            // Hacemos todos los campos no editables
+            setCamposEditables(false);
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al buscar los detalles del ticket: " + ex.getMessage(), "Error SQL", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace(); 
+        }
+    }
+   private void setCamposEditables(boolean editable) {
+        txtPelicula.setEditable(editable);
+        txtSala.setEditable(editable);
+        txtFechaFuncion.setEditable(editable);
+        txtHoraInicio.setEditable(editable);
+        txtLugarAsignado.setEditable(editable);
+        txtFormato.setEditable(editable);
+        txtSubtitulada.setEditable(editable);
+        txtIdioma.setEditable(editable);
+        txtNroTicket.setEditable(editable);
+        txtNombreComprador.setEditable(editable);
+        txtMetodoPago.setEditable(editable);
+        txtFechaCompra.setEditable(editable);
+        txtMontoTotal.setEditable(editable);
+    }
   
     
     
@@ -282,7 +424,7 @@ public class DialogDetalleTicket extends javax.swing.JDialog {
                     .addComponent(jLabel14)
                     .addComponent(txtNroTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel15)
                     .addComponent(txtNombreComprador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -316,7 +458,7 @@ public class DialogDetalleTicket extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNroTicketActionPerformed
 
-    public static void main(String args[]) {
+   public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -341,19 +483,6 @@ public class DialogDetalleTicket extends javax.swing.JDialog {
         //</editor-fold>
         //</editor-fold>
 
-        /* Create and display the dialog */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                DialogDetalleTicket dialog = new DialogDetalleTicket(new javax.swing.JFrame(), true);
-//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-//                    @Override
-//                    public void windowClosing(java.awt.event.WindowEvent e) {
-//                        System.exit(0);
-//                    }
-//                });
-//                dialog.setVisible(true);
-//            }
-//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

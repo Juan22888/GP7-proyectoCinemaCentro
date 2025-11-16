@@ -5,6 +5,9 @@
 package Vista;
 
 import Modelo.Comprador;
+import Persistencia.DetalleTicketData;
+import Persistencia.LugarData;
+import java.awt.Frame;
 import Modelo.TicketCompra;
 import Persistencia.CompradorData;
 import Persistencia.TicketData;
@@ -16,11 +19,15 @@ import javax.swing.table.DefaultTableModel;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.sql.Date;
+import javax.swing.SwingUtilities;
+
 
 public class VistaTicket extends javax.swing.JInternalFrame {
 
     private final TicketData ticketData;
     private final CompradorData compradorData;
+    private final DetalleTicketData detalleTicketData;
+    
     private final DefaultTableModel modelo = new DefaultTableModel() {
         @Override
         public boolean isCellEditable(int row, int column) {
@@ -31,11 +38,12 @@ public class VistaTicket extends javax.swing.JInternalFrame {
     private List<Comprador> listaCompradores;
     private List<TicketCompra> listaTickets;
 
-    public VistaTicket(TicketData ticketData, CompradorData compradorData) {
+    public VistaTicket(TicketData ticketData, CompradorData compradorData, DetalleTicketData detalleTicketData) {
         initComponents();
 
         this.ticketData = ticketData;
         this.compradorData = compradorData;
+        this.detalleTicketData = detalleTicketData;
         this.listaCompradores = new ArrayList<>();
         this.listaTickets = new ArrayList<>();
         String[] titulos = {"Comprador", "Fecha de Compra", "Monto"};
@@ -230,7 +238,35 @@ public class VistaTicket extends javax.swing.JInternalFrame {
 
         cargarTicket();
     }
+    private void verDetallesTicket(){
+        int filaSeleccionada = ticketTable.getSelectedRow();
 
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un ticket de la tabla para ver sus detalles.", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            // 1. Obtenemos el TicketCompra de nuestra lista local
+            TicketCompra ticketSeleccionado = listaTickets.get(filaSeleccionada);
+
+            // 2. Obtenemos el Frame principal para centrar el diálogo
+            Frame parentFrame = (Frame) SwingUtilities.getWindowAncestor(this);
+
+            // 3. Creamos y mostramos el diálogo usando el CONSTRUCTOR PARA TICKETS EXISTENTES
+            DialogDetalleTicket dialog = new DialogDetalleTicket(
+                    parentFrame, 
+                    true, 
+                    this.ticketData, 
+                    this.detalleTicketData, // <-- Le pasamos el Data
+                    ticketSeleccionado      // <-- Le pasamos el Ticket
+            );
+            dialog.setVisible(true);
+
+        } catch (IndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(this, "Error: El ticket seleccionado no se encuentra en la lista.", "Error Interno", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -366,7 +402,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_CboxCompradorActionPerformed
 
     private void btnDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetallesActionPerformed
-  
+         verDetallesTicket();
     }//GEN-LAST:event_btnDetallesActionPerformed
 
     private void ButMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButMostrarActionPerformed

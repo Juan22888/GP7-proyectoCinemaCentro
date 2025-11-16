@@ -27,6 +27,7 @@ public class DetalleTicketData {
       private TicketData ticketData;
     public DetalleTicketData() {
         this.con = Conexion.buscarConexion();
+        this.lugarData = new LugarData();
     }
       
       
