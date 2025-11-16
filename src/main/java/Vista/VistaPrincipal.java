@@ -107,6 +107,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
         menuAdministracion.add(CompradorMenuItem);
 
         itemTicket.setText("Ticket");
+        itemTicket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemTicketActionPerformed(evt);
+            }
+        });
         menuAdministracion.add(itemTicket);
 
         itemLugar.setText("Lugar");
@@ -229,6 +234,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
         vt.toFront();
     }
     }//GEN-LAST:event_menuTaquillaMouseClicked
+
+    private void itemTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemTicketActionPerformed
+        // TODO add your handling code here:
+        VistaTicket vt = new VistaTicket(ticketData, CompradorData);
+        abrirInternal(vt);
+    }//GEN-LAST:event_itemTicketActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem CompradorMenuItem;

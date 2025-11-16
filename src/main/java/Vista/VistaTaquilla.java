@@ -626,8 +626,9 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
 
     private void butNuevoCompradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNuevoCompradorActionPerformed
         NuevoComprador nv = new NuevoComprador(compradorData);
-        this.add(nv);
+        this.getDesktopPane().add(nv);
         nv.setVisible(true);
+        nv.toFront();
     }//GEN-LAST:event_butNuevoCompradorActionPerformed
 
     private void butBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBuscarActionPerformed
