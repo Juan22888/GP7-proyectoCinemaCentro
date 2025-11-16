@@ -167,7 +167,6 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
         getContentPane().add(CBoxSubtitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, -1, -1));
         getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 313, 440, 10));
 
-        ButGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/ahorrar.png"))); // NOI18N
         ButGuardar.setText("Guardar");
         ButGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -176,7 +175,6 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
         });
         getContentPane().add(ButGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
 
-        ButLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/escoba.png"))); // NOI18N
         ButLimpiar.setText("Limpiar");
         ButLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -185,7 +183,6 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
         });
         getContentPane().add(ButLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 330, -1, -1));
 
-        ButCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cerrar.png"))); // NOI18N
         ButCerrar.setText("Cerrar");
         ButCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
