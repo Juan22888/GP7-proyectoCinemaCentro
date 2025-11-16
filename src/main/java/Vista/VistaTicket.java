@@ -389,6 +389,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
 
     private void ButBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButBuscar1ActionPerformed
         // TODO add your handling code here:
+        buscarComprador();
     }//GEN-LAST:event_ButBuscar1ActionPerformed
 
 

@@ -277,10 +277,10 @@ public class VistaComprador extends javax.swing.JInternalFrame {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
-        NuevoComprador vp = new NuevoComprador(CompradorData);
-        this.getDesktopPane().add(vp);
-        vp.setVisible(true);
-        vp.toFront();
+        NuevoComprador vc = new NuevoComprador(CompradorData);
+        this.getDesktopPane().add(vc);
+        vc.setVisible(true);
+        vc.toFront();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
