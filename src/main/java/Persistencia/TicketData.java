@@ -153,10 +153,6 @@ public class TicketData {
         String sqlDetalles = "DELETE FROM detalleticket WHERE codTicket = ?";
         String sqlTicket = "DELETE FROM ticketcompra WHERE codTicket = ?";
 
-        // 1. Define SQL para ambas tablas
-        String sqlDetalles = "DELETE FROM detalleticket WHERE codTicket = ?";
-        String sqlTicket = "DELETE FROM ticketcompra WHERE codTicket = ?";
-        
         PreparedStatement psDetalles = null;
         PreparedStatement psTicket = null;
         
