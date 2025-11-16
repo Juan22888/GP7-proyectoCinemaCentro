@@ -149,7 +149,6 @@ public class VistaTicket extends javax.swing.JInternalFrame {
         jDesktopPane1.add(ButMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(387, 391, -1, -1));
 
         ButBuscar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        ButBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/imagenes/lupa.png"))); // NOI18N
         ButBuscar.setText("Buscar");
         ButBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

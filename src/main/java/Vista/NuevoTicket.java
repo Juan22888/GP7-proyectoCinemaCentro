@@ -103,7 +103,6 @@ private void cargarFunciones() {
         Precio.setText("Precio Total");
 
         ButGuardar.setBackground(new java.awt.Color(102, 102, 102));
-        ButGuardar.setForeground(new java.awt.Color(0, 0, 0));
         ButGuardar.setText("Guardar");
         ButGuardar.setPreferredSize(new java.awt.Dimension(126, 57));
         ButGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -113,8 +112,6 @@ private void cargarFunciones() {
         });
 
         ButCancelar.setBackground(new java.awt.Color(102, 102, 102));
-        ButCancelar.setForeground(new java.awt.Color(0, 0, 0));
-        ButCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/imagenes/close.png"))); // NOI18N
         ButCancelar.setText("Cancelar");
         ButCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

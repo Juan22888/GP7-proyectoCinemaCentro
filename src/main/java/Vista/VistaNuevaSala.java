@@ -40,28 +40,20 @@ public class VistaNuevaSala extends javax.swing.JInternalFrame {
         lblTitulo = new javax.swing.JLabel();
 
         setClosable(true);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblNroSala.setText("NroSala:");
-        getContentPane().add(lblNroSala, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 61, -1, -1));
 
         lblCapacidad.setText("Capacidad:");
-        getContentPane().add(lblCapacidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 112, -1, -1));
-        getContentPane().add(txtNroSala, new org.netbeans.lib.awtextra.AbsoluteConstraints(209, 58, 109, -1));
 
         txtCapacidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCapacidadActionPerformed(evt);
             }
         });
-        getContentPane().add(txtCapacidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(208, 109, 110, -1));
-        getContentPane().add(chkApta3D, new org.netbeans.lib.awtextra.AbsoluteConstraints(213, 160, -1, -1));
 
         lblApta3D.setText("¿Es apta  para 3D?:");
-        getContentPane().add(lblApta3D, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 160, -1, -1));
 
         lblEstado.setText("Estado");
-        getContentPane().add(lblEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 208, -1, -1));
 
         chkEstado.setText("Activo");
         chkEstado.addActionListener(new java.awt.event.ActionListener() {
@@ -69,7 +61,6 @@ public class VistaNuevaSala extends javax.swing.JInternalFrame {
                 chkEstadoActionPerformed(evt);
             }
         });
-        getContentPane().add(chkEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(213, 206, -1, -1));
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -77,7 +68,6 @@ public class VistaNuevaSala extends javax.swing.JInternalFrame {
                 btnGuardarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(104, 260, -1, -1));
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -85,11 +75,74 @@ public class VistaNuevaSala extends javax.swing.JInternalFrame {
                 btnCancelarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(213, 260, -1, -1));
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblTitulo.setText("Crear Nueva Sala");
-        getContentPane().add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 6, -1, -1));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addComponent(lblNroSala)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtNroSala, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addComponent(lblCapacidad)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(104, 104, 104)
+                        .addComponent(btnGuardar)
+                        .addGap(37, 37, 37)
+                        .addComponent(btnCancelar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(105, 105, 105)
+                        .addComponent(lblTitulo))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(75, 75, 75)
+                                .addComponent(lblApta3D))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(lblEstado)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(chkEstado)
+                            .addComponent(chkApta3D))))
+                .addGap(99, 99, 99))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(lblTitulo)
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNroSala)
+                    .addComponent(txtNroSala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCapacidad)
+                    .addComponent(txtCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblApta3D)
+                    .addComponent(chkApta3D))
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEstado)
+                    .addComponent(chkEstado))
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnGuardar)
+                    .addComponent(btnCancelar)))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
