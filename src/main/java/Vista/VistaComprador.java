@@ -9,6 +9,8 @@ import Persistencia.CompradorData;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -91,7 +93,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         btnEliminar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        butAltaBaja = new javax.swing.JToggleButton();
 
         setClosable(true);
 
@@ -170,13 +172,13 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         });
         CompradorDesktop.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 470, 140, 50));
 
-        jButton2.setText("Alta / Baja");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        butAltaBaja.setText("Alta/Baja");
+        butAltaBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                butAltaBajaActionPerformed(evt);
             }
         });
-        CompradorDesktop.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 250, 90, 50));
+        CompradorDesktop.add(butAltaBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 250, 100, 60));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -336,7 +338,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
        cargarTablaCompleta();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void butAltaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butAltaBajaActionPerformed
          if (TablaCompradores.isEditing()) {
             TablaCompradores.getCellEditor().stopCellEditing();
         }
@@ -348,8 +350,35 @@ public class VistaComprador extends javax.swing.JInternalFrame {
             return;
         }
         
+        int dni = Integer.parseInt(TablaCompradores.getValueAt(filaSeleccionada, 0).toString());
         
-    }//GEN-LAST:event_jButton2ActionPerformed
+        if(butAltaBaja.isSelected()){
+             try {
+                 if(CompradorData.buscarCompradorPorDni(dni).isEstado()==true){
+                 JOptionPane.showMessageDialog(this, "El comprador ya está dado de alta.", "Error", JOptionPane.WARNING_MESSAGE);
+                 return;
+                 }
+                 CompradorData.altaLogicaComprador(dni);
+                   JOptionPane.showMessageDialog(this, "¡El comprador se dio de alta correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cargarTablaCompleta();
+             } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "No se pudo dar de alta al comprador =?", "Error de BD", JOptionPane.ERROR_MESSAGE);
+             }
+        }else{
+             try {
+                  if(CompradorData.buscarCompradorPorDni(dni).isEstado()==false){
+                 JOptionPane.showMessageDialog(this, "El comprador ya está dado de baja.", "Error", JOptionPane.WARNING_MESSAGE);
+                 return;
+                 }
+                  
+                 CompradorData.bajaLogicaComprador(dni);
+                   JOptionPane.showMessageDialog(this, "¡El comprador se dio de baja correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cargarTablaCompleta();
+             } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "No se pudo dar de baja al comprador =?", "Error de BD", JOptionPane.ERROR_MESSAGE);
+             }
+        }
+    }//GEN-LAST:event_butAltaBajaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -359,8 +388,8 @@ public class VistaComprador extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JToggleButton butAltaBaja;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

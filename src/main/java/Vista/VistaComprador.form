@@ -199,16 +199,16 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JToggleButton" name="butAltaBaja">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Alta / Baja"/>
+            <Property name="text" type="java.lang.String" value="Alta/Baja"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butAltaBajaActionPerformed"/>
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="620" y="250" width="90" height="50"/>
+              <AbsoluteConstraints x="610" y="250" width="100" height="60"/>
             </Constraint>
           </Constraints>
         </Component>
