@@ -17,6 +17,7 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JTable;
 
 
 /**
@@ -124,8 +125,8 @@ public class FuncionData {
         if (minutosDuracion < 90) {
         throw new IllegalArgumentException("La duración de la función debe ser de al menos 90 minutos.");
     }
-        if (minutosDuracion > 180) {
-        throw new IllegalArgumentException("La duración de la función no puede exceder las 3 horas.");
+        if (minutosDuracion > 240) {
+        throw new IllegalArgumentException("La duración de la función no puede exceder las 4 horas.");
     }
         if (f.getIdioma().length() > 20) {
         throw new IllegalArgumentException("El idioma no puede tener más de 20 caracteres.");
@@ -315,7 +316,7 @@ public class FuncionData {
         return funciones;
     }
 
-    public List<Funcion> listarFuncionesPorPelicula(int codPelicula) throws SQLException {
+    public List listarFuncionesPorPelicula(int codPelicula) throws SQLException {
         List<Funcion> funciones = new ArrayList<>();
         String sql = "SELECT * FROM funcion WHERE codPelicula = ? AND estado = true";
 
@@ -352,51 +353,51 @@ public class FuncionData {
         return funciones;
     }
         
-    public List<Funcion> ListarFuncionesPorIdioma(String idioma) throws SQLException{
+    public List ListarFuncionesPorIdioma(String idioma) throws SQLException{
     
         List<Funcion> funciones = new ArrayList<>();
         
         // SQLseleciona todos las funciones activas por idioma
-        String sql = "SELECT * FROM funcion WHERE idioa LIKE AND estado = true";
+        String sql = "SELECT * FROM funcion WHERE idioma LIKE ? AND estado = true";
         try (PreparedStatement ps = con.prepareStatement(sql)){
         
             // usamos '%' para permitir busquedas 
             //parciales o asegurar que coincida exactamente sino hay comodines
             
-            ps.setString(1,"%"+idioma + "%");
-            ResultSet rs = ps.executeQuery();
-            
-            while (rs.next()){
-                Funcion f = new Funcion();
-                Pelicula p = new Pelicula();
-                Sala s = new Sala();
-                
-                f.setCodFuncion(rs.getInt("codFuncion"));
-                p = peliculaData.buscarPelicula(rs.getInt("codPelicula"));
-                f.setPelicula(p);
-                f.setIdioma(rs.getString(idioma));
-                f.setEs3d(rs.getBoolean("es3D"));
-                f.setSubtitulada(rs.getBoolean("subtitulada"));
-                f.setHoraInicio(rs.getTime("horaInicio").toLocalTime());
-                f.setHoraFin(rs.getTime("horaFin").toLocalTime());
-                f.setFecha(rs.getDate("fechaFuncion").toLocalDate());
-                s = salaData.buscarSala(rs.getInt("codSala"));
-                f.setSalaFuncion(s);
-                f.setPrecioLugar(rs.getDouble("precioLugar"));
-                f.setEstado(rs.getBoolean("estado"));
-                
-                funciones.add(f);
-                }
-            rs.close();
+        ps.setString(1, "%" + idioma + "%");
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Funcion f = new Funcion();
+            Pelicula p = peliculaData.buscarPelicula(rs.getInt("codPelicula"));
+            Sala s = salaData.buscarSala(rs.getInt("codSala"));
+
+            f.setCodFuncion(rs.getInt("codFuncion"));
+            f.setPelicula(p);
+            f.setIdioma(rs.getString("idioma"));
+            f.setEs3d(rs.getBoolean("es3d"));
+            f.setSubtitulada(rs.getBoolean("subtitulada"));
+            f.setHoraInicio(rs.getTime("horaInicio").toLocalTime());
+            f.setHoraFin(rs.getTime("horaFin").toLocalTime());
+            f.setFecha(rs.getDate("fechaFuncion").toLocalDate());
+            f.setSalaFuncion(s);
+            f.setPrecioLugar(rs.getDouble("precioLugar"));
+            f.setEstado(rs.getBoolean("estado"));
+
+            funciones.add(f);
+        }
+
+        rs.close();
         
          } catch (SQLException ex){
-             throw new SQLException("Error al listar funciones por sala:" + ex.getMessage());
+             throw new SQLException("Error al listar funciones por idioma:" + ex.getMessage());
          
          }
          
         return funciones;
         }
-    public List<Funcion> listarFuncionesPorSala(int codSala) throws SQLException {
+    public List listarFuncionesPorSala(int codSala) throws SQLException {
     List<Funcion> funciones = new ArrayList<>();
     // SQL: Selecciona todas las funciones activas para un código de sala específico
     String sql = "SELECT * FROM funcion WHERE codSala = ? AND estado = true"; 
@@ -435,6 +436,49 @@ public class FuncionData {
 
     return funciones;
 }
-        
+        public void actualizarEstadoFuncion(int id, boolean nuevoEstado)throws SQLException{
+            String sql = "UPDATE funcion SET estado = ? where codFuncion = ?";
+            
+            try(PreparedStatement ps = con.prepareStatement (sql)) {
+                ps.setBoolean(1, nuevoEstado);
+                ps.setInt(2, id);
+                ps.executeUpdate();
+            }catch (SQLException e){
+                throw new SQLException ("Error al actualizar el estado:" + e.getMessage());
+            }
         }
+        
+     public int obtenerIdFuncionDesdeTabla(int fila, JTable tabla) throws SQLException {
+         
+    // se obtiene los datos de la tabla 
+    String titulo = tabla.getValueAt(fila, 0).toString();
+    int nroSala = Integer.parseInt(tabla.getValueAt(fila, 1).toString());
+    String idioma = tabla.getValueAt(fila, 2).toString();
+    LocalDate fecha = LocalDate.parse(tabla.getValueAt(fila, 5).toString());
+    LocalTime horaInicio = LocalTime.parse(tabla.getValueAt(fila, 6).toString());
+
+    // buscamos la funcion en la BD
+    String sql = "SELECT codFuncion FROM funcion "
+               + "WHERE codPelicula = (SELECT codPelicula FROM pelicula WHERE titulo = ?) "
+               + "AND codSala = (SELECT codSala FROM sala WHERE nroSala = ?) "
+               + "AND idioma = ? AND fechaFuncion = ? AND horaInicio = ?";
+
+    try (PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setString(1, titulo);
+        ps.setInt(2, nroSala);
+        ps.setString(3, idioma);
+        ps.setDate(4, java.sql.Date.valueOf(fecha));
+        ps.setTime(5, java.sql.Time.valueOf(horaInicio));
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            return rs.getInt("codFuncion");
+        } else {
+            throw new SQLException("La funcion no se encontro");
+        }
+    }
+     }
+}
+   
 
