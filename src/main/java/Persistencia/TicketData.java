@@ -67,9 +67,8 @@ public class TicketData {
             ps.setBoolean(3, t.isMetodoPago());
             ps.setInt(4, t.getComprador().getCodComprador());
 
-            
             int filasAfectadas = ps.executeUpdate();
-            
+
             if (filasAfectadas > 0) {
                 try (ResultSet rs = ps.getGeneratedKeys()) {
                     if (rs.next()) {
@@ -81,7 +80,7 @@ public class TicketData {
             return false;
 
         } catch (SQLException ex) {
-     
+
             throw new SQLException("Error al insertar el ticket: " + ex.getMessage(), ex);
         }
     }
@@ -91,7 +90,7 @@ public class TicketData {
         String sql = "SELECT * FROM ticketcompra WHERE codTicket = ?";
         TicketCompra ticket = null;
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) { 
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
@@ -101,8 +100,6 @@ public class TicketData {
                 ticket.setFechaCompra(rs.getDate("FechaCompra").toLocalDate());
                 ticket.setMonto(rs.getDouble("Monto"));
                 ticket.setMetodoPago(rs.getBoolean("metodoPago"));
-
-            
 
                 Comprador comprador = compradorData.buscarComprador(rs.getInt("codComprador"));
                 ticket.setComprador(comprador);
@@ -153,14 +150,58 @@ public class TicketData {
     }
 
     public boolean eliminarTicket(int id) throws SQLException {
+        String sqlDetalles = "DELETE FROM detalleticket WHERE codTicket = ?";
+        String sqlTicket = "DELETE FROM ticketcompra WHERE codTicket = ?";
 
-        String sql = "DELETE FROM ticketcompra WHERE codTicket = ?";
+        PreparedStatement psDetalles = null;
+        PreparedStatement psTicket = null;
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            return ps.executeUpdate() > 0;
+        try {
+            
+            con.setAutoCommit(false);
+
+            
+            psDetalles = con.prepareStatement(sqlDetalles);
+            psDetalles.setInt(1, id);
+            psDetalles.executeUpdate();
+
+            
+            psTicket = con.prepareStatement(sqlTicket);
+            psTicket.setInt(1, id);
+            int filasAfectadas = psTicket.executeUpdate(); 
+
+            
+            con.commit();
+
+            return filasAfectadas > 0; 
+
         } catch (SQLException ex) {
-            throw new SQLException("No se pudo eliminar el ticket " + ex);
+            
+            if (con != null) {
+                try {
+                    con.rollback();
+                    JOptionPane.showMessageDialog(null, "Error al eliminar ticket. Transacción revertida: " + ex.getMessage());
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error grave durante el rollback: " + e.getMessage());
+                }
+            }
+            throw new SQLException("No se pudo eliminar el ticket (transacción revertida): " + ex.getMessage());
+
+        } finally {
+            
+            if (psDetalles != null) {
+                psDetalles.close();
+            }
+            if (psTicket != null) {
+                psTicket.close();
+            }
+            if (con != null) {
+                try {
+                    con.setAutoCommit(true);
+                } catch (SQLException e) {
+                    System.err.println("Error al restaurar auto-commit: " + e.getMessage());
+                }
+            }
         }
     }
 
@@ -169,7 +210,7 @@ public class TicketData {
         List<TicketCompra> tickets = new ArrayList<>();
         CompradorData cData = new CompradorData();
 //        DetalleTicketData dData = new DetalleTicketData(new LugarData());
-      
+
         String sql = "SELECT * FROM ticketcompra";
 
         try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
@@ -191,6 +232,7 @@ public class TicketData {
         }
         return tickets;
     }
+
     public List<TicketCompra> listarTicketsPorFecha(LocalDate fecha) throws SQLException {
         List<TicketCompra> tickets = new ArrayList<>();
         String sql = "SELECT * FROM ticketcompra WHERE FechaCompra = ?";
@@ -206,11 +248,8 @@ public class TicketData {
                     t.setMonto(rs.getDouble("Monto"));
                     t.setMetodoPago(rs.getBoolean("metodoPago"));
 
-                   
                     Comprador comprador = compradorData.buscarComprador(rs.getInt("codComprador"));
                     t.setComprador(comprador);
-
-                    
 
                     tickets.add(t);
                 }
@@ -221,13 +260,14 @@ public class TicketData {
         }
         return tickets;
     }
+
     public List<TicketCompra> listarTicketsPorPelicula(int codPelicula) throws SQLException {
         List<TicketCompra> tickets = new ArrayList<>();
         String sql = "SELECT DISTINCT t.* FROM ticketcompra t "
-                   + "JOIN detalleticket dt ON t.codTicket = dt.codTicket "
-                   + "JOIN lugar l ON dt.codLugar = l.codLugar "
-                   + "JOIN funcion f ON l.codFuncion = f.codFuncion "
-                   + "WHERE f.codPelicula = ?";
+                + "JOIN detalleticket dt ON t.codTicket = dt.codTicket "
+                + "JOIN lugar l ON dt.codLugar = l.codLugar "
+                + "JOIN funcion f ON l.codFuncion = f.codFuncion "
+                + "WHERE f.codPelicula = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, codPelicula);
