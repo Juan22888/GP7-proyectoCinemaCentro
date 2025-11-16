@@ -5,14 +5,18 @@
 package Persistencia;
 
 
+import Modelo.Comprador;
 import Modelo.Conexion;
 import Modelo.DetalleTicket;
 import Modelo.Lugar;
 import Modelo.TicketCompra;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import java.util.List;
 
@@ -26,14 +30,20 @@ public class DetalleTicketData {
       private TicketData ticketData;
     public DetalleTicketData(LugarData lugarData1) {
         this.con = Conexion.buscarConexion();
+        this.lugarData = new LugarData();
     }
       
       
+    public DetalleTicketData(LugarData lugarData){
+        this.con = Conexion.buscarConexion();
+        this.lugarData=lugarData;
+        this.ticketData = null;
+    }
       
     public DetalleTicketData(LugarData lugarData,TicketData ticketData){
-    this.con = Conexion.buscarConexion();
-    this.lugarData=lugarData;
-    this.ticketData = ticketData;
+        this.con = Conexion.buscarConexion();
+        this.lugarData=lugarData;
+        this.ticketData = ticketData;
     }
     private void validarDetalleTicket(DetalleTicket dt) throws IllegalArgumentException {
     if (dt == null) {
@@ -81,6 +91,35 @@ public class DetalleTicketData {
         }
         return false;
     }
+    public List<DetalleTicket> listarDetallesPorTicket(int codTicket) throws SQLException {
+    List<DetalleTicket> detalles = new ArrayList<>();
+    
+    String sql = "SELECT * FROM detalleticket WHERE codTicket = ?"; 
+
+    try (PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setInt(1, codTicket);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            DetalleTicket dt = new DetalleTicket();
+            dt.setCodDetalle(rs.getInt("codDetalle"));
+            
+            
+            Lugar lugar = lugarData.buscarLugar(rs.getInt("codLugar"));
+            
+            dt.setLugar(lugar);
+            dt.setEstado(rs.getBoolean("estado"));
+         
+            
+            detalles.add(dt);
+        }
+        rs.close();
+        
+    } catch (SQLException ex) {
+        throw new SQLException("Error al listar detalles del ticket por CodTicket: " + ex.getMessage());
+    }
+    return detalles;
+}
 
     public DetalleTicket buscarDetalleTicket(int id) throws SQLException {
         String sql = "SELECT * FROM detalleticket WHERE codDetalle = ?";
@@ -209,6 +248,40 @@ public class DetalleTicketData {
             throw new SQLException("Error al generar detalleticket en lote " + ex);
         }
     
+    }
+ 
+    public List<Comprador> listarCompradoresPorFechaAsistencia(LocalDate fechaFuncion) throws SQLException {
+        List<Comprador> compradores = new ArrayList<>();
+        
+        
+        String sql = "SELECT DISTINCT c.* FROM comprador c "
+                   + "JOIN ticketcompra t ON c.codComprador = t.codComprador "
+                   + "JOIN detalleticket dt ON t.codTicket = dt.codTicket "
+                   + "JOIN lugar l ON dt.codLugar = l.codLugar "
+                   + "JOIN funcion f ON l.codFuncion = f.codFuncion "
+                   + "WHERE f.fechaFuncion = ?";
+
+       
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setDate(1, Date.valueOf(fechaFuncion));
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Comprador c = new Comprador();
+                    c.setCodComprador(rs.getInt("codComprador"));
+                    c.setDni(rs.getInt("dni"));
+                    c.setNombre(rs.getString("nombre"));
+                    c.setFechaNacimiento(rs.getDate("fechaNac").toLocalDate());
+                    c.setPassword(rs.getString("password"));
+                    c.setEstado(rs.getBoolean("estado"));
+                    compradores.add(c);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new SQLException("Error al listar compradores por fecha de asistencia: " + ex.getMessage());
+        }
+        return compradores;
     }
 
 }

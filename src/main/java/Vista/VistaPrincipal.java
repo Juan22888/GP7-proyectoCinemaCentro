@@ -67,8 +67,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
         itemFuncion = new javax.swing.JMenuItem();
         itemSala = new javax.swing.JMenuItem();
         itemPelicula = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         menuTaquilla = new javax.swing.JMenu();
-        menuOnline = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -108,6 +108,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
         menuAdministracion.add(CompradorMenuItem);
 
         itemTicket.setText("Ticket");
+        itemTicket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemTicketActionPerformed(evt);
+            }
+        });
         menuAdministracion.add(itemTicket);
 
         itemLugar.setText("Lugar");
@@ -147,6 +152,14 @@ public class VistaPrincipal extends javax.swing.JFrame {
         });
         menuAdministracion.add(itemPelicula);
 
+        jMenuItem1.setText("Informes");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        menuAdministracion.add(jMenuItem1);
+
         jMenuBar1.add(menuAdministracion);
 
         menuTaquilla.setText("Taquilla");
@@ -156,14 +169,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
             }
         });
         jMenuBar1.add(menuTaquilla);
-
-        menuOnline.setText("Online");
-        menuOnline.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menuOnlineMouseClicked(evt);
-            }
-        });
-        jMenuBar1.add(menuOnline);
 
         setJMenuBar(jMenuBar1);
 
@@ -239,11 +244,17 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_menuTaquillaMouseClicked
 
-    private void menuOnlineMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuOnlineMouseClicked
-//        // TODO add your handling code here:
-//        VistaOnline vo = new VistaOnline();
-//        abrirInternal(vo);
-    }//GEN-LAST:event_menuOnlineMouseClicked
+    private void itemTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemTicketActionPerformed
+        // TODO add your handling code here:
+        VistaTicket vt = new VistaTicket(ticketData, CompradorData,detalleTicketData);
+        abrirInternal(vt);
+    }//GEN-LAST:event_itemTicketActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        VistaInformes vi = new VistaInformes(peliculaData, ticketData,detalleTicketData,CompradorData);
+        abrirInternal(vi);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem CompradorMenuItem;
@@ -255,8 +266,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemTicket;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu menuAdministracion;
-    private javax.swing.JMenu menuOnline;
     private javax.swing.JMenu menuTaquilla;
     // End of variables declaration//GEN-END:variables
 }
