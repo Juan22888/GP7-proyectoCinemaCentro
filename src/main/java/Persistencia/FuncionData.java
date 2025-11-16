@@ -6,6 +6,7 @@ package Persistencia;
 
 import Modelo.Conexion;
 import Modelo.Funcion;
+import Modelo.Lugar;
 import Modelo.Pelicula;
 import Modelo.Sala;
 import java.sql.Connection;
@@ -17,7 +18,6 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  *
@@ -95,7 +95,7 @@ public class FuncionData {
         List<Funcion> listaFunciones = this.listarFunciones();
 
         for (Funcion existente : listaFunciones) {
-           
+
             if (existente.isEstado()
                     && existente.getSalaFuncion().getCodSala() == f.getSalaFuncion().getCodSala()
                     && existente.getCodFuncion() != f.getCodFuncion()) {
@@ -119,17 +119,17 @@ public class FuncionData {
                 }
             }
         }
-        
+
         long minutosDuracion = ChronoUnit.MINUTES.between(f.getHoraInicio(), f.getHoraFin());
         if (minutosDuracion < 90) {
-        throw new IllegalArgumentException("La duración de la función debe ser de al menos 90 minutos.");
-    }
+            throw new IllegalArgumentException("La duración de la función debe ser de al menos 90 minutos.");
+        }
         if (minutosDuracion > 180) {
-        throw new IllegalArgumentException("La duración de la función no puede exceder las 3 horas.");
-    }
+            throw new IllegalArgumentException("La duración de la función no puede exceder las 3 horas.");
+        }
         if (f.getIdioma().length() > 20) {
-        throw new IllegalArgumentException("El idioma no puede tener más de 20 caracteres.");
-    }
+            throw new IllegalArgumentException("El idioma no puede tener más de 20 caracteres.");
+        }
 
         return true;
     }
@@ -351,26 +351,25 @@ public class FuncionData {
 
         return funciones;
     }
-        
-    public List<Funcion> ListarFuncionesPorIdioma(String idioma) throws SQLException{
-    
+
+    public List<Funcion> ListarFuncionesPorIdioma(String idioma) throws SQLException {
+
         List<Funcion> funciones = new ArrayList<>();
-        
+
         // SQLseleciona todos las funciones activas por idioma
         String sql = "SELECT * FROM funcion WHERE idioa LIKE AND estado = true";
-        try (PreparedStatement ps = con.prepareStatement(sql)){
-        
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+
             // usamos '%' para permitir busquedas 
             //parciales o asegurar que coincida exactamente sino hay comodines
-            
-            ps.setString(1,"%"+idioma + "%");
+            ps.setString(1, "%" + idioma + "%");
             ResultSet rs = ps.executeQuery();
-            
-            while (rs.next()){
+
+            while (rs.next()) {
                 Funcion f = new Funcion();
                 Pelicula p = new Pelicula();
                 Sala s = new Sala();
-                
+
                 f.setCodFuncion(rs.getInt("codFuncion"));
                 p = peliculaData.buscarPelicula(rs.getInt("codPelicula"));
                 f.setPelicula(p);
@@ -384,57 +383,86 @@ public class FuncionData {
                 f.setSalaFuncion(s);
                 f.setPrecioLugar(rs.getDouble("precioLugar"));
                 f.setEstado(rs.getBoolean("estado"));
-                
+
                 funciones.add(f);
-                }
+            }
             rs.close();
-        
-         } catch (SQLException ex){
-             throw new SQLException("Error al listar funciones por sala:" + ex.getMessage());
-         
-         }
-         
+
+        } catch (SQLException ex) {
+            throw new SQLException("Error al listar funciones por sala:" + ex.getMessage());
+
+        }
+
         return funciones;
-        }
-    public List<Funcion> listarFuncionesPorSala(int codSala) throws SQLException {
-    List<Funcion> funciones = new ArrayList<>();
-    // SQL: Selecciona todas las funciones activas para un código de sala específico
-    String sql = "SELECT * FROM funcion WHERE codSala = ? AND estado = true"; 
-
-    try (PreparedStatement ps = con.prepareStatement(sql)) {
-
-        ps.setInt(1, codSala);
-        ResultSet rs = ps.executeQuery();
-
-        while (rs.next()) {
-            Funcion f = new Funcion();
-            Pelicula p = new Pelicula();
-            Sala s = new Sala();
-            
-            f.setCodFuncion(rs.getInt("codFuncion"));
-            p = peliculaData.buscarPelicula(rs.getInt("codPelicula"));
-            f.setPelicula(p);
-            f.setIdioma(rs.getString("idioma"));
-            f.setEs3d(rs.getBoolean("es3d"));
-            f.setSubtitulada(rs.getBoolean("subtitulada"));
-            f.setHoraInicio(rs.getTime("horaInicio").toLocalTime());
-            f.setHoraFin(rs.getTime("horaFin").toLocalTime());
-            f.setFecha(rs.getDate("fechaFuncion").toLocalDate());
-            s = salaData.buscarSala(rs.getInt("codSala"));
-            f.setSalaFuncion(s);
-            f.setPrecioLugar(rs.getDouble("precioLugar"));
-            f.setEstado(rs.getBoolean("estado"));
-            
-            funciones.add(f);
-        }
-        rs.close();
-        
-    } catch (SQLException ex) {
-        throw new SQLException("Error al listar funciones por sala: " + ex.getMessage());
     }
 
-    return funciones;
-}
-        
+    public List<Funcion> listarFuncionesPorSala(int codSala) throws SQLException {
+        List<Funcion> funciones = new ArrayList<>();
+        // SQL: Selecciona todas las funciones activas para un código de sala específico
+        String sql = "SELECT * FROM funcion WHERE codSala = ? AND estado = true";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, codSala);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Funcion f = new Funcion();
+                Pelicula p = new Pelicula();
+                Sala s = new Sala();
+
+                f.setCodFuncion(rs.getInt("codFuncion"));
+                p = peliculaData.buscarPelicula(rs.getInt("codPelicula"));
+                f.setPelicula(p);
+                f.setIdioma(rs.getString("idioma"));
+                f.setEs3d(rs.getBoolean("es3d"));
+                f.setSubtitulada(rs.getBoolean("subtitulada"));
+                f.setHoraInicio(rs.getTime("horaInicio").toLocalTime());
+                f.setHoraFin(rs.getTime("horaFin").toLocalTime());
+                f.setFecha(rs.getDate("fechaFuncion").toLocalDate());
+                s = salaData.buscarSala(rs.getInt("codSala"));
+                f.setSalaFuncion(s);
+                f.setPrecioLugar(rs.getDouble("precioLugar"));
+                f.setEstado(rs.getBoolean("estado"));
+
+                funciones.add(f);
+            }
+            rs.close();
+
+        } catch (SQLException ex) {
+            throw new SQLException("Error al listar funciones por sala: " + ex.getMessage());
         }
 
+        return funciones;
+    }
+
+    public List<Lugar> consultarLugaresDisponibles(int codPelicula, LocalTime horaInicio, LocalDate fechaFuncion, int codSala) throws SQLException {
+        // 1. Buscar la función por sus atributos
+        String sql = "SELECT codFuncion FROM funcion "
+                + "WHERE codPelicula = ? AND horaInicio = ? AND fechaFuncion = ? AND codSala = ? AND estado = 1";
+
+        int codFuncion = -1;
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, codPelicula);
+            ps.setTime(2, java.sql.Time.valueOf(horaInicio));
+            ps.setDate(3, java.sql.Date.valueOf(fechaFuncion));
+            ps.setInt(4, codSala);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    codFuncion = rs.getInt("codFuncion");
+                }
+            }
+        }
+
+        if (codFuncion != -1) {
+            // 2. Si se encuentra la función, usar LugarData (que tiene funData inicializado)
+            LugarData lugarData = new LugarData();
+            return lugarData.obtenerLugaresDisponiblesPorFuncion(codFuncion);
+        } else {
+            return new ArrayList<>(); // Devuelve una lista vacía si no se encuentra la función
+        }
+    }
+
+}
