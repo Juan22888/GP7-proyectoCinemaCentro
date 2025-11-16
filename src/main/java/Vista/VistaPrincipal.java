@@ -202,7 +202,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
     private void CompradorMenuItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CompradorMenuItemMouseClicked
         // TODO add your handling code here:
-      
+
     }//GEN-LAST:event_CompradorMenuItemMouseClicked
 
     private void menuAdministracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAdministracionActionPerformed
@@ -229,30 +229,28 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itemFuncionActionPerformed
 
     private void menuTaquillaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuTaquillaMouseClicked
-//        VistaTaquilla vt = new VistaTaquilla(peliculaData, funcionData, lugarData, ticketData, detalleTicketData,CompradorData);
-//        abrirInternal(vt);
+
         ModoCompra selectorModo = new ModoCompra(this, true);
-       selectorModo.setVisible(true);
+        selectorModo.setVisible(true);
         String modoElegido = selectorModo.getModoSeleccionado();
-        if (modoElegido != null) { 
-        
-        VistaTaquilla vt = new VistaTaquilla(peliculaData, funcionData, lugarData, ticketData, detalleTicketData,CompradorData, modoElegido);
-       abrirInternal(vt);
-        vt.setVisible(true);
-    
-        vt.toFront();
-    }
+        if (modoElegido != null) {
+            VistaTaquilla vt = new VistaTaquilla(peliculaData, funcionData, lugarData, ticketData, detalleTicketData, CompradorData, modoElegido);
+            abrirInternal(vt);
+            vt.setVisible(true);
+
+            vt.toFront();
+        }
     }//GEN-LAST:event_menuTaquillaMouseClicked
 
     private void itemTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemTicketActionPerformed
         // TODO add your handling code here:
-        VistaTicket vt = new VistaTicket(ticketData, CompradorData,detalleTicketData);
+        VistaTicket vt = new VistaTicket(ticketData, CompradorData, detalleTicketData);
         abrirInternal(vt);
     }//GEN-LAST:event_itemTicketActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        VistaInformes vi = new VistaInformes(peliculaData, ticketData,detalleTicketData,CompradorData);
+        VistaInformes vi = new VistaInformes(peliculaData, ticketData, detalleTicketData, CompradorData);
         abrirInternal(vi);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 

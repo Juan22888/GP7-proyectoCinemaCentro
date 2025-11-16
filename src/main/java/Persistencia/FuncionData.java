@@ -124,8 +124,8 @@ public class FuncionData {
         if (minutosDuracion < 90) {
         throw new IllegalArgumentException("La duración de la función debe ser de al menos 90 minutos.");
     }
-        if (minutosDuracion > 240) {
-        throw new IllegalArgumentException("La duración de la función no puede exceder las 4 horas.");
+        if (minutosDuracion > 180) {
+        throw new IllegalArgumentException("La duración de la función no puede exceder las 3 horas.");
     }
         if (f.getIdioma().length() > 20) {
         throw new IllegalArgumentException("El idioma no puede tener más de 20 caracteres.");
@@ -282,7 +282,7 @@ public class FuncionData {
         }
     }
 
-    public List listarFunciones() throws SQLException {
+    public List<Funcion> listarFunciones() throws SQLException {
         List<Funcion> funciones = new ArrayList<>();
         String sql = "SELECT * FROM funcion";
 
@@ -315,7 +315,7 @@ public class FuncionData {
         return funciones;
     }
 
-    public List listarFuncionesPorPelicula(int codPelicula) throws SQLException {
+    public List<Funcion> listarFuncionesPorPelicula(int codPelicula) throws SQLException {
         List<Funcion> funciones = new ArrayList<>();
         String sql = "SELECT * FROM funcion WHERE codPelicula = ? AND estado = true";
 
@@ -352,7 +352,7 @@ public class FuncionData {
         return funciones;
     }
         
-    public List ListarFuncionesPorIdioma(String idioma) throws SQLException{
+    public List<Funcion> ListarFuncionesPorIdioma(String idioma) throws SQLException{
     
         List<Funcion> funciones = new ArrayList<>();
         
@@ -396,7 +396,7 @@ public class FuncionData {
          
         return funciones;
         }
-    public List listarFuncionesPorSala(int codSala) throws SQLException {
+    public List<Funcion> listarFuncionesPorSala(int codSala) throws SQLException {
     List<Funcion> funciones = new ArrayList<>();
     // SQL: Selecciona todas las funciones activas para un código de sala específico
     String sql = "SELECT * FROM funcion WHERE codSala = ? AND estado = true"; 

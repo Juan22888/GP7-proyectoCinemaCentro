@@ -76,6 +76,8 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         } else if (this.modoVenta.equals("Online")) {
             // Si es Online, mostramos el botón de pago con tarjeta.
             btnCargarTarjeta.setVisible(true);
+            boxMetodoPago.setVisible(false);
+            labelMetodoPago.setVisible(false);
         }
 
     }
@@ -121,7 +123,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         txtPrecio3d = new javax.swing.JTextField();
-        labelPorDefecto = new javax.swing.JLabel();
+        labelMetodoPago = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
         labelComprador = new javax.swing.JLabel();
@@ -162,12 +164,10 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Dni");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 90, -1, -1));
 
         labelPrecios.setFont(new java.awt.Font("Calibri", 3, 24)); // NOI18N
-        labelPrecios.setForeground(new java.awt.Color(255, 255, 255));
         labelPrecios.setText("Precios");
         getContentPane().add(labelPrecios, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 630, -1, -1));
 
@@ -192,19 +192,17 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         txtPrecio3d.setEnabled(false);
         getContentPane().add(txtPrecio3d, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 700, 100, -1));
 
-        labelPorDefecto.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
-        labelPorDefecto.setForeground(new java.awt.Color(255, 255, 255));
-        labelPorDefecto.setText("Metodo de pago");
-        getContentPane().add(labelPorDefecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 630, -1, -1));
+        labelMetodoPago.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
+        labelMetodoPago.setText("Metodo de pago");
+        getContentPane().add(labelMetodoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 630, -1, -1));
         getContentPane().add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 600, 1080, 10));
 
         jLabel4.setFont(new java.awt.Font("Calibri", 3, 36)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Venta de Entrada");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, -1, -1));
 
+        labelComprador.setBackground(new java.awt.Color(0, 0, 0));
         labelComprador.setFont(new java.awt.Font("Calibri", 3, 24)); // NOI18N
-        labelComprador.setForeground(new java.awt.Color(255, 255, 255));
         labelComprador.setText("Comprador");
         getContentPane().add(labelComprador, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, -1, -1));
 
@@ -217,7 +215,6 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         getContentPane().add(butCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 670, 140, 50));
 
         labellLugaresDisponibles.setFont(new java.awt.Font("Calibri", 3, 24)); // NOI18N
-        labellLugaresDisponibles.setForeground(new java.awt.Color(255, 255, 255));
         labellLugaresDisponibles.setText("Total");
         getContentPane().add(labellLugaresDisponibles, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 690, -1, -1));
 
@@ -226,23 +223,19 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         getContentPane().add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 1070, 20));
 
         labellLugaresDisponibles1.setFont(new java.awt.Font("Calibri", 3, 24)); // NOI18N
-        labellLugaresDisponibles1.setForeground(new java.awt.Color(255, 255, 255));
         labellLugaresDisponibles1.setText("Lugares Disponibles");
         getContentPane().add(labellLugaresDisponibles1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 490, -1, -1));
         getContentPane().add(txtDni, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 90, 140, -1));
 
         labelCombo.setFont(new java.awt.Font("Calibri", 3, 24)); // NOI18N
-        labelCombo.setForeground(new java.awt.Color(255, 255, 255));
         labelCombo.setText("3D");
         getContentPane().add(labelCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 700, -1, -1));
 
         labelCombo1.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
-        labelCombo1.setForeground(new java.awt.Color(255, 255, 255));
         labelCombo1.setText("Fecha");
         getContentPane().add(labelCombo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 160, -1, -1));
 
         labelCombo2.setFont(new java.awt.Font("Calibri", 3, 24)); // NOI18N
-        labelCombo2.setForeground(new java.awt.Color(255, 255, 255));
         labelCombo2.setText("2D");
         getContentPane().add(labelCombo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 660, -1, -1));
 
@@ -296,17 +289,14 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 240, 840, 220));
 
         labelCombo3.setFont(new java.awt.Font("Calibri", 3, 24)); // NOI18N
-        labelCombo3.setForeground(new java.awt.Color(255, 255, 255));
         labelCombo3.setText("Combo 2x1");
         getContentPane().add(labelCombo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 500, -1, -1));
 
         labelCombo4.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
-        labelCombo4.setForeground(new java.awt.Color(255, 255, 255));
         labelCombo4.setText("Peliculas");
         getContentPane().add(labelCombo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, -1, -1));
 
         labelCombo5.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
-        labelCombo5.setForeground(new java.awt.Color(255, 255, 255));
         labelCombo5.setText("Horario");
         getContentPane().add(labelCombo5, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, -1, -1));
 
@@ -325,7 +315,6 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         getContentPane().add(butBuscarHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 180, 40, -1));
 
         labelPorDefecto1.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
-        labelPorDefecto1.setForeground(new java.awt.Color(255, 255, 255));
         labelPorDefecto1.setText("Por Defecto (No)");
         getContentPane().add(labelPorDefecto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 540, -1, -1));
         getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -30, -1, 790));
@@ -398,14 +387,23 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
                 .toLocalTime();
 
         List<Funcion> listaFunciones = null;
+        List<Funcion> listaFuncionesEnCartelera = new ArrayList<>();
         try {
             listaFunciones = funcionData.listarFunciones();
+
+            for (int i = 0; i < listaFunciones.size(); i++) {
+                if (listaFunciones.get(i).getPelicula().isEnCartelera() == true) {
+                    listaFuncionesEnCartelera.add(listaFunciones.get(i));
+                }
+
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(VistaTaquilla.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         List<Funcion> filtradas = new ArrayList<>();
-        for (Funcion f : listaFunciones) {
+        for (Funcion f : listaFuncionesEnCartelera) {
             if (f.getHoraInicio().equals(horaBuscada)) {
                 filtradas.add(f);
             }
@@ -418,7 +416,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         Date horaSeleccionada = dateFecha.getDate();
 
         if (horaSeleccionada == null) {
-            JOptionPane.showMessageDialog(this, "Debe seleccionar una hora para buscar.");
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fecha para buscar.");
             return;
         }
 
@@ -427,14 +425,22 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
                 .toLocalDate();
 
         List<Funcion> listaFunciones = null;
+        List<Funcion> listaFuncionesEnCartelera = new ArrayList<>();
         try {
             listaFunciones = funcionData.listarFunciones();
+
+            for (int i = 0; i < listaFunciones.size(); i++) {
+                if (listaFunciones.get(i).getPelicula().isEnCartelera() == true) {
+                    listaFuncionesEnCartelera.add(listaFunciones.get(i));
+                }
+
+            }
         } catch (SQLException ex) {
             Logger.getLogger(VistaTaquilla.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         List<Funcion> filtradas = new ArrayList<>();
-        for (Funcion f : listaFunciones) {
+        for (Funcion f : listaFuncionesEnCartelera) {
             if (f.getFecha().equals(horaBuscada)) {
                 filtradas.add(f);
             }
@@ -522,7 +528,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
             metodoPago = true;
         }
         double total = Double.parseDouble(txtTotal.getText());
-        
+
         try {
             total = Double.parseDouble(txtTotal.getText());
         } catch (NumberFormatException ex) {
@@ -567,22 +573,22 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
             DialogDetalleTicket dialog = new DialogDetalleTicket(
                     parentFrame,
                     true,
-                    ticket,           // El ticket que acabamos de crear
-                    this.comprador,   // El comprador de la vista
-                    this.funcion,   // La función seleccionada
+                    ticket, // El ticket que acabamos de crear
+                    this.comprador, // El comprador de la vista
+                    this.funcion, // La función seleccionada
                     this.lugaresReservados // Los asientos seleccionados
             );
-            
+
             dialog.setVisible(true); // Mostrar el diálogo
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, 
-                "Ticket guardado, pero no se pudo mostrar el detalle: " + e.getMessage(), 
-                "Error al ver Detalle", 
-                JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Ticket guardado, pero no se pudo mostrar el detalle: " + e.getMessage(),
+                    "Error al ver Detalle",
+                    JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
-        
+
         // 6. Limpiar la vista para la siguiente venta
         butCancelarActionPerformed(null);
 
@@ -620,13 +626,12 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
                     JOptionPane.INFORMATION_MESSAGE
             );
 
-            boolean txtEstado = false;
-            if (butComboSiNo.isSelected()) {
-                txtEstado = true;
-            }
+            int entradasC = lugaresReservados.size();
 
-            int cantidadEntradas = lugaresReservados.size();
-            int entradasC = (cantidadEntradas / 2) + (cantidadEntradas % 2);
+            if (butComboSiNo.isSelected()) {
+                int cantidadEntradas = lugaresReservados.size();
+                entradasC = (cantidadEntradas / 2) + (cantidadEntradas % 2);
+            }
 
             String precioTotalStr = String.valueOf(entradasC * funcion.getPrecioLugar());
             txtTotal.setText(precioTotalStr);
@@ -738,7 +743,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
     private javax.swing.JLabel labelCombo4;
     private javax.swing.JLabel labelCombo5;
     private javax.swing.JLabel labelComprador;
-    private javax.swing.JLabel labelPorDefecto;
+    private javax.swing.JLabel labelMetodoPago;
     private javax.swing.JLabel labelPorDefecto1;
     private javax.swing.JLabel labelPrecios;
     private javax.swing.JLabel labellLugaresDisponibles;
