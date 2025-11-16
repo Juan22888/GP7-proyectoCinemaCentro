@@ -221,8 +221,8 @@ public class DetalleTicketData {
 
         } catch (SQLException ex) {
             throw new SQLException("No se pudo eliminar el detalle del ticket " + ex);
-        }
-    }
+        } 
+   }
     
     public void crearDetallesTicket(List<DetalleTicket> listaDetalleTicket) throws SQLException{
         if(listaDetalleTicket==null){

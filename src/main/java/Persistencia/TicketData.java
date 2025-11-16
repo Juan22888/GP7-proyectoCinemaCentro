@@ -154,13 +154,59 @@ public class TicketData {
 
     public boolean eliminarTicket(int id) throws SQLException {
 
-        String sql = "DELETE FROM ticketcompra WHERE codTicket = ?";
+        // 1. Define SQL para ambas tablas
+        String sqlDetalles = "DELETE FROM detalleticket WHERE codTicket = ?";
+        String sqlTicket = "DELETE FROM ticketcompra WHERE codTicket = ?";
+        
+        PreparedStatement psDetalles = null;
+        PreparedStatement psTicket = null;
+        
+        try {
+            // 2. Iniciar una transacción
+            con.setAutoCommit(false);
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            return ps.executeUpdate() > 0;
+            // 3. Eliminar primero los "hijos" (detalleticket)
+            psDetalles = con.prepareStatement(sqlDetalles);
+            psDetalles.setInt(1, id);
+            psDetalles.executeUpdate(); // Elimina los detalles
+
+            // 4. Eliminar el "padre" (ticketcompra)
+            psTicket = con.prepareStatement(sqlTicket);
+            psTicket.setInt(1, id);
+            int filasAfectadas = psTicket.executeUpdate(); // Elimina el ticket principal
+
+            // 5. Confirmar la transacción
+            con.commit();
+            
+            return filasAfectadas > 0; // Devuelve true si el ticket principal se borró
+
         } catch (SQLException ex) {
-            throw new SQLException("No se pudo eliminar el ticket " + ex);
+            // 6. Revertir cambios si algo salió mal
+            if (con != null) {
+                try {
+                    con.rollback();
+                    JOptionPane.showMessageDialog(null, "Error al eliminar ticket. Transacción revertida: " + ex.getMessage());
+                } catch (SQLException e) {
+                     JOptionPane.showMessageDialog(null, "Error grave durante el rollback: " + e.getMessage());
+                }
+            }
+            throw new SQLException("No se pudo eliminar el ticket (transacción revertida): " + ex.getMessage());
+        
+        } finally {
+            // 7. Limpiar recursos y restaurar auto-commit
+            if (psDetalles != null) {
+                psDetalles.close();
+            }
+            if (psTicket != null) {
+                psTicket.close();
+            }
+            if (con != null) {
+                try {
+                    con.setAutoCommit(true);
+                } catch (SQLException e) {
+                     System.err.println("Error al restaurar auto-commit: " + e.getMessage());
+                }
+            }
         }
     }
 
