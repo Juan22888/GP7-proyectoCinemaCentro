@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import java.util.List;
 
@@ -29,11 +30,16 @@ public class DetalleTicketData {
     }
       
       
+    public DetalleTicketData(LugarData lugarData){
+        this.con = Conexion.buscarConexion();
+        this.lugarData=lugarData;
+        this.ticketData = null;
+    }
       
     public DetalleTicketData(LugarData lugarData,TicketData ticketData){
-    this.con = Conexion.buscarConexion();
-    this.lugarData=lugarData;
-    this.ticketData = ticketData;
+        this.con = Conexion.buscarConexion();
+        this.lugarData=lugarData;
+        this.ticketData = ticketData;
     }
     private void validarDetalleTicket(DetalleTicket dt) throws IllegalArgumentException {
     if (dt == null) {
@@ -81,6 +87,35 @@ public class DetalleTicketData {
         }
         return false;
     }
+    public List<DetalleTicket> listarDetallesPorTicket(int codTicket) throws SQLException {
+    List<DetalleTicket> detalles = new ArrayList<>();
+    
+    String sql = "SELECT * FROM detalleticket WHERE codTicket = ?"; 
+
+    try (PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setInt(1, codTicket);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            DetalleTicket dt = new DetalleTicket();
+            dt.setCodDetalle(rs.getInt("codDetalle"));
+            
+            
+            Lugar lugar = lugarData.buscarLugar(rs.getInt("codLugar"));
+            
+            dt.setLugar(lugar);
+            dt.setEstado(rs.getBoolean("estado"));
+         
+            
+            detalles.add(dt);
+        }
+        rs.close();
+        
+    } catch (SQLException ex) {
+        throw new SQLException("Error al listar detalles del ticket por CodTicket: " + ex.getMessage());
+    }
+    return detalles;
+}
 
     public DetalleTicket buscarDetalleTicket(int id) throws SQLException {
         String sql = "SELECT * FROM detalleticket WHERE codDetalle = ?";

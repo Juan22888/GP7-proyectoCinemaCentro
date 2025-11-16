@@ -28,11 +28,12 @@ public class LugarData {
 
     public LugarData() {
         this.con = Conexion.buscarConexion();
+        this.funData = new FuncionData();
 
     }
 
-    // Setter para inyectar la dependencia
-    public void setFuncionData(FuncionData funcionData) {
+    
+   public void setFuncionData(FuncionData funcionData) {
         this.funData = funcionData;
     }
     // ...
