@@ -51,8 +51,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
     private String fechaExpTarjeta;
     private String codVerificaTarjeta;
     private String modoVenta;
-   
-   
+    private List<Lugar> lugaresReservados;
     
 
     public VistaTaquilla(PeliculaData peliculaData, FuncionData funcionData, LugarData lugarData, TicketData ticketData, DetalleTicketData detalleTicketData, CompradorData compradorData, String modoVenta) {
@@ -63,6 +62,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         this.detalleTicketData = detalleTicketData;
         this.compradorData = compradorData;
         this.modoVenta = modoVenta;
+        this.lugaresReservados = null;
         
         initComponents();
         cargarPeliculas();
@@ -139,19 +139,19 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         butGenerarTicket = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaFunciones = new javax.swing.JTable();
-        boxPeliculas = new javax.swing.JComboBox<>();
         labelCombo3 = new javax.swing.JLabel();
-        dateHorario = new com.toedter.calendar.JDateChooser();
         labelCombo4 = new javax.swing.JLabel();
         labelCombo5 = new javax.swing.JLabel();
-        dateFecha = new com.toedter.calendar.JDateChooser();
         butBuscarFecha = new javax.swing.JButton();
         butBuscarHorario = new javax.swing.JButton();
         labelPorDefecto1 = new javax.swing.JLabel();
-        boxMetodoPago = new javax.swing.JComboBox<>();
         fondo = new javax.swing.JLabel();
         Escritorio = new javax.swing.JDesktopPane();
         btnCargarTarjeta = new javax.swing.JButton();
+        dateFecha = new com.toedter.calendar.JDateChooser();
+        dateHorario = new com.toedter.calendar.JDateChooser();
+        boxPeliculas = new javax.swing.JComboBox<>();
+        boxMetodoPago = new javax.swing.JComboBox<>();
 
         button1.setLabel("button1");
 
@@ -294,29 +294,10 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 240, 840, 220));
 
-        boxPeliculas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boxPeliculasActionPerformed(evt);
-            }
-        });
-        getContentPane().add(boxPeliculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, 190, -1));
-
         labelCombo3.setFont(new java.awt.Font("Calibri", 3, 24)); // NOI18N
         labelCombo3.setForeground(new java.awt.Color(255, 255, 255));
         labelCombo3.setText("Combo 2x1");
         getContentPane().add(labelCombo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 500, -1, -1));
-
-        dateHorario.setDateFormatString("HH:mm");
-        dateHorario.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                dateHorarioAncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-        });
-        getContentPane().add(dateHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 190, -1, -1));
 
         labelCombo4.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
         labelCombo4.setForeground(new java.awt.Color(255, 255, 255));
@@ -327,17 +308,6 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         labelCombo5.setForeground(new java.awt.Color(255, 255, 255));
         labelCombo5.setText("Horario");
         getContentPane().add(labelCombo5, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, -1, -1));
-
-        dateFecha.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                dateFechaAncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-        });
-        getContentPane().add(dateFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 190, 120, -1));
 
         butBuscarFecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -367,6 +337,47 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         });
         Escritorio.add(btnCargarTarjeta);
         btnCargarTarjeta.setBounds(890, 100, 130, 23);
+
+        dateFecha.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                dateFechaAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        Escritorio.add(dateFecha);
+        dateFecha.setBounds(770, 210, 120, 22);
+
+        dateHorario.setDateFormatString("HH:mm");
+        dateHorario.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                dateHorarioAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        Escritorio.add(dateHorario);
+        dateHorario.setBounds(500, 210, 80, 22);
+
+        boxPeliculas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boxPeliculasActionPerformed(evt);
+            }
+        });
+        Escritorio.add(boxPeliculas);
+        boxPeliculas.setBounds(120, 210, 190, 22);
+
+        boxMetodoPago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boxMetodoPagoActionPerformed(evt);
+            }
+        });
+        Escritorio.add(boxMetodoPago);
+        boxMetodoPago.setBounds(150, 650, 140, 22);
 
         getContentPane().add(Escritorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, -20, 1080, 760));
 
@@ -542,7 +553,6 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         try {
             detalleTicketData.crearDetallesTicket(detallesTicket);
         } catch (SQLException ex) {
-            ex.printStackTrace(); // <<< MUESTRA EL ERROR REAL EN CONSOLA
             JOptionPane.showMessageDialog(this,
                     "Error al crear Detalles Ticket en la BD.\n" + ex.getMessage(),
                     "Error de Datos",
@@ -653,6 +663,14 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         
     }
     }//GEN-LAST:event_btnCargarTarjetaActionPerformed
+
+    private void dateHorarioAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_dateHorarioAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dateHorarioAncestorAdded
+
+    private void boxMetodoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxMetodoPagoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_boxMetodoPagoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

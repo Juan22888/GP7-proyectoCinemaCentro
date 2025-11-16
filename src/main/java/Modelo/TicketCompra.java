@@ -27,6 +27,14 @@ public class TicketCompra {
         this.metodoPago = metodoPago;
         this.detalleTicket = detalleTicket;
     }
+    
+     public TicketCompra(int codTicket, LocalDate FechaCompra, double monto, Comprador comprador,boolean metodoPago) {
+        this.codTicket = codTicket;
+        this.FechaCompra = FechaCompra;
+        this.monto = monto;
+        this.comprador = comprador;
+        this.metodoPago = metodoPago;
+    }
 
     public TicketCompra() {
     }
