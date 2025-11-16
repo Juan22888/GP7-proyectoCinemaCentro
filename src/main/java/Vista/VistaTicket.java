@@ -59,16 +59,17 @@ public class VistaTicket extends javax.swing.JInternalFrame {
         try {
 
             List<Comprador> compradores = compradorData.listarCompradores();
-
             CboxComprador.removeAllItems();
             listaCompradores.clear();
 
             for (Comprador c : compradores) {
-
-                String textoComprador = c.getNombre() + " " + " (DNI: " + c.getDni() + ")";
+                if(c.isEstado() == true){
+                  String textoComprador = c.getNombre() + " " + " (DNI: " + c.getDni() + ")";
 
                 CboxComprador.addItem(textoComprador);
                 listaCompradores.add(c);
+                }
+               
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al cargar compradores: " + e.getMessage());

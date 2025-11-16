@@ -219,6 +219,11 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         getContentPane().add(labellLugaresDisponibles, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 690, -1, -1));
 
         butComboSiNo.setText("Si / No");
+        butComboSiNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butComboSiNoActionPerformed(evt);
+            }
+        });
         getContentPane().add(butComboSiNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 530, 130, 50));
         getContentPane().add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 1070, 20));
 
@@ -613,10 +618,10 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         lugaresReservados = dialog.getLugaresReservados();
         if (!lugaresReservados.isEmpty()) {
             String mensaje = "Asientos reservados:\n\n";
-            double precioTotal = 0;
+
             for (Lugar l : lugaresReservados) {
                 mensaje += "Fila: " + l.getFila() + " - Número: " + l.getNumero() + "\n";
-                precioTotal += l.getFuncion().getPrecioLugar();
+
             }
 
             JOptionPane.showMessageDialog(
@@ -625,17 +630,14 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
                     "Atención",
                     JOptionPane.INFORMATION_MESSAGE
             );
-
-            int entradasC = lugaresReservados.size();
-
-            if (butComboSiNo.isSelected()) {
-                int cantidadEntradas = lugaresReservados.size();
-                entradasC = (cantidadEntradas / 2) + (cantidadEntradas % 2);
-            }
-
-            String precioTotalStr = String.valueOf(entradasC * funcion.getPrecioLugar());
-            txtTotal.setText(precioTotalStr);
         }
+        
+        int entradasC = lugaresReservados.size();
+        
+        String precioTotalStr = String.valueOf(entradasC * funcion.getPrecioLugar());
+        txtTotal.setText(precioTotalStr);
+        
+        
     }//GEN-LAST:event_butLugaresDisponiblesActionPerformed
 
     private void butCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelarActionPerformed
@@ -709,6 +711,20 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
     private void boxMetodoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxMetodoPagoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_boxMetodoPagoActionPerformed
+
+    private void butComboSiNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butComboSiNoActionPerformed
+
+        int entradasC = lugaresReservados.size();
+
+        if (this.isSelected()) {
+            int cantidadEntradas = lugaresReservados.size();
+            entradasC = (cantidadEntradas / 2) + (cantidadEntradas % 2);
+        }
+
+        String precioTotalStr = String.valueOf(entradasC * funcion.getPrecioLugar());
+        txtTotal.setText(precioTotalStr);
+
+    }//GEN-LAST:event_butComboSiNoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
