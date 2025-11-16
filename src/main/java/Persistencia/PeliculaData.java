@@ -247,7 +247,7 @@ public class PeliculaData {
         return peliculas;
     }
 
-    public List listarPeliculasEnCartelera() throws SQLException {
+    public List<Pelicula> listarPeliculasEnCartelera() throws SQLException {
         List<Pelicula> peliculas = new ArrayList<>();
         String sql = "SELECT * FROM pelicula WHERE enCartelera=1";
 

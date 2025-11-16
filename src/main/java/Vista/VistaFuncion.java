@@ -4,18 +4,69 @@
  */
 package Vista;
 
+import Modelo.Funcion;
+import Modelo.Pelicula;
+import Modelo.Sala;
+import Persistencia.FuncionData;
+import Persistencia.PeliculaData;
+import Persistencia.SalaData;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Emiliano
  */
-public class VistaFucion extends javax.swing.JInternalFrame {
-
+public class VistaFuncion extends javax.swing.JInternalFrame {
+    private FuncionData fData= new FuncionData();
+    private PeliculaData pData = new PeliculaData();
+    private SalaData sData = new SalaData();
     /**
      * Creates new form VistaFucion
      */
-    public VistaFucion() {
+    public VistaFuncion(FuncionData funcionData) {
         initComponents();
+        fData = new FuncionData();
+        pData = new PeliculaData();
+        sData = new SalaData();
+
+        cargarPeliculas();
+        cargarSalas();
+        cargarIdiomas();
     }
+       public void cargarPeliculas (){
+        CBoxPeliculas.removeAllItems();
+        try{
+            for (Pelicula p : pData.listarPeliculasEnCartelera()){
+                CBoxPeliculas.addItem(p.getCodPelicula()+ " - " + p.getTitulo());
+            }
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Error al cargar la pelicula: " + e.getMessage());
+        }
+    }
+     public void cargarSalas(){
+        CBoxSalas.removeAllItems();
+        try{
+            for(Sala s : sData.listarSalas())
+            {
+                CBoxSalas.addItem(s.getNroSala()+ "");
+            }
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Error al cargar las salas: " + e.getMessage());
+        }
+        
+}
+        public void cargarIdiomas(){
+            CBoxIdioma.removeAllItems();
+            CBoxIdioma.addItem("Español");
+            CBoxIdioma.addItem("Ingles");
+            CBoxIdioma.addItem("Frances");
+            CBoxIdioma.addItem("Portugues");
+            
+        }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -45,6 +96,8 @@ public class VistaFucion extends javax.swing.JInternalFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
+
+        setTitle("Gestion de funciones");
 
         jDesktopPane1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -108,25 +161,40 @@ public class VistaFucion extends javax.swing.JInternalFrame {
 
         ButMostrar.setBackground(new java.awt.Color(255, 255, 255));
         ButMostrar.setForeground(new java.awt.Color(0, 0, 0));
-        ButMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/mostrar-contrasena.png"))); // NOI18N
+        ButMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/Iconos/mostrar-contrasena.png"))); // NOI18N
         ButMostrar.setText("Mostrar Funciones");
+        ButMostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButMostrarActionPerformed(evt);
+            }
+        });
         jDesktopPane1.add(ButMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, 160, -1));
 
         ButInsertar.setBackground(new java.awt.Color(255, 255, 255));
         ButInsertar.setForeground(new java.awt.Color(0, 0, 0));
-        ButInsertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar-tarea24.png"))); // NOI18N
+        ButInsertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/Iconos/agregar-tarea24.png"))); // NOI18N
         ButInsertar.setText("Insertar");
+        ButInsertar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButInsertarActionPerformed(evt);
+            }
+        });
         jDesktopPane1.add(ButInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, -1, -1));
 
         ButActualizar.setBackground(new java.awt.Color(255, 255, 255));
         ButActualizar.setForeground(new java.awt.Color(0, 0, 0));
-        ButActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/actualizar32.png"))); // NOI18N
+        ButActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/Iconos/actualizar32.png"))); // NOI18N
         ButActualizar.setText("Actualizar");
+        ButActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButActualizarActionPerformed(evt);
+            }
+        });
         jDesktopPane1.add(ButActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 460, 120, 30));
 
         ButBorrar.setBackground(new java.awt.Color(255, 255, 255));
         ButBorrar.setForeground(new java.awt.Color(0, 0, 0));
-        ButBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/borrar.png"))); // NOI18N
+        ButBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/Iconos/borrar.png"))); // NOI18N
         ButBorrar.setText("Borrar");
         ButBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,11 +207,16 @@ public class VistaFucion extends javax.swing.JInternalFrame {
         ButAltaBaja.setForeground(new java.awt.Color(0, 0, 0));
         ButAltaBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/001-dos-caminos.png"))); // NOI18N
         ButAltaBaja.setText("Alta/Baja");
+        ButAltaBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButAltaBajaActionPerformed(evt);
+            }
+        });
         jDesktopPane1.add(ButAltaBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 460, 110, 30));
 
         ButCerrar.setBackground(new java.awt.Color(255, 255, 255));
         ButCerrar.setForeground(new java.awt.Color(0, 0, 0));
-        ButCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cerrado.png"))); // NOI18N
+        ButCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/Iconos/cerrado.png"))); // NOI18N
         ButCerrar.setText("Cerrar");
         ButCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -171,11 +244,121 @@ public class VistaFucion extends javax.swing.JInternalFrame {
 
     private void ButBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButBorrarActionPerformed
         // TODO add your handling code here:
+                try{
+            int fila = TablaFunciones.getSelectedRow();
+            if(fila == -1){
+                JOptionPane.showMessageDialog(this, "Seleccione una funcion");
+                return;
+            }
+             int id = fData.obtenerIdFuncionDesdeTabla(fila, TablaFunciones);
+
+        if (JOptionPane.showConfirmDialog(this,
+                "Eliminar funcion?",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION) == 0) {
+
+            fData.eliminarFuncion(id);
+            JOptionPane.showMessageDialog(this, "Funcion eliminada");
+            ButMostrarActionPerformed(evt);
+        }
+            
+        }catch (Exception ex){
+            JOptionPane.showMessageDialog(this, "Error al borrar: "+ ex.getMessage());
+        }
     }//GEN-LAST:event_ButBorrarActionPerformed
 
     private void ButCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButCerrarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ButCerrarActionPerformed
+
+    private void ButAltaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButAltaBajaActionPerformed
+        // TODO add your handling code here:
+        try{
+                    int fila = TablaFunciones.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione una funcion");
+            return;
+        }
+
+        int id = fData.obtenerIdFuncionDesdeTabla(fila, TablaFunciones);
+
+        Funcion f = fData.buscarFuncion(id);
+
+        boolean nuevoEstado = f.isEstado();
+
+        fData.actualizarEstadoFuncion(id, nuevoEstado);
+
+        JOptionPane.showMessageDialog(this,
+                nuevoEstado ? "La funcion fue dada de Alta" : "La funcion fue dada de Baja");
+
+        ButMostrarActionPerformed(evt);
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Error en Alta/Baja: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_ButAltaBajaActionPerformed
+
+    private void ButInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButInsertarActionPerformed
+        // TODO add your handling code here:
+        NuevaFuncion nFuncion = new NuevaFuncion();
+        this.getDesktopPane().add(nFuncion);
+        nFuncion.toFront();
+        nFuncion.setVisible(true);
+    }//GEN-LAST:event_ButInsertarActionPerformed
+
+    private void ButMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButMostrarActionPerformed
+        // TODO add your handling code here:
+            try{
+            DefaultTableModel modelo = (DefaultTableModel) TablaFunciones.getModel();
+            modelo.setRowCount(0);
+            for ( Funcion f : fData.listarFunciones()){
+                modelo.addRow(new Object[]{
+                    
+                f.getPelicula().getTitulo(),
+                f.getSalaFuncion().getNroSala(),
+                f.getIdioma(),
+                f.isSubtitulada(),
+                f.isEs3d(),
+                f.getFecha(),
+                f.getHoraInicio(),
+                f.getHoraFin(),
+                f.getPrecioLugar(),
+                f.isEstado()   
+                });
+            }
+        }catch (Exception ex){
+            JOptionPane.showMessageDialog(this, "Error al mostrar: " + ex.getMessage());
+        }    
+    }//GEN-LAST:event_ButMostrarActionPerformed
+
+    private void ButActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButActualizarActionPerformed
+        // TODO add your handling code here:
+                 try {
+        int fila = TablaFunciones.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione una funcion para modificar");
+            return;
+        }
+
+        int id = fData.obtenerIdFuncionDesdeTabla(fila, TablaFunciones);
+        Funcion f = fData.buscarFuncion(id);
+
+        // valores modificados directamente en la tabla
+        f.setIdioma(TablaFunciones.getValueAt(fila, 2).toString());
+        f.setSubtitulada(Boolean.parseBoolean(TablaFunciones.getValueAt(fila, 3).toString()));
+        f.setEs3d(Boolean.parseBoolean(TablaFunciones.getValueAt(fila, 4).toString()));
+        f.setFecha(LocalDate.parse(TablaFunciones.getValueAt(fila, 5).toString()));
+        f.setHoraInicio(LocalTime.parse(TablaFunciones.getValueAt(fila, 6).toString()));
+        f.setHoraFin(LocalTime.parse(TablaFunciones.getValueAt(fila, 7).toString()));
+        f.setPrecioLugar(Double.parseDouble(TablaFunciones.getValueAt(fila, 8).toString()));
+
+        fData.actualizarFuncion(f);
+
+        JOptionPane.showMessageDialog(this, "funcion actualizada");
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al actualizar: " + ex.getMessage());
+    }
+    }//GEN-LAST:event_ButActualizarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
