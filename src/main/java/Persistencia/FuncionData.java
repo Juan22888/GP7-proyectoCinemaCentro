@@ -245,6 +245,7 @@ public class FuncionData {
             ps.setInt(8, f.getSalaFuncion().getCodSala());
             ps.setDouble(9, f.getPrecioLugar());
             ps.setBoolean(10, f.isEstado());
+            ps.setInt(11, f.getCodFuncion());
 
             int filasAfectadas = ps.executeUpdate();
             ps.close();
