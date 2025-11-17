@@ -62,7 +62,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
                 c.getNombre(),
                 c.getFechaNacimiento(),
                 c.getPassword(),
-                c.isEstado()
+                c.isEstado() ? "Activo" : "Inactivo"
             });
         }
     }
@@ -93,7 +93,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         btnEliminar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        butAltaBaja = new javax.swing.JToggleButton();
+        butAltaBaja = new javax.swing.JButton();
 
         setClosable(true);
 
@@ -178,7 +178,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
                 butAltaBajaActionPerformed(evt);
             }
         });
-        CompradorDesktop.add(butAltaBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 250, 100, 60));
+        CompradorDesktop.add(butAltaBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 250, -1, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -339,7 +339,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void butAltaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butAltaBajaActionPerformed
-         if (TablaCompradores.isEditing()) {
+            if (TablaCompradores.isEditing()) {
             TablaCompradores.getCellEditor().stopCellEditing();
         }
 
@@ -352,32 +352,22 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         
         int dni = Integer.parseInt(TablaCompradores.getValueAt(filaSeleccionada, 0).toString());
         
-        if(butAltaBaja.isSelected()){
+
              try {
                  if(CompradorData.buscarCompradorPorDni(dni).isEstado()==true){
-                 JOptionPane.showMessageDialog(this, "El comprador ya está dado de alta.", "Error", JOptionPane.WARNING_MESSAGE);
-                 return;
-                 }
-                 CompradorData.altaLogicaComprador(dni);
-                   JOptionPane.showMessageDialog(this, "¡El comprador se dio de alta correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                cargarTablaCompleta();
-             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, "No se pudo dar de alta al comprador =?", "Error de BD", JOptionPane.ERROR_MESSAGE);
-             }
-        }else{
-             try {
-                  if(CompradorData.buscarCompradorPorDni(dni).isEstado()==false){
-                 JOptionPane.showMessageDialog(this, "El comprador ya está dado de baja.", "Error", JOptionPane.WARNING_MESSAGE);
-                 return;
-                 }
-                  
                  CompradorData.bajaLogicaComprador(dni);
-                   JOptionPane.showMessageDialog(this, "¡El comprador se dio de baja correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                 JOptionPane.showMessageDialog(this, "¡El comprador se dio de baja correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                 }else{
+                 CompradorData.altaLogicaComprador(dni);
+                 JOptionPane.showMessageDialog(this, "¡El comprador se dio de alta correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                 }
+          
                 cargarTablaCompleta();
              } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, "No se pudo dar de baja al comprador =?", "Error de BD", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "No se pudo dar de alta o baja al comprador =?", "Error de BD", JOptionPane.ERROR_MESSAGE);
              }
-        }
+        
+        
     }//GEN-LAST:event_butAltaBajaActionPerformed
 
 
@@ -388,7 +378,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JToggleButton butAltaBaja;
+    private javax.swing.JButton butAltaBaja;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
