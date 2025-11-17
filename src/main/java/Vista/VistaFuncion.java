@@ -12,6 +12,7 @@ import Persistencia.PeliculaData;
 import Persistencia.SalaData;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import javax.swing.ImageIcon;
@@ -23,9 +24,11 @@ import javax.swing.table.DefaultTableModel;
  * @author Emiliano
  */
 public class VistaFuncion extends javax.swing.JInternalFrame {
-    private FuncionData fData= new FuncionData();
+
+    private FuncionData fData = new FuncionData();
     private PeliculaData pData = new PeliculaData();
     private SalaData sData = new SalaData();
+
     /**
      * Creates new form VistaFucion
      */
@@ -39,37 +42,63 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         cargarSalas();
         cargarIdiomas();
     }
-       public void cargarPeliculas (){
+
+    public void cargarPeliculas() {
         CBoxPeliculas.removeAllItems();
-        try{
-            for (Pelicula p : pData.listarPeliculasEnCartelera()){
-                CBoxPeliculas.addItem(p.getCodPelicula()+ " - " + p.getTitulo());
+        try {
+            for (Pelicula p : pData.listarPeliculasEnCartelera()) {
+                CBoxPeliculas.addItem(p.getCodPelicula() + " - " + p.getTitulo());
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al cargar la pelicula: " + e.getMessage());
         }
     }
-     public void cargarSalas(){
+
+    public void cargarSalas() {
         CBoxSalas.removeAllItems();
-        try{
-            for(Sala s : sData.listarSalas())
-            {
-                CBoxSalas.addItem(s.getNroSala()+ "");
+        try {
+            for (Sala s : sData.listarSalas()) {
+                CBoxSalas.addItem(s.getNroSala() + "");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al cargar las salas: " + e.getMessage());
         }
-        
-}
-        public void cargarIdiomas(){
-            CBoxIdioma.removeAllItems();
-            CBoxIdioma.addItem("Español");
-            CBoxIdioma.addItem("Ingles");
-            CBoxIdioma.addItem("Frances");
-            CBoxIdioma.addItem("Portugues");
-            
+
+    }
+
+    public void cargarIdiomas() {
+        CBoxIdioma.removeAllItems();
+        CBoxIdioma.addItem("Español");
+        CBoxIdioma.addItem("Ingles");
+        CBoxIdioma.addItem("Frances");
+        CBoxIdioma.addItem("Portugues");
+
+    }
+
+    public void cargarFunciones() {
+        // TODO add your handling code here:
+        try {
+            DefaultTableModel modelo = (DefaultTableModel) TablaFunciones.getModel();
+            modelo.setRowCount(0);
+            for (Funcion f : fData.listarFunciones()) {
+                modelo.addRow(new Object[]{
+                    f.getCodFuncion(),
+                    f.getPelicula().getTitulo(),
+                    f.getSalaFuncion().getNroSala(),
+                    f.getIdioma(),
+                    f.isSubtitulada(),
+                    f.isEs3d(),
+                    f.getFecha(),
+                    f.getHoraInicio(),
+                    f.getHoraFin(),
+                    f.getPrecioLugar(),
+                    f.isEstado() ? "Activa" : "Inactiva"
+                });
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al mostrar: " + ex.getMessage());
         }
-    
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -116,21 +145,21 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
 
         TablaFunciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Pelicula", "Sala", "Idioma", "Subtitulada", "3D", "Fecha", "H.Inicio", "H.Fin", "Precio", "Estado"
+                "CodFuncion", "Pelicula", "Sala", "Idioma", "Subtitulada", "3D", "Fecha", "H.Inicio", "H.Fin", "Precio", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, false, true, true, true, true, true, true, false
+                false, false, true, true, true, true, true, true, true, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -231,26 +260,26 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
 
     private void ButBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButBorrarActionPerformed
         // TODO add your handling code here:
-                try{
+        try {
             int fila = TablaFunciones.getSelectedRow();
-            if(fila == -1){
+            if (fila == -1) {
                 JOptionPane.showMessageDialog(this, "Seleccione una funcion");
                 return;
             }
-             int id = fData.obtenerIdFuncionDesdeTabla(fila, TablaFunciones);
+            int id = fData.obtenerIdFuncionDesdeTabla(fila, TablaFunciones);
 
-        if (JOptionPane.showConfirmDialog(this,
-                "Eliminar funcion?",
-                "Confirmar",
-                JOptionPane.YES_NO_OPTION) == 0) {
+            if (JOptionPane.showConfirmDialog(this,
+                    "Eliminar funcion?",
+                    "Confirmar",
+                    JOptionPane.YES_NO_OPTION) == 0) {
 
-            fData.eliminarFuncion(id);
-            JOptionPane.showMessageDialog(this, "Funcion eliminada");
-            ButMostrarActionPerformed(evt);
-        }
-            
-        }catch (Exception ex){
-            JOptionPane.showMessageDialog(this, "Error al borrar: "+ ex.getMessage());
+                fData.eliminarFuncion(id);
+                JOptionPane.showMessageDialog(this, "Funcion eliminada");
+                ButMostrarActionPerformed(evt);
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al borrar: " + ex.getMessage());
         }
     }//GEN-LAST:event_ButBorrarActionPerformed
 
@@ -260,29 +289,34 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_ButCerrarActionPerformed
 
     private void ButAltaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButAltaBajaActionPerformed
-        // TODO add your handling code here:
-        try{
-            int fila = TablaFunciones.getSelectedRow();
-        if (fila == -1) {
-        JOptionPane.showMessageDialog(this, "Por favor, seleccione una funcion de la tabla.", "Error", JOptionPane.WARNING_MESSAGE);
+        if (TablaFunciones.isEditing()) {
+            TablaFunciones.getCellEditor().stopCellEditing();
+        }
+
+        int filaSeleccionada = TablaFunciones.getSelectedRow();
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila para modificar.", "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        int id = fData.obtenerIdFuncionDesdeTabla(fila, TablaFunciones);
+        int codFuncion = Integer.parseInt(TablaFunciones.getValueAt(filaSeleccionada, 0).toString());
 
-        Funcion f = fData.buscarFuncion(id);
+        try {
+            if (fData.buscarFuncion(codFuncion).isEstado() == true) {
+                fData.bajaLogicaFuncion(codFuncion);
+                JOptionPane.showMessageDialog(this, "¡La funcion se dio de baja correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                fData.altaLogicaFuncion(codFuncion);
+                JOptionPane.showMessageDialog(this, "¡La funcion se dio de alta correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            }
 
-        boolean nuevoEstado = f.isEstado();
-
-        fData.actualizarEstadoFuncion(id, nuevoEstado);
-
-        JOptionPane.showMessageDialog(this,
-                nuevoEstado ? "La funcion fue dada de Alta" : "La funcion fue dada de Baja");
-
-        ButMostrarActionPerformed(evt);
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(this, "Error en Alta/Baja: " + ex.getMessage());
+            cargarFunciones();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "No se pudo dar de alta o baja a la funcion =?", "Error de BD", JOptionPane.ERROR_MESSAGE);
         }
+
+
     }//GEN-LAST:event_ButAltaBajaActionPerformed
 
     private void ButInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButInsertarActionPerformed
@@ -294,58 +328,42 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_ButInsertarActionPerformed
 
     private void ButMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButMostrarActionPerformed
-        // TODO add your handling code here:
-            try{
-            DefaultTableModel modelo = (DefaultTableModel) TablaFunciones.getModel();
-            modelo.setRowCount(0);
-            for ( Funcion f : fData.listarFunciones()){
-                modelo.addRow(new Object[]{
-                    
-                f.getPelicula().getTitulo(),
-                f.getSalaFuncion().getNroSala(),
-                f.getIdioma(),
-                f.isSubtitulada(),
-                f.isEs3d(),
-                f.getFecha(),
-                f.getHoraInicio(),
-                f.getHoraFin(),
-                f.getPrecioLugar(),
-                f.isEstado()   
-                });
-            }
-        }catch (Exception ex){
-            JOptionPane.showMessageDialog(this, "Error al mostrar: " + ex.getMessage());
-        }    
+        cargarFunciones();
     }//GEN-LAST:event_ButMostrarActionPerformed
 
     private void ButActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButActualizarActionPerformed
         // TODO add your handling code here:
-                 try {
-        int fila = TablaFunciones.getSelectedRow();
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione una funcion para modificar");
-            return;
+        try {
+            int fila = TablaFunciones.getSelectedRow();
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(this, "Seleccione una funcion para modificar");
+                return;
+            }
+
+            int codFuncion = Integer.parseInt(TablaFunciones.getValueAt(fila, 0).toString());
+            int codSala = Integer.parseInt(TablaFunciones.getValueAt(fila,2).toString());
+            String tituloP = TablaFunciones.getValueAt(fila, 1).toString();
+            Funcion f = fData.buscarFuncion(codFuncion);
+            Sala s = sData.buscarSalaPorNro(codSala);
+            Pelicula p = pData.buscarPeliculaPorTitulo(tituloP);
+            // valores modificados directamente en la tabla
+            f.setPelicula(p);
+            f.setSalaFuncion(s);
+            f.setIdioma(TablaFunciones.getValueAt(fila, 3).toString());
+            f.setSubtitulada(Boolean.parseBoolean(TablaFunciones.getValueAt(fila, 4).toString()));
+            f.setEs3d(Boolean.parseBoolean(TablaFunciones.getValueAt(fila, 5).toString()));
+            f.setFecha(LocalDate.parse(TablaFunciones.getValueAt(fila, 6).toString()));
+            f.setHoraInicio(LocalTime.parse(TablaFunciones.getValueAt(fila, 7).toString()));
+            f.setHoraFin(LocalTime.parse(TablaFunciones.getValueAt(fila, 8).toString()));
+            f.setPrecioLugar(Double.parseDouble(TablaFunciones.getValueAt(fila, 9).toString()));
+            f.setEstado(Boolean.parseBoolean(TablaFunciones.getValueAt(fila, 10).toString()));
+            fData.actualizarFuncion(f);
+
+            JOptionPane.showMessageDialog(this, "funcion actualizada");
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al actualizar: " + ex.getMessage());
         }
-
-        int id = fData.obtenerIdFuncionDesdeTabla(fila, TablaFunciones);
-        Funcion f = fData.buscarFuncion(id);
-
-        // valores modificados directamente en la tabla
-        f.setIdioma(TablaFunciones.getValueAt(fila, 2).toString());
-        f.setSubtitulada(Boolean.parseBoolean(TablaFunciones.getValueAt(fila, 3).toString()));
-        f.setEs3d(Boolean.parseBoolean(TablaFunciones.getValueAt(fila, 4).toString()));
-        f.setFecha(LocalDate.parse(TablaFunciones.getValueAt(fila, 5).toString()));
-        f.setHoraInicio(LocalTime.parse(TablaFunciones.getValueAt(fila, 6).toString()));
-        f.setHoraFin(LocalTime.parse(TablaFunciones.getValueAt(fila, 7).toString()));
-        f.setPrecioLugar(Double.parseDouble(TablaFunciones.getValueAt(fila, 8).toString()));
-
-        fData.actualizarFuncion(f);
-
-        JOptionPane.showMessageDialog(this, "funcion actualizada");
-
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error al actualizar: " + ex.getMessage());
-    }
     }//GEN-LAST:event_ButActualizarActionPerformed
 
 

@@ -318,5 +318,30 @@ public class LugarData {
 
         return lugares;
     }
+    
+    
+      public boolean bajaLogicaLugar(int codLugar) throws SQLException {
+        String sql = "UPDATE lugar SET estado = 0 WHERE codLugar=?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, codLugar);
+            int filas = ps.executeUpdate();
+            return filas > 0;
+        } catch (SQLException ex) {
+            throw new SQLException("no se pudo dar de baja el lugar: " + ex.getMessage());
+        }
+    }
+
+    public boolean altaLogicaLugar(int codLugar) throws SQLException {
+        String sql = "UPDATE lugar SET estado = 1 WHERE codLugar =?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, codLugar);
+            int filas = ps.executeUpdate();
+            return filas > 0;
+        } catch (SQLException ex) {
+            throw new SQLException("No se pudo dar de alta al lugar =?");
+
+        }
+    }
+
 
 }
