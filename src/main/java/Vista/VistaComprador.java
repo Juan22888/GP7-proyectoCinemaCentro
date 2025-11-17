@@ -6,11 +6,14 @@ package Vista;
 
 import Modelo.Comprador;
 import Persistencia.CompradorData;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -82,7 +85,14 @@ public class VistaComprador extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        CompradorDesktop = new javax.swing.JDesktopPane();
+        ImageIcon icono = new ImageIcon(getClass().getResource("/Fondos/img/fondo-administracion2.jpg"));
+        Image miImagen = icono.getImage();
+        CompradorDesktop = new javax.swing.JDesktopPane(){
+            public void paintComponent(Graphics g){
+                g.drawImage(miImagen,0,0, getWidth(), getHeight(),this);
+            }
+
+        };
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaCompradores = new javax.swing.JTable();
         txtBucar = new javax.swing.JTextField();
@@ -122,10 +132,11 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         TablaCompradores.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         CompradorDesktop.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 160, 522, 256));
-        CompradorDesktop.add(txtBucar, new org.netbeans.lib.awtextra.AbsoluteConstraints(239, 68, 150, -1));
+        CompradorDesktop.add(txtBucar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 100, 150, -1));
 
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Buscar Comprador (DNI):");
-        CompradorDesktop.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(88, 71, -1, -1));
+        CompradorDesktop.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, -1, -1));
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -133,7 +144,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
                 btnBuscarActionPerformed(evt);
             }
         });
-        CompradorDesktop.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 68, -1, -1));
+        CompradorDesktop.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 100, -1, -1));
 
         btnNuevo.setText("Nuevo Comprador");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -160,9 +171,9 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         CompradorDesktop.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 470, 115, 49));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 102, 153));
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Gestion De Compradores");
-        CompradorDesktop.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(163, 9, -1, 41));
+        CompradorDesktop.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 30, -1, 41));
 
         jButton1.setText("Reiniciar Tabla");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -184,13 +195,13 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(CompradorDesktop, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(CompradorDesktop, javax.swing.GroupLayout.PREFERRED_SIZE, 734, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(CompradorDesktop, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
+            .addComponent(CompradorDesktop, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
