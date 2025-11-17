@@ -15,9 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
+
+//Esta clase guarda info general de la venta como: quien compro, cuando, el monto total, como pago, etc.
 public class TicketData {
 
     private Connection con = null;
+    
+   
     private DetalleTicketData detalleData;
     private CompradorData compradorData;
 
@@ -26,7 +30,7 @@ public class TicketData {
         this.detalleData = new DetalleTicketData(new LugarData());
         this.compradorData = new CompradorData();
     }
-
+        //Validador por aqui, validador por alla, todo sea por validar.
     private void validarTicket(TicketCompra t) {
         if (t == null) {
             throw new IllegalArgumentException("El ticket no puede ser nulo.");
@@ -35,7 +39,7 @@ public class TicketData {
         if (t.getFechaCompra() == null) {
             throw new IllegalArgumentException("La fecha de compra no puede ser nula.");
         }
-
+        //Para que no creemos tickets en el "futuro"
         if (t.getFechaCompra().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("La fecha de compra no puede ser futura.");
         }
@@ -49,6 +53,7 @@ public class TicketData {
         }
 
         if (!t.getComprador().isEstado()) {
+            //No le vendemos a un comprador que esta dado de baja
             throw new IllegalArgumentException("El comprador está dado de baja.");
         }
     }
@@ -59,12 +64,12 @@ public class TicketData {
 
         String sql = "INSERT INTO ticketcompra (FechaCompra, Monto, metodoPago, codComprador)"
                 + " VALUES (?, ?, ?, ?)";
-
+        //Invoco a la DB para que me devuelva el codTicket que genera
         try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            ps.setDate(1, Date.valueOf(t.getFechaCompra()));
+            ps.setDate(1, Date.valueOf(t.getFechaCompra())); //Convertimos LocalDate
             ps.setDouble(2, t.getMonto());
-            ps.setBoolean(3, t.isMetodoPago());
+            ps.setBoolean(3, t.isMetodoPago());//true para tarjeta, false para efectivo
             ps.setInt(4, t.getComprador().getCodComprador());
 
             int filasAfectadas = ps.executeUpdate();
@@ -100,9 +105,9 @@ public class TicketData {
                 ticket.setFechaCompra(rs.getDate("FechaCompra").toLocalDate());
                 ticket.setMonto(rs.getDouble("Monto"));
                 ticket.setMetodoPago(rs.getBoolean("metodoPago"));
-
+                // Para que el ticket esté "completo", buscamos su objeto Comprador
                 Comprador comprador = compradorData.buscarComprador(rs.getInt("codComprador"));
-                ticket.setComprador(comprador);
+                ticket.setComprador(comprador);// Y se lo asignamos
             }
             rs.close();
 
@@ -111,9 +116,11 @@ public class TicketData {
         }
         return ticket;
     }
-
+    
+    
+    //actualiza una columna especifica de un ticket. Usado en VistaTicket para cambiar el monto o la fecha
     public boolean actualizarTicket(int id, String columna, Object dato) throws Exception {
-
+    // Validación de seguridad para evitar que modifiquen columnas no permitidas
         if (!columna.equals("FechaCompra")
                 && !columna.equals("Monto")
                 && !columna.equals("codComprador")
@@ -125,7 +132,7 @@ public class TicketData {
         String sql = "UPDATE ticketcompra SET " + columna + " = ? WHERE codTicket = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-
+    // Detectamos qué tipo de dato nos pasaron
             if (dato instanceof String) {
                 ps.setString(1, (String) dato);
             } else if (dato instanceof Double) {
@@ -148,7 +155,9 @@ public class TicketData {
             throw new SQLException("No se pudo modificar el ticket! " + ex);
         }
     }
-
+    //UN SUPER METODO, UN METODO PARA GOBERNARLOS A TODOS. 
+    //Habia un error al borrar un ticket porque estaba relacionado a otras clases y metodos
+    //Este metodo borra en detalleTicket y en ticketCompra a la vez.
     public boolean eliminarTicket(int id) throws SQLException {
         String sqlDetalles = "DELETE FROM detalleticket WHERE codTicket = ?";
         String sqlTicket = "DELETE FROM ticketcompra WHERE codTicket = ?";
@@ -157,26 +166,26 @@ public class TicketData {
         PreparedStatement psTicket = null;
         
         try {
-            // 2. Iniciar una transacción
+            //Para que la db no guarde cuando quiera, si no cuando le digamos
             con.setAutoCommit(false);
 
-            // 3. Eliminar primero los "hijos" (detalleticket)
+            // Elimina a los hijos primero, osea todo lo de detalleTicket
             psDetalles = con.prepareStatement(sqlDetalles);
             psDetalles.setInt(1, id);
             psDetalles.executeUpdate(); // Elimina los detalles
 
-            // 4. Eliminar el "padre" (ticketcompra)
+            // Borra ticketCompra
             psTicket = con.prepareStatement(sqlTicket);
             psTicket.setInt(1, id);
             int filasAfectadas = psTicket.executeUpdate(); // Elimina el ticket principal
 
-            // 5. Confirmar la transacción
+            // Ahora si db, borra todo, como te gusta
             con.commit();
             
             return filasAfectadas > 0; // Devuelve true si el ticket principal se borró
 
         } catch (SQLException ex) {
-            // 6. Revertir cambios si algo salió mal
+            // Si algo sale mal, revierte los cambios, cortita y al pie.
             if (con != null) {
                 try {
                     con.rollback();
@@ -188,13 +197,15 @@ public class TicketData {
             throw new SQLException("No se pudo eliminar el ticket (transacción revertida): " + ex.getMessage());
         
         } finally {
-            // 7. Limpiar recursos y restaurar auto-commit
+            //Si sale bien o mal o mal y bien, limpia todo igual
             if (psDetalles != null) {
                 psDetalles.close();
             }
             if (psTicket != null) {
                 psTicket.close();
             }
+            
+            //IMPORTANTE, bueno no se si tanto, pero ponemos la DB en auto guardado nuevamente. (Si es importante jeje)
             if (con != null) {
                 try {
                     con.setAutoCommit(true);
@@ -204,12 +215,13 @@ public class TicketData {
             }
         }
     }
-
+        
+    //Trae todos los tickets de la db. Usado en VistaTicket para llenar la tabla
     public List<TicketCompra> listarTickets() {
 
         List<TicketCompra> tickets = new ArrayList<>();
         CompradorData cData = new CompradorData();
-//        DetalleTicketData dData = new DetalleTicketData(new LugarData());
+
 
         String sql = "SELECT * FROM ticketcompra";
 
@@ -232,13 +244,13 @@ public class TicketData {
         }
         return tickets;
     }
-
+//Trae los ticket por fecha de compra usado en VistaInforme
     public List<TicketCompra> listarTicketsPorFecha(LocalDate fecha) throws SQLException {
         List<TicketCompra> tickets = new ArrayList<>();
         String sql = "SELECT * FROM ticketcompra WHERE FechaCompra = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setDate(1, Date.valueOf(fecha));
+            ps.setDate(1, Date.valueOf(fecha));// Seteamos la fecha a buscar
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -260,7 +272,7 @@ public class TicketData {
         }
         return tickets;
     }
-
+    //Trae los tickets filtrados por pelicula. Una super consulta usando join por todos lados. Usado en VistaInformes
     public List<TicketCompra> listarTicketsPorPelicula(int codPelicula) throws SQLException {
         List<TicketCompra> tickets = new ArrayList<>();
         String sql = "SELECT DISTINCT t.* FROM ticketcompra t "
