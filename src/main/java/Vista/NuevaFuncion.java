@@ -42,7 +42,7 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
             List<Pelicula> lista = pData.listarPeliculas();
             CBoxPeliculas.removeAllItems();
             for(Pelicula p : lista){
-                CBoxPeliculas.addItem(p);
+                CBoxPeliculas.addItem(p.getTitulo());
             }
         } catch (Exception e){
             JOptionPane.showMessageDialog(this, "Error al cargar peliculas: "+ e.getMessage());
@@ -53,7 +53,7 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
             List<Sala> lista = sData.listarSalas();
             CBoxSalas.removeAllItems();
             for (Sala s : lista){
-                CBoxSalas.addItem(s);
+                CBoxSalas.addItem(s.getNroSala());
             }
         } catch ( Exception e){
             JOptionPane.showMessageDialog(this, "Error al cargar salas: "+ e.getMessage());
