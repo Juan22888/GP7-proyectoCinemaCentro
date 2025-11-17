@@ -119,7 +119,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -242,9 +242,9 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
     private void ButAltaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButAltaBajaActionPerformed
         // TODO add your handling code here:
         try{
-                    int fila = TablaFunciones.getSelectedRow();
+            int fila = TablaFunciones.getSelectedRow();
         if (fila == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione una funcion");
+        JOptionPane.showMessageDialog(this, "Por favor, seleccione una funcion de la tabla.", "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
