@@ -82,10 +82,6 @@ public class VistaSala extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         salaTable = new javax.swing.JTable();
         txtBuscarSalas = new javax.swing.JTextField();
-        btnBuscarSalas = new javax.swing.JButton();
-        btnNuevaSala = new javax.swing.JButton();
-        btnBajaAlta = new javax.swing.JButton();
-        btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         ImageIcon icono = new ImageIcon(getClass().getResource("/Fondos/img/fondo-administracion2.jpg"));
         Image miImagen = icono.getImage();
@@ -95,6 +91,10 @@ public class VistaSala extends javax.swing.JInternalFrame {
             }
 
         };
+        btnNuevaSala = new javax.swing.JButton();
+        btnBajaAlta = new javax.swing.JButton();
+        btnBuscarSalas = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
 
         setClosable(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -125,38 +125,7 @@ public class VistaSala extends javax.swing.JInternalFrame {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 159, 740, -1));
         getContentPane().add(txtBuscarSalas, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 120, 130, -1));
 
-        btnBuscarSalas.setText("Buscar");
-        btnBuscarSalas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarSalasActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnBuscarSalas, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 120, -1, -1));
-
-        btnNuevaSala.setText("Nueva Sala");
-        btnNuevaSala.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevaSalaActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnNuevaSala, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 640, 100, 50));
-
-        btnBajaAlta.setText("Dar de baja/Alta");
-        btnBajaAlta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBajaAltaActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnBajaAlta, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 640, -1, 50));
-
-        btnActualizar.setText("Guardar");
-        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 640, 135, 50));
-
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/basura (1).png"))); // NOI18N
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,6 +133,47 @@ public class VistaSala extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 640, 136, 50));
+
+        btnNuevaSala.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/teatro.png"))); // NOI18N
+        btnNuevaSala.setText("Nueva Sala");
+        btnNuevaSala.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevaSalaActionPerformed(evt);
+            }
+        });
+        jDesktopPane2.add(btnNuevaSala);
+        btnNuevaSala.setBounds(90, 640, 150, 50);
+
+        btnBajaAlta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/Iconos/001-dos-caminos.png"))); // NOI18N
+        btnBajaAlta.setText("Dar de baja/Alta");
+        btnBajaAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBajaAltaActionPerformed(evt);
+            }
+        });
+        jDesktopPane2.add(btnBajaAlta);
+        btnBajaAlta.setBounds(270, 640, 160, 50);
+
+        btnBuscarSalas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/lupa.png"))); // NOI18N
+        btnBuscarSalas.setText("Buscar");
+        btnBuscarSalas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarSalasActionPerformed(evt);
+            }
+        });
+        jDesktopPane2.add(btnBuscarSalas);
+        btnBuscarSalas.setBounds(490, 110, 120, 39);
+
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/disquete.png"))); // NOI18N
+        btnActualizar.setText("Guardar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+        jDesktopPane2.add(btnActualizar);
+        btnActualizar.setBounds(460, 640, 140, 50);
+
         getContentPane().add(jDesktopPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 820, 760));
 
         pack();

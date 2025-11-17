@@ -335,10 +335,11 @@ public class VistaTicket extends javax.swing.JInternalFrame {
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Comprador:");
-        jDesktopPane1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, -1, 31));
+        jDesktopPane1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 70, -1, 31));
 
         ButActualizar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         ButActualizar.setForeground(new java.awt.Color(51, 51, 51));
+        ButActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/actualizar-flecha.png"))); // NOI18N
         ButActualizar.setText("Actualizar");
         ButActualizar.setBorderPainted(false);
         ButActualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -346,17 +347,18 @@ public class VistaTicket extends javax.swing.JInternalFrame {
                 ButActualizarActionPerformed(evt);
             }
         });
-        jDesktopPane1.add(ButActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 380, -1, -1));
+        jDesktopPane1.add(ButActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 350, -1, 40));
 
         ButBorrar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         ButBorrar.setForeground(new java.awt.Color(51, 51, 51));
+        ButBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/borrar.png"))); // NOI18N
         ButBorrar.setText("Borrar");
         ButBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButBorrarActionPerformed(evt);
             }
         });
-        jDesktopPane1.add(ButBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 380, -1, -1));
+        jDesktopPane1.add(ButBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 350, -1, -1));
 
         ButMostrar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         ButMostrar.setForeground(new java.awt.Color(51, 51, 51));
@@ -366,32 +368,34 @@ public class VistaTicket extends javax.swing.JInternalFrame {
                 ButMostrarActionPerformed(evt);
             }
         });
-        jDesktopPane1.add(ButMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 380, -1, -1));
+        jDesktopPane1.add(ButMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 350, -1, 40));
 
         btnDetalles.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        btnDetalles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/ojo.png"))); // NOI18N
         btnDetalles.setText("Ver Detalles");
         btnDetalles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDetallesActionPerformed(evt);
             }
         });
-        jDesktopPane1.add(btnDetalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 110, -1, -1));
+        jDesktopPane1.add(btnDetalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 90, -1, -1));
 
         CboxComprador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CboxCompradorActionPerformed(evt);
             }
         });
-        jDesktopPane1.add(CboxComprador, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 260, -1));
+        jDesktopPane1.add(CboxComprador, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, 260, -1));
 
         ButBuscar1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        ButBuscar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/lupa.png"))); // NOI18N
         ButBuscar1.setText("Buscar");
         ButBuscar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButBuscar1ActionPerformed(evt);
             }
         });
-        jDesktopPane1.add(ButBuscar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 110, -1, -1));
+        jDesktopPane1.add(ButBuscar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 90, 110, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -403,7 +407,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
+            .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
         );
 
         pack();
