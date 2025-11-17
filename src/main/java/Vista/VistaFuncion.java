@@ -96,7 +96,9 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
+        jLabel1 = new javax.swing.JLabel();
 
+        setClosable(true);
         setTitle("Gestion de funciones");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -133,25 +135,28 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
 
         jDesktopPane1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 730, 180));
 
-        Titulo.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
-        Titulo.setForeground(new java.awt.Color(153, 153, 153));
+        Titulo.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
+        Titulo.setForeground(new java.awt.Color(255, 255, 255));
         Titulo.setText("GESTION DE FUNCIONES");
-        jDesktopPane1.add(Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
+        jDesktopPane1.add(Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 20, -1, -1));
 
+        JLPeliculas.setForeground(new java.awt.Color(255, 255, 255));
         JLPeliculas.setText("Peliculas");
-        jDesktopPane1.add(JLPeliculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 50, 74, 20));
+        jDesktopPane1.add(JLPeliculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 80, 74, 20));
 
-        jDesktopPane1.add(CBoxPeliculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 50, 130, -1));
+        jDesktopPane1.add(CBoxPeliculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 80, 130, -1));
 
+        JLSalas.setForeground(new java.awt.Color(255, 255, 255));
         JLSalas.setText("Salas");
-        jDesktopPane1.add(JLSalas, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 90, 42, 20));
+        jDesktopPane1.add(JLSalas, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 120, 42, 20));
 
-        jDesktopPane1.add(CBoxSalas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 90, 130, -1));
+        jDesktopPane1.add(CBoxSalas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 120, 130, -1));
 
+        JLIdioma.setForeground(new java.awt.Color(255, 255, 255));
         JLIdioma.setText("Idioma");
-        jDesktopPane1.add(JLIdioma, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 131, 58, 20));
+        jDesktopPane1.add(JLIdioma, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 160, 58, 20));
 
-        jDesktopPane1.add(CBoxIdioma, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, 130, -1));
+        jDesktopPane1.add(CBoxIdioma, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 160, 130, -1));
 
         ButMostrar.setText("Mostrar Funciones");
         ButMostrar.addActionListener(new java.awt.event.ActionListener() {
@@ -159,7 +164,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 ButMostrarActionPerformed(evt);
             }
         });
-        jDesktopPane1.add(ButMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, 160, -1));
+        jDesktopPane1.add(ButMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 210, 160, -1));
 
         ButInsertar.setText("Insertar");
         ButInsertar.addActionListener(new java.awt.event.ActionListener() {
@@ -200,9 +205,12 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
             }
         });
         jDesktopPane1.add(ButCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 450, -1, 20));
-        jDesktopPane1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 730, -1));
-        jDesktopPane1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 730, -1));
-        jDesktopPane1.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 730, 10));
+        jDesktopPane1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 740, 10));
+        jDesktopPane1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 740, 10));
+        jDesktopPane1.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 740, 10));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/fondo-administracion.jpg"))); // NOI18N
+        jDesktopPane1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, 590));
 
         getContentPane().add(jDesktopPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 490));
 
@@ -345,6 +353,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
     private javax.swing.JTable TablaFunciones;
     private javax.swing.JLabel Titulo;
     private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
