@@ -132,6 +132,36 @@ public class PeliculaData {
         }
         return pelicula;
     }
+    
+    public Pelicula buscarPeliculaPorTitulo(String titulo) throws SQLException{
+      String sql = "SELECT * FROM pelicula WHERE titulo LIKE ?";
+        Pelicula pelicula = null;
+        
+       //No usamos try-with-resources porque somos conos y nos dimos cuenta despues que era mas util,
+       //igual funciona, y como dice el dicho, si funciona no se toca.
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1,  "%" + titulo + "%");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                pelicula = new Pelicula();
+                pelicula.setCodPelicula(rs.getInt("codPelicula"));
+                pelicula.setTitulo(rs.getString("titulo"));
+                pelicula.setDirector(rs.getString("director"));
+                pelicula.setActores(rs.getString("actores"));
+                pelicula.setOrigen(rs.getString("origen"));
+                pelicula.setGenero(rs.getString("genero"));
+                pelicula.setEstreno(rs.getDate("estreno").toLocalDate());
+                pelicula.setEnCartelera(rs.getBoolean("enCartelera"));
+            }
+            rs.close();
+            ps.close();
+
+        } catch (SQLException ex) {
+            throw new SQLException(" Error al buscar la pelicula! + " + ex);
+        }
+        return pelicula;
+    }
         //... me canso de explicar, ya lo dice su nombre. Usado en VistaPelicula para cuando modificamos tabla
     public boolean actualizarPelicula(Pelicula pelicula) throws Exception {
         // Primero, validamos el ID para el update

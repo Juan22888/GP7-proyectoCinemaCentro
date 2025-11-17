@@ -54,7 +54,11 @@ public class VistaLugar extends javax.swing.JInternalFrame {
         }
 
         for (Lugar lugar : listaLugares) {
-            Object[] fila = {lugar.getCodLugar(), lugar.getFila(), lugar.getNumero(), lugar.isEstado(), lugar.getFuncion().getCodFuncion()};
+            Object[] fila = {lugar.getCodLugar(),
+                lugar.getFila(), 
+                lugar.getNumero(), 
+                lugar.isEstado() ? "Ocupado" : "Disponible", 
+                lugar.getFuncion().getCodFuncion()};
             modelo.addRow(fila);
         }
     }
@@ -321,7 +325,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
 
     //para modificar elestado de los asientos en la tabla
     private void butGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butGuardarCambiosActionPerformed
-        if (TablaLugares.isEditing()) {
+               if (TablaLugares.isEditing()) {
             TablaLugares.getCellEditor().stopCellEditing();
         }
 
@@ -331,6 +335,9 @@ public class VistaLugar extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una fila para modificar.", "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        
+        int codL = Integer.parseInt(TablaLugares.getValueAt(filaSeleccionada, 0).toString());
+        
 
         try {
             //obtenemos el codigo de la fila y el estado
