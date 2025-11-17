@@ -289,6 +289,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
         CboxComprador = new javax.swing.JComboBox();
         ButBuscar1 = new javax.swing.JButton();
 
+        setClosable(true);
         setTitle("Vista Ticket");
 
         jDesktopPane1.setForeground(new java.awt.Color(51, 51, 51));

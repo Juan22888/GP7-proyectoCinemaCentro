@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Persistencia;
 
 
@@ -20,32 +17,31 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import java.util.List;
 
-/**
- *
- * @author FRANCO
- */
+
 public class DetalleTicketData {
       private Connection con = null;
       private LugarData lugarData;
       private TicketData ticketData;
-      
+       //primer constructor crea su propia instancia de LugarData
     public DetalleTicketData() {
         this.con = Conexion.buscarConexion();
         this.lugarData = new LugarData();
     }
       
-      
+      //Segundo constructor recibe el LugarData
     public DetalleTicketData(LugarData lugarData){
         this.con = Conexion.buscarConexion();
         this.lugarData=lugarData;
         this.ticketData = null;
     }
-      
+    //Constructor mas completo, como funciona dejamos los 3 jajaj
     public DetalleTicketData(LugarData lugarData,TicketData ticketData){
         this.con = Conexion.buscarConexion();
         this.lugarData=lugarData;
         this.ticketData = ticketData;
     }
+    
+    //para validar un poco, para que no se rompa todo
     private void validarDetalleTicket(DetalleTicket dt) throws IllegalArgumentException {
     if (dt == null) {
         throw new NullPointerException("El objeto DetalleTicket no puede ser nulo.");
@@ -92,6 +88,7 @@ public class DetalleTicketData {
         }
         return false;
     }
+    //Este lista todos los detalles de un mismo ticket
     public List<DetalleTicket> listarDetallesPorTicket(int codTicket) throws SQLException {
     List<DetalleTicket> detalles = new ArrayList<>();
     
@@ -121,7 +118,7 @@ public class DetalleTicketData {
     }
     return detalles;
 }
-
+//este busca un detalle con codDetalle
     public DetalleTicket buscarDetalleTicket(int id) throws SQLException {
         String sql = "SELECT * FROM detalleticket WHERE codDetalle = ?";
         DetalleTicket dt = null;
@@ -149,7 +146,7 @@ public class DetalleTicketData {
         }
         return dt;
     }
-    
+    //Para comprobar si el lugar esta ocupado
       public boolean asientoOcupado(DetalleTicket dt) {
 
         String sql = "SELECT * FROM detalleticket WHERE codLugar = ?";
@@ -181,7 +178,7 @@ public class DetalleTicketData {
         String sql = "UPDATE detalleTicket SET " + columna + " = ? WHERE codDetalle = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-
+            //Para saber que tipo de datos se pasan
             if (dato instanceof Boolean) {
                 ps.setBoolean(1, (Boolean) dato);
               } else if (dato instanceof Integer) {
@@ -224,7 +221,7 @@ public class DetalleTicketData {
             throw new SQLException("No se pudo eliminar el detalle del ticket " + ex);
         } 
    }
-    
+    //Refactorizado para que haga mas insert a la vez, hace "batchs" osea por lotes
     public void crearDetallesTicket(List<DetalleTicket> listaDetalleTicket) throws SQLException{
         if(listaDetalleTicket==null){
          throw new NullPointerException("No hay detalles ticket.");
@@ -236,13 +233,16 @@ public class DetalleTicketData {
         
         try{
            PreparedStatement ps = con.prepareStatement(sql);
-            
+            //recorriendo la lista de asientos..
             for(int i = 0; i<listaDetalleTicket.size();i++){
                 ps.setInt(1, listaDetalleTicket.get(i).getLugar().getCodLugar());
                 ps.setInt(2, listaDetalleTicket.get(i).getTicketCompra().getCodTicket());
                 ps.setBoolean(3,listaDetalleTicket.get(i).isEstado());
+                //mandamos todo de una a la consulta
                 ps.addBatch();
             }
+            
+            //se ejecutan todas las consultas a la vez
             ps.executeBatch();
             ps.close();
         }catch(SQLException ex){
@@ -251,16 +251,17 @@ public class DetalleTicketData {
     
     }
  
+    //Uff, una consulta que usa JOIN, como nos enseñaron en base de datos, consulta 4 tablas a la vez
     public List<Comprador> listarCompradoresPorFechaAsistencia(LocalDate fechaFuncion) throws SQLException {
         List<Comprador> compradores = new ArrayList<>();
         
-        
+        //DISTINCT es para poner una sola vez la seleccion por si un comprador, por ejemplo, fue a 2 funciones el mismo dia.
         String sql = "SELECT DISTINCT c.* FROM comprador c "
                    + "JOIN ticketcompra t ON c.codComprador = t.codComprador "
                    + "JOIN detalleticket dt ON t.codTicket = dt.codTicket "
                    + "JOIN lugar l ON dt.codLugar = l.codLugar "
                    + "JOIN funcion f ON l.codFuncion = f.codFuncion "
-                   + "WHERE f.fechaFuncion = ?";
+                   + "WHERE f.fechaFuncion = ?";// Filtramos por la fecha de la FUNCIÓN (no la de compra)
 
        
 

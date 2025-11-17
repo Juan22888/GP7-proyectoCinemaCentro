@@ -16,18 +16,18 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Emiliano
- */
-public class CompradorData {
 
+//Las clases ..Data son las encargadas de ser el "puente" entre las vistas y la base de datos.
+//Aqui ingresamos todas las consultas SQL como: Guardar, buscar, actualizar, borrar, alta\baja logica y lo que haga falta..
+public class CompradorData {
+ // 'con' es nuestra conexion a la base de datos
     private Connection con = null;
 
     public CompradorData() {
+       //Conectamos la clase con la db
         this.con = Conexion.buscarConexion();
     }
-
+   
     private void validarComprador(Comprador c) throws IllegalArgumentException {
         if (c == null) {
             throw new IllegalArgumentException("El objeto Comprador no puede ser nulo.");
@@ -37,8 +37,10 @@ public class CompradorData {
             throw new IllegalArgumentException("El DNI debe ser un número positivo.");
         }
         if (c.getNombre() == null || c.getNombre().trim().isEmpty()) {
+            //usamos trim para borrar espacios en blanco adelante y atras
             throw new IllegalArgumentException("El nombre no puede estar vacío.");
         }
+        //protecciones de la DB
         if (c.getNombre().length() > 20) {
             throw new IllegalArgumentException("El nombre no puede tener más de 20 caracteres.");
         }
@@ -57,20 +59,26 @@ public class CompradorData {
     public boolean insertarComprador(Comprador c) throws SQLException {
 
         try {
+            //validamos para que se cargue algo coherente
             validarComprador(c);
         } catch (IllegalArgumentException ex) {
             throw new SQLException("Datos de comprador inválidos: " + ex.getMessage());
+            //por si falla lanza un error
         }
 
         String sql = "INSERT INTO comprador (dni, nombre, fechaNac, password, estado)" + "VALUES (?, ?, ?, ?, ?)";
+        
+        //"try-with-resources" para que el PreparedStatement se cierre solo al terminar
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, c.getDni());
             ps.setString(2, c.getNombre());
             ps.setDate(3, Date.valueOf(c.getFechaNacimiento()));
             ps.setString(4, c.getPassword());
             ps.setBoolean(5, c.isEstado());
-
+          
+            //para ejecutar la consulta
             int filasAfectadas = ps.executeUpdate();
+            //si afecta a 1 fila o mas devuelve true
             return filasAfectadas > 0;
         } catch (SQLException ex) {
             throw new SQLException("No se pudo guardar el comprador: " + ex.getMessage());
@@ -80,11 +88,17 @@ public class CompradorData {
 
     public Comprador buscarComprador(int id) throws SQLException {
         String sql = "SELECT * FROM comprador WHERE codComprador = ?";
-        Comprador comprador = null;
+        Comprador comprador = null; //comprador vacio
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
+            
+            //// ResultSet es un objeto que contiene los resultados de la consulta
             ResultSet rs = ps.executeQuery();
+            
+            //Si 'rs.next()' es verdadero, significa que encontró un resultado
+            
             if (rs.next()) {
+                /// Rellenamos el objeto con los datos de la base de datos
                 comprador = new Comprador();
                 comprador.setCodComprador(rs.getInt("codComprador"));
                 comprador.setDni(rs.getInt("dni"));
@@ -97,6 +111,8 @@ public class CompradorData {
         } catch (SQLException ex) {
             throw new SQLException("no se pudo encontrar el comprador: " + ex.getMessage());
         }
+        
+        // Devolvemos el comprador (o null si no se encontró)
         return comprador;
     }
 
@@ -116,7 +132,7 @@ public class CompradorData {
             ps.setDate(3, Date.valueOf(c.getFechaNacimiento()));
             ps.setString(4, c.getPassword());
             ps.setBoolean(5, c.isEstado());
-            ps.setInt(6, c.getCodComprador());
+            ps.setInt(6, c.getCodComprador()); // El ID va al final, para el WHERE
             int filasAfectadas = ps.executeUpdate();
             return filasAfectadas > 0;
         } catch (SQLException ex) {
@@ -124,10 +140,10 @@ public class CompradorData {
         }
     }
 
-    public boolean bajaLogicaComprador(int id) throws SQLException {
-        String sql = "UPDATE comprador SET estado = 0 WHERE codComprador=?";
+    public boolean bajaLogicaComprador(int dni) throws SQLException {
+        String sql = "UPDATE comprador SET estado = 0 WHERE dni=?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, id);
+            ps.setInt(1, dni);
             int filas = ps.executeUpdate();
             return filas > 0;
         } catch (SQLException ex) {
@@ -135,10 +151,10 @@ public class CompradorData {
         }
     }
 
-    public boolean altaLogicaComprador(int id) throws SQLException {
-        String sql = "UPDATE comprador SET estado = 1 WHERE codComprador =?";
+    public boolean altaLogicaComprador(int dni) throws SQLException {
+        String sql = "UPDATE comprador SET estado = 1 WHERE dni =?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, id);
+            ps.setInt(1, dni);
             int filas = ps.executeUpdate();
             return filas > 0;
         } catch (SQLException ex) {
@@ -160,10 +176,11 @@ public class CompradorData {
 
     public List<Comprador> listarCompradores() {
         String sql = "SELECT * FROM comprador";
-        List<Comprador> compradores = new ArrayList<>();
+        List<Comprador> compradores = new ArrayList<>(); //Lista vacia para ir llenandola con los compradores que encuentre
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
+            //'while(rs.next())' significa: "mientras haya una fila siguiente...
             while (rs.next()) {
                 Comprador comprador = new Comprador();
                 comprador.setCodComprador(rs.getInt("codComprador"));
@@ -172,6 +189,7 @@ public class CompradorData {
                 comprador.setFechaNacimiento(rs.getDate("fechaNac").toLocalDate()); // Corregido de 'fechaNacimiento'
                 comprador.setPassword(rs.getString("password")); // (Tu modelo usa getPassword() y setPassword()?
                 comprador.setEstado(rs.getBoolean("estado"));
+                // Agregamos el comprador a la lista
                 compradores.add(comprador);
             }
             rs.close();

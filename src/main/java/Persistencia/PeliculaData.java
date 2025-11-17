@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Persistencia;
 
 import Modelo.Conexion;
@@ -15,10 +12,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author feerl
- */
 public class PeliculaData {
 
     private Connection con = null;
@@ -73,7 +66,7 @@ public class PeliculaData {
         }
 
     }
-
+    //obviamente para crear una nueva pelicula, usada en la vista NuevaPelicula
     public boolean insertarPelicula(Pelicula p) throws SQLException {
 
         try {
@@ -84,7 +77,8 @@ public class PeliculaData {
 
         String sql = "INSERT INTO pelicula (titulo, director, actores, origen, genero, estreno, enCartelera) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
-
+        
+        // Usamos "try-with-resources" para que el PreparedStatement se cierre solo
         try (PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, p.getTitulo());
@@ -93,7 +87,7 @@ public class PeliculaData {
             ps.setString(4, p.getOrigen());
             ps.setString(5, p.getGenero());
 
-            ps.setDate(6, Date.valueOf(p.getEstreno()));
+            ps.setDate(6, Date.valueOf(p.getEstreno())); // Convertimos LocalDate a sql.Date
 
             ps.setBoolean(7, p.isEnCartelera());
 
@@ -108,10 +102,13 @@ public class PeliculaData {
         }
         return false;
     }
-
+    //Bue, para buscar peliculas, obvio pa. Usada en la vista FuncionData para saber que pelicula va en una funcion
     public Pelicula buscarPelicula(int id) throws SQLException {
         String sql = "SELECT * FROM pelicula WHERE codPelicula=?";
         Pelicula pelicula = null;
+        
+       //No usamos try-with-resources porque somos conos y nos dimos cuenta despues que era mas util,
+       //igual funciona, y como dice el dicho, si funciona no se toca.
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
@@ -135,13 +132,14 @@ public class PeliculaData {
         }
         return pelicula;
     }
-
+        //... me canso de explicar, ya lo dice su nombre. Usado en VistaPelicula para cuando modificamos tabla
     public boolean actualizarPelicula(Pelicula pelicula) throws Exception {
         // Primero, validamos el ID para el update
         if (pelicula.getCodPelicula() <= 0) { // Asumiendo que tienes un getIdPelicula()
             throw new IllegalArgumentException("El ID de la película no es válido para actualizar.");
         }
         try {
+            //super validacion, que no falten las validaciones. VIVAN LAS VALIDACIONES (por favor que termine este infierno de validar todo)
             validarPelicula(pelicula);
         } catch (IllegalArgumentException ex) {
             throw new SQLException("Datos de pelicula inválidos: " + ex.getMessage());
@@ -150,7 +148,7 @@ public class PeliculaData {
         String sql = "UPDATE pelicula SET titulo=?, director=?, actores=?, origen=?, genero=?, estreno=?, enCartelera=? WHERE codPelicula = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-
+               //Comento porque estoy re cebado, seteamos los datos...por centesima vez :)
             ps.setString(1, pelicula.getTitulo());
             ps.setString(2, pelicula.getDirector());
             ps.setString(3, pelicula.getActores());
@@ -158,7 +156,7 @@ public class PeliculaData {
             ps.setString(5, pelicula.getGenero());
             ps.setDate(6, Date.valueOf(pelicula.getEstreno()));
             ps.setBoolean(7, pelicula.isEnCartelera());
-
+            //Para que lo tengas en cuenta, el ID va al final para el WHERE ok?
             ps.setInt(8, pelicula.getCodPelicula());
 
             int filasAfectadas = ps.executeUpdate();
@@ -169,7 +167,7 @@ public class PeliculaData {
         }
 
     }
-
+        //para "apagar" pero no borrar, como mi cerebro que ya no da mas
     public boolean bajaLogicaPelicula(int id) throws SQLException {
         String sql = "UPDATE pelicula SET enCartelera = 0 WHERE codPelicula = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -186,7 +184,7 @@ public class PeliculaData {
             throw new SQLException("Error al dar de baja la pelicula " + ex);
         }
     }
-
+        // Lo mismo que el anterior pero para "prender" como mi cerebro pero al reves (re que no pegaba) 
     public boolean altaLogicaPelicula(int id) throws SQLException {
         String sql = "UPDATE pelicula SET enCartelera = 1 WHERE codPelicula = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -203,7 +201,7 @@ public class PeliculaData {
             throw new SQLException("Error al dar de alta la pelicula " + ex);
         }
     }
-
+    // No voy a comentar nada, osea si, estoy comentando, pero.. tu me entiendes
     public boolean eliminarPelicula(int id) throws SQLException {
         String sql = "DELETE FROM pelicula WHERE codPelicula = ?";
         try {
@@ -220,7 +218,7 @@ public class PeliculaData {
             throw new SQLException("Error al eliminar la pelicula " + ex);
         }
     }
-
+   //Trae todas las peliculas de la BD. Usado en VistaPelicula para rellenar la tabla. (No puedo hacer chistes en todos lados, me quedo sin ideas)
     public List listarPeliculas() throws SQLException {
         List<Pelicula> peliculas = new ArrayList<>();
         String sql = "SELECT * FROM pelicula";
@@ -246,10 +244,11 @@ public class PeliculaData {
 
         return peliculas;
     }
-
+    //Trae toda las peliculas activas, osea si isCartelera = 1 osea true osea...
+    //Usado en VistaTaquilla para mostrar las pelis que se pueden poner en cartelera
     public List<Pelicula> listarPeliculasEnCartelera() throws SQLException {
         List<Pelicula> peliculas = new ArrayList<>();
-        String sql = "SELECT * FROM pelicula WHERE enCartelera=1";
+        String sql = "SELECT * FROM pelicula WHERE enCartelera=1"; //<--- Es clave es 1
 
         try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
@@ -272,6 +271,9 @@ public class PeliculaData {
 
         return peliculas;
     }
+    
+    //Trae las peliculas que no se estrenaron y no estan en cartelera, obviamente.
+    //Usado en VistaInformes para..informes
     public List<Pelicula> listarProximosEstrenos() throws SQLException {
         List<Pelicula> peliculas = new ArrayList<>();
         
