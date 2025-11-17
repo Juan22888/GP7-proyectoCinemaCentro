@@ -12,6 +12,8 @@ import Persistencia.LugarData;
 import Persistencia.PeliculaData;
 import Persistencia.SalaData;
 import Persistencia.TicketData;
+import java.awt.Graphics;
+import java.awt.Image;
 import javax.swing.ImageIcon;
 
 /**
@@ -39,7 +41,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
         this.peliculaData = peliculaData;
         this.salaData = salaData;
         this.ticketData = ticketData;
-        jLabel2.setIcon(new ImageIcon(getClass().getResource("/Fondos/img/cine.jpg")));
     }
 
     public void abrirInternal(JInternalFrame nuevo) {
@@ -59,8 +60,13 @@ public class VistaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Escritorio = new javax.swing.JDesktopPane();
-        jLabel2 = new javax.swing.JLabel();
+        ImageIcon icono = new ImageIcon(getClass().getResource("/Fondos/img/cine.jpg"));
+        Image miImagen = icono.getImage();
+        Escritorio = new javax.swing.JDesktopPane(){
+            public void paintComponent(Graphics g){
+                g.drawImage(miImagen,0,0, getWidth(), getHeight(),this);
+            }
+        };
         jMenuBar1 = new javax.swing.JMenuBar();
         menuAdministracion = new javax.swing.JMenu();
         CompradorMenuItem = new javax.swing.JMenuItem();
@@ -74,21 +80,15 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/cine.jpg"))); // NOI18N
-
-        Escritorio.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         javax.swing.GroupLayout EscritorioLayout = new javax.swing.GroupLayout(Escritorio);
         Escritorio.setLayout(EscritorioLayout);
         EscritorioLayout.setHorizontalGroup(
             EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(EscritorioLayout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGap(0, 1120, Short.MAX_VALUE)
         );
         EscritorioLayout.setVerticalGroup(
             EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1051, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 1051, Short.MAX_VALUE)
         );
 
         menuAdministracion.setText("Administracion");
@@ -266,7 +266,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemPelicula;
     private javax.swing.JMenuItem itemSala;
     private javax.swing.JMenuItem itemTicket;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu menuAdministracion;

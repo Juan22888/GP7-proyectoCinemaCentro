@@ -302,6 +302,8 @@ public class VistaInformes extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         boxFuncionesConsulta = new javax.swing.JComboBox<>();
 
+        setClosable(true);
+
         reporteTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
