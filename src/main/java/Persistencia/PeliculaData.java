@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Persistencia;
 
 import Modelo.Conexion;
@@ -15,10 +12,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author feerl
- */
 public class PeliculaData {
 
     private Connection con = null;
@@ -73,7 +66,7 @@ public class PeliculaData {
         }
 
     }
-
+    //obviamente para crear una nueva pelicula, usada en la vista NuevaPelicula
     public boolean insertarPelicula(Pelicula p) throws SQLException {
 
         try {
@@ -84,7 +77,8 @@ public class PeliculaData {
 
         String sql = "INSERT INTO pelicula (titulo, director, actores, origen, genero, estreno, enCartelera) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
-
+        
+        // Usamos "try-with-resources" para que el PreparedStatement se cierre solo
         try (PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, p.getTitulo());
@@ -93,7 +87,7 @@ public class PeliculaData {
             ps.setString(4, p.getOrigen());
             ps.setString(5, p.getGenero());
 
-            ps.setDate(6, Date.valueOf(p.getEstreno()));
+            ps.setDate(6, Date.valueOf(p.getEstreno())); // Convertimos LocalDate a sql.Date
 
             ps.setBoolean(7, p.isEnCartelera());
 
@@ -108,10 +102,13 @@ public class PeliculaData {
         }
         return false;
     }
-
+    //Bue, para buscar peliculas, obvio pa. Usada en la vista FuncionData para saber que pelicula va en una funcion
     public Pelicula buscarPelicula(int id) throws SQLException {
         String sql = "SELECT * FROM pelicula WHERE codPelicula=?";
         Pelicula pelicula = null;
+        
+       //No usamos try-with-resources porque somos conos y nos dimos cuenta despues que era mas util,
+       //igual funciona, y como dice el dicho, si funciona no se toca.
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);

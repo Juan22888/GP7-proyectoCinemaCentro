@@ -391,6 +391,8 @@ public class FuncionData {
          
         return funciones;
         }
+    
+    //busca una lista de funciones activas filtrando salas en especifico 
     public List listarFuncionesPorSala(int codSala) throws SQLException {
     List<Funcion> funciones = new ArrayList<>();
     // SQL: Selecciona todas las funciones activas para un código de sala específico

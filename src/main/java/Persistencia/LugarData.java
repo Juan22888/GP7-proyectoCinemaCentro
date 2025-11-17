@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Persistencia;
 
 import Modelo.Conexion;
@@ -17,10 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author feerl
- */
+
+//Lugar hace referencia a un asiento, como fila 1 nro 5, etc
+//No existe por si mismo, siempre pertenece a una funcion, depende mayormente a funcionData, para que lo tengan en cuenta
 public class LugarData {
 
     private Connection con = null;
@@ -32,17 +28,17 @@ public class LugarData {
 
     }
 
-    
+    //
    public void setFuncionData(FuncionData funcionData) {
         this.funData = funcionData;
     }
-    // ...
+
 
     public boolean validarLugar(Lugar lugar) throws IllegalArgumentException, SQLException {
         if (lugar == null) {
             throw new IllegalArgumentException("El lugar no puede ser nulo.");
         }
-
+        // Para que la fila sea una letra
         if (!Character.isLetter(lugar.getFila())) {
             throw new IllegalArgumentException("La fila debe ser una letra (A, B, C...).");
         }
@@ -64,7 +60,7 @@ public class LugarData {
         if (funcion == null) {
             throw new IllegalArgumentException("La función asociada al lugar no existe en la base de datos.");
         }
-
+        // para que no repita asientos
         String sql = "SELECT COUNT(*) FROM lugar WHERE fila = ? AND numero = ? AND codFuncion = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, String.valueOf(lugar.getFila()));
@@ -78,7 +74,7 @@ public class LugarData {
 
         return true;
     }
-
+    //para insertar un solo asiento, despreciado..
     public boolean insertarLugar(Lugar lugar) {
 
         String sql = "INSERT INTO lugar (fila, numero, estado, codFuncion) VALUES (?, ?, ?, ?)";
@@ -131,7 +127,7 @@ public class LugarData {
 
         return lugar;
     }
-
+    // para cambiar el estado de un asiento a ocupado y para liberarlo tambien
     public boolean actualizarLugar(int codLugar, boolean nuevoEstado) throws SQLException {
 
         String sql = "UPDATE lugar SET estado = ? WHERE codLugar = ?";
@@ -167,7 +163,7 @@ public class LugarData {
         }
         return false;
     }
-
+//Para buscar todos los asientos libres de una funcion, usado en DialogLugaresDisponibles
     public List<Lugar> obtenerLugaresDisponiblesPorFuncion(int codFuncion) {
         String sql = "SELECT codLugar, fila, numero FROM lugar WHERE codFuncion = ? AND estado = 0";
         List<Lugar> lugaresDisponibles = new ArrayList<>();
@@ -185,8 +181,8 @@ public class LugarData {
                         lugar.setCodLugar(rs.getInt("codLugar"));
                         lugar.setFila(rs.getString("fila").charAt(0));
                         lugar.setNumero(rs.getInt("numero"));
-                        lugar.setEstado(false);
-                        lugar.setFuncion(funcion);
+                        lugar.setEstado(false);// Sabemos que es 'false' (libre) por el SQL
+                        lugar.setFuncion(funcion);// Le asignamos la función (así todos apuntan al mismo objeto)
 
                         lugaresDisponibles.add(lugar);
                     }
@@ -198,7 +194,7 @@ public class LugarData {
 
         return lugaresDisponibles;
     }
-
+//Es parecido al anterior, pero trae todos los asientos de una funcion, sean libres u ocupados, es para saber cuantos asientos existen.
     public List<Lugar> obtenerLugaresPorFuncion(int codFuncion) {
         String sql = "SELECT codLugar, fila, numero FROM lugar WHERE codFuncion = ?";
         List<Lugar> lugaresDisponibles = new ArrayList<>();
@@ -228,7 +224,7 @@ public class LugarData {
 
         return lugaresDisponibles;
     }
-
+//usado en la vista NuevoLugar, para generar automaticamente los asientos, mucho drama hacerlo uno por uno
     public void crearLugaresParaFuncion(int codFuncion, int cantidad) throws SQLException {
         if (cantidad <= 0) {
             throw new IllegalArgumentException("La cantidad de asientos debe ser mayor que cero.");
@@ -296,7 +292,7 @@ public class LugarData {
             throw new SQLException("Error al generar asientos en lote (batch): " + e.getMessage());
         }
     }
-
+    //Trae todos los lugares de todas las funciones
     public List listarLugares() throws SQLException {
         List<Lugar> lugares = new ArrayList<>();
         String sql = "SELECT * FROM lugar";
@@ -306,12 +302,13 @@ public class LugarData {
             while (rs.next()) {
                 Funcion f = new Funcion();
                 Lugar l = new Lugar();
+                // Por cada asiento, busca su función
                 f = funData.buscarFuncion(rs.getInt("codFuncion"));
                 l.setCodLugar(rs.getInt("codLugar"));
                 l.setFila(rs.getString("fila").charAt(0));
                 l.setNumero(rs.getInt("numero"));
                 l.setEstado(rs.getBoolean("estado"));
-                l.setFuncion(f);
+                l.setFuncion(f);// Asigna el objeto Función
                 lugares.add(l);
             }
 
