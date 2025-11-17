@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
+
 package Vista;
 
 import Modelo.Comprador;
@@ -32,10 +29,8 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author FRANCO
- */
+//La vista principal para la venta de entradas, es la vista mas importante.
+//Maneja todo el flujo de la app, busca comprador, lo puede crear, elige pelicula, funcion, seleccion asientos, etc.
 public class VistaTaquilla extends javax.swing.JInternalFrame {
 
     private final PeliculaData peliculaData;
@@ -44,6 +39,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
     private final TicketData ticketData;
     private final DetalleTicketData detalleTicketData;
     private final CompradorData compradorData;
+    //variables de estado, para ir guardando lo que selecciona el usuario.
     private Comprador comprador;
     private Funcion funcion;
     private Lugar lugar;
@@ -52,6 +48,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
     private String titularTarjeta;
     private String fechaExpTarjeta;
     private String codVerificaTarjeta;
+    //---
     private String modoVenta;
     private List<Lugar> lugaresReservados;
 
@@ -69,20 +66,20 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         initComponents();
         cargarPeliculas();
         cargarMetodoPago();
+        
         if (this.modoVenta.equals("Taquilla")) {
-            // Si es Taquilla, ocultamos el botón de pago con tarjeta.
+            // Si es taquilla, ocultamos el boton de pago con tarjeta
             btnCargarTarjeta.setVisible(false);
-            // Opcional: Cambiar el texto del botón principal si es taquilla
-            // butGenerarTicket.setText("Pagar Efectivo y Generar Ticket");
+        
         } else if (this.modoVenta.equals("Online")) {
-            // Si es Online, mostramos el botón de pago con tarjeta.
+            // Si es online, mostramos el boton de pago con tarjeta.
             btnCargarTarjeta.setVisible(true);
             boxMetodoPago.setVisible(false);
             labelMetodoPago.setVisible(false);
         }
 
     }
-
+    //Carga las peliculas en el combobox pero solo las que estan en cartelera
     private void cargarPeliculas() {
         try {
             List<Pelicula> lista = peliculaData.listarPeliculasEnCartelera();
@@ -94,7 +91,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         }
 
     }
-
+    //para cargar la tabla
     private void cargarTabla(List<Funcion> listaFunciones) {
         DefaultTableModel modelo = (DefaultTableModel) tablaFunciones.getModel();
         modelo.setRowCount(0);
@@ -104,7 +101,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
             modelo.addRow(fila);
         }
     }
-
+    //carga el combobox con los metodos de pago
     private void cargarMetodoPago() {
         boxMetodoPago.addItem("Seleccionar método de pago");
         boxMetodoPago.addItem("Efectivo");
@@ -398,6 +395,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Filtra la tabla por la hora seleccionada.
     private void butBuscarHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBuscarHorarioActionPerformed
         Date horaSeleccionada = dateHorario.getDate();
 
@@ -411,10 +409,12 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
                 .toLocalTime();
 
         List<Funcion> listaFunciones = null;
+        
         List<Funcion> listaFuncionesEnCartelera = new ArrayList<>();
+        
         try {
-            listaFunciones = funcionData.listarFunciones();
-
+            listaFunciones = funcionData.listarFunciones();//trae todas ls funciones
+            
             for (int i = 0; i < listaFunciones.size(); i++) {
                 if (listaFunciones.get(i).getPelicula().isEnCartelera() == true) {
                     listaFuncionesEnCartelera.add(listaFunciones.get(i));
@@ -425,17 +425,17 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         } catch (SQLException ex) {
             Logger.getLogger(VistaTaquilla.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        //filtra las funciones que coincidan con la hora
         List<Funcion> filtradas = new ArrayList<>();
         for (Funcion f : listaFuncionesEnCartelera) {
             if (f.getHoraInicio().equals(horaBuscada)) {
                 filtradas.add(f);
             }
         }
-
+        //obviamente carga la tabla solo con las peliculas que se filtraron
         cargarTabla(filtradas);
     }//GEN-LAST:event_butBuscarHorarioActionPerformed
-
+    //parecida a la anterior, pero filtra por fecha
     private void butBuscarFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBuscarFechaActionPerformed
         Date horaSeleccionada = dateFecha.getDate();
 
@@ -472,19 +472,22 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
 
         cargarTabla(filtradas);
     }//GEN-LAST:event_butBuscarFechaActionPerformed
-
+ //...
     private void dateFechaAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_dateFechaAncestorAdded
 
     }//GEN-LAST:event_dateFechaAncestorAdded
 
+    //Filtra las peliculas elegidas en el cbox.
     private void boxPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxPeliculasActionPerformed
-        String peliculaSeleccionada = boxPeliculas.getSelectedItem().toString();
+        String peliculaSeleccionada = boxPeliculas.getSelectedItem().toString();//las convierte en String
+        //separar el id
         String[] partes = peliculaSeleccionada.split(" - ");
         String txtCodPelicula = partes[0];
         int codPelicula = Integer.parseInt(txtCodPelicula);
 
         List<Funcion> listaFunciones = null;
         try {
+            //filtramos en la db para mostrar solo la pelicula que corresponde al codPelicula
             listaFunciones = funcionData.listarFuncionesPorPelicula(codPelicula);
         } catch (SQLException ex) {
             Logger.getLogger(VistaTaquilla.class.getName()).log(Level.SEVERE, null, ex);
@@ -493,6 +496,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         cargarTabla(listaFunciones);
     }//GEN-LAST:event_boxPeliculasActionPerformed
 
+    //para capturar la funcion que el usuario quiere comporar
     private void tablaFuncionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaFuncionesMouseClicked
 
         int filaSeleccionada = tablaFunciones.getSelectedRow();
@@ -519,6 +523,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         }
 
         double precio = funcion.getPrecioLugar();
+        //para actualizar los precios
         if (funcion.isEs3d()) {
             txtPrecio3d.setText(String.valueOf(precio));
         } else {
@@ -526,20 +531,27 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tablaFuncionesMouseClicked
 
+    
+    //Es el que genera el ticket cuando el usuario termina de comprar
     private void butGenerarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butGenerarTicketActionPerformed
+        
+        //hacemos varias verificaciones.
+        //Si es online, que cargue la tarjeta
         if (!tarjetaIngresada && this.modoVenta.equals("Online")) {
             JOptionPane.showMessageDialog(this, "Debe cargar los datos de la tarjeta...", "Error de Pago", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        //que seleccione comprador
         if (comprador == null) {
             JOptionPane.showMessageDialog(this, "Error! No se cargó al comprador.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        //que elija asiento
         if (lugaresReservados == null || lugaresReservados.isEmpty()) { // Comprobación importante
             JOptionPane.showMessageDialog(this, "Error! No hay lugares reservados.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        //que se elija un metodo de pago
         String seleccionado = (String) boxMetodoPago.getSelectedItem();
         if (seleccionado.equals("Seleccionar método de pago") && boxMetodoPago.isVisible()==true) {
             JOptionPane.showMessageDialog(this, "Debe elegir un método de pago.",
@@ -563,18 +575,25 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
 
         TicketCompra ticket = new TicketCompra(-1, LocalDate.now(), total, comprador, metodoPago);
         try {
+            //guarda el ticket en la db
             ticketData.insertarTicket(ticket);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al crear ticket en la bd.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        //aca se crean todos los detalles
         List<DetalleTicket> detallesTicket = new ArrayList<>();
+        //vemos que lugares eligio el usuario
         for (int i = 0; i < lugaresReservados.size(); i++) {
             try {
+                //marca como ocupado el asiento en la db
                 lugarData.actualizarLugar(lugaresReservados.get(i).getCodLugar(), true);
             } catch (SQLException ex) {
                 Logger.getLogger(VistaTaquilla.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            //se cree el objeto detalle pasandole el lugar y el ticket
             DetalleTicket dt = new DetalleTicket(-1, lugaresReservados.get(i), ticket, true);
             detallesTicket.add(dt);
         }
@@ -591,19 +610,20 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
 
         JOptionPane.showMessageDialog(this, "¡El ticket se generó correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         try {
+            
             Frame parentFrame = (Frame) SwingUtilities.getWindowAncestor(this);
 
-            // LLAMAMOS AL OTRO CONSTRUCTOR (el de "Nueva Compra")
+           //le pasamos los datos a la ventana detalleTicket para que muestre la info
             DialogDetalleTicket dialog = new DialogDetalleTicket(
                     parentFrame,
                     true,
-                    ticket, // El ticket que acabamos de crear
-                    this.comprador, // El comprador de la vista
-                    this.funcion, // La función seleccionada
-                    this.lugaresReservados // Los asientos seleccionados
+                    ticket, 
+                    this.comprador, 
+                    this.funcion, 
+                    this.lugaresReservados 
             );
 
-            dialog.setVisible(true); // Mostrar el diálogo
+            dialog.setVisible(true); // Mostrar la ventana dialogoDetalleTicket
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,
@@ -613,12 +633,13 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
             e.printStackTrace();
         }
 
-        // 6. Limpiar la vista para la siguiente venta
+        // Limpiamos la vista para otras ventas
         butCancelarActionPerformed(null);
 
 
     }//GEN-LAST:event_butGenerarTicketActionPerformed
 
+    //abre la ventana para elegir los asientos
     private void butLugaresDisponiblesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butLugaresDisponiblesActionPerformed
         int filaSeleccionada = tablaFunciones.getSelectedRow();
 
@@ -658,7 +679,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         
         
     }//GEN-LAST:event_butLugaresDisponiblesActionPerformed
-
+    //limpia y resetea toda la vista
     private void butCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelarActionPerformed
         txtTotal.setText("");
         txtDni.setText("");
@@ -667,11 +688,11 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         boxMetodoPago.setSelectedIndex(0);
         DefaultTableModel modelo = (DefaultTableModel) tablaFunciones.getModel();
         modelo.setRowCount(0);
-        dateHorario.setDate(null); // limpia la fecha
+        dateHorario.setDate(null);
         dateFecha.setDate(null);
 
     }//GEN-LAST:event_butCancelarActionPerformed
-
+    //abre la vista NuevoComprador
     private void butNuevoCompradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNuevoCompradorActionPerformed
         NuevoComprador nv = new NuevoComprador(compradorData);
         this.getDesktopPane().add(nv);
@@ -679,6 +700,8 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         nv.toFront();
     }//GEN-LAST:event_butNuevoCompradorActionPerformed
 
+    
+    //para buscar un comprador por el dni
     private void butBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBuscarActionPerformed
         String txtdni = txtDni.getText();
 
@@ -693,7 +716,8 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Tipo de dato no valido", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        comprador = null;
+        comprador = null; //para limpiar al comprador anterior
+        //buscar en la db
         comprador = compradorData.buscarCompradorPorDni(dni);
 
         if (comprador == null) {
@@ -705,15 +729,16 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_butBuscarActionPerformed
 
+    //abre la ventana NuevaTarjeta, pero solo si se elige Online
     private void btnCargarTarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarTarjetaActionPerformed
 
         javax.swing.JFrame parentFrame = (javax.swing.JFrame) this.getDesktopPane().getTopLevelAncestor();
 
         NuevaTarjeta nuevaTarjeta = new NuevaTarjeta(parentFrame, true);
         nuevaTarjeta.setVisible(true);
-
+        
         if (nuevaTarjeta.isDatosCargados()) {
-
+            //se guardan los datos temporalmente
             this.numTarjeta = nuevaTarjeta.getNumero();
             this.titularTarjeta = nuevaTarjeta.getTitular();
             this.fechaExpTarjeta = nuevaTarjeta.getFechaExpira();

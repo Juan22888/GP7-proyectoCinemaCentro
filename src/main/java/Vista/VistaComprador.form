@@ -74,7 +74,7 @@
                                   <EmptySpace min="30" pref="30" max="-2" attributes="0"/>
                                   <Component id="btnEliminar" min="-2" pref="130" max="-2" attributes="0"/>
                                   <EmptySpace min="30" pref="30" max="-2" attributes="0"/>
-                                  <Component id="jButton1" min="-2" pref="140" max="-2" attributes="0"/>
+                                  <Component id="btnReiniciarTabla" min="-2" pref="140" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="0" pref="8" max="32767" attributes="0"/>
@@ -110,7 +110,7 @@
                       <Component id="btnNuevo" min="-2" pref="50" max="-2" attributes="0"/>
                       <Component id="btnActualizar" min="-2" pref="49" max="-2" attributes="0"/>
                       <Component id="btnEliminar" min="-2" pref="49" max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" pref="50" max="-2" attributes="0"/>
+                      <Component id="btnReiniciarTabla" min="-2" pref="50" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="40" max="32767" attributes="0"/>
               </Group>
@@ -238,12 +238,12 @@
             <Property name="text" type="java.lang.String" value="Gestion De Compradores"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="btnReiniciarTabla">
           <Properties>
             <Property name="text" type="java.lang.String" value="Reiniciar Tabla"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReiniciarTablaActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="butAltaBaja">

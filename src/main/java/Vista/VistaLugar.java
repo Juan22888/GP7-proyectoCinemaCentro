@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
+
 package Vista;
 
 import Modelo.Lugar;
@@ -18,25 +15,22 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author FRANCO
- */
+//para mostrar todos los asientos de todas las funcionas y hacer el crud
 public class VistaLugar extends javax.swing.JInternalFrame {
-
+    //obviamente todas las clases datas para comunicarnos con la db
     private final FuncionData funcionData;
     private final LugarData lugarData;
 
     public VistaLugar(PeliculaData peliculaData, FuncionData funcionData, LugarData lugarData) {
         this.funcionData = funcionData;
         this.lugarData = lugarData;
-
+        //pasamos el funcionData al lugarData para buscar las funciones completas al listar los asientos
         lugarData.setFuncionData(funcionData);
         initComponents();
 
         cargarLugares();
     }
-
+    //llena el jtable con todos los asientos de todas las funciones de la db
     private void cargarLugares() {
         List<Lugar> listaLugares = null;
         try {
@@ -292,7 +286,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+//Abre la ventana NuevosLugares para crear nuevosLugares, re redundante el chico
     private void butNuevosLugaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNuevosLugaresActionPerformed
         NuevoLugar nl = new NuevoLugar(lugarData, funcionData);
         LugarDesktop.add(nl);
@@ -300,6 +294,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_butNuevosLugaresActionPerformed
 
+    //busca un lugar especifico por su codLugar
     private void butBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBuscarActionPerformed
         String buscarLugar = txtBuscarLugar.getText();
         int codLugar = 0;
@@ -328,6 +323,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
         modelo.addRow(fila);
     }//GEN-LAST:event_butBuscarActionPerformed
 
+    //para modificar elestado de los asientos en la tabla
     private void butGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butGuardarCambiosActionPerformed
                if (TablaLugares.isEditing()) {
             TablaLugares.getCellEditor().stopCellEditing();
@@ -343,21 +339,34 @@ public class VistaLugar extends javax.swing.JInternalFrame {
         int codL = Integer.parseInt(TablaLugares.getValueAt(filaSeleccionada, 0).toString());
         
 
-             try {
-                 if(lugarData.buscarLugar(codL).isEstado()==true){
-                 lugarData.bajaLogicaLugar(codL);
-                 JOptionPane.showMessageDialog(this, "¡El lugar se marcó como disponible!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                 }else{
-                 lugarData.altaLogicaLugar(codL);
-                 JOptionPane.showMessageDialog(this, "¡El lugar se marcó como ocupado!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                 }
-          
-                cargarLugares();
-             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, "No se pudo dar de alta o baja al lugar =?", "Error de BD", JOptionPane.ERROR_MESSAGE);
-             }
-        
-        
+        try {
+            //obtenemos el codigo de la fila y el estado
+            int codLugar = Integer.parseInt(TablaLugares.getValueAt(filaSeleccionada, 0).toString());
+            boolean estado = Boolean.parseBoolean(TablaLugares.getValueAt(filaSeleccionada, 3).toString());
+
+            if (estado != true && estado != false) {
+                JOptionPane.showMessageDialog(this, "\"El estado del asiento debe ser válido (ocupado/true o libre/false).\"", "Error de Datos", JOptionPane.ERROR_MESSAGE);
+            }
+
+            boolean exito = lugarData.actualizarLugar(codLugar, estado);
+
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "¡El estado del lugar se modificó correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cargarLugares(); // refresca la tabla
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "No se pudo actualizar el estado del lugar (0 filas afectadas).",
+                        "Error de Actualización",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error en el formato del ID del lugar.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al guardar en la base de datos: " + ex.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
 
     }//GEN-LAST:event_butGuardarCambiosActionPerformed
 
@@ -366,9 +375,11 @@ public class VistaLugar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_butReiniciarActionPerformed
 
     private void butCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelarActionPerformed
-
+        this.dispose();
     }//GEN-LAST:event_butCancelarActionPerformed
 
+    
+    //filtra la tabla para mostrar los asienots de una funcion en especifica
     private void buscarPorFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarPorFuncionActionPerformed
 
         if (txtBuscarLugar.getText().trim().isEmpty()) {
@@ -381,6 +392,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
 
         int codFuncion;
         try {
+            //capturamos el cod de la funcion desde el textfield
             codFuncion = Integer.parseInt(txtBuscarLugar.getText().trim());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this,
@@ -417,6 +429,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_buscarPorFuncionActionPerformed
 
+    //para eliminar permanentemente de la db
     private void butEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butEliminarActionPerformed
 
         int filaSeleccionada = TablaLugares.getSelectedRow();
@@ -434,9 +447,9 @@ public class VistaLugar extends javax.swing.JInternalFrame {
         if (confirmacion == JOptionPane.YES_OPTION) {
             try {
 
-                int idPelicula = Integer.parseInt(TablaLugares.getValueAt(filaSeleccionada, 0).toString());
+                int codLugar = Integer.parseInt(TablaLugares.getValueAt(filaSeleccionada, 0).toString());
 
-                boolean exito = lugarData.eliminarLugar(idPelicula);
+                boolean exito = lugarData.eliminarLugar(codLugar);
 
                 if (exito) {
                     JOptionPane.showMessageDialog(this, "Lugar eliminado exitosamente.");

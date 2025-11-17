@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
+
 package Vista;
 
 import Modelo.Comprador;
@@ -24,7 +21,7 @@ import java.sql.Date;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
-
+//ventana que gestiona los tickets, nuevamente para hacer el crud y algomas
 public class VistaTicket extends javax.swing.JInternalFrame {
 
     private final TicketData ticketData;
@@ -34,10 +31,12 @@ public class VistaTicket extends javax.swing.JInternalFrame {
     private final DefaultTableModel modelo = new DefaultTableModel() {
         @Override
         public boolean isCellEditable(int row, int column) {
-
+            //Para que la tabla sea editables solo en la columna 1 y 2, pero no en la 0
             return column == 1 || column == 2;
         }
     };
+    
+    //listas locales, para saber que objetos estan en la tabla
     private List<Comprador> listaCompradores;
     private List<TicketCompra> listaTickets;
 
@@ -49,6 +48,8 @@ public class VistaTicket extends javax.swing.JInternalFrame {
         this.detalleTicketData = detalleTicketData;
         this.listaCompradores = new ArrayList<>();
         this.listaTickets = new ArrayList<>();
+        
+        //carga los titulos directamente desde aqui sin modificar la tabla manualmente
         String[] titulos = {"Comprador", "Fecha de Compra", "Monto"};
         this.modelo.setColumnIdentifiers(titulos);
         ticketTable.setModel(modelo);
@@ -57,7 +58,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
         cargarTicket();
 
     }
-
+    //Para llenar el cbox con los compradores de la db
     public void cargarCompradores() {
         try {
 
@@ -78,14 +79,17 @@ public class VistaTicket extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Error al cargar compradores: " + e.getMessage());
         }
     }
-
+    //es para refrescar la tabla y muestre todos los tickets 
     private void cargarTicket() {
-        modelo.setRowCount(0);
-        listaTickets.clear();
-        List<TicketCompra> tickets = ticketData.listarTickets();
-
+        modelo.setRowCount(0);//limpiar tabla
+        listaTickets.clear();//limpiar la lista local de tickets
+        List<TicketCompra> tickets = ticketData.listarTickets();// buscamos la lista completa de los tickes de la db
+        
+        //recorremos esa lista
         for (TicketCompra t : tickets) {
-            listaTickets.add(t);
+            listaTickets.add(t);//guardamos el ticket en la list
+            
+            //añadimos las filas a la tabla
             modelo.addRow(new Object[]{
                 t.getComprador().getNombre(),
                 t.getFechaCompra(),
@@ -93,7 +97,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
 
         }
     }
-
+    //para buscar y mostrar los tickets de un comprador
     private void buscarComprador() {
         int indiceSeleccionado = CboxComprador.getSelectedIndex();
 
@@ -108,7 +112,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
             int codComprador = compradorSeleccionado.getCodComprador();
 
             modelo.setRowCount(0);
-
+            //aca usamos nuestra lista local para buscar todos los tickets que ya teniamos
             for (TicketCompra t : listaTickets) {
                 if (t.getComprador().getCodComprador() == codComprador) {
                     modelo.addRow(new Object[]{
@@ -127,7 +131,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Error al buscar tickets: " + e.getMessage());
         }
     }
-
+    //borrar ticket, facilito
     private void borrarTicket() {
         int filaSeleccionada = ticketTable.getSelectedRow();
 
@@ -242,6 +246,8 @@ public class VistaTicket extends javax.swing.JInternalFrame {
 
         cargarTicket();
     }
+    
+    //abrimos el dialogoDetalleTicket para mosttrar los detalles, es la misma pantalla que aparece al generar un ticket cuando hacemos una compra
     private void verDetallesTicket(){
         int filaSeleccionada = ticketTable.getSelectedRow();
 
@@ -251,13 +257,13 @@ public class VistaTicket extends javax.swing.JInternalFrame {
         }
 
         try {
-            // 1. Obtenemos el TicketCompra de nuestra lista local
+            //obtenemos el TicketCompra de nuestra lista local
             TicketCompra ticketSeleccionado = listaTickets.get(filaSeleccionada);
 
-            // 2. Obtenemos el Frame principal para centrar el diálogo
+            // obtenemos la ventana principal para centrar el diálogo
             Frame parentFrame = (Frame) SwingUtilities.getWindowAncestor(this);
 
-            // 3. Creamos y mostramos el diálogo usando el CONSTRUCTOR PARA TICKETS EXISTENTES
+            //creamos y mostramos la ventana detalleticket
             DialogDetalleTicket dialog = new DialogDetalleTicket(
                     parentFrame, 
                     true, 
