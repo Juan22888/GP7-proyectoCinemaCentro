@@ -60,7 +60,11 @@ public class VistaLugar extends javax.swing.JInternalFrame {
         }
 
         for (Lugar lugar : listaLugares) {
-            Object[] fila = {lugar.getCodLugar(), lugar.getFila(), lugar.getNumero(), lugar.isEstado(), lugar.getFuncion().getCodFuncion()};
+            Object[] fila = {lugar.getCodLugar(),
+                lugar.getFila(), 
+                lugar.getNumero(), 
+                lugar.isEstado() ? "Ocupado" : "Disponible", 
+                lugar.getFuncion().getCodFuncion()};
             modelo.addRow(fila);
         }
     }
@@ -325,7 +329,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_butBuscarActionPerformed
 
     private void butGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butGuardarCambiosActionPerformed
-        if (TablaLugares.isEditing()) {
+               if (TablaLugares.isEditing()) {
             TablaLugares.getCellEditor().stopCellEditing();
         }
 
@@ -335,35 +339,25 @@ public class VistaLugar extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una fila para modificar.", "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        
+        int codL = Integer.parseInt(TablaLugares.getValueAt(filaSeleccionada, 0).toString());
+        
 
-        try {
-
-            int codLugar = Integer.parseInt(TablaLugares.getValueAt(filaSeleccionada, 0).toString());
-            boolean estado = Boolean.parseBoolean(TablaLugares.getValueAt(filaSeleccionada, 3).toString());
-
-            if (estado != true && estado != false) {
-                JOptionPane.showMessageDialog(this, "\"El estado del asiento debe ser válido (ocupado/true o libre/false).\"", "Error de Datos", JOptionPane.ERROR_MESSAGE);
-            }
-
-            boolean exito = lugarData.actualizarLugar(codLugar, estado);
-
-            if (exito) {
-                JOptionPane.showMessageDialog(this, "¡El estado del lugar se modificó correctamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                cargarLugares(); // refresca la tabla
-            } else {
-                JOptionPane.showMessageDialog(this,
-                        "No se pudo actualizar el estado del lugar (0 filas afectadas).",
-                        "Error de Actualización",
-                        JOptionPane.WARNING_MESSAGE);
-            }
-
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Error en el formato del ID del lugar.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al guardar en la base de datos: " + ex.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+             try {
+                 if(lugarData.buscarLugar(codL).isEstado()==true){
+                 lugarData.bajaLogicaLugar(codL);
+                 JOptionPane.showMessageDialog(this, "¡El lugar se marcó como disponible!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                 }else{
+                 lugarData.altaLogicaLugar(codL);
+                 JOptionPane.showMessageDialog(this, "¡El lugar se marcó como ocupado!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                 }
+          
+                cargarLugares();
+             } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "No se pudo dar de alta o baja al lugar =?", "Error de BD", JOptionPane.ERROR_MESSAGE);
+             }
+        
+        
 
     }//GEN-LAST:event_butGuardarCambiosActionPerformed
 
