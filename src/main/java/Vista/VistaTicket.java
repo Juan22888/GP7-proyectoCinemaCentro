@@ -11,6 +11,8 @@ import java.awt.Frame;
 import Modelo.TicketCompra;
 import Persistencia.CompradorData;
 import Persistencia.TicketData;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.sql.Date;
+import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
 
@@ -277,7 +280,14 @@ public class VistaTicket extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDesktopPane1 = new javax.swing.JDesktopPane();
+        ImageIcon icono = new ImageIcon(getClass().getResource("/Fondos/img/fondo-administracion2.jpg"));
+        Image miImagen = icono.getImage();
+        jDesktopPane1 = new javax.swing.JDesktopPane(){
+            public void paintComponent(Graphics g){
+                g.drawImage(miImagen,0,0, getWidth(), getHeight(),this);
+            }
+
+        };
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         ticketTable = new javax.swing.JTable();
@@ -296,9 +306,9 @@ public class VistaTicket extends javax.swing.JInternalFrame {
         jDesktopPane1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 2, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Gestion de Ticket");
-        jDesktopPane1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(188, 0, 214, -1));
+        jDesktopPane1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 214, -1));
 
         ticketTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -323,6 +333,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
 
         jDesktopPane1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 149, 580, 195));
 
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Comprador:");
         jDesktopPane1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, -1, 31));
 
@@ -335,7 +346,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
                 ButActualizarActionPerformed(evt);
             }
         });
-        jDesktopPane1.add(ButActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 390, -1, -1));
+        jDesktopPane1.add(ButActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 380, -1, -1));
 
         ButBorrar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         ButBorrar.setForeground(new java.awt.Color(51, 51, 51));
@@ -345,7 +356,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
                 ButBorrarActionPerformed(evt);
             }
         });
-        jDesktopPane1.add(ButBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 390, -1, -1));
+        jDesktopPane1.add(ButBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 380, -1, -1));
 
         ButMostrar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         ButMostrar.setForeground(new java.awt.Color(51, 51, 51));
@@ -355,7 +366,7 @@ public class VistaTicket extends javax.swing.JInternalFrame {
                 ButMostrarActionPerformed(evt);
             }
         });
-        jDesktopPane1.add(ButMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 390, -1, -1));
+        jDesktopPane1.add(ButMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 380, -1, -1));
 
         btnDetalles.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnDetalles.setText("Ver Detalles");
@@ -387,9 +398,8 @@ public class VistaTicket extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 624, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

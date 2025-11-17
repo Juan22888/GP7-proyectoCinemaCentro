@@ -6,10 +6,13 @@ package Vista;
 
 import Modelo.Sala;
 import Persistencia.SalaData;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -84,15 +87,25 @@ public class VistaSala extends javax.swing.JInternalFrame {
         btnBajaAlta = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        ImageIcon icono = new ImageIcon(getClass().getResource("/Fondos/img/fondo-administracion2.jpg"));
+        Image miImagen = icono.getImage();
+        jDesktopPane2 = new javax.swing.JDesktopPane(){
+            public void paintComponent(Graphics g){
+                g.drawImage(miImagen,0,0, getWidth(), getHeight(),this);
+            }
+
+        };
 
         setClosable(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Administracion de Salas del Cine");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Buscar Salas:");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 121, -1, -1));
 
@@ -151,6 +164,7 @@ public class VistaSala extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 640, 136, 50));
+        getContentPane().add(jDesktopPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 820, 760));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -294,6 +308,7 @@ public class VistaSala extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnBuscarSalas;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnNuevaSala;
+    private javax.swing.JDesktopPane jDesktopPane2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

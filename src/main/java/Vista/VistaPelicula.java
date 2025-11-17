@@ -6,11 +6,14 @@ package Vista;
 
 import Modelo.Pelicula;
 import Persistencia.PeliculaData;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -69,7 +72,14 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jDesktopPane1 = new javax.swing.JDesktopPane();
-        PeliculaDesktop = new javax.swing.JDesktopPane();
+        ImageIcon icono = new ImageIcon(getClass().getResource("/Fondos/img/fondo-administracion2.jpg"));
+        Image miImagen = icono.getImage();
+        PeliculaDesktop = new javax.swing.JDesktopPane(){
+            public void paintComponent(Graphics g){
+                g.drawImage(miImagen,0,0, getWidth(), getHeight(),this);
+            }
+
+        };
         butCancelar = new javax.swing.JButton();
         butNuevaPelicula = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -105,7 +115,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
                 butCancelarActionPerformed(evt);
             }
         });
-        PeliculaDesktop.add(butCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(623, 544, 112, 50));
+        PeliculaDesktop.add(butCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 570, 112, 50));
 
         butNuevaPelicula.setText("Nueva Pelicula");
         butNuevaPelicula.addActionListener(new java.awt.event.ActionListener() {
@@ -113,11 +123,12 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
                 butNuevaPeliculaActionPerformed(evt);
             }
         });
-        PeliculaDesktop.add(butNuevaPelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(172, 544, 135, 50));
+        PeliculaDesktop.add(butNuevaPelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 570, 135, 50));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Gestion de Pelicula");
-        PeliculaDesktop.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 6, -1, -1));
+        PeliculaDesktop.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 40, -1, -1));
         PeliculaDesktop.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(405, 320, -1, -1));
 
         TablaPeliculas.setModel(new javax.swing.table.DefaultTableModel(
@@ -141,11 +152,12 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(TablaPeliculas);
 
-        PeliculaDesktop.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 99, 747, -1));
+        PeliculaDesktop.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 747, -1));
 
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Buscar Pelicula:");
-        PeliculaDesktop.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 69, -1, -1));
-        PeliculaDesktop.add(txtBuscarPelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(231, 69, 170, -1));
+        PeliculaDesktop.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 90, 20));
+        PeliculaDesktop.add(txtBuscarPelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, 170, -1));
 
         butBuscar.setText("Buscar");
         butBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -153,7 +165,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
                 butBuscarActionPerformed(evt);
             }
         });
-        PeliculaDesktop.add(butBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(423, 62, -1, -1));
+        PeliculaDesktop.add(butBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 90, -1, -1));
 
         butBuscarPorCartelera.setText("Buscar Por Cartelera");
         butBuscarPorCartelera.addActionListener(new java.awt.event.ActionListener() {
@@ -161,7 +173,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
                 butBuscarPorCarteleraActionPerformed(evt);
             }
         });
-        PeliculaDesktop.add(butBuscarPorCartelera, new org.netbeans.lib.awtextra.AbsoluteConstraints(513, 62, -1, -1));
+        PeliculaDesktop.add(butBuscarPorCartelera, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 90, -1, -1));
 
         butGuardarCambios.setText("Guardar Cambios");
         butGuardarCambios.addActionListener(new java.awt.event.ActionListener() {
@@ -169,7 +181,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
                 butGuardarCambiosActionPerformed(evt);
             }
         });
-        PeliculaDesktop.add(butGuardarCambios, new org.netbeans.lib.awtextra.AbsoluteConstraints(325, 544, 145, 50));
+        PeliculaDesktop.add(butGuardarCambios, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 570, 145, 50));
 
         butReiniciarTabla.setText("Reiniciar Tabla");
         butReiniciarTabla.setPreferredSize(new java.awt.Dimension(300, 199));
@@ -178,7 +190,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
                 butReiniciarTablaActionPerformed(evt);
             }
         });
-        PeliculaDesktop.add(butReiniciarTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 544, 132, 50));
+        PeliculaDesktop.add(butReiniciarTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 570, 132, 50));
 
         butEliminar.setText("Eliminar");
         butEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -186,19 +198,19 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
                 butEliminarActionPerformed(evt);
             }
         });
-        PeliculaDesktop.add(butEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(488, 544, 117, 50));
+        PeliculaDesktop.add(butEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 570, 117, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(PeliculaDesktop))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(PeliculaDesktop, javax.swing.GroupLayout.PREFERRED_SIZE, 806, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PeliculaDesktop)
+            .addComponent(PeliculaDesktop, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
         );
 
         pack();

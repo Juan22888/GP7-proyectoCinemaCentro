@@ -148,14 +148,14 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         labelCombo5 = new javax.swing.JLabel();
         butBuscarFecha = new javax.swing.JButton();
         butBuscarHorario = new javax.swing.JButton();
+        dateHorario = new com.toedter.calendar.JDateChooser();
+        boxMetodoPago = new javax.swing.JComboBox<>();
+        dateFecha = new com.toedter.calendar.JDateChooser();
         labelPorDefecto1 = new javax.swing.JLabel();
+        btnCargarTarjeta = new javax.swing.JButton();
+        boxPeliculas = new javax.swing.JComboBox<>();
         fondo = new javax.swing.JLabel();
         Escritorio = new javax.swing.JDesktopPane();
-        btnCargarTarjeta = new javax.swing.JButton();
-        dateFecha = new com.toedter.calendar.JDateChooser();
-        dateHorario = new com.toedter.calendar.JDateChooser();
-        boxPeliculas = new javax.swing.JComboBox<>();
-        boxMetodoPago = new javax.swing.JComboBox<>();
 
         button1.setLabel("button1");
 
@@ -165,13 +165,16 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Dni");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 90, -1, -1));
 
         labelPrecios.setFont(new java.awt.Font("Calibri", 3, 24)); // NOI18N
+        labelPrecios.setForeground(new java.awt.Color(255, 255, 255));
         labelPrecios.setText("Precios");
         getContentPane().add(labelPrecios, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 630, -1, -1));
 
+        butBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/lupa.png"))); // NOI18N
         butBuscar.setText("Buscar");
         butBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,6 +183,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         });
         getContentPane().add(butBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 80, -1, -1));
 
+        butNuevoComprador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/agregar-usuario.png"))); // NOI18N
         butNuevoComprador.setText("Nuevo Comprador");
         butNuevoComprador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -194,19 +198,23 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         getContentPane().add(txtPrecio3d, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 700, 100, -1));
 
         labelMetodoPago.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
+        labelMetodoPago.setForeground(new java.awt.Color(255, 255, 255));
         labelMetodoPago.setText("Metodo de pago");
         getContentPane().add(labelMetodoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 630, -1, -1));
         getContentPane().add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 600, 1080, 10));
 
         jLabel4.setFont(new java.awt.Font("Calibri", 3, 36)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Venta de Entrada");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, -1, -1));
 
         labelComprador.setBackground(new java.awt.Color(0, 0, 0));
         labelComprador.setFont(new java.awt.Font("Calibri", 3, 24)); // NOI18N
+        labelComprador.setForeground(new java.awt.Color(255, 255, 255));
         labelComprador.setText("Comprador");
         getContentPane().add(labelComprador, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, -1, -1));
 
+        butCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/icons8-cross-mark-48.png"))); // NOI18N
         butCancelar.setText("Cancelar");
         butCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -216,32 +224,37 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         getContentPane().add(butCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 670, 140, 50));
 
         labellLugaresDisponibles.setFont(new java.awt.Font("Calibri", 3, 24)); // NOI18N
+        labellLugaresDisponibles.setForeground(new java.awt.Color(255, 255, 255));
         labellLugaresDisponibles.setText("Total");
         getContentPane().add(labellLugaresDisponibles, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 690, -1, -1));
 
-        butComboSiNo.setText("Si");
+        butComboSiNo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/acceso.png"))); // NOI18N
         butComboSiNo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butComboSiNoActionPerformed(evt);
             }
         });
-        getContentPane().add(butComboSiNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 530, 130, 50));
+        getContentPane().add(butComboSiNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 510, 80, 70));
         getContentPane().add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 1070, 20));
 
         labellLugaresDisponibles1.setFont(new java.awt.Font("Calibri", 3, 24)); // NOI18N
+        labellLugaresDisponibles1.setForeground(new java.awt.Color(255, 255, 255));
         labellLugaresDisponibles1.setText("Lugares Disponibles");
         getContentPane().add(labellLugaresDisponibles1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 490, -1, -1));
         getContentPane().add(txtDni, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 90, 140, -1));
 
         labelCombo.setFont(new java.awt.Font("Calibri", 3, 24)); // NOI18N
+        labelCombo.setForeground(new java.awt.Color(255, 255, 255));
         labelCombo.setText("3D");
         getContentPane().add(labelCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 700, -1, -1));
 
         labelCombo1.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
+        labelCombo1.setForeground(new java.awt.Color(255, 255, 255));
         labelCombo1.setText("Fecha");
         getContentPane().add(labelCombo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 160, -1, -1));
 
         labelCombo2.setFont(new java.awt.Font("Calibri", 3, 24)); // NOI18N
+        labelCombo2.setForeground(new java.awt.Color(255, 255, 255));
         labelCombo2.setText("2D");
         getContentPane().add(labelCombo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 660, -1, -1));
 
@@ -251,6 +264,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         txtPrecio2d.setEnabled(false);
         getContentPane().add(txtPrecio2d, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 660, 100, -1));
 
+        butLugaresDisponibles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/silla.png"))); // NOI18N
         butLugaresDisponibles.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         butLugaresDisponibles.setBorderPainted(false);
         butLugaresDisponibles.addActionListener(new java.awt.event.ActionListener() {
@@ -260,6 +274,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         });
         getContentPane().add(butLugaresDisponibles, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 520, 60, 70));
 
+        butGenerarTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/iconticket.jpg"))); // NOI18N
         butGenerarTicket.setText(" Generar Ticket");
         butGenerarTicket.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -295,58 +310,35 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 240, 840, 220));
 
         labelCombo3.setFont(new java.awt.Font("Calibri", 3, 24)); // NOI18N
+        labelCombo3.setForeground(new java.awt.Color(255, 255, 255));
         labelCombo3.setText("Combo 2x1");
-        getContentPane().add(labelCombo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 500, -1, -1));
+        getContentPane().add(labelCombo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 480, -1, -1));
 
         labelCombo4.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
+        labelCombo4.setForeground(new java.awt.Color(255, 255, 255));
         labelCombo4.setText("Peliculas");
-        getContentPane().add(labelCombo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, -1, -1));
+        getContentPane().add(labelCombo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 160, -1, -1));
 
         labelCombo5.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
+        labelCombo5.setForeground(new java.awt.Color(255, 255, 255));
         labelCombo5.setText("Horario");
         getContentPane().add(labelCombo5, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, -1, -1));
 
+        butBuscarFecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/lupa.png"))); // NOI18N
         butBuscarFecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butBuscarFechaActionPerformed(evt);
             }
         });
-        getContentPane().add(butBuscarFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 180, 40, -1));
+        getContentPane().add(butBuscarFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 180, 40, -1));
 
+        butBuscarHorario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/lupa.png"))); // NOI18N
         butBuscarHorario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butBuscarHorarioActionPerformed(evt);
             }
         });
         getContentPane().add(butBuscarHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 180, 40, -1));
-
-        labelPorDefecto1.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
-        labelPorDefecto1.setText("Por Defecto (No)");
-        getContentPane().add(labelPorDefecto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 540, -1, -1));
-
-        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/fondo.jpg"))); // NOI18N
-        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -30, -1, 790));
-
-        btnCargarTarjeta.setText("Cargar Tarjeta");
-        btnCargarTarjeta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCargarTarjetaActionPerformed(evt);
-            }
-        });
-        Escritorio.add(btnCargarTarjeta);
-        btnCargarTarjeta.setBounds(890, 100, 130, 23);
-
-        dateFecha.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                dateFechaAncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-        });
-        Escritorio.add(dateFecha);
-        dateFecha.setBounds(760, 210, 120, 22);
 
         dateHorario.setDateFormatString("HH:mm");
         dateHorario.addAncestorListener(new javax.swing.event.AncestorListener() {
@@ -358,25 +350,49 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
-        Escritorio.add(dateHorario);
-        dateHorario.setBounds(470, 210, 120, 22);
-
-        boxPeliculas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boxPeliculasActionPerformed(evt);
-            }
-        });
-        Escritorio.add(boxPeliculas);
-        boxPeliculas.setBounds(120, 210, 190, 22);
+        getContentPane().add(dateHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(472, 190, 110, -1));
 
         boxMetodoPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 boxMetodoPagoActionPerformed(evt);
             }
         });
-        Escritorio.add(boxMetodoPago);
-        boxMetodoPago.setBounds(150, 650, 190, 22);
+        getContentPane().add(boxMetodoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 630, 150, -1));
 
+        dateFecha.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                dateFechaAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        getContentPane().add(dateFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(755, 190, 110, -1));
+
+        labelPorDefecto1.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
+        labelPorDefecto1.setForeground(new java.awt.Color(255, 255, 255));
+        labelPorDefecto1.setText("Por Defecto (No)");
+        getContentPane().add(labelPorDefecto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 530, -1, -1));
+
+        btnCargarTarjeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/tarjeta-bancaria.png"))); // NOI18N
+        btnCargarTarjeta.setText("Cargar Tarjeta");
+        btnCargarTarjeta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCargarTarjetaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnCargarTarjeta, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 80, -1, -1));
+
+        boxPeliculas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boxPeliculasActionPerformed(evt);
+            }
+        });
+        getContentPane().add(boxPeliculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 190, 210, -1));
+
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/fondo.jpg"))); // NOI18N
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -30, -1, 790));
         getContentPane().add(Escritorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, -20, 1080, 760));
 
         pack();
@@ -719,13 +735,19 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
 
         int entradasC = lugaresReservados.size();
 
-        if (this.isSelected()) {
+        if(entradasC == 0){
+          JOptionPane.showMessageDialog(this, "No hay lugares reservados.", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            if (this.isSelected()) {
             int cantidadEntradas = lugaresReservados.size();
             entradasC = (cantidadEntradas / 2) + (cantidadEntradas % 2);
         }
 
         String precioTotalStr = String.valueOf(entradasC * funcion.getPrecioLugar());
         txtTotal.setText(precioTotalStr);
+            
+        }
+        
 
     }//GEN-LAST:event_butComboSiNoActionPerformed
 

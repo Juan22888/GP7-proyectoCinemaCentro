@@ -10,11 +10,14 @@ import Modelo.Sala;
 import Persistencia.FuncionData;
 import Persistencia.PeliculaData;
 import Persistencia.SalaData;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -97,24 +100,35 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
         JLOpciones = new javax.swing.JLabel();
         CBox3D = new javax.swing.JCheckBox();
         CBoxSubtitulo = new javax.swing.JCheckBox();
-        jSeparator2 = new javax.swing.JSeparator();
-        ButGuardar = new javax.swing.JButton();
-        ButLimpiar = new javax.swing.JButton();
+        ImageIcon icono = new ImageIcon(getClass().getResource("/Fondos/img/fondo-administracion2.jpg"));
+        Image miImagen = icono.getImage();
+        jDesktopPane1 = new javax.swing.JDesktopPane(){
+            public void paintComponent(Graphics g){
+                g.drawImage(miImagen,0,0, getWidth(), getHeight(),this);
+            }
+
+        };
         ButCerrar = new javax.swing.JButton();
+        ButLimpiar = new javax.swing.JButton();
+        ButGuardar = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JSeparator();
 
         setTitle("Nueva Funcion");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Light", 3, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nueva Funcion");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 0, -1, -1));
 
+        JLPelicula.setForeground(new java.awt.Color(255, 255, 255));
         JLPelicula.setText("Pelicula :");
         getContentPane().add(JLPelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 50, 20));
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 440, 10));
 
         getContentPane().add(CBoxPeliculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 130, -1));
 
+        JLSala.setForeground(new java.awt.Color(255, 255, 255));
         JLSala.setText("Sala :");
         getContentPane().add(JLSala, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, 40, 20));
 
@@ -125,6 +139,7 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
         });
         getContentPane().add(CBoxSalas, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, 130, -1));
 
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Idioma :");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, 20));
 
@@ -135,18 +150,22 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
         });
         getContentPane().add(CBoxIdiomas, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 130, -1));
 
+        JLFecha.setForeground(new java.awt.Color(255, 255, 255));
         JLFecha.setText("Fecha Funcion :");
-        getContentPane().add(JLFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 100, -1, 20));
+        getContentPane().add(JLFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 100, -1, 20));
         getContentPane().add(DChooserFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 100, 130, -1));
 
+        JLInicio.setForeground(new java.awt.Color(255, 255, 255));
         JLInicio.setText("Hora Inicio :");
         getContentPane().add(JLInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, -1, 20));
         getContentPane().add(TexHoraInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 140, 90, -1));
 
+        JLFin.setForeground(new java.awt.Color(255, 255, 255));
         JLFin.setText("Hora Fin:");
         getContentPane().add(JLFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, -1, 20));
         getContentPane().add(TexHoraFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 180, 90, -1));
 
+        JLPrecio.setForeground(new java.awt.Color(255, 255, 255));
         JLPrecio.setText("Precio Lugar :");
         getContentPane().add(JLPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 220, -1, 20));
 
@@ -157,6 +176,7 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
         });
         getContentPane().add(TexPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, 90, -1));
 
+        JLOpciones.setForeground(new java.awt.Color(255, 255, 255));
         JLOpciones.setText("Opciones :");
         getContentPane().add(JLOpciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 270, -1, 20));
 
@@ -165,23 +185,6 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
 
         CBoxSubtitulo.setText("Subtitulada");
         getContentPane().add(CBoxSubtitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, -1, -1));
-        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 313, 440, 10));
-
-        ButGuardar.setText("Guardar");
-        ButGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButGuardarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(ButGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
-
-        ButLimpiar.setText("Limpiar");
-        ButLimpiar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButLimpiarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(ButLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 330, -1, -1));
 
         ButCerrar.setText("Cerrar");
         ButCerrar.addActionListener(new java.awt.event.ActionListener() {
@@ -189,7 +192,30 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
                 ButCerrarActionPerformed(evt);
             }
         });
-        getContentPane().add(ButCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 330, -1, -1));
+        jDesktopPane1.add(ButCerrar);
+        ButCerrar.setBounds(362, 360, 80, 40);
+
+        ButLimpiar.setText("Limpiar");
+        ButLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButLimpiarActionPerformed(evt);
+            }
+        });
+        jDesktopPane1.add(ButLimpiar);
+        ButLimpiar.setBounds(120, 360, 90, 40);
+
+        ButGuardar.setText("Guardar");
+        ButGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButGuardarActionPerformed(evt);
+            }
+        });
+        jDesktopPane1.add(ButGuardar);
+        ButGuardar.setBounds(10, 360, 90, 40);
+        jDesktopPane1.add(jSeparator2);
+        jSeparator2.setBounds(0, 340, 470, 10);
+
+        getContentPane().add(jDesktopPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 470, 420));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -331,6 +357,7 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
     private javax.swing.JTextField TexHoraFin;
     private javax.swing.JTextField TexHoraInicio;
     private javax.swing.JTextField TexPrecio;
+    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JSeparator jSeparator1;

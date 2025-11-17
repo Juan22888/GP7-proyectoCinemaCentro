@@ -7,8 +7,11 @@ package Vista;
 import Modelo.Funcion;
 import Persistencia.FuncionData;
 import Persistencia.LugarData;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.sql.SQLException;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -56,7 +59,6 @@ public class NuevoLugar extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         labelFuncion = new javax.swing.JLabel();
         boxFunciones = new javax.swing.JComboBox<>();
         butAgregar = new javax.swing.JButton();
@@ -65,16 +67,22 @@ public class NuevoLugar extends javax.swing.JInternalFrame {
         txtCantidad = new java.awt.TextField();
         jLabel3 = new javax.swing.JLabel();
         txtCapacidad = new java.awt.TextField();
+        ImageIcon icono = new ImageIcon(getClass().getResource("/Fondos/img/fondo-administracion2.jpg"));
+        Image miImagen = icono.getImage();
+        jDesktopPane1 = new javax.swing.JDesktopPane(){
+            public void paintComponent(Graphics g){
+                g.drawImage(miImagen,0,0, getWidth(), getHeight(),this);
+            }
+
+        };
+        jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setText("Nuevos Lugares");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(168, 55, -1, -1));
-
+        labelFuncion.setForeground(new java.awt.Color(255, 255, 255));
         labelFuncion.setText("Funcion:");
-        getContentPane().add(labelFuncion, new org.netbeans.lib.awtextra.AbsoluteConstraints(95, 192, -1, -1));
+        getContentPane().add(labelFuncion, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, -1, -1));
 
         boxFunciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,7 +94,7 @@ public class NuevoLugar extends javax.swing.JInternalFrame {
                 boxFuncionesKeyReleased(evt);
             }
         });
-        getContentPane().add(boxFunciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 189, 300, -1));
+        getContentPane().add(boxFunciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 250, -1));
 
         butAgregar.setText("Agregar");
         butAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -94,7 +102,7 @@ public class NuevoLugar extends javax.swing.JInternalFrame {
                 butAgregarActionPerformed(evt);
             }
         });
-        getContentPane().add(butAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(126, 339, 97, 45));
+        getContentPane().add(butAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 310, 97, 45));
 
         butCancelar.setText("Cancelar");
         butCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -107,18 +115,45 @@ public class NuevoLugar extends javax.swing.JInternalFrame {
                 butCancelarKeyReleased(evt);
             }
         });
-        getContentPane().add(butCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(257, 339, 90, 45));
+        getContentPane().add(butCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 310, 90, 45));
 
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Cantidad:");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(88, 149, -1, -1));
         getContentPane().add(txtCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 145, 113, -1));
 
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Capacidad (Sala)");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 246, -1, -1));
 
         txtCapacidad.setEditable(false);
         txtCapacidad.setEnabled(false);
         getContentPane().add(txtCapacidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 246, 120, -1));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Nuevos Lugares");
+
+        jDesktopPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
+        jDesktopPane1.setLayout(jDesktopPane1Layout);
+        jDesktopPane1Layout.setHorizontalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                .addGap(131, 131, 131)
+                .addComponent(jLabel1)
+                .addContainerGap(157, Short.MAX_VALUE))
+        );
+        jDesktopPane1Layout.setVerticalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addComponent(jLabel1)
+                .addContainerGap(334, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jDesktopPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 470, 420));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -189,6 +224,7 @@ public class NuevoLugar extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> boxFunciones;
     private javax.swing.JButton butAgregar;
     private javax.swing.JButton butCancelar;
+    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

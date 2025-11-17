@@ -8,9 +8,14 @@ import Modelo.Lugar;
 import Persistencia.FuncionData;
 import Persistencia.LugarData;
 import Persistencia.PeliculaData;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.sql.SQLException;
 import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,11 +30,10 @@ public class VistaLugar extends javax.swing.JInternalFrame {
     public VistaLugar(PeliculaData peliculaData, FuncionData funcionData, LugarData lugarData) {
         this.funcionData = funcionData;
         this.lugarData = lugarData;
-        
-        
+
         lugarData.setFuncionData(funcionData);
         initComponents();
-        
+
         cargarLugares();
     }
 
@@ -71,13 +75,18 @@ public class VistaLugar extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jDesktopPane1 = new javax.swing.JDesktopPane();
-        LugarDesktop = new javax.swing.JDesktopPane();
+        ImageIcon icono = new ImageIcon(getClass().getResource("/Fondos/img/fondo-administracion2.jpg"));
+        Image miImagen = icono.getImage();
+        LugarDesktop = new javax.swing.JDesktopPane(){
+            public void paintComponent(Graphics g){
+                g.drawImage(miImagen,0,0, getWidth(), getHeight(),this);
+            }
+
+        };
         butCancelar = new javax.swing.JButton();
         butNuevosLugares = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        TablaLugares = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         txtBuscarLugar = new java.awt.TextField();
         butBuscar = new javax.swing.JButton();
@@ -85,6 +94,8 @@ public class VistaLugar extends javax.swing.JInternalFrame {
         butReiniciar = new javax.swing.JButton();
         buscarPorFuncion = new javax.swing.JButton();
         butEliminar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TablaLugares = new javax.swing.JTable();
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -114,30 +125,11 @@ public class VistaLugar extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Gestion de Lugares");
 
-        TablaLugares.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "CodLugar", "fila", "numero", "estado", "CodFuncion"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, true, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(TablaLugares);
-
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Buscar Lugar:");
 
         butBuscar.setText("Buscar");
@@ -175,11 +167,31 @@ public class VistaLugar extends javax.swing.JInternalFrame {
             }
         });
 
+        TablaLugares.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "CodLugar", "fila", "numero", "estado", "CodFuncion"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(TablaLugares);
+
         LugarDesktop.setLayer(butCancelar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         LugarDesktop.setLayer(butNuevosLugares, javax.swing.JLayeredPane.DEFAULT_LAYER);
         LugarDesktop.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         LugarDesktop.setLayer(jSeparator1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        LugarDesktop.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         LugarDesktop.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         LugarDesktop.setLayer(txtBuscarLugar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         LugarDesktop.setLayer(butBuscar, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -187,6 +199,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
         LugarDesktop.setLayer(butReiniciar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         LugarDesktop.setLayer(buscarPorFuncion, javax.swing.JLayeredPane.DEFAULT_LAYER);
         LugarDesktop.setLayer(butEliminar, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        LugarDesktop.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout LugarDesktopLayout = new javax.swing.GroupLayout(LugarDesktop);
         LugarDesktop.setLayout(LugarDesktopLayout);
@@ -195,79 +208,77 @@ public class VistaLugar extends javax.swing.JInternalFrame {
             .addGroup(LugarDesktopLayout.createSequentialGroup()
                 .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(LugarDesktopLayout.createSequentialGroup()
-                        .addGap(230, 230, 230)
+                        .addGap(270, 270, 270)
                         .addComponent(jLabel1))
                     .addGroup(LugarDesktopLayout.createSequentialGroup()
                         .addGap(102, 102, 102)
                         .addComponent(jLabel2)
                         .addGap(22, 22, 22)
                         .addComponent(txtBuscarLugar, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(10, 10, 10)
                         .addComponent(butBuscar)
                         .addGap(18, 18, 18)
                         .addComponent(buscarPorFuncion))
                     .addGroup(LugarDesktopLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
+                        .addGap(30, 30, 30)
                         .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(LugarDesktopLayout.createSequentialGroup()
-                                .addGap(355, 355, 355)
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(331, 331, 331)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(LugarDesktopLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
+                        .addGap(10, 10, 10)
                         .addComponent(butReiniciar)
-                        .addGap(12, 12, 12)
+                        .addGap(23, 23, 23)
                         .addComponent(butNuevosLugares, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(25, 25, 25)
                         .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(15, 15, 15)
                         .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(8, 8, 8)
                         .addComponent(butEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGap(10, 10, 10))
         );
         LugarDesktopLayout.setVerticalGroup(
             LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LugarDesktopLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
                 .addComponent(jLabel1)
+                .addGap(10, 10, 10)
+                .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(butBuscar)
+                    .addComponent(buscarPorFuncion)
+                    .addGroup(LugarDesktopLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(txtBuscarLugar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(15, 15, 15)
                 .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(LugarDesktopLayout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(jLabel2))
-                    .addGroup(LugarDesktopLayout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(butBuscar))
-                    .addGroup(LugarDesktopLayout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(buscarPorFuncion))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LugarDesktopLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBuscarLugar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(LugarDesktopLayout.createSequentialGroup()
-                        .addGap(217, 217, 217)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(14, 14, 14)
+                        .addGap(220, 220, 220)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
                 .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(butReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(butNuevosLugares, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(butEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(butEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
-        getContentPane().add(LugarDesktop, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 0, -1, 662));
+        getContentPane().add(LugarDesktop, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 0, 710, 510));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void butNuevosLugaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNuevosLugaresActionPerformed
-
         NuevoLugar nl = new NuevoLugar(lugarData, funcionData);
         LugarDesktop.add(nl);
         nl.setVisible(true);
+
     }//GEN-LAST:event_butNuevosLugaresActionPerformed
 
     private void butBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBuscarActionPerformed

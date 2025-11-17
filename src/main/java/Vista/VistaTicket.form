@@ -24,9 +24,8 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="jDesktopPane1" min="-2" pref="601" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <Component id="jDesktopPane1" min="-2" pref="624" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -43,6 +42,10 @@
           <Color blue="33" green="33" red="33" type="rgb"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JDesktopPane(){&#xd;&#xa;    public void paintComponent(Graphics g){&#xd;&#xa;    g.drawImage(miImagen,0,0, getWidth(), getHeight(),this);&#xd;&#xa;}&#xd;&#xa;&#xd;&#xa;}"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="ImageIcon icono = new ImageIcon(getClass().getResource(&quot;/Fondos/img/fondo-administracion2.jpg&quot;));&#xd;&#xa;Image miImagen = icono.getImage();"/>
+      </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
         <Property name="useNullLayout" type="boolean" value="false"/>
@@ -54,13 +57,13 @@
               <Font name="Segoe UI Black" size="24" style="2"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="99" green="99" red="99" type="rgb"/>
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Gestion de Ticket"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="188" y="0" width="214" height="-1"/>
+              <AbsoluteConstraints x="200" y="30" width="214" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -119,6 +122,9 @@
         </Container>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Comprador:"/>
           </Properties>
           <Constraints>
@@ -143,7 +149,7 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="140" y="390" width="-1" height="-1"/>
+              <AbsoluteConstraints x="140" y="380" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -162,7 +168,7 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="240" y="390" width="-1" height="-1"/>
+              <AbsoluteConstraints x="240" y="380" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -181,7 +187,7 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="320" y="390" width="-1" height="-1"/>
+              <AbsoluteConstraints x="320" y="380" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>

@@ -91,7 +91,7 @@ public final class DialogLugaresDisponibles extends javax.swing.JDialog {
         setTitle("Reservar Lugares");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        butCancelar.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Documents\\NetBeansProjects\\CineCentro\\GP7-proyectoCinemaCentro\\img\\icons8-cross-mark-48.png")); // NOI18N
+        butCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/icons8-cross-mark-48.png"))); // NOI18N
         butCancelar.setText("Cancelar");
         butCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -100,7 +100,7 @@ public final class DialogLugaresDisponibles extends javax.swing.JDialog {
         });
         getContentPane().add(butCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 680, 230, 70));
 
-        butReservarAsientos.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Documents\\NetBeansProjects\\CineCentro\\GP7-proyectoCinemaCentro\\img\\asiento-de-cine.png")); // NOI18N
+        butReservarAsientos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/asiento-de-cine.png"))); // NOI18N
         butReservarAsientos.setText("Reservar Asiento/s");
         butReservarAsientos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,7 +132,7 @@ public final class DialogLugaresDisponibles extends javax.swing.JDialog {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 640, 530));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\FRANCO\\Documents\\NetBeansProjects\\CineCentro\\GP7-proyectoCinemaCentro\\img\\fondo.jpg")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/fondo.jpg"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 780, 790));
 
         pack();
