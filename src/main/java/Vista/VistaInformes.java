@@ -19,6 +19,8 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+
+//Para filtrar informes y consultar datos
 public class VistaInformes extends javax.swing.JInternalFrame {
 
     private final PeliculaData peliculaData;
@@ -46,9 +48,11 @@ public class VistaInformes extends javax.swing.JInternalFrame {
         reporteTable.setModel(modelo);
     }
 
+    
+    //para filtrar por tickets vendidos en tal pelicula
     private void cargarPeliculasComboBox() {
 
-        boxPeliculas.removeAllItems();
+        boxPeliculas.removeAllItems();//limpiar cbox
         boxPeliculas.addItem("Seleccione una Película...");
         try {
             List<Pelicula> lista = peliculaData.listarPeliculas();
@@ -60,7 +64,7 @@ public class VistaInformes extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Error al cargar las películas para el filtro: " + ex.getMessage(), "Error SQL", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    //solo muestra peliculas que se van a estrenar pero no estan en cartelera
     private void cargarReporteProximosEstrenos() {
         modelo.setRowCount(0);
         modelo.setColumnIdentifiers(new Object[]{"Título", "Director", "Género", "Estreno"});
@@ -87,20 +91,20 @@ public class VistaInformes extends javax.swing.JInternalFrame {
         }
     }
 
-    //Buscar tickets por fecha
+    //Buscar tickets vendidos en un dia en especifico
     private void ticketPorFecha() {
 
-        Date fechaSeleccionada = dateChooserFecha.getDate();
+        Date fechaSeleccionada = dateChooserFecha.getDate();//obtenemos la fecha del JDateChooser
 
         if (fechaSeleccionada == null) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una fecha para el informe.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        //convierte a LocalDate
         LocalDate fechaLocal = fechaSeleccionada.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
-
+        //limpiamos tabla y definimos las columnas para hacer este reporte
         modelo.setRowCount(0);
         modelo.setColumnIdentifiers(new Object[]{"N° Ticket", "Comprador", "Fecha Compra", "Monto Total", "Método Pago"});
 
@@ -129,7 +133,7 @@ public class VistaInformes extends javax.swing.JInternalFrame {
         }
     }
 
-    //buscar por la cantidad de entradas vendidas de cada pelicula
+    //buscar por la cantidad de entradas vendidas en una pelicula en especifico 
     private void ticketPorPelicula() {
         String seleccion = (String) boxPeliculas.getSelectedItem();
 
@@ -139,8 +143,9 @@ public class VistaInformes extends javax.swing.JInternalFrame {
         }
 
         try {
+            //extraemos el codigo
             int codPelicula = Integer.parseInt(seleccion.split(" - ")[0].trim());
-
+             //limpiamos tabla y definimos las columnas para hacer este reporte
             modelo.setRowCount(0);
             modelo.setColumnIdentifiers(new Object[]{"N° Ticket", "Comprador", "Fecha Compra", "Monto Total", "Método Pago"});
 
