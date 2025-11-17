@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Persistencia;
 
 import Modelo.Conexion;
@@ -15,10 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author FRANCO
- */
+//Para crear las salas del cine
 public class SalaData {
 
     private Connection con = null;
@@ -26,14 +20,16 @@ public class SalaData {
     public SalaData() {
         this.con = Conexion.buscarConexion();
     }
-
+    
+    
+    //Validador para mantener coherencia con lo que pide el integrador
     private void validarCapacidad(int capacidad) throws IllegalArgumentException {
 
         if (capacidad < 170 || capacidad > 230) {
             throw new IllegalArgumentException("La capacidad de la sala debe estar entre 170 y 230 butacas.");
         }
     }
-
+    //otro validador, para uqe no rompa toda la base de datos
     private void validarSala(Sala sala) throws IllegalArgumentException {
         if (sala == null) {
             throw new NullPointerException("El objeto Sala no puede ser nulo");
@@ -45,7 +41,7 @@ public class SalaData {
         }
         validarCapacidad(sala.getCapacidad());
     }
-
+    //Usado por la vista VistaNuevaSala
     public boolean insertarSala(Sala sala) throws SQLException {
 
         String sql = "INSERT INTO sala (nroSala, apta3d, capacidad, estado) VALUES (?, ?, ?, ?)";
@@ -79,8 +75,9 @@ public class SalaData {
             return false;
         }
     }
-
+// FuncionData lo usa para saber en que sala se da una funcion
     public Sala buscarSala(int codSala) {
+        
         String sql = "SELECT codSala, nroSala, apta3d, capacidad, estado FROM sala WHERE codSala = ?";
         Sala sala = null;
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -100,9 +97,9 @@ public class SalaData {
         }
         return sala;
     }
-
+    //se usa en VistaSala para modifcar los datos de la tabla
     public boolean actualizarSala(int codSala, int nroSala, boolean apta3D, int capacidad, boolean estado) {
-
+        
         String sql = "UPDATE sala SET nroSala = ?, apta3d = ?, capacidad = ?, estado = ? WHERE codSala = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, nroSala);
@@ -118,7 +115,7 @@ public class SalaData {
             return false;
         }
     }
-
+    //Usado para alta y baja logica en VistaSala
     public boolean cambiarEstadoSala(int codSala, boolean nuevoEstado) {
         String sql = "UPDATE sala SET estado = ? WHERE codSala = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -144,7 +141,8 @@ public class SalaData {
             return false;
         }
     }
-
+    //Busca la sala pero por su numero, no por su codigo, porque es el que el usuario ve. 
+    //Usado en VistaSala
     public Sala buscarSalaPorNroSala(int nroSala) {
         String sql = "SELECT codSala, nroSala, apta3d, capacidad, estado FROM sala WHERE nroSala = ?";
         Sala sala = null;
@@ -165,7 +163,7 @@ public class SalaData {
         }
         return sala;
     }
-
+    //Trae todas las salas. Usado en VistaSala para llenar la tabla cuando se abre
     public List<Sala> listarSalas() {
         String sql = "SELECT codSala, nroSala, apta3d, capacidad, estado FROM sala";
         List<Sala> salas = new ArrayList<>();
@@ -185,7 +183,7 @@ public class SalaData {
         }
         return salas;
     }
-
+    //Duplicado de buscarSalaPorNroSala, no toco porque como dice el dicho: Si no esta roto, no toques..
     public Sala buscarSalaPorNro(int nroSala) {
         String sql = "SELECT codSala, nroSala, apta3d, capacidad, estado FROM sala WHERE nroSala = ?";
         Sala sala = null;

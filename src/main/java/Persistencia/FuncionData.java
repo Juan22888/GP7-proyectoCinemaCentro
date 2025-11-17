@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Persistencia;
 
 import Modelo.Conexion;
@@ -20,10 +17,8 @@ import java.util.List;
 import javax.swing.JTable;
 
 
-/**
- *
- * @author FRANCO
- */
+
+//Clase funcion: proyeccion de una pelicula, en una sala, en una fecha y hora especifica
 public class FuncionData {
 
     private Connection con = null;
@@ -69,7 +64,7 @@ public class FuncionData {
         if (f.getPrecioLugar() <= 0) {
             throw new IllegalArgumentException("El precio debe ser mayor que 0.");
         }
-
+            //valida si la pelicula y la sala que se le pasa existen
         Sala sala = salaData.buscarSala(f.getSalaFuncion().getCodSala());
         Pelicula pelicula = peliculaData.buscarPelicula(f.getPelicula().getCodPelicula());
 
@@ -92,17 +87,17 @@ public class FuncionData {
         if (f.isEs3d() && !sala.isApta3d()) {
             throw new RuntimeException("La sala " + sala.getNroSala() + " no es apta para proyecciones 3D.");
         }
-
+        //Para evitar que las tablas se solapen
         List<Funcion> listaFunciones = this.listarFunciones();
 
         for (Funcion existente : listaFunciones) {
-           
-            if (existente.isEstado()
-                    && existente.getSalaFuncion().getCodSala() == f.getSalaFuncion().getCodSala()
+            //buscamos una funcion existente
+            if (existente.isEstado() //Si la funcion esta activa
+                    && existente.getSalaFuncion().getCodSala() == f.getSalaFuncion().getCodSala()//si es la misma sala
                     && existente.getCodFuncion() != f.getCodFuncion()) {
-
+                //misma fecha
                 if (existente.getFecha().isEqual(f.getFecha())) {
-
+                    //por si los horarios se solapan/chocan
                     LocalTime inicioExistente = existente.getHoraInicio();
                     LocalTime finExistente = existente.getHoraFin();
                     LocalTime inicioNueva = f.getHoraInicio();
@@ -120,7 +115,7 @@ public class FuncionData {
                 }
             }
         }
-        
+      
         long minutosDuracion = ChronoUnit.MINUTES.between(f.getHoraInicio(), f.getHoraFin());
         if (minutosDuracion < 90) {
         throw new IllegalArgumentException("La duración de la función debe ser de al menos 90 minutos.");
@@ -195,7 +190,6 @@ public class FuncionData {
 
         return false;
     }
-
     public Funcion buscarFuncion(int id) throws SQLException {
         String sql = "SELECT * FROM funcion WHERE codFuncion=?";
         Funcion funcion = null;
@@ -282,7 +276,7 @@ public class FuncionData {
             throw new SQLException("Error al eliminar la funcion" + ex);
         }
     }
-
+// busca todas las funciones
     public List<Funcion> listarFunciones() throws SQLException {
         List<Funcion> funciones = new ArrayList<>();
         String sql = "SELECT * FROM funcion";
@@ -315,6 +309,7 @@ public class FuncionData {
 
         return funciones;
     }
+    //busca las funciones pero solo las activas y solo de una pelicula.
 
     public List listarFuncionesPorPelicula(int codPelicula) throws SQLException {
         List<Funcion> funciones = new ArrayList<>();
@@ -352,18 +347,17 @@ public class FuncionData {
 
         return funciones;
     }
-        
+        //busca y filtras las funciones activas en un idioma especifico
     public List ListarFuncionesPorIdioma(String idioma) throws SQLException{
     
         List<Funcion> funciones = new ArrayList<>();
         
-        // SQLseleciona todos las funciones activas por idioma
+        // SQL seleciona todos las funciones activas por idioma
         String sql = "SELECT * FROM funcion WHERE idioma LIKE ? AND estado = true";
         try (PreparedStatement ps = con.prepareStatement(sql)){
         
-            // usamos '%' para permitir busquedas 
-            //parciales o asegurar que coincida exactamente sino hay comodines
-            
+           
+        /// usamos '%' para permitir busquedas  parciales o asegurar que coincida exactamente    
         ps.setString(1, "%" + idioma + "%");
 
         ResultSet rs = ps.executeQuery();
@@ -397,6 +391,8 @@ public class FuncionData {
          
         return funciones;
         }
+    
+    //busca una lista de funciones activas filtrando salas en especifico 
     public List listarFuncionesPorSala(int codSala) throws SQLException {
     List<Funcion> funciones = new ArrayList<>();
     // SQL: Selecciona todas las funciones activas para un código de sala específico
