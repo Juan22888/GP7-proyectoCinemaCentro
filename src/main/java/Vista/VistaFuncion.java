@@ -98,6 +98,10 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         jSeparator3 = new javax.swing.JSeparator();
 
         setTitle("Gestion de funciones");
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jDesktopPane1.setForeground(new java.awt.Color(255, 255, 255));
+        jDesktopPane1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         TablaFunciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -115,7 +119,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -127,15 +131,27 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         TablaFunciones.setShowGrid(true);
         jScrollPane1.setViewportView(TablaFunciones);
 
+        jDesktopPane1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 730, 180));
+
         Titulo.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         Titulo.setForeground(new java.awt.Color(153, 153, 153));
         Titulo.setText("GESTION DE FUNCIONES");
+        jDesktopPane1.add(Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
 
         JLPeliculas.setText("Peliculas");
+        jDesktopPane1.add(JLPeliculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 50, 74, 20));
+
+        jDesktopPane1.add(CBoxPeliculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 50, 130, -1));
 
         JLSalas.setText("Salas");
+        jDesktopPane1.add(JLSalas, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 90, 42, 20));
+
+        jDesktopPane1.add(CBoxSalas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 90, 130, -1));
 
         JLIdioma.setText("Idioma");
+        jDesktopPane1.add(JLIdioma, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 131, 58, 20));
+
+        jDesktopPane1.add(CBoxIdioma, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, 130, -1));
 
         ButMostrar.setText("Mostrar Funciones");
         ButMostrar.addActionListener(new java.awt.event.ActionListener() {
@@ -143,6 +159,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 ButMostrarActionPerformed(evt);
             }
         });
+        jDesktopPane1.add(ButMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, 160, -1));
 
         ButInsertar.setText("Insertar");
         ButInsertar.addActionListener(new java.awt.event.ActionListener() {
@@ -150,6 +167,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 ButInsertarActionPerformed(evt);
             }
         });
+        jDesktopPane1.add(ButInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 450, -1, 20));
 
         ButActualizar.setText("Actualizar");
         ButActualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -157,6 +175,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 ButActualizarActionPerformed(evt);
             }
         });
+        jDesktopPane1.add(ButActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 450, 120, 20));
 
         ButBorrar.setText("Borrar");
         ButBorrar.addActionListener(new java.awt.event.ActionListener() {
@@ -164,6 +183,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 ButBorrarActionPerformed(evt);
             }
         });
+        jDesktopPane1.add(ButBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 450, 90, 20));
 
         ButAltaBaja.setText("Alta/Baja");
         ButAltaBaja.addActionListener(new java.awt.event.ActionListener() {
@@ -171,6 +191,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 ButAltaBajaActionPerformed(evt);
             }
         });
+        jDesktopPane1.add(ButAltaBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, 110, 20));
 
         ButCerrar.setText("Cerrar");
         ButCerrar.addActionListener(new java.awt.event.ActionListener() {
@@ -178,114 +199,12 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 ButCerrarActionPerformed(evt);
             }
         });
+        jDesktopPane1.add(ButCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 450, -1, 20));
+        jDesktopPane1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 730, -1));
+        jDesktopPane1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 730, -1));
+        jDesktopPane1.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 730, 10));
 
-        jDesktopPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(Titulo, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(JLPeliculas, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(CBoxPeliculas, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(JLSalas, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(CBoxSalas, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(JLIdioma, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(CBoxIdioma, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(ButMostrar, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(ButInsertar, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(ButActualizar, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(ButBorrar, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(ButAltaBaja, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(ButCerrar, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jSeparator1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jSeparator2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jSeparator3, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addGap(260, 260, 260)
-                .addComponent(Titulo))
-            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addGap(270, 270, 270)
-                .addComponent(JLPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CBoxPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addGap(290, 290, 290)
-                .addComponent(JLSalas, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(CBoxSalas, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addGap(280, 280, 280)
-                .addComponent(JLIdioma, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(CBoxIdioma, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addGap(300, 300, 300)
-                .addComponent(ButMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(ButInsertar)
-                .addGap(28, 28, 28)
-                .addComponent(ButActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(ButBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(ButAltaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(180, 180, 180)
-                .addComponent(ButCerrar))
-        );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Titulo)
-                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(17, 17, 17)
-                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(JLPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CBoxPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(JLSalas, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CBoxSalas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CBoxIdioma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JLIdioma, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
-                .addComponent(ButMostrar)
-                .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
-                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
-                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ButInsertar)
-                    .addComponent(ButActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButAltaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
-        );
+        getContentPane().add(jDesktopPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 490));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -317,14 +236,15 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
 
     private void ButCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButCerrarActionPerformed
         // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_ButCerrarActionPerformed
 
     private void ButAltaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButAltaBajaActionPerformed
         // TODO add your handling code here:
         try{
-                    int fila = TablaFunciones.getSelectedRow();
+            int fila = TablaFunciones.getSelectedRow();
         if (fila == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione una funcion");
+        JOptionPane.showMessageDialog(this, "Por favor, seleccione una funcion de la tabla.", "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
