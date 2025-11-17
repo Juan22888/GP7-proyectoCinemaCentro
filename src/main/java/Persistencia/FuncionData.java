@@ -475,6 +475,30 @@ public class FuncionData {
         }
     }
      }
+     
+     
+        public boolean bajaLogicaFuncion(int codFuncion) throws SQLException {
+        String sql = "UPDATE funcion SET estado = 0 WHERE codFuncion=?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, codFuncion);
+            int filas = ps.executeUpdate();
+            return filas > 0;
+        } catch (SQLException ex) {
+            throw new SQLException("no se pudo dar de baja la funcion: " + ex.getMessage());
+        }
+    }
+
+    public boolean altaLogicaFuncion(int codFuncion) throws SQLException {
+        String sql = "UPDATE funcion SET estado = 1 WHERE codFuncion =?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, codFuncion);
+            int filas = ps.executeUpdate();
+            return filas > 0;
+        } catch (SQLException ex) {
+            throw new SQLException("No se pudo dar de alta la funcion =?");
+
+        }
+    }
 }
    
 
