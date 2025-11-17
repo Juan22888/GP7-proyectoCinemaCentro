@@ -186,6 +186,7 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
         CBoxSubtitulo.setText("Subtitulada");
         getContentPane().add(CBoxSubtitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, -1, -1));
 
+        ButCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/icons8-cross-mark-48.png"))); // NOI18N
         ButCerrar.setText("Cerrar");
         ButCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -193,8 +194,9 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
             }
         });
         jDesktopPane1.add(ButCerrar);
-        ButCerrar.setBounds(362, 360, 80, 40);
+        ButCerrar.setBounds(310, 360, 140, 40);
 
+        ButLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/Iconos/escoba.png"))); // NOI18N
         ButLimpiar.setText("Limpiar");
         ButLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,8 +204,9 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
             }
         });
         jDesktopPane1.add(ButLimpiar);
-        ButLimpiar.setBounds(120, 360, 90, 40);
+        ButLimpiar.setBounds(170, 360, 110, 40);
 
+        ButGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/disquete.png"))); // NOI18N
         ButGuardar.setText("Guardar");
         ButGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -211,7 +214,7 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
             }
         });
         jDesktopPane1.add(ButGuardar);
-        ButGuardar.setBounds(10, 360, 90, 40);
+        ButGuardar.setBounds(10, 360, 120, 40);
         jDesktopPane1.add(jSeparator2);
         jSeparator2.setBounds(0, 340, 470, 10);
 
@@ -227,11 +230,6 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
     private void CBoxIdiomasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBoxIdiomasActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CBoxIdiomasActionPerformed
-
-    private void ButCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButCerrarActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_ButCerrarActionPerformed
 
     private void CBoxSalasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBoxSalasActionPerformed
         // TODO add your handling code here:
@@ -335,6 +333,11 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
         JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
     }
     }//GEN-LAST:event_ButGuardarActionPerformed
+
+    private void ButCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButCerrarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_ButCerrarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
