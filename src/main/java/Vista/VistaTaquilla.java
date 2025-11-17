@@ -541,7 +541,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         }
 
         String seleccionado = (String) boxMetodoPago.getSelectedItem();
-        if (seleccionado.equals("Seleccionar método de pago")) {
+        if (seleccionado.equals("Seleccionar método de pago") && boxMetodoPago.isVisible()==true) {
             JOptionPane.showMessageDialog(this, "Debe elegir un método de pago.",
                     "Error de Datos", JOptionPane.ERROR_MESSAGE);
             return;
