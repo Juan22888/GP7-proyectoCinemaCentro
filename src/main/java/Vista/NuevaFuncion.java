@@ -42,7 +42,7 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
             List<Pelicula> lista = pData.listarPeliculas();
             CBoxPeliculas.removeAllItems();
             for(Pelicula p : lista){
-                CBoxPeliculas.addItem(p.getTitulo());
+                CBoxPeliculas.addItem(p.getCodPelicula()+" - "+p.getTitulo());
             }
         } catch (Exception e){
             JOptionPane.showMessageDialog(this, "Error al cargar peliculas: "+ e.getMessage());
@@ -228,17 +228,25 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
           try {
         
-        Pelicula peli = (Pelicula) CBoxPeliculas.getSelectedItem();
-        if (peli == null) {
+        String peliculaStr = CBoxPeliculas.getSelectedItem().toString();
+        if (peliculaStr.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Seleccione una pelicula.");
             return;
         }
         
-        Sala sala = (Sala) CBoxSalas.getSelectedItem();
-        if (sala == null) {
+        String partes[] = peliculaStr.split(" - ");
+        String codPelicula = partes[0];
+        int codPeli = Integer.parseInt(codPelicula);
+        Pelicula pelicula = pData.buscarPelicula(codPeli);
+        
+        String salaStr = CBoxSalas.getSelectedItem().toString();
+        if (salaStr.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Selecione una sala.");
             return;
         }
+        
+        int salaInt = Integer.parseInt(salaStr);
+        Sala sala =sData.buscarSalaPorNroSala(salaInt);
 
         String idioma = (String) CBoxIdiomas.getSelectedItem();
 
@@ -277,7 +285,7 @@ public class NuevaFuncion extends javax.swing.JInternalFrame {
 
 
         Funcion f = new Funcion();
-        f.setPelicula(peli);
+        f.setPelicula(pelicula);
         f.setSalaFuncion(sala);
         f.setIdioma(idioma);
         f.setFecha(fechaFuncion);
