@@ -12,6 +12,7 @@ import Persistencia.LugarData;
 import Persistencia.PeliculaData;
 import Persistencia.SalaData;
 import Persistencia.TicketData;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -38,6 +39,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         this.peliculaData = peliculaData;
         this.salaData = salaData;
         this.ticketData = ticketData;
+        jLabel2.setIcon(new ImageIcon(getClass().getResource("/Fondos/img/cine.jpg")));
     }
 
     public void abrirInternal(JInternalFrame nuevo) {
@@ -72,6 +74,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/cine.jpg"))); // NOI18N
+
         Escritorio.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout EscritorioLayout = new javax.swing.GroupLayout(Escritorio);
@@ -79,12 +83,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
         EscritorioLayout.setHorizontalGroup(
             EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(EscritorioLayout.createSequentialGroup()
-                .addContainerGap(1168, Short.MAX_VALUE)
-                .addComponent(jLabel2))
+                .addComponent(jLabel2)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         EscritorioLayout.setVerticalGroup(
             EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1051, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1051, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         menuAdministracion.setText("Administracion");
