@@ -266,14 +266,14 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Seleccione una funcion");
                 return;
             }
-            int id = fData.obtenerIdFuncionDesdeTabla(fila, TablaFunciones);
-
+            int codFuncion = Integer.parseInt(TablaFunciones.getValueAt(fila, 0).toString());
+            
             if (JOptionPane.showConfirmDialog(this,
                     "Eliminar funcion?",
                     "Confirmar",
                     JOptionPane.YES_NO_OPTION) == 0) {
 
-                fData.eliminarFuncion(id);
+                fData.eliminarFuncion(codFuncion);
                 JOptionPane.showMessageDialog(this, "Funcion eliminada");
                 ButMostrarActionPerformed(evt);
             }
@@ -342,7 +342,7 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
 
             int codFuncion = Integer.parseInt(TablaFunciones.getValueAt(fila, 0).toString());
             int codSala = Integer.parseInt(TablaFunciones.getValueAt(fila,2).toString());
-            String tituloP = TablaFunciones.getValueAt(fila, 1).toString();
+            String tituloP = TablaFunciones.getValueAt(fila, 1).toString().trim();
             Funcion f = fData.buscarFuncion(codFuncion);
             Sala s = sData.buscarSalaPorNro(codSala);
             Pelicula p = pData.buscarPeliculaPorTitulo(tituloP);
