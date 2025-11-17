@@ -61,8 +61,6 @@ public class NuevoLugar extends javax.swing.JInternalFrame {
 
         labelFuncion = new javax.swing.JLabel();
         boxFunciones = new javax.swing.JComboBox<>();
-        butAgregar = new javax.swing.JButton();
-        butCancelar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         txtCantidad = new java.awt.TextField();
         jLabel3 = new javax.swing.JLabel();
@@ -76,6 +74,8 @@ public class NuevoLugar extends javax.swing.JInternalFrame {
 
         };
         jLabel1 = new javax.swing.JLabel();
+        butAgregar = new javax.swing.JButton();
+        butCancelar = new javax.swing.JButton();
 
         setClosable(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -96,27 +96,6 @@ public class NuevoLugar extends javax.swing.JInternalFrame {
         });
         getContentPane().add(boxFunciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 250, -1));
 
-        butAgregar.setText("Agregar");
-        butAgregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butAgregarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(butAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 310, 97, 45));
-
-        butCancelar.setText("Cancelar");
-        butCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butCancelarActionPerformed(evt);
-            }
-        });
-        butCancelar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                butCancelarKeyReleased(evt);
-            }
-        });
-        getContentPane().add(butCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 310, 90, 45));
-
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Cantidad:");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(88, 149, -1, -1));
@@ -134,23 +113,57 @@ public class NuevoLugar extends javax.swing.JInternalFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nuevos Lugares");
 
+        butAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/agregar.png"))); // NOI18N
+        butAgregar.setText("Agregar");
+        butAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butAgregarActionPerformed(evt);
+            }
+        });
+
+        butCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/icons8-cross-mark-48.png"))); // NOI18N
+        butCancelar.setText("Cancelar");
+        butCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butCancelarActionPerformed(evt);
+            }
+        });
+        butCancelar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butCancelarKeyReleased(evt);
+            }
+        });
+
         jDesktopPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(butAgregar, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(butCancelar, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addGap(131, 131, 131)
-                .addComponent(jLabel1)
-                .addContainerGap(157, Short.MAX_VALUE))
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                        .addGap(96, 96, 96)
+                        .addComponent(butAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(butCancelar))
+                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                        .addGap(138, 138, 138)
+                        .addComponent(jLabel1)))
+                .addContainerGap(111, Short.MAX_VALUE))
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
+                .addGap(57, 57, 57)
                 .addComponent(jLabel1)
-                .addContainerGap(334, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 219, Short.MAX_VALUE)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(butAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(67, 67, 67))
         );
 
         getContentPane().add(jDesktopPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 470, 420));

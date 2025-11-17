@@ -34,12 +34,8 @@ public class VistaNuevaSala extends javax.swing.JInternalFrame {
         lblCapacidad = new javax.swing.JLabel();
         txtNroSala = new javax.swing.JTextField();
         txtCapacidad = new javax.swing.JTextField();
-        chkApta3D = new javax.swing.JCheckBox();
-        lblApta3D = new javax.swing.JLabel();
         lblEstado = new javax.swing.JLabel();
         chkEstado = new javax.swing.JCheckBox();
-        btnGuardar = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
         ImageIcon icono = new ImageIcon(getClass().getResource("/Fondos/img/fondo-administracion2.jpg"));
         Image miImagen = icono.getImage();
         jDesktopPane1 = new javax.swing.JDesktopPane(){
@@ -49,6 +45,11 @@ public class VistaNuevaSala extends javax.swing.JInternalFrame {
 
         };
         lblTitulo = new javax.swing.JLabel();
+        btnCancelar = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
+        lblApta3D = new javax.swing.JLabel();
+        chkApta3D = new javax.swing.JCheckBox();
+        jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -68,11 +69,6 @@ public class VistaNuevaSala extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtCapacidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(179, 157, 110, -1));
-        getContentPane().add(chkApta3D, new org.netbeans.lib.awtextra.AbsoluteConstraints(213, 208, -1, -1));
-
-        lblApta3D.setForeground(new java.awt.Color(255, 255, 255));
-        lblApta3D.setText("¿Es apta  para 3D?:");
-        getContentPane().add(lblApta3D, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 208, -1, -1));
 
         lblEstado.setForeground(new java.awt.Color(255, 255, 255));
         lblEstado.setText("Estado");
@@ -86,27 +82,37 @@ public class VistaNuevaSala extends javax.swing.JInternalFrame {
         });
         getContentPane().add(chkEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(213, 254, -1, -1));
 
-        btnGuardar.setText("Guardar");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(104, 308, -1, -1));
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
+        lblTitulo.setText("Crear Nueva Sala");
 
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/icons8-cross-mark-48.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(213, 308, -1, -1));
 
-        lblTitulo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
-        lblTitulo.setText("Crear Nueva Sala");
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/agregar.png"))); // NOI18N
+        btnGuardar.setText("Agregar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
+        lblApta3D.setForeground(new java.awt.Color(255, 255, 255));
+        lblApta3D.setText(" ¿Es apta  para 3D?:");
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/lentes.png"))); // NOI18N
 
         jDesktopPane1.setLayer(lblTitulo, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(btnCancelar, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(btnGuardar, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(lblApta3D, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(chkApta3D, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -115,17 +121,40 @@ public class VistaNuevaSala extends javax.swing.JInternalFrame {
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
                 .addGap(127, 127, 127)
                 .addComponent(lblTitulo)
-                .addContainerGap(150, Short.MAX_VALUE))
+                .addContainerGap(170, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                        .addComponent(lblApta3D)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(chkApta3D)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel1))
+                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(btnCancelar)))
+                .addGap(79, 79, 79))
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
                 .addGap(59, 59, 59)
                 .addComponent(lblTitulo)
-                .addContainerGap(256, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(chkApta3D, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblApta3D, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(71, 71, 71)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(41, 41, 41))
         );
 
-        getContentPane().add(jDesktopPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 340));
+        getContentPane().add(jDesktopPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 400));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -184,6 +213,7 @@ public class VistaNuevaSala extends javax.swing.JInternalFrame {
     private javax.swing.JCheckBox chkApta3D;
     private javax.swing.JCheckBox chkEstado;
     private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblApta3D;
     private javax.swing.JLabel lblCapacidad;
     private javax.swing.JLabel lblEstado;

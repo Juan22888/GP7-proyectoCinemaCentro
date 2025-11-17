@@ -142,12 +142,12 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
         TablaFunciones.setShowGrid(true);
         jScrollPane1.setViewportView(TablaFunciones);
 
-        jDesktopPane1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 730, 180));
+        jDesktopPane1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 730, 180));
 
         Titulo.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
         Titulo.setForeground(new java.awt.Color(255, 255, 255));
         Titulo.setText("GESTION DE FUNCIONES");
-        jDesktopPane1.add(Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 20, -1, -1));
+        jDesktopPane1.add(Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, -1, -1));
 
         JLPeliculas.setForeground(new java.awt.Color(255, 255, 255));
         JLPeliculas.setText("Peliculas");
@@ -167,58 +167,64 @@ public class VistaFuncion extends javax.swing.JInternalFrame {
 
         jDesktopPane1.add(CBoxIdioma, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 160, 130, -1));
 
+        ButMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/camara-de-cine.png"))); // NOI18N
         ButMostrar.setText("Mostrar Funciones");
         ButMostrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButMostrarActionPerformed(evt);
             }
         });
-        jDesktopPane1.add(ButMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 210, 160, -1));
+        jDesktopPane1.add(ButMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 220, 190, -1));
 
-        ButInsertar.setText("Insertar");
+        ButInsertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/video.png"))); // NOI18N
+        ButInsertar.setText("Nueva Funcion");
         ButInsertar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButInsertarActionPerformed(evt);
             }
         });
-        jDesktopPane1.add(ButInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 450, -1, 20));
+        jDesktopPane1.add(ButInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 480, 170, 50));
 
-        ButActualizar.setText("Actualizar");
+        ButActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/disquete.png"))); // NOI18N
+        ButActualizar.setText("Guardar Cambios");
         ButActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButActualizarActionPerformed(evt);
             }
         });
-        jDesktopPane1.add(ButActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 450, 120, 20));
+        jDesktopPane1.add(ButActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 480, 170, 50));
 
+        ButBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/basura (1).png"))); // NOI18N
         ButBorrar.setText("Borrar");
         ButBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButBorrarActionPerformed(evt);
             }
         });
-        jDesktopPane1.add(ButBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 450, 90, 20));
+        jDesktopPane1.add(ButBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 480, 120, 50));
 
+        ButAltaBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/Iconos/001-dos-caminos.png"))); // NOI18N
         ButAltaBaja.setText("Alta/Baja");
         ButAltaBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButAltaBajaActionPerformed(evt);
             }
         });
-        jDesktopPane1.add(ButAltaBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, 110, 20));
+        jDesktopPane1.add(ButAltaBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 480, 120, 50));
 
+        ButCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/icons8-cross-mark-48.png"))); // NOI18N
         ButCerrar.setText("Cerrar");
         ButCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButCerrarActionPerformed(evt);
             }
         });
-        jDesktopPane1.add(ButCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 450, -1, 20));
-        jDesktopPane1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 740, 10));
-        jDesktopPane1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 740, 10));
-        jDesktopPane1.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 740, 10));
+        jDesktopPane1.add(ButCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 480, 130, 50));
+        jDesktopPane1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 810, 10));
+        jDesktopPane1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 810, 10));
+        jDesktopPane1.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 460, 810, 10));
 
-        getContentPane().add(jDesktopPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 490));
+        getContentPane().add(jDesktopPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 820, 630));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

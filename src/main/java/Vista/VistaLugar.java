@@ -111,6 +111,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
         setClosable(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        butCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/icons8-cross-mark-48.png"))); // NOI18N
         butCancelar.setText("Cancelar");
         butCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,6 +119,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
             }
         });
 
+        butNuevosLugares.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/asiento-de-cine (1).png"))); // NOI18N
         butNuevosLugares.setText("Nuevos Lugares");
         butNuevosLugares.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,6 +134,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Buscar Lugar:");
 
+        butBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/lupa.png"))); // NOI18N
         butBuscar.setText("Buscar");
         butBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,13 +142,15 @@ public class VistaLugar extends javax.swing.JInternalFrame {
             }
         });
 
-        butGuardarCambios.setText("Guardar Cambios");
+        butGuardarCambios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/Iconos/001-dos-caminos.png"))); // NOI18N
+        butGuardarCambios.setText("Alta/Baja");
         butGuardarCambios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butGuardarCambiosActionPerformed(evt);
             }
         });
 
+        butReiniciar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/actualizar-flecha.png"))); // NOI18N
         butReiniciar.setText("Reiniciar Tabla");
         butReiniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -153,6 +158,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
             }
         });
 
+        buscarPorFuncion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/camara-de-cine.png"))); // NOI18N
         buscarPorFuncion.setText("Buscar Por Funcion");
         buscarPorFuncion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,6 +166,7 @@ public class VistaLugar extends javax.swing.JInternalFrame {
             }
         });
 
+        butEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/basura (1).png"))); // NOI18N
         butEliminar.setText("Eliminar");
         butEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -208,68 +215,76 @@ public class VistaLugar extends javax.swing.JInternalFrame {
             .addGroup(LugarDesktopLayout.createSequentialGroup()
                 .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(LugarDesktopLayout.createSequentialGroup()
-                        .addGap(270, 270, 270)
+                        .addGap(280, 280, 280)
                         .addComponent(jLabel1))
                     .addGroup(LugarDesktopLayout.createSequentialGroup()
-                        .addGap(102, 102, 102)
+                        .addGap(124, 124, 124)
                         .addComponent(jLabel2)
-                        .addGap(22, 22, 22)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBuscarLugar, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
                         .addComponent(butBuscar)
-                        .addGap(18, 18, 18)
+                        .addGap(31, 31, 31)
                         .addComponent(buscarPorFuncion))
                     .addGroup(LugarDesktopLayout.createSequentialGroup()
-                        .addGap(30, 30, 30)
+                        .addGap(24, 24, 24)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(LugarDesktopLayout.createSequentialGroup()
-                                .addGap(331, 331, 331)
+                                .addGap(82, 82, 82)
                                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(LugarDesktopLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(butReiniciar)
-                        .addGap(23, 23, 23)
-                        .addComponent(butNuevosLugares, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25)
-                        .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15)
-                        .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8)
-                        .addComponent(butEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(10, 10, 10))
+                            .addGroup(LugarDesktopLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(butGuardarCambios)))))
+                .addContainerGap(14, Short.MAX_VALUE))
+            .addGroup(LugarDesktopLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(butReiniciar)
+                .addGap(34, 34, 34)
+                .addComponent(butNuevosLugares)
+                .addGap(41, 41, 41)
+                .addComponent(butCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(40, 40, 40)
+                .addComponent(butEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85))
         );
         LugarDesktopLayout.setVerticalGroup(
             LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LugarDesktopLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addGap(10, 10, 10)
                 .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(butBuscar)
-                    .addComponent(buscarPorFuncion)
                     .addGroup(LugarDesktopLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
+                        .addGap(10, 10, 10)
+                        .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(butBuscar)
+                            .addComponent(buscarPorFuncion)))
+                    .addGroup(LugarDesktopLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
                         .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(txtBuscarLugar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(15, 15, 15)
                 .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(LugarDesktopLayout.createSequentialGroup()
-                        .addGap(220, 220, 220)
+                        .addGap(120, 120, 120)
+                        .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(65, 65, 65)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                    .addGroup(LugarDesktopLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(39, 39, 39)
                 .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(butReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(butNuevosLugares, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(butGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(butEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(49, Short.MAX_VALUE))
+                    .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(butReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(butNuevosLugares, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(LugarDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(butCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(butEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
-        getContentPane().add(LugarDesktop, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 0, 710, 510));
+        getContentPane().add(LugarDesktop, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 0, 800, 570));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

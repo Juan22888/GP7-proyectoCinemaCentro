@@ -50,9 +50,7 @@ public class NuevoComprador extends javax.swing.JInternalFrame {
         dateEstreno = new com.toedter.calendar.JDateChooser();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        butAgregar1 = new javax.swing.JButton();
         txtDni = new javax.swing.JTextField();
-        butCancelar1 = new javax.swing.JButton();
         txtNombre = new javax.swing.JTextField();
         tbutEstado = new javax.swing.JToggleButton();
         dateFechaNacimiento = new com.toedter.calendar.JDateChooser();
@@ -69,6 +67,8 @@ public class NuevoComprador extends javax.swing.JInternalFrame {
             }
 
         };
+        butAgregar1 = new javax.swing.JButton();
+        butCancelar1 = new javax.swing.JButton();
 
         jLabel3.setText("(Por defecto es NO)");
 
@@ -142,33 +142,12 @@ public class NuevoComprador extends javax.swing.JInternalFrame {
         jLabel4.setText("(Por defecto es NO)");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(211, 255, -1, -1));
 
-        butAgregar1.setText("Agregar");
-        butAgregar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butAgregar1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(butAgregar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 314, 97, 45));
-
         txtDni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtDniActionPerformed(evt);
             }
         });
         getContentPane().add(txtDni, new org.netbeans.lib.awtextra.AbsoluteConstraints(143, 94, 276, -1));
-
-        butCancelar1.setText("Cancelar");
-        butCancelar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butCancelar1ActionPerformed(evt);
-            }
-        });
-        butCancelar1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                butCancelar1KeyReleased(evt);
-            }
-        });
-        getContentPane().add(butCancelar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(276, 314, 90, 45));
 
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -212,6 +191,32 @@ public class NuevoComprador extends javax.swing.JInternalFrame {
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Estado");
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(98, 255, -1, -1));
+
+        butAgregar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/agregar-usuario.png"))); // NOI18N
+        butAgregar1.setText("Agregar");
+        butAgregar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butAgregar1ActionPerformed(evt);
+            }
+        });
+        jDesktopPane1.add(butAgregar1);
+        butAgregar1.setBounds(130, 310, 130, 45);
+
+        butCancelar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/img/icons8-cross-mark-48.png"))); // NOI18N
+        butCancelar1.setText("Cancelar");
+        butCancelar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butCancelar1ActionPerformed(evt);
+            }
+        });
+        butCancelar1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butCancelar1KeyReleased(evt);
+            }
+        });
+        jDesktopPane1.add(butCancelar1);
+        butCancelar1.setBounds(290, 310, 130, 45);
+
         getContentPane().add(jDesktopPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 550, 420));
 
         pack();
