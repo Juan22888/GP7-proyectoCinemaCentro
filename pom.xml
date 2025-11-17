@@ -40,6 +40,19 @@
                     <version>3.10.1</version> </plugin>
             </plugins>
         </pluginManagement>
+        
+        
+    <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+        </resource>
+    </resources>
+
     </build>
+    
+    
 
 </project>

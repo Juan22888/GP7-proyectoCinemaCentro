@@ -64,6 +64,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         this.compradorData = compradorData;
         this.modoVenta = modoVenta;
         this.lugaresReservados = new ArrayList<>();
+        this.funcion = new Funcion();
 
         initComponents();
         cargarPeliculas();
@@ -218,7 +219,7 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         labellLugaresDisponibles.setText("Total");
         getContentPane().add(labellLugaresDisponibles, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 690, -1, -1));
 
-        butComboSiNo.setText("Si / No");
+        butComboSiNo.setText("Si");
         butComboSiNo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butComboSiNoActionPerformed(evt);
@@ -322,6 +323,8 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
         labelPorDefecto1.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
         labelPorDefecto1.setText("Por Defecto (No)");
         getContentPane().add(labelPorDefecto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 540, -1, -1));
+
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/fondo.jpg"))); // NOI18N
         getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -30, -1, 790));
 
         btnCargarTarjeta.setText("Cargar Tarjeta");

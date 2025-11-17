@@ -124,10 +124,10 @@ public class CompradorData {
         }
     }
 
-    public boolean bajaLogicaComprador(int id) throws SQLException {
-        String sql = "UPDATE comprador SET estado = 0 WHERE codComprador=?";
+    public boolean bajaLogicaComprador(int dni) throws SQLException {
+        String sql = "UPDATE comprador SET estado = 0 WHERE dni=?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, id);
+            ps.setInt(1, dni);
             int filas = ps.executeUpdate();
             return filas > 0;
         } catch (SQLException ex) {
@@ -135,10 +135,10 @@ public class CompradorData {
         }
     }
 
-    public boolean altaLogicaComprador(int id) throws SQLException {
-        String sql = "UPDATE comprador SET estado = 1 WHERE codComprador =?";
+    public boolean altaLogicaComprador(int dni) throws SQLException {
+        String sql = "UPDATE comprador SET estado = 1 WHERE dni =?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, id);
+            ps.setInt(1, dni);
             int filas = ps.executeUpdate();
             return filas > 0;
         } catch (SQLException ex) {
