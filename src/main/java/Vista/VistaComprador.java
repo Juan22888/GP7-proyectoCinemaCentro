@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
+
 package Vista;
 
 import Modelo.Comprador;
@@ -17,18 +14,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author feerl
- */
+//Esta vista se pone en administracion, es para mostrar, buscar, insertar, modificar, eliminar, etc, un comprador o compradores
 public class VistaComprador extends javax.swing.JInternalFrame {
 
     private final CompradorData CompradorData;
+    
+   
     private DefaultTableModel modelo;
 
     public VistaComprador(CompradorData CompradorData) {
         initComponents();
-        this.CompradorData = CompradorData; // Asigna la instancia
+        this.CompradorData = CompradorData;
 
         prepararTabla();
         cargarTablaCompleta();
@@ -38,27 +34,28 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         modelo = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
-                // Hacemos que la columna 0 (DNI) NO sea editable.
-                // El resto (Nombre, FechaNac, Password, MetodoPago) SÍ lo serán.
+                //es para que la primera columna, la del id no se pueda modificar y las otras si
                 return column != 0;
             }
         };
-
+        //para definir los titulos de la columna, buena practica, por si se quiere reutilizar de nuevo los jtable
+        //aunque en este caso no se hace
         modelo.setColumnIdentifiers(new Object[]{"DNI", "Nombre", "Fecha de Nacimiento", "Password", "Estado"});
+        //seteamos la tabla para que utilice el modelo
         TablaCompradores.setModel(modelo);
     }
 
     private void cargarTablaCompleta() {
-        modelo.setRowCount(0); // Limpiamos la tabla
+        modelo.setRowCount(0); //Limpia la tabla, simple
 
-        // Llamamos al NUEVO método 
+        // Trae todos los compradores de la db
         List<Comprador> compradores = this.CompradorData.listarCompradores();
 
         if (compradores == null) {
             JOptionPane.showMessageDialog(this, "Error al cargar la lista de compradores.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        //carga todos los compradores en cada fila de la tabla
         for (Comprador c : compradores) {
             modelo.addRow(new Object[]{
                 c.getDni(),
@@ -69,10 +66,12 @@ public class VistaComprador extends javax.swing.JInternalFrame {
             });
         }
     }
-
+    //filtra un solo comprador
     private void cargarTablaFiltrada(Comprador c) {
-        modelo.setRowCount(0);
-        modelo.addRow(new Object[]{
+        modelo.setRowCount(0);//siempre limpiamos la tabla o se rompe todo
+        
+        //llenamos con el comprador encontrado
+        modelo.addRow(new Object[]{ 
             c.getDni(),
             c.getNombre(),
             c.getFechaNacimiento(),
@@ -102,7 +101,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnReiniciarTabla = new javax.swing.JButton();
         butAltaBaja = new javax.swing.JButton();
 
         setClosable(true);
@@ -168,10 +167,10 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Gestion De Compradores");
 
-        jButton1.setText("Reiniciar Tabla");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnReiniciarTabla.setText("Reiniciar Tabla");
+        btnReiniciarTabla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnReiniciarTablaActionPerformed(evt);
             }
         });
 
@@ -191,7 +190,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         CompradorDesktop.setLayer(btnActualizar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         CompradorDesktop.setLayer(btnEliminar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         CompradorDesktop.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        CompradorDesktop.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        CompradorDesktop.setLayer(btnReiniciarTabla, javax.swing.JLayeredPane.DEFAULT_LAYER);
         CompradorDesktop.setLayer(butAltaBaja, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout CompradorDesktopLayout = new javax.swing.GroupLayout(CompradorDesktop);
@@ -225,7 +224,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
                                 .addGap(30, 30, 30)
                                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(30, 30, 30)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnReiniciarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 8, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -251,7 +250,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
                     .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnReiniciarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
 
@@ -270,19 +269,20 @@ public class VistaComprador extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    //para eliminar al comprador
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // 1. Obtener la fila seleccionada
-        int filaSeleccionada = TablaCompradores.getSelectedRow();
+        
+        int filaSeleccionada = TablaCompradores.getSelectedRow(); //obtiene los datos de la fila que se selecciona
 
-        // 2. Validar si hay una fila seleccionada
+        //validacion para ver si se selecciono la vista, igual te avisa
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(this, "Error: Debe seleccionar un comprador de la tabla.", "Error al Eliminar", JOptionPane.ERROR_MESSAGE);
             return; // No hacer nada si no hay selección
         }
-
+        //una comprobacion, por si uno se equivoca al tocar el boton
         int confirmacion = JOptionPane.showConfirmDialog(this,
-                "¿Está seguro de que desea eliminar este comprador?",
+                "¿seguro de que desea eliminar este comprador?",
                 "Confirmar Eliminación",
                 JOptionPane.YES_NO_OPTION);
 
@@ -290,31 +290,32 @@ public class VistaComprador extends javax.swing.JInternalFrame {
             try {
 
                 int dni = (Integer) TablaCompradores.getValueAt(filaSeleccionada, 0);
-
+                //eliminamos de la db mientras guardamos un true
                 boolean exito = CompradorData.eliminarCompradorPorDni(dni);
 
-                // 6. Informar resultado y actualizar la tabla
+               
                 if (exito) {
                     JOptionPane.showMessageDialog(this, "Comprador eliminado exitosamente.");
 
-                    // Actualizar la tabla para que refleje el cambio
+                    // para actualizar despues de que se elimina
                     cargarTablaCompleta();
                 } else {
                     JOptionPane.showMessageDialog(this, "No se pudo eliminar el comprador (dni no encontrado).", "Error", JOptionPane.WARNING_MESSAGE);
                 }
 
             } catch (SQLException ex) {
-                // Capturar error de la base de datos (ej: clave foránea)
+               
                 JOptionPane.showMessageDialog(this, "Error al eliminar: " + ex.getMessage(), "Error SQL", JOptionPane.ERROR_MESSAGE);
             } catch (ClassCastException cce) {
-                // Capturar error si la columna 0 no es un Integer
+                
                 JOptionPane.showMessageDialog(this, "Error interno: No se pudo leer el ID de la tabla.", "Error de Tipo", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-
+        
+        //para que se guarde el valor cuando se modifica un valor de una celda
         if (TablaCompradores.isEditing()) {
             TablaCompradores.getCellEditor().stopCellEditing();
         }
@@ -327,15 +328,18 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         }
 
         try {
-
+            //para capturar todos los datos de la fila seleccionada
             int dni = Integer.parseInt(TablaCompradores.getValueAt(filaSeleccionada, 0).toString());
             String nombre = TablaCompradores.getValueAt(filaSeleccionada, 1).toString();
             String password = TablaCompradores.getValueAt(filaSeleccionada, 3).toString();
+            //para convertir el texto de la fecha, a un localdate
             LocalDate fechaNacimiento = LocalDate.parse(TablaCompradores.getValueAt(filaSeleccionada, 2).toString());
             boolean estado = Boolean.parseBoolean(TablaCompradores.getValueAt(filaSeleccionada, 4).toString());
 
             Comprador compradorModificado = null;
-
+            
+            
+            //actualizamos el comprador directamente en la db
             compradorModificado = CompradorData.buscarCompradorPorDni(dni);
             
             compradorModificado.setDni(dni);
@@ -356,26 +360,26 @@ public class VistaComprador extends javax.swing.JInternalFrame {
                         "Error de Actualización",
                         JOptionPane.WARNING_MESSAGE);
             }
-
+            
+            //capturamos varios errores, para ver de que se trata y solucionarlo
         } catch (NumberFormatException e) {
-            // Error si el ID o algún número de la tabla no es válido
+            
             JOptionPane.showMessageDialog(this, "Error en el formato de los datos de la tabla.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
         } catch (java.time.format.DateTimeParseException e) {
-            // Error si la fecha de la tabla no tiene el formato "YYYY-MM-DD"
+            
             JOptionPane.showMessageDialog(this, "Error en el formato de la fecha. Use YYYY-MM-DD.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException ex) {
-            // ¡Aquí capturamos NUESTRAS validaciones de negocio!
-            // (Ej: "El título debe tener al menos 5 caracteres")
+            
             JOptionPane.showMessageDialog(this, "Error de validación: " + ex.getMessage(), "Datos Incorrectos", JOptionPane.WARNING_MESSAGE);
         } catch (SQLException ex) {
-            // Error de la base de datos (conexión, clave duplicada, etc.)
+            
             JOptionPane.showMessageDialog(this, "Error al guardar en la base de datos: " + ex.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
-            // Captura cualquier otro error inesperado
+            
             JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnActualizarActionPerformed
-
+    //abre la ventana NuevoComprador
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
         NuevoComprador vc = new NuevoComprador(CompradorData);
@@ -383,7 +387,7 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         vc.setVisible(true);
         vc.toFront();
     }//GEN-LAST:event_btnNuevoActionPerformed
-
+    //para buscar por dni
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         String dniTexto = txtBucar.getText();
@@ -395,10 +399,11 @@ public class VistaComprador extends javax.swing.JInternalFrame {
 
         try {
             int dni = Integer.parseInt(dniTexto);
-            // Llamamos al NUEVO método
+           //llama a compradorData para buscar solo por dni, no por codComprador
             Comprador c = this.CompradorData.buscarCompradorPorDni(dni);
 
             if (c != null) {
+                //para limpiar la tabla y cargar solo al comprador que se encontro
                 cargarTablaFiltrada(c);
             } else {
                 JOptionPane.showMessageDialog(this, "No se encontró ningún comprador con ese DNI.", "Búsqueda", JOptionPane.WARNING_MESSAGE);
@@ -409,10 +414,11 @@ public class VistaComprador extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnReiniciarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReiniciarTablaActionPerformed
        cargarTablaCompleta();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnReiniciarTablaActionPerformed
 
+    //para cambiar el estado del comprador, un boton switch
     private void butAltaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butAltaBajaActionPerformed
             if (TablaCompradores.isEditing()) {
             TablaCompradores.getCellEditor().stopCellEditing();
@@ -453,8 +459,8 @@ public class VistaComprador extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton btnReiniciarTabla;
     private javax.swing.JButton butAltaBaja;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

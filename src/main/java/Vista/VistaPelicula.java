@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
+
 package Vista;
 
 import Modelo.Pelicula;
@@ -17,10 +14,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author FRANCO
- */
+//funcion que hace el crud de las peliculas
+//crud Create, Read, Update, Delete
 public class VistaPelicula extends javax.swing.JInternalFrame {
 
     private final PeliculaData peliculaData;
@@ -33,7 +28,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
         
         cargarPeliculas();
     }
-
+    //llena la tabla con todas las peliculas
     private void cargarPeliculas() {
         List<Pelicula> listaPeliculas = null;
         try {
@@ -223,6 +218,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //abre la vista NuevaPelicula para crear una nueva pelicula
     private void butNuevaPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNuevaPeliculaActionPerformed
 
         NuevaPelicula np = new NuevaPelicula(peliculaData);
@@ -233,7 +229,9 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
      
     }//GEN-LAST:event_butNuevaPeliculaActionPerformed
 
+    //busca por el codPelicula
     private void butBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBuscarActionPerformed
+        //obtenemos el codigo en forma de string, ya que lo sacamos del text field
         String buscarPelicula = txtBuscarPelicula.getText();
         int codPelicula = 0;
 
@@ -242,6 +240,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
             return;
         }
         try {
+            //convertimos el texto que obtenemos en buscarPelicula en un numero, osea el id de la pelicula
             codPelicula = Integer.parseInt(buscarPelicula);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Tipo de dato no valido", "Error", JOptionPane.ERROR_MESSAGE);
@@ -249,6 +248,7 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
         }
         Pelicula pelicula = null;
         try {
+             
             pelicula = peliculaData.buscarPelicula(codPelicula);
         } catch (SQLException ex) {
             Logger.getLogger(VistaPelicula.class.getName()).log(Level.SEVERE, null, ex);
@@ -258,13 +258,13 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "No se encontro la pelicula con ese id", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        //si encuentra la pelicula, limpia primero la tabla y luego llena la tabla con esa pelicula que encontro
         DefaultTableModel modelo = (DefaultTableModel) TablaPeliculas.getModel();
         modelo.setRowCount(0);
         Object[] fila = {pelicula.getCodPelicula(), pelicula.getTitulo(), pelicula.getDirector(), pelicula.getActores(), pelicula.getOrigen(), pelicula.getGenero(), pelicula.getEstreno(), pelicula.isEnCartelera()};
         modelo.addRow(fila);
     }//GEN-LAST:event_butBuscarActionPerformed
-
+ //Para modificar datos directamente en la table y guardar todo en la db
     private void butGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butGuardarCambiosActionPerformed
 
         if (TablaPeliculas.isEditing()) {
@@ -309,24 +309,25 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
             }
 
         } catch (NumberFormatException e) {
-            // Error si el ID o algún número de la tabla no es válido
+          
             JOptionPane.showMessageDialog(this, "Error en el formato de los datos de la tabla.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
         } catch (java.time.format.DateTimeParseException e) {
-            // Error si la fecha de la tabla no tiene el formato "YYYY-MM-DD"
+          
             JOptionPane.showMessageDialog(this, "Error en el formato de la fecha. Use YYYY-MM-DD.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException ex) {
-            // ¡Aquí capturamos NUESTRAS validaciones de negocio!
-            // (Ej: "El título debe tener al menos 5 caracteres")
+         
             JOptionPane.showMessageDialog(this, "Error de validación: " + ex.getMessage(), "Datos Incorrectos", JOptionPane.WARNING_MESSAGE);
         } catch (SQLException ex) {
-            // Error de la base de datos (conexión, clave duplicada, etc.)
+           
             JOptionPane.showMessageDialog(this, "Error al guardar en la base de datos: " + ex.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
-            // Captura cualquier otro error inesperado
+           
             JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_butGuardarCambiosActionPerformed
 
+    
+    //filtra solos las peliculas que estan en cartelera
     private void butBuscarPorCarteleraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBuscarPorCarteleraActionPerformed
         List<Pelicula> listaPeliculas = null;
         try {
@@ -363,7 +364,8 @@ public class VistaPelicula extends javax.swing.JInternalFrame {
     private void butReiniciarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butReiniciarTablaActionPerformed
         cargarPeliculas();
     }//GEN-LAST:event_butReiniciarTablaActionPerformed
-
+    
+    //elimina la pelicula directamente de la db
     private void butEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butEliminarActionPerformed
      
     int filaSeleccionada = TablaPeliculas.getSelectedRow();
