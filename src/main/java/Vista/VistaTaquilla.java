@@ -535,6 +535,10 @@ public class VistaTaquilla extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Error! No se cargó al comprador.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        if(comprador.isEstado()==false){
+             JOptionPane.showMessageDialog(this, "Error! El comprador está dado de baja.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
+             return;
+        }
         if (lugaresReservados == null || lugaresReservados.isEmpty()) { // Comprobación importante
             JOptionPane.showMessageDialog(this, "Error! No hay lugares reservados.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
             return;

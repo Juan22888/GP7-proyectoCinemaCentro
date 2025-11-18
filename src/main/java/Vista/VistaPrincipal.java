@@ -67,6 +67,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 g.drawImage(miImagen,0,0, getWidth(), getHeight(),this);
             }
         };
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuAdministracion = new javax.swing.JMenu();
         CompradorMenuItem = new javax.swing.JMenuItem();
@@ -80,15 +81,26 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Calibri", 3, 48)); // NOI18N
+        jLabel1.setText("El Cuyanito ");
+
+        Escritorio.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout EscritorioLayout = new javax.swing.GroupLayout(Escritorio);
         Escritorio.setLayout(EscritorioLayout);
         EscritorioLayout.setHorizontalGroup(
             EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1120, Short.MAX_VALUE)
+            .addGroup(EscritorioLayout.createSequentialGroup()
+                .addGap(422, 422, 422)
+                .addComponent(jLabel1)
+                .addContainerGap(464, Short.MAX_VALUE))
         );
         EscritorioLayout.setVerticalGroup(
             EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1051, Short.MAX_VALUE)
+            .addGroup(EscritorioLayout.createSequentialGroup()
+                .addGap(410, 410, 410)
+                .addComponent(jLabel1)
+                .addContainerGap(625, Short.MAX_VALUE))
         );
 
         menuAdministracion.setText("Administracion");
@@ -266,6 +278,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemPelicula;
     private javax.swing.JMenuItem itemSala;
     private javax.swing.JMenuItem itemTicket;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu menuAdministracion;
